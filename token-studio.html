@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Token Studio — Sonativa</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#07090f;
+color:white;
+line-height:1.6;
+}
+
+.container{
+width:92%;
+max-width:900px;
+margin:auto;
+}
+
+header{
+border-bottom:1px solid #202735;
+padding:20px 0;
+}
+
+.logo{
+font-size:23px;
+font-weight:800;
+}
+
+.logo a{
+color:white;
+text-decoration:none;
+}
+
+.hero{
+text-align:center;
+padding:55px 0 35px;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:12px;
+}
+
+.hero p{
+color:#8d96a7;
+}
+
+.steps{
+display:flex;
+gap:8px;
+margin:30px 0;
+overflow:auto;
+}
+
+.step{
+padding:10px 15px;
+border:1px solid #293142;
+border-radius:8px;
+color:#8992a3;
+white-space:nowrap;
+}
+
+.step.active{
+color:white;
+background:#151a24;
+border-color:#555f72;
+}
+
+.panel{
+background:#0d1119;
+border:1px solid #242c3b;
+border-radius:16px;
+padding:30px;
+}
+
+.panel h2{
+margin-bottom:25px;
+}
+
+label{
+display:block;
+margin:18px 0 7px;
+font-size:14px;
+color:#b5bdca;
+}
+
+input,select,textarea{
+width:100%;
+padding:13px;
+border-radius:9px;
+border:1px solid #303949;
+background:#080b12;
+color:white;
+font-size:16px;
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+}
+
+button{
+margin-top:25px;
+padding:14px 22px;
+border:0;
+border-radius:9px;
+background:white;
+color:#07090f;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+}
+
+.result{
+display:none;
+margin-top:25px;
+padding:20px;
+border:1px solid #303949;
+border-radius:12px;
+background:#080b12;
+}
+
+.result p{
+margin:8px 0;
+color:#aab3c2;
+}
+
+footer{
+text-align:center;
+padding:45px 0;
+color:#697386;
+}
+
+@media(min-width:700px){
+.grid{
+grid-template-columns:1fr 1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container">
+<div class="logo">
+<a href="index.html">SONATIVA</a>
+</div>
+</div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+
+<h1>Token Studio</h1>
+
+<p>
+Design your token project step by step.
+</p>
+
+</section>
+
+<div class="steps">
+
+<div class="step active">1 Project</div>
+<div class="step">2 Supply</div>
+<div class="step">3 Tokenomics</div>
+<div class="step">4 Review</div>
+
+</div>
+
+<section class="panel">
+
+<h2>Project Information</h2>
+
+<div class="grid">
+
+<div>
+
+<label>Project Name</label>
+<input id="projectName" placeholder="Example: Sonativa">
+
+</div>
+
+<div>
+
+<label>Token Name</label>
+<input id="tokenName" placeholder="Example: Sonativa Token">
+
+</div>
+
+<div>
+
+<label>Token Symbol</label>
+<input id="tokenSymbol" placeholder="Example: SONA">
+
+</div>
+
+<div>
+
+<label>Total Supply</label>
+<input id="supply" type="number" placeholder="100000000">
+
+</div>
+
+</div>
+
+<label>Network</label>
+
+<select id="network">
+
+<option>Solana</option>
+<option>Base</option>
+<option>Ethereum</option>
+<option>BNB Chain</option>
+
+</select>
+
+<label>Description</label>
+
+<textarea id="description"
+placeholder="Describe your project..."></textarea>
+
+<button onclick="generateProject()">
+Generate Project
+</button>
+
+<div class="result" id="result">
+
+<h3>Project Preview</h3>
+
+<p id="rProject"></p>
+<p id="rToken"></p>
+<p id="rSymbol"></p>
+<p id="rSupply"></p>
+<p id="rNetwork"></p>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+© 2026 Sonativa — Token Studio
+</footer>
+
+<script>
+
+function generateProject(){
+
+const project=document.getElementById("projectName").value;
+const token=document.getElementById("tokenName").value;
+const symbol=document.getElementById("tokenSymbol").value;
+const supply=document.getElementById("supply").value;
+const network=document.getElementById("network").value;
+
+if(!project || !token || !symbol || !supply){
+
+alert("Please complete the required fields.");
+
+return;
+
+}
+
+document.getElementById("rProject").innerHTML=
+"<strong>Project:</strong> "+project;
+
+document.getElementById("rToken").innerHTML=
+"<strong>Token:</strong> "+token;
+
+document.getElementById("rSymbol").innerHTML=
+"<strong>Symbol:</strong> "+symbol.toUpperCase();
+
+document.getElementById("rSupply").innerHTML=
+"<strong>Total Supply:</strong> "+
+Number(supply).toLocaleString();
+
+document.getElementById("rNetwork").innerHTML=
+"<strong>Network:</strong> "+network;
+
+document.getElementById("result").style.display="block";
+
+}
+
+</script>
+
+</body>
+</html>
