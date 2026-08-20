@@ -3,14 +3,209 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sonativa</title>
+
+  <title>Sonativa — Web3 Tools</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #080b12;
+      color: white;
+      line-height: 1.6;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 7%;
+      border-bottom: 1px solid #202633;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 90px 20px;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      color: #aaa;
+      font-size: 20px;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .buttons {
+      margin-top: 35px;
+    }
+
+    button {
+      padding: 14px 25px;
+      margin: 7px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: white;
+      color: black;
+    }
+
+    .secondary {
+      background: #171c27;
+      color: white;
+      border: 1px solid #303746;
+    }
+
+    .tools {
+      padding: 50px 7%;
+      text-align: center;
+    }
+
+    .tools h2 {
+      font-size: 35px;
+      margin-bottom: 35px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #10141d;
+      border: 1px solid #242b38;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: left;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #999;
+    }
+
+    footer {
+      text-align: center;
+      padding: 50px 20px;
+      color: #777;
+      border-top: 1px solid #202633;
+      margin-top: 50px;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Welcome to Sonativa</h1>
-  <p>Web3 tools for everyone.</p>
 
-  <h2>Coming Soon</h2>
-  <p>Token tools • Web3 tools • Applications</p>
+<header>
+  <div class="logo">SONATIVA</div>
+
+  <nav>
+    <a href="#tools">Tools</a>
+    <a href="#about">About</a>
+  </nav>
+</header>
+
+<section class="hero">
+
+  <h1>Build the Web3 Future.</h1>
+
+  <p>
+    Sonativa is building simple tools that make Web3 easier
+    for everyone — without complicated coding.
+  </p>
+
+  <div class="buttons">
+    <button class="primary" onclick="showMessage()">
+      Explore Sonativa
+    </button>
+
+    <button class="secondary" onclick="document.getElementById('tools').scrollIntoView()">
+      Explore Tools
+    </button>
+  </div>
+
+</section>
+
+<section class="tools" id="tools">
+
+  <h2>Sonativa Tools</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>🪙 Token Creator</h3>
+      <p>Create your own token with simple steps.</p>
+    </div>
+
+    <div class="card">
+      <h3>🔍 Token Scanner</h3>
+      <p>Analyze holders, liquidity and token risks.</p>
+    </div>
+
+    <div class="card">
+      <h3>📊 Tokenomics</h3>
+      <p>Design and calculate your token distribution.</p>
+    </div>
+
+    <div class="card">
+      <h3>🌐 Website Builder</h3>
+      <p>Create a simple Web3 project website.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="tools" id="about">
+
+  <h2>About Sonativa</h2>
+
+  <p>
+    Our mission is to make Web3 tools accessible,
+    simple and affordable.
+  </p>
+
+</section>
+
+<footer>
+  © 2026 Sonativa. Built for the Web3 community.
+</footer>
+
+<script>
+
+function showMessage() {
+  alert("Sonativa is coming soon 🚀");
+}
+
+</script>
+
 </body>
 </html>
