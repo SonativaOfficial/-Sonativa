@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sonativa — Build the Web3 Future</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Sonativa — Web3 Platform</title>
 
 <meta name="description"
-content="Sonativa is building powerful and simple tools for the Web3 ecosystem.">
+content="Sonativa — The simple Web3 platform for creators, developers and businesses.">
 
 <style>
 
@@ -23,7 +27,7 @@ scroll-behavior:smooth;
 
 body{
 font-family:Arial,Helvetica,sans-serif;
-background:#07090f;
+background:#06080d;
 color:#fff;
 line-height:1.6;
 }
@@ -33,38 +37,47 @@ text-decoration:none;
 color:inherit;
 }
 
+button,
+input,
+select{
+font:inherit;
+}
+
 .container{
 width:92%;
-max-width:1150px;
+max-width:1200px;
 margin:auto;
 }
+
+/* HEADER */
 
 header{
 position:sticky;
 top:0;
-z-index:100;
-background:rgba(7,9,15,.9);
-backdrop-filter:blur(14px);
-border-bottom:1px solid #1c2230;
+z-index:1000;
+background:rgba(6,8,13,.92);
+backdrop-filter:blur(18px);
+border-bottom:1px solid #202633;
 }
 
 .nav{
-height:70px;
+height:72px;
 display:flex;
 align-items:center;
 justify-content:space-between;
+gap:20px;
 }
 
 .logo{
-font-size:23px;
-font-weight:800;
+font-size:24px;
+font-weight:900;
 letter-spacing:1px;
 }
 
 .nav-links{
 display:none;
-gap:25px;
-color:#9da5b5;
+gap:22px;
+color:#9099aa;
 font-size:14px;
 }
 
@@ -72,212 +85,386 @@ font-size:14px;
 color:#fff;
 }
 
+.nav-actions{
+display:flex;
+gap:8px;
+align-items:center;
+}
+
+.lang{
+background:#0e131c;
+border:1px solid #293140;
+color:#fff;
+padding:9px 11px;
+border-radius:8px;
+}
+
+.wallet{
+background:#fff;
+color:#07090f;
+border:0;
+padding:10px 15px;
+border-radius:9px;
+font-weight:bold;
+cursor:pointer;
+}
+
 .menu{
 font-size:25px;
 }
 
+/* HERO */
+
 .hero{
-padding:90px 0 80px;
+padding:100px 0 70px;
 text-align:center;
 }
 
 .badge{
 display:inline-block;
+border:1px solid #293140;
+background:#0d121b;
+color:#aab3c2;
 padding:8px 14px;
-border:1px solid #2b3343;
 border-radius:50px;
-color:#aeb7c8;
 font-size:13px;
 margin-bottom:25px;
-background:#0d111a;
 }
 
 .hero h1{
-font-size:clamp(42px,9vw,78px);
-line-height:1.02;
-letter-spacing:-3px;
+font-size:clamp(45px,9vw,85px);
+line-height:1;
+letter-spacing:-4px;
 margin-bottom:25px;
 }
 
 .hero h1 span{
-color:#aeb7c8;
+color:#9fa8b8;
 }
 
 .hero p{
-max-width:650px;
+max-width:720px;
 margin:auto;
-color:#8f98a9;
+color:#8b95a6;
 font-size:18px;
 }
 
-.buttons{
-margin-top:35px;
+.hero-buttons{
 display:flex;
 justify-content:center;
 gap:12px;
 flex-wrap:wrap;
+margin-top:35px;
 }
 
 .btn{
+display:inline-block;
 padding:14px 22px;
 border-radius:10px;
 font-weight:bold;
-border:1px solid #303747;
-font-size:15px;
+border:1px solid #303847;
 }
 
 .primary{
 background:#fff;
-color:#07090f;
+color:#06080d;
 }
 
 .secondary{
-background:#111621;
-color:#fff;
+background:#10151e;
 }
 
-.stats{
+.metrics{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:10px;
-margin-top:50px;
+max-width:700px;
+margin:55px auto 0;
 }
 
-.stat{
+.metric{
 padding:20px 10px;
-border:1px solid #202735;
+border:1px solid #202733;
 border-radius:12px;
-background:#0c1018;
+background:#0c1017;
 }
 
-.stat strong{
+.metric strong{
 display:block;
-font-size:22px;
+font-size:23px;
 }
 
-.stat span{
+.metric span{
 font-size:12px;
-color:#788295;
+color:#707b8e;
 }
+
+/* SECTION */
 
 section{
 padding:80px 0;
 }
 
-.section-title{
+.section-head{
 text-align:center;
 margin-bottom:45px;
 }
 
-.section-title h2{
+.section-head h2{
 font-size:38px;
 margin-bottom:10px;
 }
 
-.section-title p{
-color:#858e9f;
+.section-head p{
+color:#808a9b;
 }
+
+/* PRODUCTS */
 
 .products{
 display:grid;
 grid-template-columns:1fr;
-gap:18px;
+gap:16px;
 }
 
-.product{
-padding:28px;
+.card{
+padding:26px;
+background:#0c1017;
 border:1px solid #222a38;
 border-radius:16px;
-background:#0d1119;
 transition:.25s;
 }
 
-.product:hover{
+.card:hover{
 transform:translateY(-4px);
-border-color:#414b60;
+border-color:#444e61;
 }
 
 .icon{
-font-size:30px;
-margin-bottom:18px;
+font-size:31px;
+margin-bottom:15px;
 }
 
-.product h3{
-margin-bottom:8px;
-font-size:21px;
+.card h3{
+font-size:20px;
+margin-bottom:7px;
 }
 
-.product p{
-color:#858e9f;
+.card p{
+color:#818b9c;
 font-size:14px;
 }
 
-.product a{
+.card-link{
 display:inline-block;
-margin-top:20px;
+margin-top:18px;
 font-size:13px;
 font-weight:bold;
 }
 
-.coming{
-color:#6f7888 !important;
-cursor:default;
+.soon{
+color:#687385;
 }
 
-.why{
+/* DASHBOARD */
+
+.dashboard{
 display:grid;
 grid-template-columns:1fr;
-gap:18px;
+gap:15px;
 }
 
-.reason{
-padding:25px;
-border-left:2px solid #303849;
-background:#0c1018;
-border-radius:10px;
+.dashboard-card{
+background:#0c1017;
+border:1px solid #222a38;
+border-radius:15px;
+padding:24px;
 }
 
-.reason h3{
-margin-bottom:7px;
-}
-
-.reason p{
-color:#858e9f;
-font-size:14px;
-}
-
-.cta{
-text-align:center;
-padding:70px 25px;
-border:1px solid #252d3b;
-border-radius:20px;
-background:#0c1018;
-}
-
-.cta h2{
-font-size:38px;
-margin-bottom:15px;
-}
-
-.cta p{
-color:#858e9f;
-max-width:600px;
-margin:auto;
-}
-
-footer{
-border-top:1px solid #1c2230;
-padding:40px 0;
-color:#687285;
+.dashboard-card span{
+color:#707b8e;
 font-size:13px;
 }
 
-.footer-content{
-display:flex;
-justify-content:space-between;
-gap:20px;
-flex-wrap:wrap;
+.dashboard-card strong{
+display:block;
+font-size:28px;
+margin-top:5px;
 }
+
+/* FEATURES */
+
+.features{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+}
+
+.feature{
+padding:25px;
+border-left:2px solid #303949;
+background:#0c1017;
+border-radius:9px;
+}
+
+.feature h3{
+margin-bottom:8px;
+}
+
+.feature p{
+color:#808a9b;
+font-size:14px;
+}
+
+/* PRICING */
+
+.pricing{
+display:grid;
+grid-template-columns:1fr;
+gap:16px;
+}
+
+.plan{
+padding:30px;
+border:1px solid #252e3d;
+background:#0c1017;
+border-radius:16px;
+}
+
+.plan.featured{
+border-color:#667085;
+}
+
+.plan h3{
+font-size:22px;
+}
+
+.price{
+font-size:35px;
+font-weight:bold;
+margin:15px 0;
+}
+
+.plan p{
+color:#818b9c;
+font-size:14px;
+}
+
+.plan ul{
+margin:20px 0;
+padding-left:18px;
+color:#9ca5b5;
+}
+
+.plan li{
+margin:8px 0;
+}
+
+/* CTA */
+
+.cta{
+text-align:center;
+background:#0c1017;
+border:1px solid #252d3b;
+border-radius:20px;
+padding:65px 25px;
+}
+
+.cta h2{
+font-size:40px;
+margin-bottom:12px;
+}
+
+.cta p{
+max-width:650px;
+margin:auto;
+color:#818b9c;
+}
+
+/* FOOTER */
+
+footer{
+border-top:1px solid #202633;
+padding:45px 0;
+color:#687385;
+font-size:13px;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+}
+
+.footer-title{
+color:#fff;
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.footer-links a{
+display:block;
+margin:7px 0;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+z-index:2000;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.modal-box{
+width:100%;
+max-width:420px;
+background:#0d121a;
+border:1px solid #303847;
+border-radius:16px;
+padding:30px;
+}
+
+.modal-box h2{
+margin-bottom:10px;
+}
+
+.modal-box p{
+color:#818b9c;
+font-size:14px;
+margin-bottom:20px;
+}
+
+.modal-box input{
+width:100%;
+padding:14px;
+background:#080b11;
+border:1px solid #303847;
+border-radius:9px;
+color:#fff;
+margin-bottom:12px;
+}
+
+.close{
+float:right;
+cursor:pointer;
+font-size:20px;
+}
+
+.notice{
+margin-top:15px;
+padding:12px;
+border:1px solid #293140;
+border-radius:8px;
+color:#8791a2;
+font-size:12px;
+}
+
+/* DESKTOP */
 
 @media(min-width:750px){
 
@@ -290,23 +477,37 @@ display:none;
 }
 
 .products{
-grid-template-columns:repeat(2,1fr);
-}
-
-.why{
 grid-template-columns:repeat(3,1fr);
 }
 
+.dashboard{
+grid-template-columns:repeat(4,1fr);
+}
+
+.features{
+grid-template-columns:repeat(3,1fr);
+}
+
+.pricing{
+grid-template-columns:repeat(3,1fr);
+}
+
+.footer-grid{
+grid-template-columns:repeat(4,1fr);
+}
+
 .hero{
-padding-top:120px;
+padding-top:130px;
 }
 
 }
 
 </style>
+
 </head>
 
 <body>
+
 
 <header>
 
@@ -317,25 +518,55 @@ SONATIVA
 </div>
 
 <nav class="nav-links">
-<a href="#products">Products</a>
-<a href="#why">Why Sonativa</a>
+
+<a href="#platform">Platform</a>
+<a href="#dashboard">Dashboard</a>
+<a href="#pricing">Pricing</a>
 <a href="#about">About</a>
+
 </nav>
 
-<div class="menu">☰</div>
+<div class="nav-actions">
+
+<select class="lang"
+onchange="changeLanguage(this.value)">
+
+<option value="en">EN</option>
+<option value="fr">FR</option>
+<option value="ar">AR</option>
+
+</select>
+
+<button
+class="wallet"
+onclick="openWallet()">
+
+Connect Wallet
+
+</button>
+
+</div>
+
+<div class="menu">
+☰
+</div>
 
 </div>
 
 </header>
 
+
 <main>
+
+
+<!-- HERO -->
 
 <section class="hero">
 
 <div class="container">
 
 <div class="badge">
-Web3 infrastructure for everyone
+The Web3 Platform for Everyone
 </div>
 
 <h1>
@@ -344,37 +575,61 @@ Build the <span>Web3 Future.</span>
 
 <p>
 Sonativa is building powerful and simple tools
-that help creators, developers and businesses
-build, launch and grow in Web3.
+for creators, developers, businesses and communities
+to build, launch and grow in Web3.
 </p>
 
-<div class="buttons">
+<div class="hero-buttons">
 
-<a class="btn primary" href="#products">
-Explore Sonativa
+<a
+class="btn primary"
+href="#platform">
+
+Explore Platform
+
 </a>
 
-<a class="btn secondary" href="#about">
-Learn More
+<a
+class="btn secondary"
+href="#pricing">
+
+View Plans
+
 </a>
 
 </div>
 
-<div class="stats">
 
-<div class="stat">
-<strong>01</strong>
-<span>Platform</span>
-</div>
+<div class="metrics">
 
-<div class="stat">
+<div class="metric">
+
 <strong>∞</strong>
-<span>Possibilities</span>
+
+<span>
+Possibilities
+</span>
+
 </div>
 
-<div class="stat">
+<div class="metric">
+
 <strong>24/7</strong>
-<span>Web3 Tools</span>
+
+<span>
+Web3 Tools
+</span>
+
+</div>
+
+<div class="metric">
+
+<strong>Global</strong>
+
+<span>
+Community
+</span>
+
 </div>
 
 </div>
@@ -384,13 +639,17 @@ Learn More
 </section>
 
 
-<section id="products">
+<!-- PLATFORM -->
+
+<section id="platform">
 
 <div class="container">
 
-<div class="section-title">
+<div class="section-head">
 
-<h2>Our Platform</h2>
+<h2>
+Sonativa Platform
+</h2>
 
 <p>
 Everything you need to build your Web3 project.
@@ -398,111 +657,206 @@ Everything you need to build your Web3 project.
 
 </div>
 
+
 <div class="products">
 
 
-<div class="product">
+<div class="card">
 
-<div class="icon">🪙</div>
+<div class="icon">
+🪙
+</div>
 
-<h3>Token Studio</h3>
+<h3>
+Token Studio
+</h3>
 
 <p>
-Plan and create your token project
-with a simple workflow.
+Design and plan your token project
+step by step.
 </p>
 
-<a href="token-studio.html">
-Explore →
+<a
+class="card-link"
+href="token-studio.html">
+
+Open Studio →
+
 </a>
 
 </div>
 
 
-<div class="product">
+<div class="card">
 
-<div class="icon">📊</div>
+<div class="icon">
+📊
+</div>
 
-<h3>Tokenomics Studio</h3>
+<h3>
+Tokenomics Studio
+</h3>
 
 <p>
 Design supply, allocations,
 vesting and distribution.
 </p>
 
-<span class="product a coming">
+<span class="card-link soon">
 Coming Soon →
 </span>
 
 </div>
 
 
-<div class="product">
+<div class="card">
 
-<div class="icon">🔍</div>
+<div class="icon">
+🔍
+</div>
 
-<h3>Security Scanner</h3>
+<h3>
+Security Scanner
+</h3>
 
 <p>
-Analyze token contracts,
-holders and potential risks.
+Analyze contracts, holders,
+liquidity and risks.
 </p>
 
-<span class="product a coming">
+<span class="card-link soon">
 Coming Soon →
 </span>
 
 </div>
 
 
-<div class="product">
+<div class="card">
 
-<div class="icon">🤖</div>
+<div class="icon">
+👛
+</div>
 
-<h3>Sonativa AI</h3>
+<h3>
+Wallet Analyzer
+</h3>
 
 <p>
-Your intelligent assistant for
-building Web3 projects.
+Analyze wallet activity,
+holdings and transactions.
 </p>
 
-<span class="product a coming">
+<span class="card-link soon">
 Coming Soon →
 </span>
 
 </div>
 
 
-<div class="product">
+<div class="card">
 
-<div class="icon">🌐</div>
+<div class="icon">
+🐋
+</div>
 
-<h3>Website Builder</h3>
+<h3>
+Whale Tracker
+</h3>
 
 <p>
-Create a professional website
-for your Web3 project.
+Track important wallets,
+smart money and movements.
 </p>
 
-<span class="product a coming">
+<span class="card-link soon">
 Coming Soon →
 </span>
 
 </div>
 
 
-<div class="product">
+<div class="card">
 
-<div class="icon">📱</div>
+<div class="icon">
+🤖
+</div>
 
-<h3>App Builder</h3>
+<h3>
+Sonativa AI
+</h3>
 
 <p>
-Turn your idea into a modern
-mobile application.
+Your intelligent assistant
+for building Web3 products.
 </p>
 
-<span class="product a coming">
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🌐
+</div>
+
+<h3>
+Website Builder
+</h3>
+
+<p>
+Create a professional Web3
+website without coding.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+📱
+</div>
+
+<h3>
+App Builder
+</h3>
+
+<p>
+Turn your Web3 idea into
+a modern mobile application.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🔗
+</div>
+
+<h3>
+API & Developer Tools
+</h3>
+
+<p>
+Build applications using
+Sonativa infrastructure.
+</p>
+
+<span class="card-link soon">
 Coming Soon →
 </span>
 
@@ -516,52 +870,72 @@ Coming Soon →
 </section>
 
 
-<section id="why">
+<!-- DASHBOARD -->
+
+<section id="dashboard">
 
 <div class="container">
 
-<div class="section-title">
+<div class="section-head">
 
-<h2>Why Sonativa?</h2>
+<h2>
+Your Web3 Dashboard
+</h2>
 
 <p>
-Web3 should be powerful without being complicated.
+Manage your projects, wallets and tools from one place.
 </p>
 
 </div>
 
-<div class="why">
 
-<div class="reason">
+<div class="dashboard">
 
-<h3>Simple</h3>
+<div class="dashboard-card">
 
-<p>
-Tools designed for beginners
-and experienced builders.
-</p>
+<span>
+Projects
+</span>
 
-</div>
-
-<div class="reason">
-
-<h3>Accessible</h3>
-
-<p>
-Start building without expensive
-infrastructure or complicated software.
-</p>
+<strong>
+0
+</strong>
 
 </div>
 
-<div class="reason">
+<div class="dashboard-card">
 
-<h3>Built to Scale</h3>
+<span>
+Wallets
+</span>
 
-<p>
-A platform designed to grow
-from simple tools into a complete ecosystem.
-</p>
+<strong>
+0
+</strong>
+
+</div>
+
+<div class="dashboard-card">
+
+<span>
+Tokens
+</span>
+
+<strong>
+0
+</strong>
+
+</div>
+
+<div class="dashboard-card">
+
+<span>
+Alerts
+</span>
+
+<strong>
+0
+</strong>
 
 </div>
 
@@ -571,6 +945,255 @@ from simple tools into a complete ecosystem.
 
 </section>
 
+
+<!-- FEATURES -->
+
+<section>
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>
+Built for the Web3 Future
+</h2>
+
+<p>
+Powerful infrastructure without unnecessary complexity.
+</p>
+
+</div>
+
+
+<div class="features">
+
+
+<div class="feature">
+
+<h3>
+🌍 Global
+</h3>
+
+<p>
+Designed for users around the world
+with multilingual support.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<h3>
+🔐 Security First
+</h3>
+
+<p>
+Security and user-controlled wallets
+are fundamental to the platform.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<h3>
+⚡ Simple
+</h3>
+
+<p>
+Complex Web3 workflows transformed
+into simple user experiences.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<h3>
+📈 Built to Scale
+</h3>
+
+<p>
+Designed to evolve from simple tools
+into complete Web3 infrastructure.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<h3>
+🤖 AI Powered
+</h3>
+
+<p>
+Intelligent assistance for research,
+creation and development.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<h3>
+📱 Mobile Ready
+</h3>
+
+<p>
+Designed from the beginning for
+desktop, mobile and future apps.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PRICING -->
+
+<section id="pricing">
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>
+Simple Pricing
+</h2>
+
+<p>
+Start free. Upgrade when you need more.
+</p>
+
+</div>
+
+
+<div class="pricing">
+
+
+<div class="plan">
+
+<h3>
+Free
+</h3>
+
+<div class="price">
+$0
+</div>
+
+<p>
+For beginners exploring Web3.
+</p>
+
+<ul>
+
+<li>Basic tools</li>
+<li>Token planning</li>
+<li>Basic tokenomics</li>
+<li>Limited projects</li>
+<li>Community support</li>
+
+</ul>
+
+<a
+class="btn secondary"
+href="#platform">
+
+Start Free
+
+</a>
+
+</div>
+
+
+<div class="plan featured">
+
+<h3>
+Pro
+</h3>
+
+<div class="price">
+$9
+</div>
+
+<p>
+For serious creators and developers.
+</p>
+
+<ul>
+
+<li>Advanced tools</li>
+<li>Unlimited projects</li>
+<li>Advanced tokenomics</li>
+<li>Security analysis</li>
+<li>AI assistance</li>
+
+</ul>
+
+<a
+class="btn primary"
+href="#">
+
+Coming Soon
+
+</a>
+
+</div>
+
+
+<div class="plan">
+
+<h3>
+Business
+</h3>
+
+<div class="price">
+Custom
+</div>
+
+<p>
+For teams and Web3 businesses.
+</p>
+
+<ul>
+
+<li>Team accounts</li>
+<li>Advanced analytics</li>
+<li>API access</li>
+<li>Priority support</li>
+<li>Custom infrastructure</li>
+
+</ul>
+
+<a
+class="btn secondary"
+href="#">
+
+Contact Us
+
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ABOUT -->
 
 <section id="about">
 
@@ -578,19 +1201,24 @@ from simple tools into a complete ecosystem.
 
 <div class="cta">
 
-<h2>Build something bigger.</h2>
+<h2>
+Build something bigger.
+</h2>
 
 <p>
-Sonativa's mission is to make Web3
-accessible to everyone and provide the
-infrastructure needed for the next generation
-of digital products.
+Sonativa's mission is to make Web3 accessible
+to everyone and provide the tools and infrastructure
+needed for the next generation of digital products.
 </p>
 
-<div class="buttons">
+<div class="hero-buttons">
 
-<a class="btn primary" href="token-studio.html">
+<a
+class="btn primary"
+href="#platform">
+
 Start Building
+
 </a>
 
 </div>
@@ -601,15 +1229,23 @@ Start Building
 
 </section>
 
+
 </main>
 
 
+<!-- FOOTER -->
+
 <footer>
 
-<div class="container footer-content">
+<div class="container">
+
+<div class="footer-grid">
+
 
 <div>
-© 2026 Sonativa
+
+<div class="footer-title">
+SONATIVA
 </div>
 
 <div>
@@ -618,7 +1254,223 @@ Build. Launch. Grow.
 
 </div>
 
+
+<div>
+
+<div class="footer-title">
+Platform
+</div>
+
+<div class="footer-links">
+
+<a href="#platform">
+Token Studio
+</a>
+
+<a href="#platform">
+Security
+</a>
+
+<a href="#platform">
+Wallets
+</a>
+
+<a href="#platform">
+AI
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+Company
+</div>
+
+<div class="footer-links">
+
+<a href="#about">
+About
+</a>
+
+<a href="#">
+Documentation
+</a>
+
+<a href="#">
+Blog
+</a>
+
+<a href="#">
+Contact
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+Legal
+</div>
+
+<div class="footer-links">
+
+<a href="#">
+Privacy
+</a>
+
+<a href="#">
+Terms
+</a>
+
+<a href="#">
+Security
+</a>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<br><br>
+
+© 2026 Sonativa. All rights reserved.
+
+</div>
+
 </footer>
 
+
+<!-- WALLET MODAL -->
+
+<div
+class="modal"
+id="walletModal">
+
+<div class="modal-box">
+
+<span
+class="close"
+onclick="closeWallet()">
+×
+</span>
+
+<h2>
+Connect Wallet
+</h2>
+
+<p>
+Choose a wallet to connect to Sonativa.
+</p>
+
+<button
+class="btn primary"
+style="width:100%;margin-bottom:10px;"
+onclick="walletDemo('Phantom')">
+
+👻 Phantom
+
+</button>
+
+<button
+class="btn secondary"
+style="width:100%;margin-bottom:10px;"
+onclick="walletDemo('MetaMask')">
+
+🦊 MetaMask
+
+</button>
+
+<button
+class="btn secondary"
+style="width:100%;"
+onclick="walletDemo('WalletConnect')">
+
+🔗 WalletConnect
+
+</button>
+
+<div class="notice">
+
+Demo interface only.
+Real wallet connection will be added
+after the secure Web3 backend is implemented.
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* WALLET DEMO */
+
+function openWallet(){
+
+document
+.getElementById("walletModal")
+.style.display="flex";
+
+}
+
+
+function closeWallet(){
+
+document
+.getElementById("walletModal")
+.style.display="none";
+
+}
+
+
+function walletDemo(name){
+
+alert(
+name +
+" connection will be implemented in the Web3 integration phase."
+);
+
+}
+
+
+/* LANGUAGE DEMO */
+
+function changeLanguage(language){
+
+if(language==="ar"){
+
+alert("العربية سيتم تفعيلها في نظام الترجمة الرسمي.");
+
+}
+
+else if(language==="fr"){
+
+alert("Le système français sera activé dans le système de traduction officiel.");
+
+}
+
+else{
+
+alert("English selected.");
+
+}
+
+}
+
+</script>
+
+
 </body>
+
 </html>
