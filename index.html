@@ -33,9 +33,7 @@ text-decoration:none;
 color:inherit;
 }
 
-button,
-input,
-select{
+button,input,select{
 font:inherit;
 }
 
@@ -48,8 +46,6 @@ width:92%;
 max-width:1200px;
 margin:auto;
 }
-
-/* HEADER */
 
 header{
 position:sticky;
@@ -130,8 +126,6 @@ font-weight:bold;
 font-size:25px;
 }
 
-/* HERO */
-
 .hero{
 text-align:center;
 padding:100px 0 70px;
@@ -199,8 +193,6 @@ font-size:12px;
 color:#707b8e;
 }
 
-/* SECTIONS */
-
 section{
 padding:80px 0;
 }
@@ -218,8 +210,6 @@ margin-bottom:10px;
 .section-head p{
 color:#808a9b;
 }
-
-/* PRODUCTS */
 
 .products{
 display:grid;
@@ -265,8 +255,6 @@ font-weight:bold;
 color:#687385;
 }
 
-/* DASHBOARD */
-
 .dashboard{
 display:grid;
 grid-template-columns:1fr;
@@ -297,7 +285,7 @@ margin-top:25px;
 background:#0c1017;
 border:1px solid #222a38;
 border-radius:15px;
-padding:20px;
+padding:25px;
 }
 
 .account-row{
@@ -311,9 +299,20 @@ flex-wrap:wrap;
 .user-email{
 color:#9ca6b7;
 font-size:14px;
+margin-top:4px;
 }
 
-/* CTA */
+.account-provider{
+color:#707b8e;
+font-size:12px;
+margin-top:4px;
+}
+
+.account-actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
 
 .cta{
 text-align:center;
@@ -333,8 +332,6 @@ max-width:650px;
 margin:auto;
 color:#818b9c;
 }
-
-/* FOOTER */
 
 footer{
 border-top:1px solid #202633;
@@ -359,8 +356,6 @@ margin-bottom:12px;
 display:block;
 margin:7px 0;
 }
-
-/* MODAL */
 
 .modal{
 display:none;
@@ -448,6 +443,54 @@ background:#293140;
 flex:1;
 }
 
+.account-modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.82);
+z-index:2000;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.account-box{
+width:100%;
+max-width:450px;
+background:#0d121a;
+border:1px solid #303847;
+border-radius:16px;
+padding:30px;
+}
+
+.account-box h2{
+margin-bottom:20px;
+}
+
+.account-info{
+background:#080b11;
+border:1px solid #293140;
+border-radius:10px;
+padding:16px;
+margin-bottom:15px;
+}
+
+.account-label{
+font-size:12px;
+color:#707b8e;
+margin-bottom:4px;
+}
+
+.account-value{
+font-size:15px;
+word-break:break-word;
+}
+
+.logout-button{
+width:100%;
+margin-top:10px;
+}
+
 @media(min-width:750px){
 
 .nav-links{
@@ -481,8 +524,6 @@ padding-top:130px;
 
 <body>
 
-<!-- HEADER -->
-
 <header>
 
 <div class="container nav">
@@ -492,11 +533,9 @@ SONATIVA
 </div>
 
 <nav class="nav-links">
-
 <a href="#platform">Platform</a>
 <a href="#dashboard">Dashboard</a>
 <a href="#about">About</a>
-
 </nav>
 
 <div class="nav-actions">
@@ -514,7 +553,7 @@ onchange="changeLanguage(this.value)">
 <button
 class="wallet"
 id="authButton"
-onclick="openAuth()">
+onclick="handleAuthButton()">
 
 Login / Sign Up
 
@@ -530,10 +569,7 @@ Login / Sign Up
 
 </header>
 
-
 <main>
-
-<!-- HERO -->
 
 <section class="hero">
 
@@ -555,20 +591,12 @@ to build, launch and grow in Web3.
 
 <div class="hero-buttons">
 
-<a
-class="btn primary"
-href="#platform">
-
+<a class="btn primary" href="#platform">
 Explore Platform
-
 </a>
 
-<a
-class="btn secondary"
-href="#dashboard">
-
+<a class="btn secondary" href="#dashboard">
 Dashboard
-
 </a>
 
 </div>
@@ -576,33 +604,18 @@ Dashboard
 <div class="metrics">
 
 <div class="metric">
-
 <strong>∞</strong>
-
-<span>
-Possibilities
-</span>
-
+<span>Possibilities</span>
 </div>
 
 <div class="metric">
-
 <strong>24/7</strong>
-
-<span>
-Web3 Tools
-</span>
-
+<span>Web3 Tools</span>
 </div>
 
 <div class="metric">
-
 <strong>Global</strong>
-
-<span>
-Community
-</span>
-
+<span>Community</span>
 </div>
 
 </div>
@@ -610,9 +623,6 @@ Community
 </div>
 
 </section>
-
-
-<!-- PLATFORM -->
 
 <section id="platform">
 
@@ -654,7 +664,6 @@ Open Studio →
 
 </div>
 
-
 <div class="card">
 
 <div class="icon">📊</div>
@@ -672,7 +681,6 @@ Coming Soon →
 </span>
 
 </div>
-
 
 <div class="card">
 
@@ -692,7 +700,6 @@ Coming Soon →
 
 </div>
 
-
 <div class="card">
 
 <div class="icon">👛</div>
@@ -710,7 +717,6 @@ Coming Soon →
 </span>
 
 </div>
-
 
 <div class="card">
 
@@ -730,7 +736,6 @@ Coming Soon →
 
 </div>
 
-
 <div class="card">
 
 <div class="icon">🤖</div>
@@ -748,7 +753,6 @@ Coming Soon →
 </span>
 
 </div>
-
 
 <div class="card">
 
@@ -768,7 +772,6 @@ Coming Soon →
 
 </div>
 
-
 <div class="card">
 
 <div class="icon">📱</div>
@@ -786,7 +789,6 @@ Coming Soon →
 </span>
 
 </div>
-
 
 <div class="card">
 
@@ -811,9 +813,6 @@ Coming Soon →
 </div>
 
 </section>
-
-
-<!-- DASHBOARD -->
 
 <section id="dashboard">
 
@@ -845,7 +844,6 @@ Projects
 
 </div>
 
-
 <div class="dashboard-card">
 
 <span>
@@ -858,7 +856,6 @@ Wallets
 
 </div>
 
-
 <div class="dashboard-card">
 
 <span>
@@ -870,7 +867,6 @@ Tokens
 </strong>
 
 </div>
-
 
 <div class="dashboard-card">
 
@@ -885,7 +881,6 @@ Alerts
 </div>
 
 </div>
-
 
 <div
 class="account-panel"
@@ -904,7 +899,22 @@ class="user-email"
 id="userEmail">
 </div>
 
+<div
+class="account-provider"
+id="accountProvider">
 </div>
+
+</div>
+
+<div class="account-actions">
+
+<button
+class="btn secondary"
+onclick="openAccountPanel()">
+
+Account
+
+</button>
 
 <button
 class="btn secondary"
@@ -920,10 +930,9 @@ Logout
 
 </div>
 
+</div>
+
 </section>
-
-
-<!-- FEATURES -->
 
 <section>
 
@@ -944,104 +953,39 @@ Powerful infrastructure without unnecessary complexity.
 <div class="products">
 
 <div class="card">
-
-<div class="icon">
-🌍
+<div class="icon">🌍</div>
+<h3>Global</h3>
+<p>Designed for users around the world with multilingual support.</p>
 </div>
-
-<h3>
-Global
-</h3>
-
-<p>
-Designed for users around the world with multilingual support.
-</p>
-
-</div>
-
 
 <div class="card">
-
-<div class="icon">
-🔐
+<div class="icon">🔐</div>
+<h3>Security First</h3>
+<p>Security and user-controlled wallets are fundamental to the platform.</p>
 </div>
-
-<h3>
-Security First
-</h3>
-
-<p>
-Security and user-controlled wallets are fundamental to the platform.
-</p>
-
-</div>
-
 
 <div class="card">
-
-<div class="icon">
-⚡
+<div class="icon">⚡</div>
+<h3>Simple</h3>
+<p>Complex Web3 workflows transformed into simple user experiences.</p>
 </div>
-
-<h3>
-Simple
-</h3>
-
-<p>
-Complex Web3 workflows transformed into simple user experiences.
-</p>
-
-</div>
-
 
 <div class="card">
-
-<div class="icon">
-📈
+<div class="icon">📈</div>
+<h3>Built to Scale</h3>
+<p>Designed to evolve into complete Web3 infrastructure.</p>
 </div>
-
-<h3>
-Built to Scale
-</h3>
-
-<p>
-Designed to evolve into complete Web3 infrastructure.
-</p>
-
-</div>
-
 
 <div class="card">
-
-<div class="icon">
-🤖
+<div class="icon">🤖</div>
+<h3>AI Powered</h3>
+<p>Intelligent assistance for research, creation and development.</p>
 </div>
-
-<h3>
-AI Powered
-</h3>
-
-<p>
-Intelligent assistance for research, creation and development.
-</p>
-
-</div>
-
 
 <div class="card">
-
-<div class="icon">
-📱
-</div>
-
-<h3>
-Mobile Ready
-</h3>
-
-<p>
-Designed from the beginning for desktop, mobile and future apps.
-</p>
-
+<div class="icon">📱</div>
+<h3>Mobile Ready</h3>
+<p>Designed from the beginning for desktop, mobile and future apps.</p>
 </div>
 
 </div>
@@ -1049,9 +993,6 @@ Designed from the beginning for desktop, mobile and future apps.
 </div>
 
 </section>
-
-
-<!-- ABOUT -->
 
 <section id="about">
 
@@ -1089,9 +1030,6 @@ Start Building
 
 </main>
 
-
-<!-- FOOTER -->
-
 <footer>
 
 <div class="container">
@@ -1110,7 +1048,6 @@ Build. Launch. Grow.
 
 </div>
 
-
 <div>
 
 <div class="footer-title">
@@ -1119,26 +1056,14 @@ Platform
 
 <div class="footer-links">
 
-<a href="#platform">
-Token Studio
-</a>
-
-<a href="#platform">
-Security
-</a>
-
-<a href="#platform">
-Wallets
-</a>
-
-<a href="#platform">
-AI
-</a>
+<a href="#platform">Token Studio</a>
+<a href="#platform">Security</a>
+<a href="#platform">Wallets</a>
+<a href="#platform">AI</a>
 
 </div>
 
 </div>
-
 
 <div>
 
@@ -1148,26 +1073,14 @@ Company
 
 <div class="footer-links">
 
-<a href="#about">
-About
-</a>
-
-<a href="#">
-Documentation
-</a>
-
-<a href="#">
-Blog
-</a>
-
-<a href="#">
-Contact
-</a>
+<a href="#about">About</a>
+<a href="#">Documentation</a>
+<a href="#">Blog</a>
+<a href="#">Contact</a>
 
 </div>
 
 </div>
-
 
 <div>
 
@@ -1177,17 +1090,9 @@ Legal
 
 <div class="footer-links">
 
-<a href="#">
-Privacy
-</a>
-
-<a href="#">
-Terms
-</a>
-
-<a href="#">
-Security
-</a>
+<a href="#">Privacy</a>
+<a href="#">Terms</a>
+<a href="#">Security</a>
 
 </div>
 
@@ -1203,8 +1108,7 @@ Security
 
 </footer>
 
-
-<!-- AUTH MODAL -->
+<!-- LOGIN MODAL -->
 
 <div
 class="modal"
@@ -1226,7 +1130,6 @@ Sign in to Sonativa
 Use your email or continue with GitHub.
 </p>
 
-
 <button
 class="btn github-button"
 onclick="signInWithGitHub()">
@@ -1235,11 +1138,9 @@ Continue with GitHub
 
 </button>
 
-
 <div class="divider">
 OR
 </div>
-
 
 <input
 id="email"
@@ -1247,13 +1148,11 @@ type="email"
 placeholder="Email address"
 autocomplete="email">
 
-
 <input
 id="password"
 type="password"
 placeholder="Password"
 autocomplete="current-password">
-
 
 <button
 class="btn primary"
@@ -1264,7 +1163,6 @@ Create Account
 
 </button>
 
-
 <button
 class="btn secondary"
 style="width:100%"
@@ -1273,7 +1171,6 @@ onclick="signIn()">
 Login
 
 </button>
-
 
 <div
 class="auth-message"
@@ -1287,8 +1184,77 @@ Your account is protected by Supabase Authentication.
 
 </div>
 
+<!-- ACCOUNT MODAL -->
 
-<!-- SUPABASE -->
+<div
+class="account-modal"
+id="accountModal">
+
+<div class="account-box">
+
+<span
+class="close"
+onclick="closeAccountPanel()">
+×
+</span>
+
+<h2>
+Your Sonativa Account
+</h2>
+
+<div class="account-info">
+
+<div class="account-label">
+EMAIL
+</div>
+
+<div
+class="account-value"
+id="accountEmail">
+-
+</div>
+
+</div>
+
+<div class="account-info">
+
+<div class="account-label">
+SIGN-IN METHOD
+</div>
+
+<div
+class="account-value"
+id="accountProviderValue">
+-
+</div>
+
+</div>
+
+<div class="account-info">
+
+<div class="account-label">
+PROJECTS
+</div>
+
+<div
+class="account-value"
+id="accountProjects">
+0
+</div>
+
+</div>
+
+<button
+class="btn secondary logout-button"
+onclick="logoutFromAccount()">
+
+Logout
+
+</button>
+
+</div>
+
+</div>
 
 <script type="module">
 
@@ -1298,8 +1264,6 @@ createClient
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-
-/* SUPABASE CONFIG */
 
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
@@ -1316,7 +1280,30 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-/* AUTH MODAL */
+/* CURRENT USER */
+
+let currentUser = null;
+
+
+/* AUTH BUTTON */
+
+window.handleAuthButton =
+function(){
+
+if(currentUser){
+
+openAccountPanel();
+
+}else{
+
+openAuth();
+
+}
+
+};
+
+
+/* OPEN LOGIN */
 
 window.openAuth =
 function(){
@@ -1327,6 +1314,8 @@ document
 
 };
 
+
+/* CLOSE LOGIN */
 
 window.closeAuth =
 function(){
@@ -1346,7 +1335,6 @@ async function(){
 const message =
 document.getElementById("authMessage");
 
-
 message.textContent =
 "Connecting to GitHub...";
 
@@ -1364,10 +1352,7 @@ await supabase.auth.signInWithOAuth({
 provider:"github",
 
 options:{
-
-redirectTo:
-redirectUrl
-
+redirectTo:redirectUrl
 }
 
 });
@@ -1395,16 +1380,13 @@ document
 .value
 .trim();
 
-
 const password =
 document
 .getElementById("password")
 .value;
 
-
 const message =
-document
-.getElementById("authMessage");
+document.getElementById("authMessage");
 
 
 if(!email || !password){
@@ -1432,6 +1414,7 @@ message.textContent =
 
 
 const {
+data,
 error
 } =
 await supabase.auth.signUp({
@@ -1452,8 +1435,26 @@ return;
 }
 
 
+if(data.session){
+
+message.textContent =
+"Account created and signed in successfully.";
+
+await updateUserInterface();
+
+setTimeout(
+function(){
+closeAuth();
+},
+700
+);
+
+}else{
+
 message.textContent =
 "Account created successfully. Check your email if confirmation is enabled.";
+
+}
 
 };
 
@@ -1469,16 +1470,13 @@ document
 .value
 .trim();
 
-
 const password =
 document
 .getElementById("password")
 .value;
 
-
 const message =
-document
-.getElementById("authMessage");
+document.getElementById("authMessage");
 
 
 if(!email || !password){
@@ -1520,16 +1518,118 @@ closeAuth();
 
 await updateUserInterface();
 
-
 document
 .getElementById("dashboard")
 .scrollIntoView({
-
 behavior:"smooth"
-
 });
 
 };
+
+
+/* OPEN ACCOUNT */
+
+window.openAccountPanel =
+function(){
+
+if(!currentUser){
+
+openAuth();
+
+return;
+
+}
+
+
+const email =
+currentUser.email ||
+"GitHub account";
+
+
+document
+.getElementById("accountEmail")
+.textContent =
+email;
+
+
+document
+.getElementById("accountProviderValue")
+.textContent =
+getProviderName(currentUser);
+
+
+document
+.getElementById("accountProjects")
+.textContent =
+document
+.getElementById("projectCount")
+.textContent;
+
+
+document
+.getElementById("accountModal")
+.style.display =
+"flex";
+
+};
+
+
+/* CLOSE ACCOUNT */
+
+window.closeAccountPanel =
+function(){
+
+document
+.getElementById("accountModal")
+.style.display =
+"none";
+
+};
+
+
+/* PROVIDER NAME */
+
+function getProviderName(user){
+
+const provider =
+user?.app_metadata?.provider;
+
+
+if(provider === "github"){
+return "GitHub";
+}
+
+if(provider === "email"){
+return "Email";
+}
+
+if(provider){
+return provider;
+}
+
+if(
+user?.identities &&
+user.identities.length > 0
+){
+
+const identity =
+user.identities[0];
+
+if(identity.provider === "github"){
+return "GitHub";
+}
+
+if(identity.provider === "email"){
+return "Email";
+}
+
+return identity.provider;
+
+}
+
+return "Sonativa Authentication";
+
+}
 
 
 /* LOGOUT */
@@ -1539,7 +1639,29 @@ async function(){
 
 await supabase.auth.signOut();
 
+closeAccountPanel();
+
 await updateUserInterface();
+
+};
+
+
+/* LOGOUT FROM ACCOUNT */
+
+window.logoutFromAccount =
+async function(){
+
+await supabase.auth.signOut();
+
+closeAccountPanel();
+
+await updateUserInterface();
+
+document
+.getElementById("dashboard")
+.scrollIntoView({
+behavior:"smooth"
+});
 
 };
 
@@ -1548,17 +1670,34 @@ await updateUserInterface();
 
 async function loadProjects(){
 
-const {
+if(!currentUser){
 
+document
+.getElementById("projectCount")
+.textContent =
+"0";
+
+return;
+
+}
+
+
+/*
+IMPORTANT:
+Only load projects belonging to
+the currently logged-in user.
+*/
+
+const {
 data,
 error
-
 } =
 await supabase
 .from("projects")
 .select("id")
+.eq("user_id",currentUser.id)
 .order(
-"id",
+"created_at",
 {
 ascending:false
 }
@@ -1590,36 +1729,35 @@ data.length;
 }
 
 
-/* UPDATE UI */
+/* UPDATE USER INTERFACE */
 
 async function updateUserInterface(){
 
 const {
-
 data:{
 user
 }
-
 } =
 await supabase.auth.getUser();
 
 
-const button =
-document
-.getElementById("authButton");
+currentUser = user || null;
 
+
+const button =
+document.getElementById("authButton");
 
 const panel =
-document
-.getElementById("accountPanel");
-
+document.getElementById("accountPanel");
 
 const email =
-document
-.getElementById("userEmail");
+document.getElementById("userEmail");
+
+const provider =
+document.getElementById("accountProvider");
 
 
-if(user){
+if(currentUser){
 
 button.textContent =
 "Account";
@@ -1630,8 +1768,13 @@ panel.style.display =
 
 
 email.textContent =
-user.email ||
+currentUser.email ||
 "GitHub account";
+
+
+provider.textContent =
+"Signed in with " +
+getProviderName(currentUser);
 
 
 await loadProjects();
@@ -1671,18 +1814,28 @@ document
 /* AUTH STATE */
 
 supabase.auth.onAuthStateChange(
-async function(
-event,
-session
-){
+async function(event){
 
 if(
 event === "SIGNED_IN" ||
 event === "SIGNED_OUT" ||
-event === "INITIAL_SESSION"
+event === "INITIAL_SESSION" ||
+event === "USER_UPDATED"
 ){
 
+/*
+Small delay prevents auth
+state race conditions.
+*/
+
+setTimeout(
+async function(){
+
 await updateUserInterface();
+
+},
+100
+);
 
 }
 
@@ -1730,7 +1883,7 @@ alert(
 };
 
 
-/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+/* CLOSE LOGIN WHEN CLICKING OUTSIDE */
 
 document
 .getElementById("authModal")
@@ -1738,9 +1891,7 @@ document
 "click",
 function(event){
 
-if(
-event.target === this
-){
+if(event.target === this){
 
 closeAuth();
 
@@ -1748,6 +1899,22 @@ closeAuth();
 
 });
 
+
+/* CLOSE ACCOUNT WHEN CLICKING OUTSIDE */
+
+document
+.getElementById("accountModal")
+.addEventListener(
+"click",
+function(event){
+
+if(event.target === this){
+
+closeAccountPanel();
+
+}
+
+});
 
 </script>
 
