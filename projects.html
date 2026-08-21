@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonativa — My Projects</title>
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:
+radial-gradient(circle at 50% -10%,#172033 0%,#06080d 45%,#040509 100%);
+color:#fff;
+min-height:100vh;
+}
+
+.container{
+width:92%;
+max-width:1100px;
+margin:auto;
+}
+
+header{
+border-bottom:1px solid #202633;
+background:rgba(5,7,12,.85);
+backdrop-filter:blur(20px);
+}
+
+.nav{
+height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:23px;
+font-weight:900;
+letter-spacing:3px;
+}
+
+.back{
+padding:10px 15px;
+border:1px solid #303847;
+border-radius:9px;
+background:#10151e;
+color:#fff;
+text-decoration:none;
+}
+
+main{
+padding:70px 0;
+}
+
+.title{
+text-align:center;
+margin-bottom:40px;
+}
+
+.title h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.title p{
+color:#818b9c;
+}
+
+.projects{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+}
+
+.project{
+background:rgba(12,16,23,.9);
+border:1px solid #252d3b;
+border-radius:16px;
+padding:25px;
+}
+
+.project:hover{
+border-color:#465166;
+}
+
+.project-name{
+font-size:22px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:9px 0;
+border-bottom:1px solid #202733;
+}
+
+.label{
+color:#707b8e;
+font-size:13px;
+}
+
+.value{
+font-size:14px;
+text-align:right;
+word-break:break-word;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
+
+button{
+cursor:pointer;
+font:inherit;
+}
+
+.btn{
+flex:1;
+padding:11px;
+border-radius:9px;
+font-weight:bold;
+border:1px solid #303847;
+}
+
+.open{
+background:#fff;
+color:#06080d;
+}
+
+.delete{
+background:#10151e;
+color:#ff8f8f;
+}
+
+.message{
+text-align:center;
+padding:30px;
+color:#818b9c;
+}
+
+.error{
+color:#ff8f8f;
+}
+
+@media(max-width:600px){
+
+.title h1{
+font-size:32px;
+}
+
+}
+</style>
+</head>
+<body>
+<header>
+<div class="container nav">
+<div class="logo">
+SONATIVA
+</div>
+</div>
+</header>
+<main>
+<div class="container">
+<div class="title">
+<h1>
+My Projects
+</h1>
+<p>
+Your Sonativa projects
+</p></div>
+<div
+class="projects"
+id="projects">
+<div class="message">
+Loading projects...
+</div>
+</div>
+</div>
+</main>
+<script type="module">
+
+import {
+createClient
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+const SUPABASE_URL =
+"https://kallobeodjzzhrsaqszw.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
+
+const supabase =
+createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
+
+async function loadProjects(){
+
+const container =
+document.getElementById("projects");
+
+
+const {
+data:{
+user
+},
+error:userError
+} =
+await supabase.auth.getUser();
+
+
+if(userError){
+
+container.innerHTML =
+`
+<div class="message error">
+Unable to check your account.
+</div>
+`;
+
+return;
+
+}
+
+
+if(!user){
+
+container.innerHTML =
+`
+<div class="message">
+You must login first.
+<br><br>
+
+<a
+class="back"
+href="index.html">
+
+Login
+
+</a>
+
+</div>
+`;
+
+return;
+
+}
+
+
+/*
+IMPORTANT:
+The database column is "Id"
+with a capital I.
+*/
+
+const {
+data,
+error
+} =
+await supabase
+.from("projects")
+.select(`
+"Id",
+created_at,
+user_id,
+project_name,
+token_name,
+token_symbol,
+total_supply,
+network,
+description
+`)
+.eq(
+"user_id",
+user.id
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+console.error(
+"Projects error:",
+error
+);
+
+container.innerHTML =
+`
+<div class="message error">
+
+Error loading projects:
+
+<br><br>
+
+${escapeHtml(error.message)}
+
+</div>
+`;
+
+return;
+
+}
+
+
+if(!data || data.length === 0){
+
+container.innerHTML =
+`
+<div class="message">
+
+You don't have any projects yet.
+
+<br><br>
+
+<a
+class="back"
+href="token-studio.html">
+
+Create Project
+
+</a>
+
+</div>
+`;
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+
+data.forEach(
+project => {
+
+const card =
+document.createElement("div");
+
+card.className =
+"project";
+
+
+card.innerHTML =
+
+`
+<div class="project-name">
+${escapeHtml(project.project_name || "Unnamed Project")}
+</div>
+
+<div class="row">
+<span class="label">
+Token
+</span>
+
+<span class="value">
+${escapeHtml(project.token_name || "-")}
+</span>
+</div>
+
+<div class="row">
+<span class="label">
+Symbol
+</span>
+
+<span class="value">
+${escapeHtml(project.token_symbol || "-")}
+</span>
+</div>
+
+<div class="row">
+<span class="label">
+Supply
+</span>
+
+<span class="value">
+${formatNumber(project.total_supply)}
+</span>
+</div>
+
+<div class="row">
+<span class="label">
+Network
+</span>
+
+<span class="value">
+${escapeHtml(project.network || "-")}
+</span>
+</div>
+
+<div class="row">
+<span class="label">
+Created
+</span>
+
+<span class="value">
+${formatDate(project.created_at)}
+</span>
+</div>
+
+<div class="actions">
+
+<button
+class="btn open">
+Open
+</button>
+
+<button
+class="btn delete">
+Delete
+</button>
+
+</div>
+`;
+
+
+card
+.querySelector(".open")
+.addEventListener(
+"click",
+function(){
+
+openProject(project);
+
+}
+);
+
+
+card
+.querySelector(".delete")
+.addEventListener(
+"click",
+function(){
+
+deleteProject(project);
+
+}
+);
+
+
+container.appendChild(card);
+
+}
+);
+
+}
+
+
+function openProject(project){
+
+alert(
+"Project: " +
+project.project_name +
+"\n\n" +
+"Token: " +
+project.token_name +
+"\n" +
+"Symbol: " +
+project.token_symbol
+);
+
+}
+
+
+async function deleteProject(project){
+
+const confirmed =
+confirm(
+"Delete project \"" +
+project.project_name +
+"\"?"
+);
+
+
+if(!confirmed){
+return;
+}
+
+
+const {
+data:{
+user
+}
+} =
+await supabase.auth.getUser();
+
+
+if(!user){
+return;
+}
+
+
+const {
+error
+} =
+await supabase
+.from("projects")
+.delete()
+.eq(
+"Id",
+project.Id
+)
+.eq(
+"user_id",
+user.id
+);
+
+
+if(error){
+
+alert(
+"Delete failed: " +
+error.message
+);
+
+return;
+
+}
+
+
+alert(
+"Project deleted successfully."
+);
+
+
+loadProjects();
+
+}
+
+
+function formatNumber(value){
+
+if(
+value === null ||
+value === undefined
+){
+
+return "-";
+
+}
+
+return Number(
+value
+).toLocaleString();
+
+}
+
+
+function formatDate(value){
+
+if(!value){
+return "-";
+}
+
+return new Date(
+value
+).toLocaleString();
+
+}
+
+
+function escapeHtml(value){
+
+return String(
+value ?? ""
+)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+loadProjects();
+
+</script>
+
