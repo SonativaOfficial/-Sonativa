@@ -226,9 +226,7 @@ max-width:60%;
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -250,11 +248,9 @@ href="index.html">
 
 </header>
 
-
 <main>
 
 <div class="container">
-
 
 <div class="title">
 
@@ -268,27 +264,21 @@ Your Sonativa projects
 
 </div>
 
-
 <div
 class="projects"
 id="projects">
 
 <div class="message loading">
-
 Loading your projects...
-
 </div>
 
 </div>
-
 
 </div>
 
 </main>
 
-
 <script type="module">
-
 
 /* =========================================
    SUPABASE
@@ -316,16 +306,12 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-
 /* =========================================
    ELEMENT
 ========================================= */
 
 const projectsContainer =
-document.getElementById(
-"projects"
-);
-
+document.getElementById("projects");
 
 
 /* =========================================
@@ -334,10 +320,7 @@ document.getElementById(
 
 function escapeHtml(value){
 
-return String(
-value ?? ""
-)
-
+return String(value ?? "")
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
@@ -345,7 +328,6 @@ value ?? ""
 .replaceAll("'","&#039;");
 
 }
-
 
 
 /* =========================================
@@ -367,9 +349,7 @@ return "-";
 const number =
 Number(value);
 
-if(
-Number.isNaN(number)
-){
+if(Number.isNaN(number)){
 
 return escapeHtml(value);
 
@@ -380,7 +360,6 @@ return number.toLocaleString();
 }
 
 
-
 /* =========================================
    FORMAT DATE
 ========================================= */
@@ -388,19 +367,13 @@ return number.toLocaleString();
 function formatDate(value){
 
 if(!value){
-
 return "-";
-
 }
 
 const date =
 new Date(value);
 
-if(
-Number.isNaN(
-date.getTime()
-)
-){
+if(Number.isNaN(date.getTime())){
 
 return "-";
 
@@ -411,27 +384,20 @@ return date.toLocaleString();
 }
 
 
-
 /* =========================================
    LOAD PROJECTS
 ========================================= */
 
 async function loadProjects(){
 
-
-projectsContainer.innerHTML =
-
-`
+projectsContainer.innerHTML = `
 <div class="message loading">
 Loading your projects...
 </div>
 `;
 
 
-
-/* =========================================
-   CURRENT USER
-========================================= */
+/* CURRENT USER */
 
 const {
 data:{
@@ -442,7 +408,6 @@ error:userError
 await supabase.auth.getUser();
 
 
-
 if(userError){
 
 console.error(
@@ -450,9 +415,7 @@ console.error(
 userError
 );
 
-projectsContainer.innerHTML =
-
-`
+projectsContainer.innerHTML = `
 <div class="message error">
 
 Unable to verify your account.
@@ -471,12 +434,9 @@ return;
 }
 
 
-
 if(!user){
 
-projectsContainer.innerHTML =
-
-`
+projectsContainer.innerHTML = `
 <div class="message">
 
 You must login first.
@@ -499,9 +459,8 @@ return;
 }
 
 
-
 /* =========================================
-   GET PROJECTS FROM SUPABASE
+   GET PROJECTS
 ========================================= */
 
 const {
@@ -512,9 +471,8 @@ await supabase
 
 .from("projects")
 
-.select(
-`
-"Id",
+.select(`
+id,
 created_at,
 user_id,
 project_name,
@@ -523,8 +481,7 @@ token_symbol,
 total_supply,
 network,
 description
-`
-)
+`)
 
 .eq(
 "user_id",
@@ -539,10 +496,7 @@ ascending:false
 );
 
 
-
-/* =========================================
-   DATABASE ERROR
-========================================= */
+/* DATABASE ERROR */
 
 if(error){
 
@@ -551,9 +505,7 @@ console.error(
 error
 );
 
-projectsContainer.innerHTML =
-
-`
+projectsContainer.innerHTML = `
 <div class="message error">
 
 <h3>
@@ -574,19 +526,14 @@ return;
 }
 
 
-
-/* =========================================
-   NO PROJECTS
-========================================= */
+/* NO PROJECTS */
 
 if(
 !data ||
 data.length === 0
 ){
 
-projectsContainer.innerHTML =
-
-`
+projectsContainer.innerHTML = `
 <div class="message">
 
 You don't have any projects yet.
@@ -609,7 +556,6 @@ return;
 }
 
 
-
 /* =========================================
    DISPLAY PROJECTS
 ========================================= */
@@ -617,49 +563,21 @@ return;
 projectsContainer.innerHTML = "";
 
 
-
 data.forEach(
 project => {
 
-
 const card =
-document.createElement(
-"div"
-);
+document.createElement("div");
 
 card.className =
 "project";
 
 
-
-/*
-IMPORTANT:
-
-The Open button uses the real
-Supabase project Id.
-
-Example:
-
-project.html?id=123
-*/
-
-
-const projectUrl =
-"project.html?id=" +
-encodeURIComponent(
-project.Id
-);
-
-
-
-card.innerHTML =
-
-`
+card.innerHTML = `
 
 <div class="badge">
 Sonativa Project
 </div>
-
 
 <div class="project-name">
 
@@ -779,13 +697,13 @@ project.description ||
 
 <div class="actions">
 
-<a
+<button
 class="btn open"
-href="${projectUrl}">
+type="button">
 
 Open
 
-</a>
+</button>
 
 
 <button
@@ -801,9 +719,28 @@ Delete
 `;
 
 
+/* =========================================
+   OPEN PROJECT
+========================================= */
+
+card
+.querySelector(".open")
+.addEventListener(
+"click",
+function(){
+
+window.location.href =
+"project.html?id=" +
+encodeURIComponent(
+project.id
+);
+
+}
+);
+
 
 /* =========================================
-   DELETE BUTTON
+   DELETE PROJECT
 ========================================= */
 
 card
@@ -820,48 +757,31 @@ project
 );
 
 
+projectsContainer.appendChild(card);
 
-projectsContainer.appendChild(
-card
-);
-
-}
-
-);
+});
 
 }
-
 
 
 /* =========================================
    DELETE PROJECT
 ========================================= */
 
-async function deleteProject(
-project
-){
-
+async function deleteProject(project){
 
 const confirmed =
 confirm(
-
-"Delete project \"" +
-
+'Delete project "' +
 (project.project_name ||
 "Unnamed Project") +
-
-"\"?"
-
+'"?'
 );
 
 
-
 if(!confirmed){
-
 return;
-
 }
-
 
 
 const {
@@ -871,7 +791,6 @@ user
 error:userError
 } =
 await supabase.auth.getUser();
-
 
 
 if(userError){
@@ -885,7 +804,6 @@ return;
 }
 
 
-
 if(!user){
 
 alert(
@@ -897,11 +815,6 @@ return;
 }
 
 
-
-/* =========================================
-   DELETE ONLY USER'S PROJECT
-========================================= */
-
 const {
 error
 } =
@@ -912,15 +825,14 @@ await supabase
 .delete()
 
 .eq(
-"Id",
-project.Id
+"id",
+project.id
 )
 
 .eq(
 "user_id",
 user.id
 );
-
 
 
 if(error){
@@ -940,11 +852,9 @@ return;
 }
 
 
-
 await loadProjects();
 
 }
-
 
 
 /* =========================================
@@ -953,9 +863,7 @@ await loadProjects();
 
 loadProjects();
 
-
 </script>
-
 
 </body>
 
