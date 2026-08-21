@@ -49,6 +49,7 @@ height:72px;
 display:flex;
 align-items:center;
 justify-content:space-between;
+gap:15px;
 }
 
 .logo{
@@ -110,6 +111,17 @@ font-weight:bold;
 margin-bottom:20px;
 }
 
+.badge{
+display:inline-block;
+margin-bottom:15px;
+padding:5px 10px;
+border-radius:20px;
+background:#151a24;
+border:1px solid #303847;
+color:#aeb7c6;
+font-size:12px;
+}
+
 .row{
 display:flex;
 justify-content:space-between;
@@ -149,6 +161,7 @@ color:#b7bfcc;
 font-size:14px;
 line-height:1.6;
 word-break:break-word;
+white-space:pre-wrap;
 }
 
 .actions{
@@ -157,17 +170,16 @@ gap:10px;
 margin-top:20px;
 }
 
-button{
-cursor:pointer;
-font:inherit;
-}
-
 .btn{
 flex:1;
 padding:12px;
 border-radius:9px;
 font-weight:bold;
 border:1px solid #303847;
+cursor:pointer;
+font:inherit;
+text-align:center;
+text-decoration:none;
 }
 
 .open{
@@ -192,17 +204,6 @@ color:#ff8f8f;
 
 .loading{
 color:#aeb7c6;
-}
-
-.badge{
-display:inline-block;
-margin-bottom:15px;
-padding:5px 10px;
-border-radius:20px;
-background:#151a24;
-border:1px solid #303847;
-color:#aeb7c6;
-font-size:12px;
 }
 
 @media(max-width:600px){
@@ -289,9 +290,9 @@ Loading your projects...
 <script type="module">
 
 
-/* =========================
+/* =========================================
    SUPABASE
-========================= */
+========================================= */
 
 import {
 createClient
@@ -316,9 +317,9 @@ SUPABASE_PUBLISHABLE_KEY
 
 
 
-/* =========================
+/* =========================================
    ELEMENT
-========================= */
+========================================= */
 
 const projectsContainer =
 document.getElementById(
@@ -327,9 +328,9 @@ document.getElementById(
 
 
 
-/* =========================
+/* =========================================
    ESCAPE HTML
-========================= */
+========================================= */
 
 function escapeHtml(value){
 
@@ -337,38 +338,19 @@ return String(
 value ?? ""
 )
 
-.replaceAll(
-"&",
-"&amp;"
-)
-
-.replaceAll(
-"<",
-"&lt;"
-)
-
-.replaceAll(
-">",
-"&gt;"
-)
-
-.replaceAll(
-'"',
-"&quot;"
-)
-
-.replaceAll(
-"'",
-"&#039;"
-);
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
 
 
 
-/* =========================
+/* =========================================
    FORMAT SUPPLY
-========================= */
+========================================= */
 
 function formatSupply(value){
 
@@ -399,9 +381,9 @@ return number.toLocaleString();
 
 
 
-/* =========================
+/* =========================================
    FORMAT DATE
-========================= */
+========================================= */
 
 function formatDate(value){
 
@@ -430,9 +412,9 @@ return date.toLocaleString();
 
 
 
-/* =========================
+/* =========================================
    LOAD PROJECTS
-========================= */
+========================================= */
 
 async function loadProjects(){
 
@@ -447,7 +429,9 @@ Loading your projects...
 
 
 
-/* CURRENT USER */
+/* =========================================
+   CURRENT USER
+========================================= */
 
 const {
 data:{
@@ -462,7 +446,7 @@ await supabase.auth.getUser();
 if(userError){
 
 console.error(
-"user error:",
+"User error:",
 userError
 );
 
@@ -516,9 +500,9 @@ return;
 
 
 
-/* =========================
-   GET PROJECTS
-========================= */
+/* =========================================
+   GET PROJECTS FROM SUPABASE
+========================================= */
 
 const {
 data,
@@ -556,7 +540,9 @@ ascending:false
 
 
 
-/* DATABASE ERROR */
+/* =========================================
+   DATABASE ERROR
+========================================= */
 
 if(error){
 
@@ -589,7 +575,9 @@ return;
 
 
 
-/* NO PROJECTS */
+/* =========================================
+   NO PROJECTS
+========================================= */
 
 if(
 !data ||
@@ -622,9 +610,9 @@ return;
 
 
 
-/* =========================
+/* =========================================
    DISPLAY PROJECTS
-========================= */
+========================================= */
 
 projectsContainer.innerHTML = "";
 
@@ -641,6 +629,26 @@ document.createElement(
 
 card.className =
 "project";
+
+
+
+/*
+IMPORTANT:
+
+The Open button uses the real
+Supabase project Id.
+
+Example:
+
+project.html?id=123
+*/
+
+
+const projectUrl =
+"project.html?id=" +
+encodeURIComponent(
+project.Id
+);
 
 
 
@@ -771,16 +779,18 @@ project.description ||
 
 <div class="actions">
 
-<button
-class="btn open">
+<a
+class="btn open"
+href="${projectUrl}">
 
 Open
 
-</button>
+</a>
 
 
 <button
-class="btn delete">
+class="btn delete"
+type="button">
 
 Delete
 
@@ -792,24 +802,9 @@ Delete
 
 
 
-/* OPEN */
-
-card
-.querySelector(".open")
-.addEventListener(
-"click",
-function(){
-
-openProject(
-project
-);
-
-}
-);
-
-
-
-/* DELETE */
+/* =========================================
+   DELETE BUTTON
+========================================= */
 
 card
 .querySelector(".delete")
@@ -838,45 +833,9 @@ card
 
 
 
-/* =========================
-   OPEN PROJECT
-========================= */
-
-function openProject(project){
-
-alert(
-
-"SONATIVA PROJECT\n\n" +
-
-"Project: " +
-(project.project_name || "-") +
-
-"\n\nToken Name: " +
-(project.token_name || "-") +
-
-"\nToken Symbol: " +
-(project.token_symbol || "-") +
-
-"\nTotal Supply: " +
-formatSupply(
-project.total_supply
-) +
-
-"\nNetwork: " +
-(project.network || "-") +
-
-"\n\nDescription:\n" +
-(project.description || "-")
-
-);
-
-}
-
-
-
-/* =========================
+/* =========================================
    DELETE PROJECT
-========================= */
+========================================= */
 
 async function deleteProject(
 project
@@ -908,9 +867,22 @@ return;
 const {
 data:{
 user
-}
+},
+error:userError
 } =
 await supabase.auth.getUser();
+
+
+
+if(userError){
+
+alert(
+"Unable to verify your account."
+);
+
+return;
+
+}
 
 
 
@@ -925,6 +897,10 @@ return;
 }
 
 
+
+/* =========================================
+   DELETE ONLY USER'S PROJECT
+========================================= */
 
 const {
 error
@@ -971,9 +947,9 @@ await loadProjects();
 
 
 
-/* =========================
+/* =========================================
    START
-========================= */
+========================================= */
 
 loadProjects();
 
