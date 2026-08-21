@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -60,6 +62,8 @@ width:92%;
 max-width:1200px;
 margin:auto;
 }
+
+/* ================= HEADER ================= */
 
 header{
 position:sticky;
@@ -161,6 +165,8 @@ box-shadow:0 0 25px rgba(255,255,255,.08);
 font-size:25px;
 }
 
+/* ================= HERO ================= */
+
 .hero{
 text-align:center;
 padding:120px 0 80px;
@@ -228,6 +234,8 @@ font-size:12px;
 color:#707b8e;
 }
 
+/* ================= SECTIONS ================= */
+
 section{
 padding:85px 0;
 }
@@ -291,6 +299,8 @@ font-weight:bold;
 color:#687385;
 }
 
+/* ================= DASHBOARD ================= */
+
 .dashboard{
 display:grid;
 grid-template-columns:1fr;
@@ -350,6 +360,8 @@ gap:10px;
 flex-wrap:wrap;
 }
 
+/* ================= CTA ================= */
+
 .cta{
 text-align:center;
 background:rgba(12,16,23,.88);
@@ -368,6 +380,8 @@ max-width:650px;
 margin:auto;
 color:#818b9c;
 }
+
+/* ================= FOOTER ================= */
 
 footer{
 border-top:1px solid #202633;
@@ -393,6 +407,8 @@ margin-bottom:12px;
 display:block;
 margin:7px 0;
 }
+
+/* ================= MODALS ================= */
 
 .modal,
 .account-modal,
@@ -521,6 +537,8 @@ width:100%;
 margin-top:10px;
 }
 
+/* ================= OWNER ================= */
+
 .owner-modal-box{
 max-width:950px;
 max-height:90vh;
@@ -618,6 +636,8 @@ color:#727d8f;
 word-break:break-all;
 }
 
+/* ================= RESPONSIVE ================= */
+
 @media(min-width:750px){
 
 .nav-links{
@@ -655,6 +675,7 @@ padding-top:140px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -668,9 +689,11 @@ SONATIVA
 </div>
 
 <nav class="nav-links">
+
 <a href="#platform">Platform</a>
 <a href="#dashboard">Dashboard</a>
 <a href="#about">About</a>
+
 </nav>
 
 <div class="nav-actions">
@@ -714,6 +737,8 @@ Login / Sign Up
 </header>
 
 <main>
+
+<!-- ================= HERO ================= -->
 
 <section class="hero">
 
@@ -768,6 +793,8 @@ Dashboard
 
 </section>
 
+<!-- ================= PLATFORM ================= -->
+
 <section id="platform">
 
 <div class="container">
@@ -790,7 +817,9 @@ Everything you need to build your Web3 project.
 <div class="icon">🪙</div>
 <h3>Token Studio</h3>
 <p>Design and plan your token project step by step.</p>
-<a class="card-link" href="token-studio.html">Open Studio →</a>
+<a class="card-link" href="token-studio.html">
+Open Studio →
+</a>
 </div>
 
 <div class="card">
@@ -854,6 +883,8 @@ Everything you need to build your Web3 project.
 </div>
 
 </section>
+
+<!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard">
 
@@ -941,6 +972,8 @@ Logout
 
 </section>
 
+<!-- ================= FEATURES ================= -->
+
 <section>
 
 <div class="container">
@@ -1001,6 +1034,8 @@ Powerful infrastructure without unnecessary complexity.
 
 </section>
 
+<!-- ================= ABOUT ================= -->
+
 <section id="about">
 
 <div class="container">
@@ -1035,6 +1070,8 @@ Start Building
 
 </main>
 
+<!-- ================= FOOTER ================= -->
+
 <footer>
 
 <div class="container">
@@ -1042,37 +1079,65 @@ Start Building
 <div class="footer-grid">
 
 <div>
-<div class="footer-title">SONATIVA</div>
-<div>Build. Launch. Grow.</div>
+
+<div class="footer-title">
+SONATIVA
 </div>
 
 <div>
-<div class="footer-title">Platform</div>
+Build. Launch. Grow.
+</div>
+
+</div>
+
+<div>
+
+<div class="footer-title">
+Platform
+</div>
+
 <div class="footer-links">
+
 <a href="#platform">Token Studio</a>
 <a href="#platform">Security</a>
 <a href="#platform">Wallets</a>
 <a href="#platform">AI</a>
+
 </div>
+
 </div>
 
 <div>
-<div class="footer-title">Company</div>
+
+<div class="footer-title">
+Company
+</div>
+
 <div class="footer-links">
+
 <a href="#about">About</a>
 <a href="#">Documentation</a>
 <a href="#">Blog</a>
 <a href="#">Contact</a>
+
 </div>
+
 </div>
 
 <div>
-<div class="footer-title">Legal</div>
+
+<div class="footer-title">
+Legal
+</div>
+
 <div class="footer-links">
+
 <a href="#">Privacy</a>
 <a href="#">Terms</a>
 <a href="#">Security</a>
+
 </div>
+
 </div>
 
 </div>
@@ -1085,7 +1150,7 @@ Start Building
 
 </footer>
 
-<!-- LOGIN -->
+<!-- ================= LOGIN MODAL ================= -->
 
 <div
 class="modal"
@@ -1161,7 +1226,7 @@ Your account is protected by Supabase Authentication.
 
 </div>
 
-<!-- ACCOUNT -->
+<!-- ================= ACCOUNT MODAL ================= -->
 
 <div
 class="account-modal"
@@ -1233,7 +1298,7 @@ Logout
 
 </div>
 
-<!-- OWNER -->
+<!-- ================= OWNER MODAL ================= -->
 
 <div
 class="owner-modal"
@@ -1328,12 +1393,16 @@ onclick="closeOwnerDashboard()">
 <div
 class="owner-debug"
 id="ownerDebug">
+
 Owner verification will appear here.
-</div>
 
 </div>
 
 </div>
+
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
 
 <script type="module">
 
@@ -1344,9 +1413,9 @@ from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* =========================================
+/* ================================
    SUPABASE
-========================================= */
+================================ */
 
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
@@ -1361,9 +1430,9 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-/* =========================================
+/* ================================
    SONATIVA OWNER
-========================================= */
+================================ */
 
 const OWNER_ID =
 "d4f638be-8a5e-43d9-9215-46ecaf806375";
@@ -1373,9 +1442,9 @@ let currentUser = null;
 let currentIsOwner = false;
 
 
-/* =========================================
+/* ================================
    ELEMENT HELPER
-========================================= */
+================================ */
 
 function $(id){
 
@@ -1384,9 +1453,9 @@ return document.getElementById(id);
 }
 
 
-/* =========================================
+/* ================================
    AUTH BUTTON
-========================================= */
+================================ */
 
 window.handleAuthButton =
 function(){
@@ -1404,9 +1473,9 @@ openAuth();
 };
 
 
-/* =========================================
+/* ================================
    LOGIN MODAL
-========================================= */
+================================ */
 
 window.openAuth =
 function(){
@@ -1426,9 +1495,9 @@ $("authModal").style.display =
 };
 
 
-/* =========================================
+/* ================================
    GITHUB LOGIN
-========================================= */
+================================ */
 
 window.signInWithGitHub =
 async function(){
@@ -1467,9 +1536,9 @@ error.message;
 };
 
 
-/* =========================================
+/* ================================
    SIGN UP
-========================================= */
+================================ */
 
 window.signUp =
 async function(){
@@ -1546,9 +1615,9 @@ message.textContent =
 };
 
 
-/* =========================================
+/* ================================
    LOGIN
-========================================= */
+================================ */
 
 window.signIn =
 async function(){
@@ -1594,11 +1663,6 @@ return;
 
 }
 
-console.log(
-"LOGIN SUCCESS:",
-data.user
-);
-
 closeAuth();
 
 await updateUserInterface();
@@ -1610,9 +1674,9 @@ behavior:"smooth"
 };
 
 
-/* =========================================
+/* ================================
    OWNER CHECK
-========================================= */
+================================ */
 
 async function checkOwner(){
 
@@ -1628,8 +1692,7 @@ $("ownerDebug");
 
 if(!currentUser){
 
-currentIsOwner =
-false;
+currentIsOwner = false;
 
 button.style.display =
 "none";
@@ -1644,9 +1707,8 @@ currentUser.id === OWNER_ID;
 
 
 /*
-IMPORTANT:
-Owner permission is verified by
-the Supabase RPC function.
+Supabase RPC is the actual
+security verification.
 */
 
 const {
@@ -1663,8 +1725,7 @@ console.error(
 error
 );
 
-currentIsOwner =
-false;
+currentIsOwner = false;
 
 button.style.display =
 "none";
@@ -1747,9 +1808,9 @@ return currentIsOwner;
 }
 
 
-/* =========================================
+/* ================================
    OPEN OWNER DASHBOARD
-========================================= */
+================================ */
 
 window.openOwnerDashboard =
 async function(){
@@ -1762,10 +1823,8 @@ return;
 
 }
 
-
 const isOwner =
 await checkOwner();
-
 
 if(!isOwner){
 
@@ -1777,17 +1836,14 @@ return;
 
 }
 
-
 $("ownerStatus").textContent =
 "Owner access verified. Protected by Supabase.";
 
 $("ownerStatus").className =
 "owner-status success";
 
-
 $("ownerProjectCount").textContent =
 $("projectCount").textContent;
-
 
 $("ownerModal").style.display =
 "flex";
@@ -1795,9 +1851,9 @@ $("ownerModal").style.display =
 };
 
 
-/* =========================================
-   CLOSE OWNER DASHBOARD
-========================================= */
+/* ================================
+   CLOSE OWNER
+================================ */
 
 window.closeOwnerDashboard =
 function(){
@@ -1808,9 +1864,9 @@ $("ownerModal").style.display =
 };
 
 
-/* =========================================
+/* ================================
    ACCOUNT
-========================================= */
+================================ */
 
 window.openAccountPanel =
 function(){
@@ -1823,19 +1879,15 @@ return;
 
 }
 
-
 $("accountEmail").textContent =
 currentUser.email ||
 "GitHub account";
 
-
 $("accountProviderValue").textContent =
 getProviderName(currentUser);
 
-
 $("accountProjects").textContent =
 $("projectCount").textContent;
-
 
 $("accountModal").style.display =
 "flex";
@@ -1852,36 +1904,26 @@ $("accountModal").style.display =
 };
 
 
-/* =========================================
+/* ================================
    PROVIDER
-========================================= */
+================================ */
 
 function getProviderName(user){
 
 const provider =
 user?.app_metadata?.provider;
 
-
 if(provider === "github"){
-
 return "GitHub";
-
 }
-
 
 if(provider === "email"){
-
 return "Email";
-
 }
-
 
 if(provider){
-
 return provider;
-
 }
-
 
 if(
 user?.identities &&
@@ -1891,53 +1933,26 @@ user.identities.length > 0
 const identity =
 user.identities[0];
 
-
 if(identity.provider === "github"){
-
 return "GitHub";
-
 }
-
 
 if(identity.provider === "email"){
-
 return "Email";
-
 }
-
 
 return identity.provider;
 
 }
-
 
 return "Sonativa Authentication";
 
 }
 
 
-/* =========================================
+/* ================================
    LOAD PROJECTS
-========================================= */
-
-/*
-IMPORTANT FIX:
-
-Your database column is:
-
-Id
-
-not:
-
-id
-
-To avoid PostgreSQL case-sensitive
-column errors completely, we select
-all columns with *.
-
-This also allows us to count projects
-without referencing "id".
-*/
+================================ */
 
 async function loadProjects(){
 
@@ -1951,13 +1966,27 @@ return;
 }
 
 
+/*
+IMPORTANT FIX:
+
+Your database column is:
+
+Id
+
+NOT:
+
+id
+
+Therefore we use Id here.
+*/
+
 const {
 data,
 error
 } =
 await supabase
 .from("projects")
-.select("*")
+.select("Id")
 .eq(
 "user_id",
 currentUser.id
@@ -1985,27 +2014,17 @@ return;
 }
 
 
-const projectTotal =
-Array.isArray(data)
-? data.length
-: 0;
-
-
 $("projectCount").textContent =
-String(projectTotal);
-
-
-console.log(
-"SONATIVA PROJECTS:",
-data
+String(
+data?.length || 0
 );
 
 }
 
 
-/* =========================================
-   UPDATE USER INTERFACE
-========================================= */
+/* ================================
+   UPDATE UI
+================================ */
 
 async function updateUserInterface(){
 
@@ -2025,8 +2044,7 @@ console.error(
 error
 );
 
-currentUser =
-null;
+currentUser = null;
 
 }else{
 
@@ -2048,38 +2066,25 @@ if(currentUser){
 button.textContent =
 "Account";
 
-
 panel.style.display =
 "block";
-
 
 $("userEmail").textContent =
 currentUser.email ||
 "GitHub account";
-
 
 $("accountProvider").textContent =
 "Signed in with " +
 getProviderName(currentUser);
 
 
-/*
-Load the user's projects.
-*/
-
 await loadProjects();
-
-
-/*
-Check owner access.
-*/
 
 await checkOwner();
 
 
 $("dashboardText").textContent =
 "Your Sonativa workspace is ready.";
-
 
 console.log(
 "CURRENT USER:",
@@ -2092,22 +2097,17 @@ currentUser.id
 button.textContent =
 "Login / Sign Up";
 
-
 panel.style.display =
 "none";
-
 
 currentIsOwner =
 false;
 
-
 $("ownerButton").style.display =
 "none";
 
-
 $("projectCount").textContent =
 "0";
-
 
 $("dashboardText").textContent =
 "Login to manage your Sonativa projects.";
@@ -2126,30 +2126,14 @@ error
 }
 
 
-/* =========================================
+/* ================================
    LOGOUT
-========================================= */
+================================ */
 
 window.logout =
 async function(){
 
-const {
-error
-} =
 await supabase.auth.signOut();
-
-
-if(error){
-
-console.error(
-"Logout error:",
-error
-);
-
-return;
-
-}
-
 
 closeAccountPanel();
 
@@ -2163,23 +2147,7 @@ await updateUserInterface();
 window.logoutFromAccount =
 async function(){
 
-const {
-error
-} =
 await supabase.auth.signOut();
-
-
-if(error){
-
-console.error(
-"Logout error:",
-error
-);
-
-return;
-
-}
-
 
 closeAccountPanel();
 
@@ -2194,9 +2162,9 @@ behavior:"smooth"
 };
 
 
-/* =========================================
+/* ================================
    AUTH STATE
-========================================= */
+================================ */
 
 supabase.auth.onAuthStateChange(
 async function(event,session){
@@ -2206,7 +2174,6 @@ console.log(
 event,
 session?.user?.id
 );
-
 
 if(
 event === "SIGNED_IN" ||
@@ -2229,16 +2196,16 @@ await updateUserInterface();
 });
 
 
-/* =========================================
-   INITIAL LOAD
-========================================= */
+/* ================================
+   INITIAL
+================================ */
 
 updateUserInterface();
 
 
-/* =========================================
+/* ================================
    LANGUAGE
-========================================= */
+================================ */
 
 window.changeLanguage =
 function(language){
@@ -2253,7 +2220,6 @@ alert(
 );
 
 }
-
 else if(language === "fr"){
 
 document.documentElement.lang =
@@ -2264,7 +2230,6 @@ alert(
 );
 
 }
-
 else{
 
 document.documentElement.lang =
@@ -2279,9 +2244,9 @@ alert(
 };
 
 
-/* =========================================
+/* ================================
    CLOSE MODALS
-========================================= */
+================================ */
 
 $("authModal")
 .addEventListener(
@@ -2327,4 +2292,5 @@ closeOwnerDashboard();
 </script>
 
 </body>
+
 </html>
