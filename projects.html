@@ -1,18 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sonativa — My Projects</title>
 
 <style>
-
 *{
 box-sizing:border-box;
 margin:0;
@@ -21,13 +14,7 @@ padding:0;
 
 body{
 font-family:Arial,Helvetica,sans-serif;
-background:
-radial-gradient(
-circle at 50% -10%,
-#172033 0%,
-#06080d 45%,
-#040509 100%
-);
+background:radial-gradient(circle at 50% -10%,#172033 0%,#06080d 45%,#040509 100%);
 color:#fff;
 min-height:100vh;
 }
@@ -40,8 +27,7 @@ margin:auto;
 
 header{
 border-bottom:1px solid #202633;
-background:rgba(5,7,12,.85);
-backdrop-filter:blur(20px);
+background:rgba(5,7,12,.9);
 }
 
 .nav{
@@ -49,7 +35,6 @@ height:72px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:15px;
 }
 
 .logo{
@@ -68,7 +53,7 @@ text-decoration:none;
 }
 
 main{
-padding:70px 0;
+padding:60px 0;
 }
 
 .title{
@@ -87,39 +72,21 @@ color:#818b9c;
 
 .projects{
 display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(300px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
 gap:20px;
 }
 
 .project{
-background:rgba(12,16,23,.92);
+background:#0c1017;
 border:1px solid #252d3b;
 border-radius:16px;
 padding:25px;
-transition:.2s;
-}
-
-.project:hover{
-border-color:#465166;
-transform:translateY(-3px);
 }
 
 .project-name{
 font-size:24px;
 font-weight:bold;
 margin-bottom:20px;
-}
-
-.badge{
-display:inline-block;
-margin-bottom:15px;
-padding:5px 10px;
-border-radius:20px;
-background:#151a24;
-border:1px solid #303847;
-color:#aeb7c6;
-font-size:12px;
 }
 
 .row{
@@ -160,8 +127,6 @@ margin-bottom:7px;
 color:#b7bfcc;
 font-size:14px;
 line-height:1.6;
-word-break:break-word;
-white-space:pre-wrap;
 }
 
 .actions{
@@ -177,9 +142,8 @@ border-radius:9px;
 font-weight:bold;
 border:1px solid #303847;
 cursor:pointer;
-font:inherit;
-text-align:center;
 text-decoration:none;
+text-align:center;
 }
 
 .open{
@@ -201,51 +165,23 @@ color:#818b9c;
 .error{
 color:#ff8f8f;
 }
-
-.loading{
-color:#aeb7c6;
-}
-
-@media(max-width:600px){
-
-.title h1{
-font-size:32px;
-}
-
-.row{
-align-items:flex-start;
-}
-
-.value{
-max-width:60%;
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
 
 <header>
-
 <div class="container nav">
 
 <div class="logo">
 SONATIVA
 </div>
 
-<a
-class="back"
-href="index.html">
-
+<a class="back" href="index.html">
 ← Dashboard
-
 </a>
 
 </div>
-
 </header>
 
 <main>
@@ -253,22 +189,13 @@ href="index.html">
 <div class="container">
 
 <div class="title">
-
-<h1>
-My Projects
-</h1>
-
-<p>
-Your Sonativa projects
-</p>
-
+<h1>My Projects</h1>
+<p>Your Sonativa projects</p>
 </div>
 
-<div
-class="projects"
-id="projects">
+<div class="projects" id="projects">
 
-<div class="message loading">
+<div class="message">
 Loading your projects...
 </div>
 
@@ -280,24 +207,17 @@ Loading your projects...
 
 <script type="module">
 
-/* =========================================
-   SUPABASE
-========================================= */
-
 import {
 createClient
 }
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
 
-
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
-
 
 const supabase =
 createClient(
@@ -306,17 +226,9 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-/* =========================================
-   ELEMENT
-========================================= */
-
-const projectsContainer =
+const container =
 document.getElementById("projects");
 
-
-/* =========================================
-   ESCAPE HTML
-========================================= */
 
 function escapeHtml(value){
 
@@ -330,29 +242,16 @@ return String(value ?? "")
 }
 
 
-/* =========================================
-   FORMAT SUPPLY
-========================================= */
-
 function formatSupply(value){
 
-if(
-value === null ||
-value === undefined ||
-value === ""
-){
-
+if(value === null || value === undefined || value === ""){
 return "-";
-
 }
 
-const number =
-Number(value);
+const number = Number(value);
 
 if(Number.isNaN(number)){
-
 return escapeHtml(value);
-
 }
 
 return number.toLocaleString();
@@ -360,23 +259,16 @@ return number.toLocaleString();
 }
 
 
-/* =========================================
-   FORMAT DATE
-========================================= */
-
 function formatDate(value){
 
 if(!value){
 return "-";
 }
 
-const date =
-new Date(value);
+const date = new Date(value);
 
 if(Number.isNaN(date.getTime())){
-
 return "-";
-
 }
 
 return date.toLocaleString();
@@ -384,25 +276,18 @@ return date.toLocaleString();
 }
 
 
-/* =========================================
-   LOAD PROJECTS
-========================================= */
-
 async function loadProjects(){
 
-projectsContainer.innerHTML = `
-<div class="message loading">
+container.innerHTML =
+`
+<div class="message">
 Loading your projects...
 </div>
 `;
 
 
-/* CURRENT USER */
-
 const {
-data:{
-user
-},
+data:{user},
 error:userError
 } =
 await supabase.auth.getUser();
@@ -410,22 +295,10 @@ await supabase.auth.getUser();
 
 if(userError){
 
-console.error(
-"User error:",
-userError
-);
-
-projectsContainer.innerHTML = `
+container.innerHTML =
+`
 <div class="message error">
-
-Unable to verify your account.
-
-<br><br>
-
-${escapeHtml(
-userError.message
-)}
-
+${escapeHtml(userError.message)}
 </div>
 `;
 
@@ -436,21 +309,14 @@ return;
 
 if(!user){
 
-projectsContainer.innerHTML = `
+container.innerHTML =
+`
 <div class="message">
-
 You must login first.
-
 <br><br>
-
-<a
-class="back"
-href="index.html">
-
-← Login
-
+<a class="back" href="index.html">
+Login
 </a>
-
 </div>
 `;
 
@@ -459,18 +325,20 @@ return;
 }
 
 
-/* =========================================
-   GET PROJECTS
-========================================= */
+/*
+IMPORTANT:
+Supabase column is:
+id
+NOT Id
+*/
+
 
 const {
 data,
 error
 } =
 await supabase
-
 .from("projects")
-
 .select(`
 id,
 created_at,
@@ -482,12 +350,10 @@ total_supply,
 network,
 description
 `)
-
 .eq(
 "user_id",
 user.id
 )
-
 .order(
 "created_at",
 {
@@ -496,27 +362,19 @@ ascending:false
 );
 
 
-/* DATABASE ERROR */
-
 if(error){
 
-console.error(
-"Projects error:",
-error
-);
+console.error(error);
 
-projectsContainer.innerHTML = `
+container.innerHTML =
+`
 <div class="message error">
 
-<h3>
-Error loading projects
-</h3>
+<h3>Error loading projects</h3>
 
 <br>
 
-${escapeHtml(
-error.message
-)}
+${escapeHtml(error.message)}
 
 </div>
 `;
@@ -526,26 +384,18 @@ return;
 }
 
 
-/* NO PROJECTS */
+if(!data || data.length === 0){
 
-if(
-!data ||
-data.length === 0
-){
-
-projectsContainer.innerHTML = `
+container.innerHTML =
+`
 <div class="message">
 
 You don't have any projects yet.
 
 <br><br>
 
-<a
-class="back"
-href="token-studio.html">
-
-Create Your First Project
-
+<a class="back" href="token-studio.html">
+Create Project
 </a>
 
 </div>
@@ -556,126 +406,58 @@ return;
 }
 
 
-/* =========================================
-   DISPLAY PROJECTS
-========================================= */
-
-projectsContainer.innerHTML = "";
+container.innerHTML = "";
 
 
-data.forEach(
-project => {
+data.forEach(project => {
 
 const card =
 document.createElement("div");
 
-card.className =
-"project";
+card.className = "project";
 
 
-card.innerHTML = `
+card.innerHTML =
 
-<div class="badge">
-Sonativa Project
-</div>
-
+`
 <div class="project-name">
-
-${escapeHtml(
-project.project_name ||
-"Unnamed Project"
-)}
-
+${escapeHtml(project.project_name || "Unnamed Project")}
 </div>
-
 
 <div class="row">
-
-<span class="label">
-Token Name
-</span>
-
+<span class="label">Token Name</span>
 <span class="value">
-
-${escapeHtml(
-project.token_name ||
-"-"
-)}
-
+${escapeHtml(project.token_name || "-")}
 </span>
-
 </div>
-
 
 <div class="row">
-
-<span class="label">
-Token Symbol
-</span>
-
+<span class="label">Token Symbol</span>
 <span class="value">
-
-${escapeHtml(
-project.token_symbol ||
-"-"
-)}
-
+${escapeHtml(project.token_symbol || "-")}
 </span>
-
 </div>
-
 
 <div class="row">
-
-<span class="label">
-Total Supply
-</span>
-
+<span class="label">Total Supply</span>
 <span class="value">
-
-${formatSupply(
-project.total_supply
-)}
-
+${formatSupply(project.total_supply)}
 </span>
-
 </div>
-
 
 <div class="row">
-
-<span class="label">
-Network
-</span>
-
+<span class="label">Network</span>
 <span class="value">
-
-${escapeHtml(
-project.network ||
-"-"
-)}
-
+${escapeHtml(project.network || "-")}
 </span>
-
 </div>
-
 
 <div class="row">
-
-<span class="label">
-Created
-</span>
-
+<span class="label">Created</span>
 <span class="value">
-
-${formatDate(
-project.created_at
-)}
-
+${formatDate(project.created_at)}
 </span>
-
 </div>
-
 
 <div class="description">
 
@@ -684,64 +466,35 @@ DESCRIPTION
 </div>
 
 <div class="description-text">
-
 ${escapeHtml(
 project.description ||
 "No description provided."
 )}
-
 </div>
 
 </div>
-
 
 <div class="actions">
 
-<button
+<a
 class="btn open"
-type="button">
+href="project.html?id=${encodeURIComponent(project.id)}">
 
-Open
+OPEN PROJECT
 
-</button>
-
+</a>
 
 <button
 class="btn delete"
-type="button">
+data-id="${escapeHtml(project.id)}">
 
-Delete
+DELETE
 
 </button>
 
 </div>
-
 `;
 
-
-/* =========================================
-   OPEN PROJECT
-========================================= */
-
-card
-.querySelector(".open")
-.addEventListener(
-"click",
-function(){
-
-window.location.href =
-"project.html?id=" +
-encodeURIComponent(
-project.id
-);
-
-}
-);
-
-
-/* =========================================
-   DELETE PROJECT
-========================================= */
 
 card
 .querySelector(".delete")
@@ -749,32 +502,25 @@ card
 "click",
 function(){
 
-deleteProject(
-project
-);
+deleteProject(project);
 
 }
 );
 
 
-projectsContainer.appendChild(card);
+container.appendChild(card);
 
 });
 
 }
 
 
-/* =========================================
-   DELETE PROJECT
-========================================= */
-
 async function deleteProject(project){
 
 const confirmed =
 confirm(
 'Delete project "' +
-(project.project_name ||
-"Unnamed Project") +
+(project.project_name || "Unnamed Project") +
 '"?'
 );
 
@@ -785,33 +531,13 @@ return;
 
 
 const {
-data:{
-user
-},
-error:userError
+data:{user}
 } =
 await supabase.auth.getUser();
 
 
-if(userError){
-
-alert(
-"Unable to verify your account."
-);
-
-return;
-
-}
-
-
 if(!user){
-
-alert(
-"You must login first."
-);
-
 return;
-
 }
 
 
@@ -819,28 +545,13 @@ const {
 error
 } =
 await supabase
-
 .from("projects")
-
 .delete()
-
-.eq(
-"id",
-project.id
-)
-
-.eq(
-"user_id",
-user.id
-);
+.eq("id",project.id)
+.eq("user_id",user.id);
 
 
 if(error){
-
-console.error(
-"Delete error:",
-error
-);
 
 alert(
 "Delete failed: " +
@@ -852,19 +563,14 @@ return;
 }
 
 
-await loadProjects();
+loadProjects();
 
 }
 
-
-/* =========================================
-   START
-========================================= */
 
 loadProjects();
 
 </script>
 
 </body>
-
 </html>
