@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -23,9 +23,23 @@ scroll-behavior:smooth;
 
 body{
 font-family:Arial,Helvetica,sans-serif;
-background:#06080d;
+background:
+radial-gradient(circle at 50% -10%,#172033 0%,#06080d 42%,#040509 100%);
 color:#fff;
 line-height:1.6;
+min-height:100vh;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+background-size:50px 50px;
+mask-image:linear-gradient(to bottom,black,transparent 80%);
 }
 
 a{
@@ -51,8 +65,8 @@ header{
 position:sticky;
 top:0;
 z-index:1000;
-background:rgba(6,8,13,.94);
-backdrop-filter:blur(18px);
+background:rgba(5,7,12,.82);
+backdrop-filter:blur(20px);
 border-bottom:1px solid #202633;
 }
 
@@ -67,14 +81,18 @@ gap:15px;
 .logo{
 font-size:24px;
 font-weight:900;
-letter-spacing:2px;
+letter-spacing:3px;
 }
 
 .nav-links{
 display:none;
-gap:22px;
-color:#9099aa;
+gap:25px;
+color:#8e98aa;
 font-size:14px;
+}
+
+.nav-links a{
+transition:.2s;
 }
 
 .nav-links a:hover{
@@ -88,11 +106,12 @@ align-items:center;
 }
 
 .lang{
-background:#0e131c;
+background:#0c1119;
 border:1px solid #293140;
 color:#fff;
 padding:9px;
 border-radius:8px;
+outline:none;
 }
 
 .btn{
@@ -101,6 +120,11 @@ padding:13px 20px;
 border-radius:10px;
 font-weight:bold;
 border:1px solid #303847;
+transition:.2s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
 }
 
 .primary{
@@ -124,12 +148,13 @@ font-weight:bold;
 
 .owner-button{
 display:none;
-background:#fff;
+background:linear-gradient(135deg,#fff,#d9dee8);
 color:#06080d;
 border:0;
 padding:10px 15px;
 border-radius:9px;
 font-weight:bold;
+box-shadow:0 0 25px rgba(255,255,255,.08);
 }
 
 .menu{
@@ -138,13 +163,13 @@ font-size:25px;
 
 .hero{
 text-align:center;
-padding:100px 0 70px;
+padding:120px 0 80px;
 }
 
 .badge{
 display:inline-block;
 border:1px solid #293140;
-background:#0d121b;
+background:rgba(13,18,27,.8);
 color:#aab3c2;
 padding:8px 14px;
 border-radius:50px;
@@ -190,7 +215,7 @@ margin:55px auto 0;
 padding:20px 10px;
 border:1px solid #202733;
 border-radius:12px;
-background:#0c1017;
+background:rgba(12,16,23,.82);
 }
 
 .metric strong{
@@ -204,7 +229,7 @@ color:#707b8e;
 }
 
 section{
-padding:80px 0;
+padding:85px 0;
 }
 
 .section-head{
@@ -229,14 +254,15 @@ gap:16px;
 
 .card{
 padding:26px;
-background:#0c1017;
+background:rgba(12,16,23,.86);
 border:1px solid #222a38;
 border-radius:16px;
-transition:.2s;
+transition:.25s;
 }
 
 .card:hover{
-transform:translateY(-3px);
+transform:translateY(-4px);
+border-color:#394354;
 }
 
 .icon{
@@ -272,7 +298,7 @@ gap:15px;
 }
 
 .dashboard-card{
-background:#0c1017;
+background:rgba(12,16,23,.86);
 border:1px solid #222a38;
 border-radius:15px;
 padding:24px;
@@ -292,7 +318,7 @@ margin-top:5px;
 .account-panel{
 display:none;
 margin-top:25px;
-background:#0c1017;
+background:rgba(12,16,23,.9);
 border:1px solid #222a38;
 border-radius:15px;
 padding:25px;
@@ -324,32 +350,207 @@ gap:10px;
 flex-wrap:wrap;
 }
 
-.owner-panel{
-display:none;
-margin-top:25px;
-background:#0c1017;
-border:1px solid #303847;
-border-radius:18px;
-padding:28px;
+.cta{
+text-align:center;
+background:rgba(12,16,23,.88);
+border:1px solid #252d3b;
+border-radius:20px;
+padding:65px 25px;
 }
 
-.owner-header{
+.cta h2{
+font-size:40px;
+margin-bottom:12px;
+}
+
+.cta p{
+max-width:650px;
+margin:auto;
+color:#818b9c;
+}
+
+footer{
+border-top:1px solid #202633;
+padding:45px 0;
+color:#687385;
+font-size:13px;
+background:#05070b;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+}
+
+.footer-title{
+color:#fff;
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.footer-links a{
+display:block;
+margin:7px 0;
+}
+
+.modal,
+.account-modal,
+.owner-modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.84);
+z-index:2000;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.owner-modal{
+z-index:3000;
+background:rgba(0,0,0,.91);
+}
+
+.modal-box,
+.account-box,
+.owner-modal-box{
+width:100%;
+max-width:450px;
+background:#0d121a;
+border:1px solid #303847;
+border-radius:18px;
+padding:30px;
+box-shadow:0 25px 80px rgba(0,0,0,.5);
+}
+
+.modal-box h2,
+.account-box h2{
+margin-bottom:8px;
+}
+
+.modal-box p{
+color:#818b9c;
+font-size:14px;
+margin-bottom:20px;
+}
+
+.modal-box input{
+width:100%;
+padding:14px;
+background:#080b11;
+border:1px solid #303847;
+border-radius:9px;
+color:#fff;
+margin-bottom:12px;
+outline:none;
+}
+
+.modal-box input:focus{
+border-color:#687385;
+}
+
+.close{
+float:right;
+cursor:pointer;
+font-size:22px;
+color:#8d97a8;
+}
+
+.close:hover{
+color:#fff;
+}
+
+.auth-message{
+margin-top:15px;
+padding:12px;
+background:#10151e;
+border:1px solid #293140;
+border-radius:8px;
+color:#9ca6b7;
+font-size:13px;
+word-break:break-word;
+}
+
+.github-button{
+width:100%;
+margin-top:10px;
+background:#fff;
+color:#06080d;
+border:1px solid #fff;
+}
+
+.divider{
+display:flex;
+align-items:center;
+gap:10px;
+margin:16px 0;
+color:#687385;
+font-size:12px;
+}
+
+.divider::before,
+.divider::after{
+content:"";
+height:1px;
+background:#293140;
+flex:1;
+}
+
+.account-info{
+background:#080b11;
+border:1px solid #293140;
+border-radius:10px;
+padding:16px;
+margin-bottom:15px;
+}
+
+.account-label{
+font-size:12px;
+color:#707b8e;
+margin-bottom:4px;
+}
+
+.account-value{
+font-size:15px;
+word-break:break-word;
+}
+
+.logout-button{
+width:100%;
+margin-top:10px;
+}
+
+.owner-modal-box{
+max-width:950px;
+max-height:90vh;
+overflow:auto;
+}
+
+.owner-modal-header{
 display:flex;
 justify-content:space-between;
-align-items:center;
+align-items:flex-start;
 gap:15px;
-flex-wrap:wrap;
 margin-bottom:25px;
 }
 
-.owner-badge{
-display:inline-block;
-padding:7px 12px;
-border-radius:50px;
-background:#fff;
-color:#06080d;
-font-size:12px;
-font-weight:bold;
+.owner-modal-header h2{
+font-size:30px;
+}
+
+.owner-status{
+color:#818b9c;
+font-size:13px;
+margin-top:5px;
+}
+
+.owner-status.success{
+color:#8ee6b0;
+}
+
+.owner-status.error{
+color:#ff8f8f;
 }
 
 .owner-grid{
@@ -386,8 +587,14 @@ margin-top:20px;
 .owner-tool{
 background:#10151e;
 border:1px solid #293140;
-border-radius:10px;
-padding:16px;
+border-radius:12px;
+padding:18px;
+transition:.2s;
+}
+
+.owner-tool:hover{
+border-color:#424c5e;
+transform:translateY(-2px);
 }
 
 .owner-tool strong{
@@ -400,221 +607,15 @@ color:#818b9c;
 font-size:13px;
 }
 
-.cta{
-text-align:center;
-background:#0c1017;
-border:1px solid #252d3b;
-border-radius:20px;
-padding:65px 25px;
-}
-
-.cta h2{
-font-size:40px;
-margin-bottom:12px;
-}
-
-.cta p{
-max-width:650px;
-margin:auto;
-color:#818b9c;
-}
-
-footer{
-border-top:1px solid #202633;
-padding:45px 0;
-color:#687385;
-font-size:13px;
-}
-
-.footer-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:25px;
-}
-
-.footer-title{
-color:#fff;
-font-weight:bold;
-margin-bottom:12px;
-}
-
-.footer-links a{
-display:block;
-margin:7px 0;
-}
-
-.modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.82);
-z-index:2000;
-align-items:center;
-justify-content:center;
-padding:20px;
-}
-
-.modal-box{
-width:100%;
-max-width:430px;
-background:#0d121a;
-border:1px solid #303847;
-border-radius:16px;
-padding:30px;
-}
-
-.modal-box h2{
-margin-bottom:8px;
-}
-
-.modal-box p{
-color:#818b9c;
-font-size:14px;
-margin-bottom:20px;
-}
-
-.modal-box input{
-width:100%;
-padding:14px;
-background:#080b11;
-border:1px solid #303847;
-border-radius:9px;
-color:#fff;
-margin-bottom:12px;
-outline:none;
-}
-
-.modal-box input:focus{
-border-color:#687385;
-}
-
-.close{
-float:right;
-cursor:pointer;
-font-size:22px;
-}
-
-.auth-message{
-margin-top:15px;
-padding:12px;
-background:#10151e;
-border:1px solid #293140;
-border-radius:8px;
-color:#9ca6b7;
-font-size:13px;
-}
-
-.github-button{
-width:100%;
-margin-top:10px;
-background:#fff;
-color:#06080d;
-border:1px solid #fff;
-}
-
-.divider{
-display:flex;
-align-items:center;
-gap:10px;
-margin:16px 0;
-color:#687385;
-font-size:12px;
-}
-
-.divider::before,
-.divider::after{
-content:"";
-height:1px;
-background:#293140;
-flex:1;
-}
-
-.account-modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.82);
-z-index:2000;
-align-items:center;
-justify-content:center;
-padding:20px;
-}
-
-.account-box{
-width:100%;
-max-width:450px;
-background:#0d121a;
-border:1px solid #303847;
-border-radius:16px;
-padding:30px;
-}
-
-.account-box h2{
-margin-bottom:20px;
-}
-
-.account-info{
-background:#080b11;
-border:1px solid #293140;
+.owner-debug{
+margin-top:20px;
+padding:15px;
 border-radius:10px;
-padding:16px;
-margin-bottom:15px;
-}
-
-.account-label{
+background:#070a0f;
+border:1px solid #252d3b;
 font-size:12px;
-color:#707b8e;
-margin-bottom:4px;
-}
-
-.account-value{
-font-size:15px;
-word-break:break-word;
-}
-
-.logout-button{
-width:100%;
-margin-top:10px;
-}
-
-.owner-modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.88);
-z-index:3000;
-align-items:center;
-justify-content:center;
-padding:20px;
-}
-
-.owner-modal-box{
-width:100%;
-max-width:900px;
-max-height:90vh;
-overflow:auto;
-background:#0d121a;
-border:1px solid #303847;
-border-radius:18px;
-padding:30px;
-}
-
-.owner-modal-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
-margin-bottom:25px;
-}
-
-.owner-modal-header h2{
-font-size:30px;
-}
-
-.owner-status{
-color:#818b9c;
-font-size:13px;
-margin-top:4px;
+color:#727d8f;
+word-break:break-all;
 }
 
 @media(min-width:750px){
@@ -648,7 +649,7 @@ grid-template-columns:repeat(4,1fr);
 }
 
 .hero{
-padding-top:130px;
+padding-top:140px;
 }
 
 }
@@ -786,169 +787,66 @@ Everything you need to build your Web3 project.
 <div class="products">
 
 <div class="card">
-
 <div class="icon">🪙</div>
-
-<h3>
-Token Studio
-</h3>
-
-<p>
-Design and plan your token project step by step.
-</p>
-
-<a
-class="card-link"
-href="token-studio.html">
-
-Open Studio →
-
-</a>
-
+<h3>Token Studio</h3>
+<p>Design and plan your token project step by step.</p>
+<a class="card-link" href="token-studio.html">Open Studio →</a>
 </div>
 
 <div class="card">
-
 <div class="icon">📊</div>
-
-<h3>
-Tokenomics Studio
-</h3>
-
-<p>
-Design supply, allocations, vesting and distribution.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
+<h3>Tokenomics Studio</h3>
+<p>Design supply, allocations, vesting and distribution.</p>
+<span class="card-link soon">Coming Soon →</span>
 </div>
 
 <div class="card">
-
 <div class="icon">🔍</div>
-
-<h3>
-Security Scanner
-</h3>
-
-<p>
-Analyze contracts, holders, liquidity and risks.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
+<h3>Security Scanner</h3>
+<p>Analyze contracts, holders, liquidity and risks.</p>
+<span class="card-link soon">Coming Soon →</span>
 </div>
 
 <div class="card">
-
 <div class="icon">👛</div>
-
-<h3>
-Wallet Analyzer
-</h3>
-
-<p>
-Analyze wallet activity, holdings and transactions.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
+<h3>Wallet Analyzer</h3>
+<p>Analyze wallet activity, holdings and transactions.</p>
+<span class="card-link soon">Coming Soon →</span>
 </div>
 
 <div class="card">
-
 <div class="icon">🐋</div>
-
-<h3>
-Whale Tracker
-</h3>
-
-<p>
-Track important wallets, smart money and movements.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
+<h3>Whale Tracker</h3>
+<p>Track important wallets, smart money and movements.</p>
+<span class="card-link soon">Coming Soon →</span>
 </div>
 
 <div class="card">
-
 <div class="icon">🤖</div>
-
-<h3>
-Sonativa AI
-</h3>
-
-<p>
-Your intelligent assistant for building Web3 products.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
+<h3>Sonativa AI</h3>
+<p>Your intelligent assistant for building Web3 products.</p>
+<span class="card-link soon">Coming Soon →</span>
 </div>
 
 <div class="card">
-
 <div class="icon">🌐</div>
-
-<h3>
-Website Builder
-</h3>
-
-<p>
-Create a professional Web3 website without coding.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
+<h3>Website Builder</h3>
+<p>Create a professional Web3 website without coding.</p>
+<span class="card-link soon">Coming Soon →</span>
 </div>
 
 <div class="card">
-
 <div class="icon">📱</div>
-
-<h3>
-App Builder
-</h3>
-
-<p>
-Turn your Web3 idea into a modern mobile application.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
+<h3>App Builder</h3>
+<p>Turn your Web3 idea into a modern mobile application.</p>
+<span class="card-link soon">Coming Soon →</span>
 </div>
 
 <div class="card">
-
 <div class="icon">🔗</div>
-
-<h3>
-API & Developer Tools
-</h3>
-
-<p>
-Build applications using Sonativa infrastructure.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
+<h3>API & Developer Tools</h3>
+<p>Build applications using Sonativa infrastructure.</p>
+<span class="card-link soon">Coming Soon →</span>
 </div>
 
 </div>
@@ -976,51 +874,23 @@ Login to manage your Sonativa projects.
 <div class="dashboard">
 
 <div class="dashboard-card">
-
-<span>
-Projects
-</span>
-
-<strong id="projectCount">
-0
-</strong>
-
+<span>Projects</span>
+<strong id="projectCount">0</strong>
 </div>
 
 <div class="dashboard-card">
-
-<span>
-Wallets
-</span>
-
-<strong>
-0
-</strong>
-
+<span>Wallets</span>
+<strong>0</strong>
 </div>
 
 <div class="dashboard-card">
-
-<span>
-Tokens
-</span>
-
-<strong>
-0
-</strong>
-
+<span>Tokens</span>
+<strong>0</strong>
 </div>
 
 <div class="dashboard-card">
-
-<span>
-Alerts
-</span>
-
-<strong>
-0
-</strong>
-
+<span>Alerts</span>
+<strong>0</strong>
 </div>
 
 </div>
@@ -1033,9 +903,7 @@ id="accountPanel">
 
 <div>
 
-<strong>
-Signed in
-</strong>
+<strong>Signed in</strong>
 
 <div
 class="user-email"
@@ -1054,17 +922,13 @@ id="accountProvider">
 <button
 class="btn secondary"
 onclick="openAccountPanel()">
-
 Account
-
 </button>
 
 <button
 class="btn secondary"
 onclick="logout()">
-
 Logout
-
 </button>
 
 </div>
@@ -1158,9 +1022,7 @@ needed for the next generation of digital products.
 <a
 class="btn primary"
 href="#platform">
-
 Start Building
-
 </a>
 
 </div>
@@ -1180,65 +1042,37 @@ Start Building
 <div class="footer-grid">
 
 <div>
-
-<div class="footer-title">
-SONATIVA
+<div class="footer-title">SONATIVA</div>
+<div>Build. Launch. Grow.</div>
 </div>
 
 <div>
-Build. Launch. Grow.
-</div>
-
-</div>
-
-<div>
-
-<div class="footer-title">
-Platform
-</div>
-
+<div class="footer-title">Platform</div>
 <div class="footer-links">
-
 <a href="#platform">Token Studio</a>
 <a href="#platform">Security</a>
 <a href="#platform">Wallets</a>
 <a href="#platform">AI</a>
-
 </div>
-
 </div>
 
 <div>
-
-<div class="footer-title">
-Company
-</div>
-
+<div class="footer-title">Company</div>
 <div class="footer-links">
-
 <a href="#about">About</a>
 <a href="#">Documentation</a>
 <a href="#">Blog</a>
 <a href="#">Contact</a>
-
 </div>
-
 </div>
 
 <div>
-
-<div class="footer-title">
-Legal
-</div>
-
+<div class="footer-title">Legal</div>
 <div class="footer-links">
-
 <a href="#">Privacy</a>
 <a href="#">Terms</a>
 <a href="#">Security</a>
-
 </div>
-
 </div>
 
 </div>
@@ -1251,7 +1085,7 @@ Legal
 
 </footer>
 
-<!-- LOGIN MODAL -->
+<!-- LOGIN -->
 
 <div
 class="modal"
@@ -1327,7 +1161,7 @@ Your account is protected by Supabase Authentication.
 
 </div>
 
-<!-- ACCOUNT MODAL -->
+<!-- ACCOUNT -->
 
 <div
 class="account-modal"
@@ -1399,7 +1233,7 @@ Logout
 
 </div>
 
-<!-- OWNER DASHBOARD -->
+<!-- OWNER -->
 
 <div
 class="owner-modal"
@@ -1436,51 +1270,23 @@ onclick="closeOwnerDashboard()">
 <div class="owner-grid">
 
 <div class="owner-card">
-
-<span>
-OWNER
-</span>
-
-<strong>
-Active
-</strong>
-
+<span>OWNER</span>
+<strong>Active</strong>
 </div>
 
 <div class="owner-card">
-
-<span>
-YOUR PROJECTS
-</span>
-
-<strong id="ownerProjectCount">
-0
-</strong>
-
+<span>YOUR PROJECTS</span>
+<strong id="ownerProjectCount">0</strong>
 </div>
 
 <div class="owner-card">
-
-<span>
-USERS
-</span>
-
-<strong>
-Protected
-</strong>
-
+<span>USERS</span>
+<strong>Protected</strong>
 </div>
 
 <div class="owner-card">
-
-<span>
-SECURITY
-</span>
-
-<strong>
-RLS
-</strong>
-
+<span>SECURITY</span>
+<strong>RLS</strong>
 </div>
 
 </div>
@@ -1488,77 +1294,41 @@ RLS
 <div class="owner-tools">
 
 <div class="owner-tool">
-
-<strong>
-👥 User Management
-</strong>
-
-<span>
-Manage platform users and roles.
-</span>
-
+<strong>👥 User Management</strong>
+<span>Manage platform users and roles.</span>
 </div>
 
 <div class="owner-tool">
-
-<strong>
-📁 Project Management
-</strong>
-
-<span>
-Manage Sonativa projects and platform resources.
-</span>
-
+<strong>📁 Project Management</strong>
+<span>Manage Sonativa projects and platform resources.</span>
 </div>
 
 <div class="owner-tool">
-
-<strong>
-💰 Revenue
-</strong>
-
-<span>
-Platform revenue and financial controls.
-</span>
-
+<strong>💰 Revenue</strong>
+<span>Platform revenue and financial controls.</span>
 </div>
 
 <div class="owner-tool">
-
-<strong>
-🔐 Security
-</strong>
-
-<span>
-Security, access control and audit systems.
-</span>
-
+<strong>🔐 Security</strong>
+<span>Security, access control and audit systems.</span>
 </div>
 
 <div class="owner-tool">
-
-<strong>
-📊 Analytics
-</strong>
-
-<span>
-Platform statistics and activity.
-</span>
-
+<strong>📊 Analytics</strong>
+<span>Platform statistics and activity.</span>
 </div>
 
 <div class="owner-tool">
-
-<strong>
-⚙️ Platform Settings
-</strong>
-
-<span>
-Core Sonativa configuration.
-</span>
+<strong>⚙️ Platform Settings</strong>
+<span>Core Sonativa configuration.</span>
+</div>
 
 </div>
 
+<div
+class="owner-debug"
+id="ownerDebug">
+Owner verification will appear here.
 </div>
 
 </div>
@@ -1573,6 +1343,11 @@ createClient
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+
+/* ================================
+   SUPABASE
+================================ */
+
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
 
@@ -1585,13 +1360,38 @@ SUPABASE_URL,
 SUPABASE_PUBLISHABLE_KEY
 );
 
-/* CURRENT USER */
+
+/* ================================
+   SONATIVA OWNER
+================================ */
+
+/*
+This is the owner profile ID you
+confirmed exists in public.profiles.
+*/
+
+const OWNER_ID =
+"d4f638be-8a5e-43d9-9215-46ecf806375";
+
 
 let currentUser = null;
-
 let currentIsOwner = false;
 
-/* AUTH BUTTON */
+
+/* ================================
+   ELEMENT HELPER
+================================ */
+
+function $(id){
+
+return document.getElementById(id);
+
+}
+
+
+/* ================================
+   AUTH BUTTON
+================================ */
 
 window.handleAuthButton =
 function(){
@@ -1608,35 +1408,38 @@ openAuth();
 
 };
 
-/* OPEN LOGIN */
+
+/* ================================
+   LOGIN MODAL
+================================ */
 
 window.openAuth =
 function(){
 
-document
-.getElementById("authModal")
-.style.display="flex";
+$("authModal").style.display =
+"flex";
 
 };
 
-/* CLOSE LOGIN */
 
 window.closeAuth =
 function(){
 
-document
-.getElementById("authModal")
-.style.display="none";
+$("authModal").style.display =
+"none";
 
 };
 
-/* GITHUB LOGIN */
+
+/* ================================
+   GITHUB
+================================ */
 
 window.signInWithGitHub =
 async function(){
 
 const message =
-document.getElementById("authMessage");
+$("authMessage");
 
 message.textContent =
 "Connecting to GitHub...";
@@ -1668,24 +1471,22 @@ error.message;
 
 };
 
-/* EMAIL SIGN UP */
+
+/* ================================
+   SIGN UP
+================================ */
 
 window.signUp =
 async function(){
 
 const email =
-document
-.getElementById("email")
-.value
-.trim();
+$("email").value.trim();
 
 const password =
-document
-.getElementById("password")
-.value;
+$("password").value;
 
 const message =
-document.getElementById("authMessage");
+$("authMessage");
 
 if(!email || !password){
 
@@ -1736,39 +1537,35 @@ message.textContent =
 await updateUserInterface();
 
 setTimeout(
-function(){
-closeAuth();
-},
+closeAuth,
 700
 );
 
 }else{
 
 message.textContent =
-"Account created successfully. Check your email if confirmation is enabled.";
+"Account created. Check your email if confirmation is enabled.";
 
 }
 
 };
 
-/* EMAIL LOGIN */
+
+/* ================================
+   LOGIN
+================================ */
 
 window.signIn =
 async function(){
 
 const email =
-document
-.getElementById("email")
-.value
-.trim();
+$("email").value.trim();
 
 const password =
-document
-.getElementById("password")
-.value;
+$("password").value;
 
 const message =
-document.getElementById("authMessage");
+$("authMessage");
 
 if(!email || !password){
 
@@ -1783,6 +1580,7 @@ message.textContent =
 "Signing in...";
 
 const {
+data,
 error
 } =
 await supabase.auth.signInWithPassword({
@@ -1801,34 +1599,63 @@ return;
 
 }
 
+console.log(
+"LOGIN SUCCESS:",
+data.user
+);
+
 closeAuth();
 
 await updateUserInterface();
 
-document
-.getElementById("dashboard")
-.scrollIntoView({
+$("dashboard").scrollIntoView({
 behavior:"smooth"
 });
 
 };
 
-/* CHECK OWNER */
+
+/* ================================
+   OWNER CHECK
+================================ */
 
 async function checkOwner(){
+
+const button =
+$("ownerButton");
+
+const status =
+$("ownerStatus");
+
+const debug =
+$("ownerDebug");
+
 
 if(!currentUser){
 
 currentIsOwner = false;
 
-document
-.getElementById("ownerButton")
-.style.display =
+button.style.display =
 "none";
 
 return false;
 
 }
+
+
+/*
+First check the ID we know from
+public.profiles.
+*/
+
+const sameOwnerId =
+currentUser.id === OWNER_ID;
+
+
+/*
+Then ask Supabase itself.
+This is the real security check.
+*/
 
 const {
 data,
@@ -1836,39 +1663,107 @@ error
 } =
 await supabase.rpc("is_owner");
 
+
 if(error){
 
 console.error(
-"Owner verification error:",
+"Owner RPC error:",
 error
 );
 
 currentIsOwner = false;
 
-document
-.getElementById("ownerButton")
-.style.display =
+button.style.display =
 "none";
+
+if(status){
+
+status.textContent =
+"Owner verification failed.";
+
+status.className =
+"owner-status error";
+
+}
+
+if(debug){
+
+debug.textContent =
+"RPC error: " +
+error.message +
+" | Current user: " +
+currentUser.id;
+
+}
 
 return false;
 
 }
 
+
+/*
+Accept only if Supabase says owner.
+
+The ID comparison is used only
+as an additional diagnostic.
+*/
+
 currentIsOwner =
 data === true;
 
-document
-.getElementById("ownerButton")
-.style.display =
-currentIsOwner
-? "inline-block"
-: "none";
+
+if(currentIsOwner){
+
+button.style.display =
+"inline-block";
+
+if(status){
+
+status.textContent =
+"Owner access verified. Protected by Supabase.";
+
+status.className =
+"owner-status success";
+
+}
+
+if(debug){
+
+debug.textContent =
+"Owner verified successfully. " +
+"User ID: " +
+currentUser.id +
+" | Profile ID match: " +
+sameOwnerId;
+
+}
+
+}else{
+
+button.style.display =
+"none";
+
+if(debug){
+
+debug.textContent =
+"Supabase returned is_owner = false. " +
+"Current user ID: " +
+currentUser.id +
+" | Expected owner profile ID: " +
+OWNER_ID;
+
+}
+
+}
 
 return currentIsOwner;
 
 }
 
-/* OPEN OWNER DASHBOARD */
+
+/* ================================
+   OPEN OWNER DASHBOARD
+================================ */
 
 window.openOwnerDashboard =
 async function(){
@@ -1881,51 +1776,55 @@ return;
 
 }
 
+
 const isOwner =
 await checkOwner();
+
 
 if(!isOwner){
 
 alert(
-"Access denied."
+"Access denied. This account is not recognized as the Sonativa owner."
 );
 
 return;
 
 }
 
-document
-.getElementById("ownerStatus")
-.textContent =
+
+$("ownerStatus").textContent =
 "Owner access verified. Protected by Supabase.";
 
-document
-.getElementById("ownerProjectCount")
-.textContent =
-document
-.getElementById("projectCount")
-.textContent;
+$("ownerStatus").className =
+"owner-status success";
 
-document
-.getElementById("ownerModal")
-.style.display =
+
+$("ownerProjectCount").textContent =
+$("projectCount").textContent;
+
+
+$("ownerModal").style.display =
 "flex";
 
 };
 
-/* CLOSE OWNER DASHBOARD */
+
+/* ================================
+   CLOSE OWNER
+================================ */
 
 window.closeOwnerDashboard =
 function(){
 
-document
-.getElementById("ownerModal")
-.style.display =
+$("ownerModal").style.display =
 "none";
 
 };
 
-/* OPEN ACCOUNT */
+
+/* ================================
+   ACCOUNT
+================================ */
 
 window.openAccountPanel =
 function(){
@@ -1938,64 +1837,59 @@ return;
 
 }
 
-const email =
+
+$("accountEmail").textContent =
 currentUser.email ||
 "GitHub account";
 
-document
-.getElementById("accountEmail")
-.textContent =
-email;
 
-document
-.getElementById("accountProviderValue")
-.textContent =
+$("accountProviderValue").textContent =
 getProviderName(currentUser);
 
-document
-.getElementById("accountProjects")
-.textContent =
-document
-.getElementById("projectCount")
-.textContent;
 
-document
-.getElementById("accountModal")
-.style.display =
+$("accountProjects").textContent =
+$("projectCount").textContent;
+
+
+$("accountModal").style.display =
 "flex";
 
 };
 
-/* CLOSE ACCOUNT */
 
 window.closeAccountPanel =
 function(){
 
-document
-.getElementById("accountModal")
-.style.display =
+$("accountModal").style.display =
 "none";
 
 };
 
-/* PROVIDER NAME */
+
+/* ================================
+   PROVIDER
+================================ */
 
 function getProviderName(user){
 
 const provider =
 user?.app_metadata?.provider;
 
+
 if(provider === "github"){
 return "GitHub";
 }
+
 
 if(provider === "email"){
 return "Email";
 }
 
+
 if(provider){
 return provider;
 }
+
 
 if(
 user?.identities &&
@@ -2005,23 +1899,202 @@ user.identities.length > 0
 const identity =
 user.identities[0];
 
+
 if(identity.provider === "github"){
 return "GitHub";
 }
+
 
 if(identity.provider === "email"){
 return "Email";
 }
 
+
 return identity.provider;
 
 }
+
 
 return "Sonativa Authentication";
 
 }
 
-/* LOGOUT */
+
+/* ================================
+   LOAD PROJECTS
+================================ */
+
+async function loadProjects(){
+
+if(!currentUser){
+
+$("projectCount").textContent =
+"0";
+
+return;
+
+}
+
+
+const {
+data,
+error
+} =
+await supabase
+.from("projects")
+.select("id")
+.eq(
+"user_id",
+currentUser.id
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+console.error(
+"Projects error:",
+error
+);
+
+$("projectCount").textContent =
+"0";
+
+return;
+
+}
+
+
+$("projectCount").textContent =
+String(
+data?.length || 0
+);
+
+}
+
+
+/* ================================
+   UPDATE UI
+================================ */
+
+async function updateUserInterface(){
+
+try{
+
+const {
+data,
+error
+} =
+await supabase.auth.getUser();
+
+
+if(error){
+
+console.error(
+"getUser error:",
+error
+);
+
+currentUser = null;
+
+}else{
+
+currentUser =
+data?.user || null;
+
+}
+
+
+const button =
+$("authButton");
+
+const panel =
+$("accountPanel");
+
+
+if(currentUser){
+
+button.textContent =
+"Account";
+
+
+panel.style.display =
+"block";
+
+
+$("userEmail").textContent =
+currentUser.email ||
+"GitHub account";
+
+
+$("accountProvider").textContent =
+"Signed in with " +
+getProviderName(currentUser);
+
+
+await loadProjects();
+
+
+await checkOwner();
+
+
+$("dashboardText").textContent =
+"Your Sonativa workspace is ready.";
+
+
+console.log(
+"CURRENT USER:",
+currentUser.id
+);
+
+
+}else{
+
+button.textContent =
+"Login / Sign Up";
+
+
+panel.style.display =
+"none";
+
+
+currentIsOwner =
+false;
+
+
+$("ownerButton").style.display =
+"none";
+
+
+$("projectCount").textContent =
+"0";
+
+
+$("dashboardText").textContent =
+"Login to manage your Sonativa projects.";
+
+}
+
+}catch(error){
+
+console.error(
+"Interface error:",
+error
+);
+
+}
+
+}
+
+
+/* ================================
+   LOGOUT
+================================ */
 
 window.logout =
 async function(){
@@ -2036,7 +2109,6 @@ await updateUserInterface();
 
 };
 
-/* LOGOUT FROM ACCOUNT */
 
 window.logoutFromAccount =
 async function(){
@@ -2049,155 +2121,26 @@ closeOwnerDashboard();
 
 await updateUserInterface();
 
-document
-.getElementById("dashboard")
-.scrollIntoView({
+$("dashboard").scrollIntoView({
 behavior:"smooth"
 });
 
 };
 
-/* LOAD PROJECTS */
 
-async function loadProjects(){
-
-if(!currentUser){
-
-document
-.getElementById("projectCount")
-.textContent =
-"0";
-
-return;
-
-}
-
-/*
-Only load projects belonging
-to the currently logged-in user.
-*/
-
-const {
-data,
-error
-} =
-await supabase
-.from("projects")
-.select("Id")
-.eq("user_id",currentUser.id)
-.order(
-"created_at",
-{
-ascending:false
-}
-);
-
-if(error){
-
-console.error(
-"Projects error:",
-error
-);
-
-document
-.getElementById("projectCount")
-.textContent =
-"0";
-
-return;
-
-}
-
-document
-.getElementById("projectCount")
-.textContent =
-data.length;
-
-}
-
-/* UPDATE USER INTERFACE */
-
-async function updateUserInterface(){
-
-const {
-data:{
-user
-}
-} =
-await supabase.auth.getUser();
-
-currentUser = user || null;
-
-const button =
-document.getElementById("authButton");
-
-const panel =
-document.getElementById("accountPanel");
-
-const email =
-document.getElementById("userEmail");
-
-const provider =
-document.getElementById("accountProvider");
-
-if(currentUser){
-
-button.textContent =
-"Account";
-
-panel.style.display =
-"block";
-
-email.textContent =
-currentUser.email ||
-"GitHub account";
-
-provider.textContent =
-"Signed in with " +
-getProviderName(currentUser);
-
-await loadProjects();
-
-await checkOwner();
-
-document
-.getElementById("dashboardText")
-.textContent =
-"Your Sonativa workspace is ready.";
-
-}else{
-
-button.textContent =
-"Login / Sign Up";
-
-panel.style.display =
-"none";
-
-currentIsOwner = false;
-
-document
-.getElementById("ownerButton")
-.style.display =
-"none";
-
-document
-.getElementById("projectCount")
-.textContent =
-"0";
-
-document
-.getElementById("dashboardText")
-.textContent =
-"Login to manage your Sonativa projects.";
-
-}
-
-}
-
-/* AUTH STATE */
+/* ================================
+   AUTH STATE
+================================ */
 
 supabase.auth.onAuthStateChange(
-async function(event){
+async function(event,session){
+
+console.log(
+"AUTH EVENT:",
+event,
+session?.user?.id
+);
+
 
 if(
 event === "SIGNED_IN" ||
@@ -2212,34 +2155,42 @@ async function(){
 await updateUserInterface();
 
 },
-100
+300
 );
 
 }
 
 });
 
-/* INITIAL LOAD */
+
+/* ================================
+   INITIAL
+================================ */
 
 updateUserInterface();
 
-/* LANGUAGE */
+
+/* ================================
+   LANGUAGE
+================================ */
 
 window.changeLanguage =
 function(language){
 
-if(language==="ar"){
+if(language === "ar"){
 
-document.documentElement.lang="ar";
+document.documentElement.lang =
+"ar";
 
 alert(
 "العربية سيتم تفعيلها بالكامل في نظام الترجمة القادم."
 );
 
 }
-else if(language==="fr"){
+else if(language === "fr"){
 
-document.documentElement.lang="fr";
+document.documentElement.lang =
+"fr";
 
 alert(
 "Le système français sera activé dans la prochaine version."
@@ -2248,7 +2199,8 @@ alert(
 }
 else{
 
-document.documentElement.lang="en";
+document.documentElement.lang =
+"en";
 
 alert(
 "English selected."
@@ -2258,10 +2210,12 @@ alert(
 
 };
 
-/* CLOSE LOGIN WHEN CLICKING OUTSIDE */
 
-document
-.getElementById("authModal")
+/* ================================
+   CLOSE MODALS
+================================ */
+
+$("authModal")
 .addEventListener(
 "click",
 function(event){
@@ -2274,10 +2228,8 @@ closeAuth();
 
 });
 
-/* CLOSE ACCOUNT WHEN CLICKING OUTSIDE */
 
-document
-.getElementById("accountModal")
+$("accountModal")
 .addEventListener(
 "click",
 function(event){
@@ -2290,10 +2242,8 @@ closeAccountPanel();
 
 });
 
-/* CLOSE OWNER DASHBOARD WHEN CLICKING OUTSIDE */
 
-document
-.getElementById("ownerModal")
+$("ownerModal")
 .addEventListener(
 "click",
 function(event){
@@ -2310,4 +2260,3 @@ closeOwnerDashboard();
 
 </body>
 </html>
-بدليه نتي 
