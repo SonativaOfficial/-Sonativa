@@ -7,7 +7,6 @@
 <title>Token Studio — Sonativa</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -17,7 +16,7 @@ box-sizing:border-box;
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:#07090f;
-color:white;
+color:#fff;
 line-height:1.6;
 }
 
@@ -44,12 +43,12 @@ text-decoration:none;
 
 .hero{
 text-align:center;
-padding:55px 0 35px;
+padding:50px 0 30px;
 }
 
 .hero h1{
-font-size:42px;
-margin-bottom:12px;
+font-size:40px;
+margin-bottom:10px;
 }
 
 .hero p{
@@ -59,7 +58,7 @@ color:#8d96a7;
 .steps{
 display:flex;
 gap:8px;
-margin:30px 0;
+margin:25px 0;
 overflow:auto;
 }
 
@@ -82,22 +81,21 @@ background:#0d1119;
 border:1px solid #242c3b;
 border-radius:16px;
 padding:30px;
+margin-bottom:20px;
 }
 
 .panel h2{
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
 label{
 display:block;
-margin:18px 0 7px;
+margin:16px 0 7px;
 font-size:14px;
 color:#b5bdca;
 }
 
-input,
-select,
-textarea{
+input,select,textarea{
 width:100%;
 padding:13px;
 border-radius:9px;
@@ -116,6 +114,42 @@ resize:vertical;
 display:grid;
 grid-template-columns:1fr;
 gap:15px;
+}
+
+.tokenomics{
+margin-top:25px;
+padding-top:20px;
+border-top:1px solid #242c3b;
+}
+
+.allocation{
+display:grid;
+grid-template-columns:1fr 120px;
+gap:10px;
+margin-bottom:10px;
+}
+
+.percent{
+text-align:center;
+}
+
+.total-box{
+margin-top:20px;
+padding:16px;
+border-radius:10px;
+background:#080b12;
+border:1px solid #303949;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.total-ok{
+color:#8ee6b0;
+}
+
+.total-error{
+color:#ff8f8f;
 }
 
 button{
@@ -168,180 +202,140 @@ text-decoration:none;
 
 footer{
 text-align:center;
-padding:45px 0;
+padding:40px 0;
 color:#697386;
 }
 
 @media(min-width:700px){
-
 .grid{
 grid-template-columns:1fr 1fr;
 }
-
 }
-
 </style>
-
 </head>
 
 <body>
 
 <header>
-
 <div class="container">
-
 <div class="logo">
-
-<a href="index.html">
-SONATIVA
-</a>
-
+<a href="index.html">SONATIVA</a>
 </div>
-
 </div>
-
 </header>
-
 
 <main class="container">
 
-
 <section class="hero">
-
-<h1>
-Token Studio
-</h1>
-
-<p>
-Design and save your Web3 project.
-</p>
-
+<h1>Token Studio</h1>
+<p>Design and plan your Web3 project.</p>
 </section>
 
-
 <div class="steps">
-
-<div class="step active">
-1 Project
+<div class="step active">1 Project</div>
+<div class="step active">2 Supply</div>
+<div class="step active">3 Tokenomics</div>
+<div class="step">4 Review</div>
 </div>
-
-<div class="step">
-2 Supply
-</div>
-
-<div class="step">
-3 Tokenomics
-</div>
-
-<div class="step">
-4 Review
-</div>
-
-</div>
-
 
 <section class="panel">
 
-<h2>
-Project Information
-</h2>
-
+<h2>Project Information</h2>
 
 <div class="grid">
 
+<div>
+<label>Project Name</label>
+<input id="projectName" placeholder="Example: Sonativa">
+</div>
 
 <div>
-
-<label>
-Project Name
-</label>
-
-<input
-id="projectName"
-placeholder="Example: Sonativa">
-
+<label>Token Name</label>
+<input id="tokenName" placeholder="Example: Sonativa Token">
 </div>
-
 
 <div>
-
-<label>
-Token Name
-</label>
-
-<input
-id="tokenName"
-placeholder="Example: Sonativa Token">
-
+<label>Token Symbol</label>
+<input id="tokenSymbol" maxlength="20" placeholder="Example: SONA">
 </div>
-
 
 <div>
-
-<label>
-Token Symbol
-</label>
-
-<input
-id="tokenSymbol"
-placeholder="Example: SONA"
-maxlength="20">
+<label>Total Supply</label>
+<input id="supply" type="number" min="1" placeholder="100000000">
+</div>
 
 </div>
 
-
-<div>
-
-<label>
-Total Supply
-</label>
-
-<input
-id="supply"
-type="number"
-min="1"
-placeholder="100000000">
-
-</div>
-
-
-</div>
-
-
-<label>
-Network
-</label>
+<label>Network</label>
 
 <select id="network">
-
-<option value="Solana">
-Solana
-</option>
-
-<option value="Base">
-Base
-</option>
-
-<option value="Ethereum">
-Ethereum
-</option>
-
-<option value="BNB Chain">
-BNB Chain
-</option>
-
+<option value="Solana">Solana</option>
+<option value="Base">Base</option>
+<option value="Ethereum">Ethereum</option>
+<option value="BNB Chain">BNB Chain</option>
 </select>
 
-
-<label>
-Description
-</label>
+<label>Description</label>
 
 <textarea
 id="description"
-placeholder="Describe your project...">
-</textarea>
+placeholder="Describe your project..."></textarea>
 
+<div class="tokenomics">
+
+<h2>Tokenomics</h2>
+
+<p style="color:#818b9c;font-size:14px;margin-bottom:15px;">
+Define how your total supply will be distributed.
+</p>
+
+<label>Team</label>
+<div class="allocation">
+<input class="allocation-name" value="Team" disabled>
+<input class="allocation-percent percent" id="team" type="number" min="0" max="100" value="5">
+</div>
+
+<label>Treasury</label>
+<div class="allocation">
+<input class="allocation-name" value="Treasury" disabled>
+<input class="allocation-percent percent" id="treasury" type="number" min="0" max="100" value="10">
+</div>
+
+<label>Community</label>
+<div class="allocation">
+<input class="allocation-name" value="Community" disabled>
+<input class="allocation-percent percent" id="community" type="number" min="0" max="100" value="20">
+</div>
+
+<label>Public Sale</label>
+<div class="allocation">
+<input class="allocation-name" value="Public Sale" disabled>
+<input class="allocation-percent percent" id="sale" type="number" min="0" max="100" value="25">
+</div>
+
+<label>Liquidity</label>
+<div class="allocation">
+<input class="allocation-name" value="Liquidity" disabled>
+<input class="allocation-percent percent" id="liquidity" type="number" min="0" max="100" value="10">
+</div>
+
+<label>Burn Reserve</label>
+<div class="allocation">
+<input class="allocation-name" value="Burn Reserve" disabled>
+<input class="allocation-percent percent" id="burn" type="number" min="0" max="100" value="30">
+</div>
+
+<div class="total-box">
+
+<span>Total Allocation</span>
+
+<strong id="allocationTotal">
+100%
+</strong>
+
+</div>
+
+</div>
 
 <button
 id="generateButton"
@@ -351,64 +345,39 @@ Generate & Save Project
 
 </button>
 
+<div id="message" class="message"></div>
 
-<div
-class="message"
-id="message">
-</div>
+<div id="result" class="result">
 
-
-<div
-class="result"
-id="result">
-
-<h3>
-Project Saved Successfully ✅
-</h3>
-
+<h3>Project Saved Successfully ✅</h3>
 
 <p id="rProject"></p>
-
 <p id="rToken"></p>
-
 <p id="rSymbol"></p>
-
 <p id="rSupply"></p>
-
 <p id="rNetwork"></p>
 
+<h3 style="margin-top:20px;">
+Tokenomics
+</h3>
 
-<a
-class="back"
-href="index.html">
+<p id="rTokenomics"></p>
 
-← Back to Sonativa Dashboard
-
+<a class="back" href="projects.html">
+← My Projects
 </a>
 
 </div>
 
-
 </section>
-
 
 </main>
 
-
 <footer>
-
 © 2026 Sonativa — Token Studio
-
 </footer>
 
-
 <script type="module">
-
-
-/* =========================
-   SUPABASE
-========================= */
-
 
 import {
 createClient
@@ -416,14 +385,11 @@ createClient
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
 
-
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
-
 
 const supabase =
 createClient(
@@ -432,35 +398,28 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-
 /* =========================
-   MESSAGE
+MESSAGE
 ========================= */
-
 
 function showMessage(text){
 
 const message =
 document.getElementById("message");
 
-message.textContent =
-text;
-
-message.style.display =
-"block";
+message.textContent = text;
+message.style.display = "block";
 
 }
 
 
-
 /* =========================
-   ESCAPE HTML
+ESCAPE
 ========================= */
-
 
 function escapeHTML(value){
 
-return value
+return String(value ?? "")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -470,78 +429,126 @@ return value
 }
 
 
-
 /* =========================
-   GENERATE PROJECT
+TOKENOMICS TOTAL
 ========================= */
 
+function calculateAllocation(){
+
+const ids = [
+"team",
+"treasury",
+"community",
+"sale",
+"liquidity",
+"burn"
+];
+
+let total = 0;
+
+ids.forEach(function(id){
+
+total += Number(
+document.getElementById(id).value
+) || 0;
+
+});
+
+const display =
+document.getElementById(
+"allocationTotal"
+);
+
+display.textContent =
+total + "%";
+
+if(total === 100){
+
+display.className =
+"total-ok";
+
+}else{
+
+display.className =
+"total-error";
+
+}
+
+return total;
+
+}
+
+
+/* =========================
+LISTEN
+========================= */
+
+[
+"team",
+"treasury",
+"community",
+"sale",
+"liquidity",
+"burn"
+].forEach(function(id){
+
+document
+.getElementById(id)
+.addEventListener(
+"input",
+calculateAllocation
+);
+
+});
+
+
+calculateAllocation();
+
+
+/* =========================
+GENERATE PROJECT
+========================= */
 
 window.generateProject =
 async function(){
-
 
 const button =
 document.getElementById(
 "generateButton"
 );
 
-
 const project =
-document
-.getElementById(
+document.getElementById(
 "projectName"
-)
-.value
-.trim();
-
+).value.trim();
 
 const token =
-document
-.getElementById(
+document.getElementById(
 "tokenName"
-)
-.value
-.trim();
-
+).value.trim();
 
 const symbol =
-document
-.getElementById(
+document.getElementById(
 "tokenSymbol"
-)
-.value
-.trim()
-.toUpperCase();
-
+).value.trim().toUpperCase();
 
 const supply =
-document
-.getElementById(
+document.getElementById(
 "supply"
-)
-.value;
-
+).value;
 
 const network =
-document
-.getElementById(
+document.getElementById(
 "network"
-)
-.value;
-
+).value;
 
 const description =
-document
-.getElementById(
+document.getElementById(
 "description"
-)
-.value
-.trim();
-
+).value.trim();
 
 
 /* VALIDATION */
-
 
 if(
 !project ||
@@ -559,9 +566,7 @@ return;
 }
 
 
-if(
-Number(supply) <= 0
-){
+if(Number(supply) <= 0){
 
 showMessage(
 "Total supply must be greater than 0."
@@ -572,19 +577,27 @@ return;
 }
 
 
+const allocationTotal =
+calculateAllocation();
 
-button.disabled =
-true;
 
+if(allocationTotal !== 100){
+
+showMessage(
+"Tokenomics allocation must equal exactly 100%."
+);
+
+return;
+
+}
+
+
+button.disabled = true;
 button.textContent =
 "Saving Project...";
 
 
-
-/* =========================
-   CURRENT USER
-========================= */
-
+/* USER */
 
 const {
 data:{
@@ -595,38 +608,13 @@ error:userError
 await supabase.auth.getUser();
 
 
-
-if(userError){
-
-console.error(
-userError
-);
-
-showMessage(
-"Could not verify your account."
-);
-
-button.disabled =
-false;
-
-button.textContent =
-"Generate & Save Project";
-
-return;
-
-}
-
-
-
-if(!user){
+if(userError || !user){
 
 showMessage(
 "You must login before creating a project."
 );
 
-button.disabled =
-false;
-
+button.disabled = false;
 button.textContent =
 "Generate & Save Project";
 
@@ -635,51 +623,109 @@ return;
 }
 
 
+/* TOKENOMICS */
 
-/* =========================
-   INSERT PROJECT
-========================= */
+const tokenomics = {
 
+team:
+Number(
+document.getElementById("team").value
+),
+
+treasury:
+Number(
+document.getElementById("treasury").value
+),
+
+community:
+Number(
+document.getElementById("community").value
+),
+
+public_sale:
+Number(
+document.getElementById("sale").value
+),
+
+liquidity:
+Number(
+document.getElementById("liquidity").value
+),
+
+burn_reserve:
+Number(
+document.getElementById("burn").value
+)
+
+};
+
+
+/*
+Keep the existing database structure.
+
+Tokenomics is stored inside description
+so we don't need new Supabase columns yet.
+*/
+
+const finalDescription =
+
+description +
+
+"\n\n--- SONATIVA TOKENOMICS ---\n" +
+
+"Team: " +
+tokenomics.team + "%\n" +
+
+"Treasury: " +
+tokenomics.treasury + "%\n" +
+
+"Community: " +
+tokenomics.community + "%\n" +
+
+"Public Sale: " +
+tokenomics.public_sale + "%\n" +
+
+"Liquidity: " +
+tokenomics.liquidity + "%\n" +
+
+"Burn Reserve: " +
+tokenomics.burn_reserve + "%";
+
+
+/* INSERT */
 
 const {
 data,
 error
 } =
 await supabase
+
 .from("projects")
+
 .insert({
 
-user_id:
-user.id,
+user_id:user.id,
 
-project_name:
-project,
+project_name:project,
 
-token_name:
-token,
+token_name:token,
 
-token_symbol:
-symbol,
+token_symbol:symbol,
 
-total_supply:
-Number(supply),
+total_supply:Number(supply),
 
-network:
-network,
+network:network,
 
-description:
-description
+description:finalDescription
 
 })
+
 .select()
+
 .single();
 
 
-
-/* =========================
-   DATABASE ERROR
-========================= */
-
+/* ERROR */
 
 if(error){
 
@@ -693,8 +739,7 @@ showMessage(
 error.message
 );
 
-button.disabled =
-false;
+button.disabled = false;
 
 button.textContent =
 "Generate & Save Project";
@@ -704,98 +749,97 @@ return;
 }
 
 
-
-/* =========================
-   SUCCESS
-========================= */
-
+/* SUCCESS */
 
 console.log(
-"Project saved successfully:",
+"Project saved:",
 data
 );
 
 
-document
-.getElementById(
+document.getElementById(
 "rProject"
-)
-.innerHTML =
+).innerHTML =
 "<strong>Project:</strong> " +
 escapeHTML(project);
 
 
-document
-.getElementById(
+document.getElementById(
 "rToken"
-)
-.innerHTML =
+).innerHTML =
 "<strong>Token:</strong> " +
 escapeHTML(token);
 
 
-document
-.getElementById(
+document.getElementById(
 "rSymbol"
-)
-.innerHTML =
+).innerHTML =
 "<strong>Symbol:</strong> " +
 escapeHTML(symbol);
 
 
-document
-.getElementById(
+document.getElementById(
 "rSupply"
-)
-.innerHTML =
+).innerHTML =
 "<strong>Total Supply:</strong> " +
-Number(supply)
-.toLocaleString();
+Number(supply).toLocaleString();
 
 
-document
-.getElementById(
+document.getElementById(
 "rNetwork"
-)
-.innerHTML =
+).innerHTML =
 "<strong>Network:</strong> " +
 escapeHTML(network);
 
 
-document
-.getElementById(
+document.getElementById(
+"rTokenomics"
+).innerHTML =
+
+"<strong>Team:</strong> " +
+tokenomics.team + "%<br>" +
+
+"<strong>Treasury:</strong> " +
+tokenomics.treasury + "%<br>" +
+
+"<strong>Community:</strong> " +
+tokenomics.community + "%<br>" +
+
+"<strong>Public Sale:</strong> " +
+tokenomics.public_sale + "%<br>" +
+
+"<strong>Liquidity:</strong> " +
+tokenomics.liquidity + "%<br>" +
+
+"<strong>Burn Reserve:</strong> " +
+tokenomics.burn_reserve + "%";
+
+
+document.getElementById(
 "result"
-)
-.style.display =
+).style.display =
 "block";
 
 
-document
-.getElementById(
+document.getElementById(
 "message"
-)
-.style.display =
+).style.display =
 "none";
 
 
-button.disabled =
-false;
+button.disabled = false;
 
 button.textContent =
 "Project Saved ✓";
 
-
 };
 
 
-
 /* =========================
-   CHECK LOGIN
+CHECK LOGIN
 ========================= */
 
-
 async function checkLogin(){
-
 
 const {
 data:{
@@ -811,23 +855,18 @@ showMessage(
 "⚠️ You are not logged in. Please return to Sonativa and login first."
 );
 
-document
-.getElementById(
+document.getElementById(
 "generateButton"
-)
-.disabled =
-true;
+).disabled = true;
 
 }
 
 }
-
 
 
 /* =========================
-   AUTH STATE
+AUTH
 ========================= */
-
 
 supabase.auth.onAuthStateChange(
 function(){
@@ -838,17 +877,11 @@ checkLogin();
 );
 
 
-
-/* =========================
-   INITIAL CHECK
-========================= */
-
+/* INITIAL */
 
 checkLogin();
-
 
 </script>
 
 </body>
-
 </html>
