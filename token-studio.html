@@ -7,6 +7,7 @@
 <title>Token Studio — Sonativa</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -94,7 +95,9 @@ font-size:14px;
 color:#b5bdca;
 }
 
-input,select,textarea{
+input,
+select,
+textarea{
 width:100%;
 padding:13px;
 border-radius:9px;
@@ -170,30 +173,44 @@ color:#697386;
 }
 
 @media(min-width:700px){
+
 .grid{
 grid-template-columns:1fr 1fr;
 }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
 <header>
+
 <div class="container">
 
 <div class="logo">
-<a href="index.html">SONATIVA</a>
+
+<a href="index.html">
+SONATIVA
+</a>
+
 </div>
 
 </div>
+
 </header>
+
 
 <main class="container">
 
+
 <section class="hero">
 
-<h1>Token Studio</h1>
+<h1>
+Token Studio
+</h1>
 
 <p>
 Design and save your Web3 project.
@@ -201,24 +218,43 @@ Design and save your Web3 project.
 
 </section>
 
+
 <div class="steps">
 
-<div class="step active">1 Project</div>
-<div class="step">2 Supply</div>
-<div class="step">3 Tokenomics</div>
-<div class="step">4 Review</div>
+<div class="step active">
+1 Project
+</div>
+
+<div class="step">
+2 Supply
+</div>
+
+<div class="step">
+3 Tokenomics
+</div>
+
+<div class="step">
+4 Review
+</div>
 
 </div>
 
+
 <section class="panel">
 
-<h2>Project Information</h2>
+<h2>
+Project Information
+</h2>
+
 
 <div class="grid">
 
+
 <div>
 
-<label>Project Name</label>
+<label>
+Project Name
+</label>
 
 <input
 id="projectName"
@@ -226,9 +262,12 @@ placeholder="Example: Sonativa">
 
 </div>
 
+
 <div>
 
-<label>Token Name</label>
+<label>
+Token Name
+</label>
 
 <input
 id="tokenName"
@@ -236,9 +275,12 @@ placeholder="Example: Sonativa Token">
 
 </div>
 
+
 <div>
 
-<label>Token Symbol</label>
+<label>
+Token Symbol
+</label>
 
 <input
 id="tokenSymbol"
@@ -247,9 +289,12 @@ maxlength="20">
 
 </div>
 
+
 <div>
 
-<label>Total Supply</label>
+<label>
+Total Supply
+</label>
 
 <input
 id="supply"
@@ -259,24 +304,44 @@ placeholder="100000000">
 
 </div>
 
+
 </div>
 
-<label>Network</label>
+
+<label>
+Network
+</label>
 
 <select id="network">
 
-<option value="Solana">Solana</option>
-<option value="Base">Base</option>
-<option value="Ethereum">Ethereum</option>
-<option value="BNB Chain">BNB Chain</option>
+<option value="Solana">
+Solana
+</option>
+
+<option value="Base">
+Base
+</option>
+
+<option value="Ethereum">
+Ethereum
+</option>
+
+<option value="BNB Chain">
+BNB Chain
+</option>
 
 </select>
 
-<label>Description</label>
+
+<label>
+Description
+</label>
 
 <textarea
 id="description"
-placeholder="Describe your project..."></textarea>
+placeholder="Describe your project...">
+</textarea>
+
 
 <button
 id="generateButton"
@@ -286,22 +351,32 @@ Generate & Save Project
 
 </button>
 
+
 <div
 class="message"
 id="message">
 </div>
 
+
 <div
 class="result"
 id="result">
 
-<h3>Project Saved Successfully ✅</h3>
+<h3>
+Project Saved Successfully ✅
+</h3>
+
 
 <p id="rProject"></p>
+
 <p id="rToken"></p>
+
 <p id="rSymbol"></p>
+
 <p id="rSupply"></p>
+
 <p id="rNetwork"></p>
+
 
 <a
 class="back"
@@ -313,9 +388,12 @@ href="index.html">
 
 </div>
 
+
 </section>
 
+
 </main>
+
 
 <footer>
 
@@ -323,7 +401,14 @@ href="index.html">
 
 </footer>
 
+
 <script type="module">
+
+
+/* =========================
+   SUPABASE
+========================= */
+
 
 import {
 createClient
@@ -332,15 +417,13 @@ from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* =========================
-   SUPABASE
-========================= */
-
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
 
+
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
 
 const supabase =
 createClient(
@@ -349,71 +432,116 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
+
 /* =========================
    MESSAGE
 ========================= */
+
 
 function showMessage(text){
 
 const message =
 document.getElementById("message");
 
-message.textContent = text;
+message.textContent =
+text;
 
-message.style.display = "block";
+message.style.display =
+"block";
 
 }
+
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+
+function escapeHTML(value){
+
+return value
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
 
 
 /* =========================
    GENERATE PROJECT
 ========================= */
 
+
 window.generateProject =
 async function(){
 
+
 const button =
-document.getElementById("generateButton");
+document.getElementById(
+"generateButton"
+);
+
 
 const project =
 document
-.getElementById("projectName")
+.getElementById(
+"projectName"
+)
 .value
 .trim();
+
 
 const token =
 document
-.getElementById("tokenName")
+.getElementById(
+"tokenName"
+)
 .value
 .trim();
 
+
 const symbol =
 document
-.getElementById("tokenSymbol")
+.getElementById(
+"tokenSymbol"
+)
 .value
 .trim()
 .toUpperCase();
 
+
 const supply =
 document
-.getElementById("supply")
+.getElementById(
+"supply"
+)
 .value;
+
 
 const network =
 document
-.getElementById("network")
+.getElementById(
+"network"
+)
 .value;
+
 
 const description =
 document
-.getElementById("description")
+.getElementById(
+"description"
+)
 .value
 .trim();
 
 
-/* =========================
-   VALIDATION
-========================= */
+
+/* VALIDATION */
+
 
 if(
 !project ||
@@ -431,7 +559,9 @@ return;
 }
 
 
-if(Number(supply) <= 0){
+if(
+Number(supply) <= 0
+){
 
 showMessage(
 "Total supply must be greater than 0."
@@ -442,15 +572,19 @@ return;
 }
 
 
-button.disabled = true;
+
+button.disabled =
+true;
 
 button.textContent =
 "Saving Project...";
 
 
+
 /* =========================
-   GET CURRENT USER
+   CURRENT USER
 ========================= */
+
 
 const {
 data:{
@@ -461,15 +595,19 @@ error:userError
 await supabase.auth.getUser();
 
 
+
 if(userError){
 
-console.error(userError);
+console.error(
+userError
+);
 
 showMessage(
 "Could not verify your account."
 );
 
-button.disabled = false;
+button.disabled =
+false;
 
 button.textContent =
 "Generate & Save Project";
@@ -477,6 +615,7 @@ button.textContent =
 return;
 
 }
+
 
 
 if(!user){
@@ -485,7 +624,8 @@ showMessage(
 "You must login before creating a project."
 );
 
-button.disabled = false;
+button.disabled =
+false;
 
 button.textContent =
 "Generate & Save Project";
@@ -495,9 +635,11 @@ return;
 }
 
 
+
 /* =========================
-   SAVE PROJECT
+   INSERT PROJECT
 ========================= */
+
 
 const {
 data,
@@ -507,28 +649,37 @@ await supabase
 .from("projects")
 .insert({
 
-user_id:user.id,
+user_id:
+user.id,
 
-project_name:project,
+project_name:
+project,
 
-token_name:token,
+token_name:
+token,
 
-token_symbol:symbol,
+token_symbol:
+symbol,
 
-total_supply:Number(supply),
+total_supply:
+Number(supply),
 
-network:network,
+network:
+network,
 
-description:description
+description:
+description
 
 })
 .select()
 .single();
 
 
+
 /* =========================
-   ERROR
+   DATABASE ERROR
 ========================= */
+
 
 if(error){
 
@@ -542,7 +693,8 @@ showMessage(
 error.message
 );
 
-button.disabled = false;
+button.disabled =
+false;
 
 button.textContent =
 "Generate & Save Project";
@@ -552,92 +704,98 @@ return;
 }
 
 
+
 /* =========================
    SUCCESS
 ========================= */
 
+
 console.log(
-"Project saved:",
+"Project saved successfully:",
 data
 );
 
 
-document.getElementById(
+document
+.getElementById(
 "rProject"
-).innerHTML =
+)
+.innerHTML =
 "<strong>Project:</strong> " +
 escapeHTML(project);
 
 
-document.getElementById(
+document
+.getElementById(
 "rToken"
-).innerHTML =
+)
+.innerHTML =
 "<strong>Token:</strong> " +
 escapeHTML(token);
 
 
-document.getElementById(
+document
+.getElementById(
 "rSymbol"
-).innerHTML =
+)
+.innerHTML =
 "<strong>Symbol:</strong> " +
 escapeHTML(symbol);
 
 
-document.getElementById(
+document
+.getElementById(
 "rSupply"
-).innerHTML =
+)
+.innerHTML =
 "<strong>Total Supply:</strong> " +
-Number(supply).toLocaleString();
+Number(supply)
+.toLocaleString();
 
 
-document.getElementById(
+document
+.getElementById(
 "rNetwork"
-).innerHTML =
+)
+.innerHTML =
 "<strong>Network:</strong> " +
 escapeHTML(network);
 
 
-document.getElementById(
+document
+.getElementById(
 "result"
-).style.display =
+)
+.style.display =
 "block";
 
 
-document.getElementById(
+document
+.getElementById(
 "message"
-).style.display =
+)
+.style.display =
 "none";
 
 
-button.disabled = false;
+button.disabled =
+false;
 
 button.textContent =
 "Project Saved ✓";
 
+
 };
 
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHTML(value){
-
-return value
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
 
 
 /* =========================
    CHECK LOGIN
 ========================= */
 
+
 async function checkLogin(){
+
 
 const {
 data:{
@@ -650,21 +808,26 @@ await supabase.auth.getUser();
 if(!user){
 
 showMessage(
-"⚠️ You are not logged in. Please return to the Sonativa dashboard and login first."
+"⚠️ You are not logged in. Please return to Sonativa and login first."
 );
 
-document.getElementById(
+document
+.getElementById(
 "generateButton"
-).disabled = true;
+)
+.disabled =
+true;
 
 }
 
 }
+
 
 
 /* =========================
    AUTH STATE
 ========================= */
+
 
 supabase.auth.onAuthStateChange(
 function(){
@@ -675,13 +838,17 @@ checkLogin();
 );
 
 
+
 /* =========================
    INITIAL CHECK
 ========================= */
 
+
 checkLogin();
+
 
 </script>
 
 </body>
+
 </html>
