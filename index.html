@@ -314,6 +314,11 @@ border-radius:15px;
 padding:24px;
 }
 
+.dashboard-card:hover{
+border-color:#394354;
+transform:translateY(-2px);
+}
+
 .dashboard-card span{
 color:#707b8e;
 font-size:13px;
@@ -324,6 +329,17 @@ display:block;
 font-size:28px;
 margin-top:5px;
 }
+
+.projects-link{
+display:block;
+cursor:pointer;
+}
+
+.projects-link:hover{
+text-decoration:none;
+}
+
+/* ================= ACCOUNT ================= */
 
 .account-panel{
 display:none;
@@ -738,8 +754,6 @@ Login / Sign Up
 
 <main>
 
-<!-- ================= HERO ================= -->
-
 <section class="hero">
 
 <div class="container">
@@ -792,8 +806,6 @@ Dashboard
 </div>
 
 </section>
-
-<!-- ================= PLATFORM ================= -->
 
 <section id="platform">
 
@@ -884,8 +896,6 @@ Open Studio →
 
 </section>
 
-<!-- ================= DASHBOARD ================= -->
-
 <section id="dashboard">
 
 <div class="container">
@@ -904,24 +914,60 @@ Login to manage your Sonativa projects.
 
 <div class="dashboard">
 
-<div class="dashboard-card">
-<span>Projects</span>
-<strong id="projectCount">0</strong>
-</div>
+<!-- PROJECTS: NOW CLICKABLE -->
+
+<a
+href="projects.html"
+class="dashboard-card projects-link"
+>
+
+<span>
+Projects
+</span>
+
+<strong id="projectCount">
+0
+</strong>
+
+</a>
+
 
 <div class="dashboard-card">
-<span>Wallets</span>
-<strong>0</strong>
+
+<span>
+Wallets
+</span>
+
+<strong>
+0
+</strong>
+
 </div>
 
-<div class="dashboard-card">
-<span>Tokens</span>
-<strong>0</strong>
-</div>
 
 <div class="dashboard-card">
-<span>Alerts</span>
-<strong>0</strong>
+
+<span>
+Tokens
+</span>
+
+<strong>
+0
+</strong>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<span>
+Alerts
+</span>
+
+<strong>
+0
+</strong>
+
 </div>
 
 </div>
@@ -934,7 +980,9 @@ id="accountPanel">
 
 <div>
 
-<strong>Signed in</strong>
+<strong>
+Signed in
+</strong>
 
 <div
 class="user-email"
@@ -953,13 +1001,17 @@ id="accountProvider">
 <button
 class="btn secondary"
 onclick="openAccountPanel()">
+
 Account
+
 </button>
 
 <button
 class="btn secondary"
 onclick="logout()">
+
 Logout
+
 </button>
 
 </div>
@@ -971,8 +1023,6 @@ Logout
 </div>
 
 </section>
-
-<!-- ================= FEATURES ================= -->
 
 <section>
 
@@ -1034,8 +1084,6 @@ Powerful infrastructure without unnecessary complexity.
 
 </section>
 
-<!-- ================= ABOUT ================= -->
-
 <section id="about">
 
 <div class="container">
@@ -1057,7 +1105,9 @@ needed for the next generation of digital products.
 <a
 class="btn primary"
 href="#platform">
+
 Start Building
+
 </a>
 
 </div>
@@ -1069,8 +1119,6 @@ Start Building
 </section>
 
 </main>
-
-<!-- ================= FOOTER ================= -->
 
 <footer>
 
@@ -1160,7 +1208,7 @@ id="authModal">
 
 <span
 class="close"
-onclick="closeAuth()">
+onclick="closeAuth">
 ×
 </span>
 
@@ -1402,8 +1450,6 @@ Owner verification will appear here.
 
 </div>
 
-<!-- ================= JAVASCRIPT ================= -->
-
 <script type="module">
 
 import {
@@ -1447,9 +1493,7 @@ let currentIsOwner = false;
 ================================ */
 
 function $(id){
-
 return document.getElementById(id);
-
 }
 
 
@@ -1461,13 +1505,9 @@ window.handleAuthButton =
 function(){
 
 if(currentUser){
-
 openAccountPanel();
-
 }else{
-
 openAuth();
-
 }
 
 };
@@ -1705,11 +1745,6 @@ return false;
 const sameOwnerId =
 currentUser.id === OWNER_ID;
 
-
-/*
-Supabase RPC is the actual
-security verification.
-*/
 
 const {
 data,
@@ -1967,17 +2002,8 @@ return;
 
 
 /*
-IMPORTANT FIX:
-
-Your database column is:
-
+DATABASE COLUMN:
 Id
-
-NOT:
-
-id
-
-Therefore we use Id here.
 */
 
 const {
