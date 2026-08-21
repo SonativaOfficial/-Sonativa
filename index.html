@@ -122,6 +122,16 @@ border-radius:9px;
 font-weight:bold;
 }
 
+.owner-button{
+display:none;
+background:#fff;
+color:#06080d;
+border:0;
+padding:10px 15px;
+border-radius:9px;
+font-weight:bold;
+}
+
 .menu{
 font-size:25px;
 }
@@ -314,6 +324,82 @@ gap:10px;
 flex-wrap:wrap;
 }
 
+.owner-panel{
+display:none;
+margin-top:25px;
+background:#0c1017;
+border:1px solid #303847;
+border-radius:18px;
+padding:28px;
+}
+
+.owner-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:25px;
+}
+
+.owner-badge{
+display:inline-block;
+padding:7px 12px;
+border-radius:50px;
+background:#fff;
+color:#06080d;
+font-size:12px;
+font-weight:bold;
+}
+
+.owner-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+}
+
+.owner-card{
+background:#080b11;
+border:1px solid #252d3b;
+border-radius:14px;
+padding:20px;
+}
+
+.owner-card span{
+color:#707b8e;
+font-size:12px;
+}
+
+.owner-card strong{
+display:block;
+font-size:25px;
+margin-top:5px;
+}
+
+.owner-tools{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+margin-top:20px;
+}
+
+.owner-tool{
+background:#10151e;
+border:1px solid #293140;
+border-radius:10px;
+padding:16px;
+}
+
+.owner-tool strong{
+display:block;
+margin-bottom:4px;
+}
+
+.owner-tool span{
+color:#818b9c;
+font-size:13px;
+}
+
 .cta{
 text-align:center;
 background:#0c1017;
@@ -491,6 +577,46 @@ width:100%;
 margin-top:10px;
 }
 
+.owner-modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.88);
+z-index:3000;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.owner-modal-box{
+width:100%;
+max-width:900px;
+max-height:90vh;
+overflow:auto;
+background:#0d121a;
+border:1px solid #303847;
+border-radius:18px;
+padding:30px;
+}
+
+.owner-modal-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+margin-bottom:25px;
+}
+
+.owner-modal-header h2{
+font-size:30px;
+}
+
+.owner-status{
+color:#818b9c;
+font-size:13px;
+margin-top:4px;
+}
+
 @media(min-width:750px){
 
 .nav-links{
@@ -507,6 +633,14 @@ grid-template-columns:repeat(3,1fr);
 
 .dashboard{
 grid-template-columns:repeat(4,1fr);
+}
+
+.owner-grid{
+grid-template-columns:repeat(4,1fr);
+}
+
+.owner-tools{
+grid-template-columns:repeat(3,1fr);
 }
 
 .footer-grid{
@@ -549,6 +683,15 @@ onchange="changeLanguage(this.value)">
 <option value="ar">AR</option>
 
 </select>
+
+<button
+class="owner-button"
+id="ownerButton"
+onclick="openOwnerDashboard()">
+
+👑 Owner
+
+</button>
 
 <button
 class="wallet"
@@ -1256,6 +1399,172 @@ Logout
 
 </div>
 
+<!-- OWNER DASHBOARD -->
+
+<div
+class="owner-modal"
+id="ownerModal">
+
+<div class="owner-modal-box">
+
+<div class="owner-modal-header">
+
+<div>
+
+<h2>
+👑 Sonativa Owner Dashboard
+</h2>
+
+<div
+class="owner-status"
+id="ownerStatus">
+
+Verifying owner access...
+
+</div>
+
+</div>
+
+<span
+class="close"
+onclick="closeOwnerDashboard()">
+×
+</span>
+
+</div>
+
+<div class="owner-grid">
+
+<div class="owner-card">
+
+<span>
+OWNER
+</span>
+
+<strong>
+Active
+</strong>
+
+</div>
+
+<div class="owner-card">
+
+<span>
+YOUR PROJECTS
+</span>
+
+<strong id="ownerProjectCount">
+0
+</strong>
+
+</div>
+
+<div class="owner-card">
+
+<span>
+USERS
+</span>
+
+<strong>
+Protected
+</strong>
+
+</div>
+
+<div class="owner-card">
+
+<span>
+SECURITY
+</span>
+
+<strong>
+RLS
+</strong>
+
+</div>
+
+</div>
+
+<div class="owner-tools">
+
+<div class="owner-tool">
+
+<strong>
+👥 User Management
+</strong>
+
+<span>
+Manage platform users and roles.
+</span>
+
+</div>
+
+<div class="owner-tool">
+
+<strong>
+📁 Project Management
+</strong>
+
+<span>
+Manage Sonativa projects and platform resources.
+</span>
+
+</div>
+
+<div class="owner-tool">
+
+<strong>
+💰 Revenue
+</strong>
+
+<span>
+Platform revenue and financial controls.
+</span>
+
+</div>
+
+<div class="owner-tool">
+
+<strong>
+🔐 Security
+</strong>
+
+<span>
+Security, access control and audit systems.
+</span>
+
+</div>
+
+<div class="owner-tool">
+
+<strong>
+📊 Analytics
+</strong>
+
+<span>
+Platform statistics and activity.
+</span>
+
+</div>
+
+<div class="owner-tool">
+
+<strong>
+⚙️ Platform Settings
+</strong>
+
+<span>
+Core Sonativa configuration.
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 <script type="module">
 
 import {
@@ -1283,6 +1592,8 @@ SUPABASE_PUBLISHABLE_KEY
 /* CURRENT USER */
 
 let currentUser = null;
+
+let currentIsOwner = false;
 
 
 /* AUTH BUTTON */
@@ -1527,6 +1838,130 @@ behavior:"smooth"
 };
 
 
+/* CHECK OWNER */
+
+async function checkOwner(){
+
+if(!currentUser){
+
+currentIsOwner = false;
+
+document
+.getElementById("ownerButton")
+.style.display =
+"none";
+
+return false;
+
+}
+
+
+const {
+data,
+error
+} =
+await supabase.rpc("is_owner");
+
+
+if(error){
+
+console.error(
+"Owner verification error:",
+error
+);
+
+currentIsOwner = false;
+
+document
+.getElementById("ownerButton")
+.style.display =
+"none";
+
+return false;
+
+}
+
+
+currentIsOwner =
+data === true;
+
+
+document
+.getElementById("ownerButton")
+.style.display =
+currentIsOwner
+? "inline-block"
+: "none";
+
+
+return currentIsOwner;
+
+}
+
+
+/* OPEN OWNER DASHBOARD */
+
+window.openOwnerDashboard =
+async function(){
+
+if(!currentUser){
+
+openAuth();
+
+return;
+
+}
+
+
+const isOwner =
+await checkOwner();
+
+
+if(!isOwner){
+
+alert(
+"Access denied."
+);
+
+return;
+
+}
+
+
+document
+.getElementById("ownerStatus")
+.textContent =
+"Owner access verified. Protected by Supabase.";
+
+document
+.getElementById("ownerProjectCount")
+.textContent =
+document
+.getElementById("projectCount")
+.textContent;
+
+
+document
+.getElementById("ownerModal")
+.style.display =
+"flex";
+
+};
+
+
+/* CLOSE OWNER DASHBOARD */
+
+window.closeOwnerDashboard =
+function(){
+
+document
+.getElementById("ownerModal")
+.style.display =
+"none";
+
+};
+
+
 /* OPEN ACCOUNT */
 
 window.openAccountPanel =
@@ -1641,6 +2076,8 @@ await supabase.auth.signOut();
 
 closeAccountPanel();
 
+closeOwnerDashboard();
+
 await updateUserInterface();
 
 };
@@ -1654,6 +2091,8 @@ async function(){
 await supabase.auth.signOut();
 
 closeAccountPanel();
+
+closeOwnerDashboard();
 
 await updateUserInterface();
 
@@ -1683,9 +2122,8 @@ return;
 
 
 /*
-IMPORTANT:
-Only load projects belonging to
-the currently logged-in user.
+Only load projects belonging
+to the currently logged-in user.
 */
 
 const {
@@ -1694,7 +2132,7 @@ error
 } =
 await supabase
 .from("projects")
-.select("id")
+.select("Id")
 .eq("user_id",currentUser.id)
 .order(
 "created_at",
@@ -1779,6 +2217,8 @@ getProviderName(currentUser);
 
 await loadProjects();
 
+await checkOwner();
+
 
 document
 .getElementById("dashboardText")
@@ -1792,6 +2232,15 @@ button.textContent =
 
 
 panel.style.display =
+"none";
+
+
+currentIsOwner = false;
+
+
+document
+.getElementById("ownerButton")
+.style.display =
 "none";
 
 
@@ -1822,11 +2271,6 @@ event === "SIGNED_OUT" ||
 event === "INITIAL_SESSION" ||
 event === "USER_UPDATED"
 ){
-
-/*
-Small delay prevents auth
-state race conditions.
-*/
 
 setTimeout(
 async function(){
@@ -1911,6 +2355,23 @@ function(event){
 if(event.target === this){
 
 closeAccountPanel();
+
+}
+
+});
+
+
+/* CLOSE OWNER DASHBOARD WHEN CLICKING OUTSIDE */
+
+document
+.getElementById("ownerModal")
+.addEventListener(
+"click",
+function(event){
+
+if(event.target === this){
+
+closeOwnerDashboard();
 
 }
 
