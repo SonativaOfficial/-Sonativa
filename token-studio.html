@@ -127,6 +127,21 @@ font-size:15px;
 cursor:pointer;
 }
 
+button:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.message{
+display:none;
+margin-top:20px;
+padding:14px;
+border-radius:10px;
+background:#10151e;
+border:1px solid #303949;
+color:#aeb7c6;
+}
+
 .result{
 display:none;
 margin-top:25px;
@@ -139,6 +154,13 @@ background:#080b12;
 .result p{
 margin:8px 0;
 color:#aab3c2;
+}
+
+.back{
+display:inline-block;
+margin-top:20px;
+color:#8d96a7;
+text-decoration:none;
 }
 
 footer{
@@ -159,9 +181,11 @@ grid-template-columns:1fr 1fr;
 
 <header>
 <div class="container">
+
 <div class="logo">
 <a href="index.html">SONATIVA</a>
 </div>
+
 </div>
 </header>
 
@@ -172,7 +196,7 @@ grid-template-columns:1fr 1fr;
 <h1>Token Studio</h1>
 
 <p>
-Design your token project step by step.
+Design and save your Web3 project.
 </p>
 
 </section>
@@ -195,28 +219,43 @@ Design your token project step by step.
 <div>
 
 <label>Project Name</label>
-<input id="projectName" placeholder="Example: Sonativa">
+
+<input
+id="projectName"
+placeholder="Example: Sonativa">
 
 </div>
 
 <div>
 
 <label>Token Name</label>
-<input id="tokenName" placeholder="Example: Sonativa Token">
+
+<input
+id="tokenName"
+placeholder="Example: Sonativa Token">
 
 </div>
 
 <div>
 
 <label>Token Symbol</label>
-<input id="tokenSymbol" placeholder="Example: SONA">
+
+<input
+id="tokenSymbol"
+placeholder="Example: SONA"
+maxlength="20">
 
 </div>
 
 <div>
 
 <label>Total Supply</label>
-<input id="supply" type="number" placeholder="100000000">
+
+<input
+id="supply"
+type="number"
+min="1"
+placeholder="100000000">
 
 </div>
 
@@ -226,31 +265,51 @@ Design your token project step by step.
 
 <select id="network">
 
-<option>Solana</option>
-<option>Base</option>
-<option>Ethereum</option>
-<option>BNB Chain</option>
+<option value="Solana">Solana</option>
+<option value="Base">Base</option>
+<option value="Ethereum">Ethereum</option>
+<option value="BNB Chain">BNB Chain</option>
 
 </select>
 
 <label>Description</label>
 
-<textarea id="description"
+<textarea
+id="description"
 placeholder="Describe your project..."></textarea>
 
-<button onclick="generateProject()">
-Generate Project
+<button
+id="generateButton"
+onclick="generateProject()">
+
+Generate & Save Project
+
 </button>
 
-<div class="result" id="result">
+<div
+class="message"
+id="message">
+</div>
 
-<h3>Project Preview</h3>
+<div
+class="result"
+id="result">
+
+<h3>Project Saved Successfully ✅</h3>
 
 <p id="rProject"></p>
 <p id="rToken"></p>
 <p id="rSymbol"></p>
 <p id="rSupply"></p>
 <p id="rNetwork"></p>
+
+<a
+class="back"
+href="index.html">
+
+← Back to Sonativa Dashboard
+
+</a>
 
 </div>
 
@@ -259,46 +318,368 @@ Generate Project
 </main>
 
 <footer>
+
 © 2026 Sonativa — Token Studio
+
 </footer>
 
-<script>
+<script type="module">
 
-function generateProject(){
+import {
+createClient
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-const project=document.getElementById("projectName").value;
-const token=document.getElementById("tokenName").value;
-const symbol=document.getElementById("tokenSymbol").value;
-const supply=document.getElementById("supply").value;
-const network=document.getElementById("network").value;
 
-if(!project || !token || !symbol || !supply){
+/* =========================
+   SUPABASE
+========================= */
 
-alert("Please complete the required fields.");
+const SUPABASE_URL =
+"https://kallobeodjzzhrsaqszw.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
+const supabase =
+createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(text){
+
+const message =
+document.getElementById("message");
+
+message.textContent = text;
+
+message.style.display = "block";
+
+}
+
+
+/* =========================
+   GENERATE PROJECT
+========================= */
+
+window.generateProject =
+async function(){
+
+const button =
+document.getElementById("generateButton");
+
+const project =
+document
+.getElementById("projectName")
+.value
+.trim();
+
+const token =
+document
+.getElementById("tokenName")
+.value
+.trim();
+
+const symbol =
+document
+.getElementById("tokenSymbol")
+.value
+.trim()
+.toUpperCase();
+
+const supply =
+document
+.getElementById("supply")
+.value;
+
+const network =
+document
+.getElementById("network")
+.value;
+
+const description =
+document
+.getElementById("description")
+.value
+.trim();
+
+
+/* =========================
+   VALIDATION
+========================= */
+
+if(
+!project ||
+!token ||
+!symbol ||
+!supply
+){
+
+showMessage(
+"Please complete all required fields."
+);
 
 return;
 
 }
 
-document.getElementById("rProject").innerHTML=
-"<strong>Project:</strong> "+project;
 
-document.getElementById("rToken").innerHTML=
-"<strong>Token:</strong> "+token;
+if(Number(supply) <= 0){
 
-document.getElementById("rSymbol").innerHTML=
-"<strong>Symbol:</strong> "+symbol.toUpperCase();
+showMessage(
+"Total supply must be greater than 0."
+);
 
-document.getElementById("rSupply").innerHTML=
-"<strong>Total Supply:</strong> "+
-Number(supply).toLocaleString();
-
-document.getElementById("rNetwork").innerHTML=
-"<strong>Network:</strong> "+network;
-
-document.getElementById("result").style.display="block";
+return;
 
 }
+
+
+button.disabled = true;
+
+button.textContent =
+"Saving Project...";
+
+
+/* =========================
+   GET CURRENT USER
+========================= */
+
+const {
+data:{
+user
+},
+error:userError
+} =
+await supabase.auth.getUser();
+
+
+if(userError){
+
+console.error(userError);
+
+showMessage(
+"Could not verify your account."
+);
+
+button.disabled = false;
+
+button.textContent =
+"Generate & Save Project";
+
+return;
+
+}
+
+
+if(!user){
+
+showMessage(
+"You must login before creating a project."
+);
+
+button.disabled = false;
+
+button.textContent =
+"Generate & Save Project";
+
+return;
+
+}
+
+
+/* =========================
+   SAVE PROJECT
+========================= */
+
+const {
+data,
+error
+} =
+await supabase
+.from("projects")
+.insert({
+
+user_id:user.id,
+
+project_name:project,
+
+token_name:token,
+
+token_symbol:symbol,
+
+total_supply:Number(supply),
+
+network:network,
+
+description:description
+
+})
+.select()
+.single();
+
+
+/* =========================
+   ERROR
+========================= */
+
+if(error){
+
+console.error(
+"Project save error:",
+error
+);
+
+showMessage(
+"Could not save project: " +
+error.message
+);
+
+button.disabled = false;
+
+button.textContent =
+"Generate & Save Project";
+
+return;
+
+}
+
+
+/* =========================
+   SUCCESS
+========================= */
+
+console.log(
+"Project saved:",
+data
+);
+
+
+document.getElementById(
+"rProject"
+).innerHTML =
+"<strong>Project:</strong> " +
+escapeHTML(project);
+
+
+document.getElementById(
+"rToken"
+).innerHTML =
+"<strong>Token:</strong> " +
+escapeHTML(token);
+
+
+document.getElementById(
+"rSymbol"
+).innerHTML =
+"<strong>Symbol:</strong> " +
+escapeHTML(symbol);
+
+
+document.getElementById(
+"rSupply"
+).innerHTML =
+"<strong>Total Supply:</strong> " +
+Number(supply).toLocaleString();
+
+
+document.getElementById(
+"rNetwork"
+).innerHTML =
+"<strong>Network:</strong> " +
+escapeHTML(network);
+
+
+document.getElementById(
+"result"
+).style.display =
+"block";
+
+
+document.getElementById(
+"message"
+).style.display =
+"none";
+
+
+button.disabled = false;
+
+button.textContent =
+"Project Saved ✓";
+
+};
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value){
+
+return value
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   CHECK LOGIN
+========================= */
+
+async function checkLogin(){
+
+const {
+data:{
+user
+}
+} =
+await supabase.auth.getUser();
+
+
+if(!user){
+
+showMessage(
+"⚠️ You are not logged in. Please return to the Sonativa dashboard and login first."
+);
+
+document.getElementById(
+"generateButton"
+).disabled = true;
+
+}
+
+}
+
+
+/* =========================
+   AUTH STATE
+========================= */
+
+supabase.auth.onAuthStateChange(
+function(){
+
+checkLogin();
+
+}
+);
+
+
+/* =========================
+   INITIAL CHECK
+========================= */
+
+checkLogin();
 
 </script>
 
