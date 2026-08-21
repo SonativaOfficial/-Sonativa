@@ -5,11 +5,9 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sonativa — Project</title>
+<title>Sonativa — My Projects</title>
 
 <style>
 
@@ -34,7 +32,7 @@ min-height:100vh;
 
 .container{
 width:92%;
-max-width:1000px;
+max-width:1100px;
 margin:auto;
 }
 
@@ -68,52 +66,46 @@ text-decoration:none;
 }
 
 main{
-padding:60px 0;
+padding:70px 0;
 }
 
-.hero{
+.title{
 text-align:center;
 margin-bottom:40px;
 }
 
-.hero h1{
+.title h1{
 font-size:42px;
 margin-bottom:10px;
 }
 
-.hero p{
+.title p{
 color:#818b9c;
 }
 
-.status{
-display:inline-block;
-margin-top:15px;
-padding:6px 12px;
-border-radius:20px;
-background:#151a24;
-border:1px solid #303847;
-color:#9ca6b7;
-font-size:12px;
-}
-
-.grid{
+.projects{
 display:grid;
-grid-template-columns:repeat(
-auto-fit,
-minmax(280px,1fr)
-);
-gap:18px;
+grid-template-columns:
+repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
 }
 
-.card{
+.project{
 background:rgba(12,16,23,.92);
 border:1px solid #252d3b;
 border-radius:16px;
 padding:25px;
+transition:.2s;
 }
 
-.card h2{
-font-size:19px;
+.project:hover{
+border-color:#465166;
+transform:translateY(-3px);
+}
+
+.project-name{
+font-size:24px;
+font-weight:bold;
 margin-bottom:20px;
 }
 
@@ -121,7 +113,7 @@ margin-bottom:20px;
 display:flex;
 justify-content:space-between;
 gap:15px;
-padding:13px 0;
+padding:12px 0;
 border-bottom:1px solid #202733;
 }
 
@@ -131,28 +123,65 @@ font-size:13px;
 }
 
 .value{
+font-size:14px;
 text-align:right;
 word-break:break-word;
-font-size:14px;
 max-width:65%;
 }
 
 .description{
-grid-column:1/-1;
+margin-top:18px;
+padding:15px;
+background:#080b12;
+border:1px solid #202733;
+border-radius:10px;
+}
+
+.description-title{
+color:#707b8e;
+font-size:12px;
+margin-bottom:7px;
 }
 
 .description-text{
-color:#aeb7c6;
-line-height:1.7;
-white-space:pre-wrap;
+color:#b7bfcc;
+font-size:14px;
+line-height:1.6;
 word-break:break-word;
 }
 
-.loading,
-.error,
-.empty{
+.actions{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
+
+button{
+cursor:pointer;
+font:inherit;
+}
+
+.btn{
+flex:1;
+padding:12px;
+border-radius:9px;
+font-weight:bold;
+border:1px solid #303847;
+}
+
+.open{
+background:#fff;
+color:#06080d;
+}
+
+.delete{
+background:#10151e;
+color:#ff8f8f;
+}
+
+.message{
 text-align:center;
-padding:40px;
+padding:35px;
 color:#818b9c;
 }
 
@@ -160,27 +189,19 @@ color:#818b9c;
 color:#ff8f8f;
 }
 
-.actions{
-margin-top:30px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
+.loading{
+color:#aeb7c6;
 }
 
-.button{
+.badge{
 display:inline-block;
-padding:13px 20px;
-border-radius:9px;
-font-weight:bold;
-text-decoration:none;
+margin-bottom:15px;
+padding:5px 10px;
+border-radius:20px;
+background:#151a24;
 border:1px solid #303847;
-background:#10151e;
-color:#fff;
-}
-
-.primary{
-background:#fff;
-color:#06080d;
+color:#aeb7c6;
+font-size:12px;
 }
 
 footer{
@@ -192,12 +213,16 @@ font-size:13px;
 
 @media(max-width:600px){
 
-.hero h1{
+.title h1{
 font-size:32px;
 }
 
 .row{
 align-items:flex-start;
+}
+
+.value{
+max-width:60%;
 }
 
 }
@@ -220,9 +245,9 @@ SONATIVA
 
 <a
 class="back"
-href="projects.html">
+href="index.html">
 
-← My Projects
+← Dashboard
 
 </a>
 
@@ -236,34 +261,25 @@ href="projects.html">
 <div class="container">
 
 
-<section class="hero">
+<div class="title">
 
-<h1 id="projectTitle">
-Loading...
+<h1>
+My Projects
 </h1>
 
-<p id="projectSubtitle">
-Loading project information...
+<p>
+All your Sonativa projects
 </p>
-
-<div
-class="status"
-id="projectStatus">
-
-Loading
 
 </div>
 
-</section>
-
 
 <div
-id="content">
+class="projects"
+id="projects">
 
-<div class="loading">
-
-Loading your project...
-
+<div class="message loading">
+Loading your projects...
 </div>
 
 </div>
@@ -276,17 +292,13 @@ Loading your project...
 
 <footer>
 
-© 2026 Sonativa
+© 2026 Sonativa — Web3 tools for everyone
 
 </footer>
 
 
 <script type="module">
 
-
-/* =========================
-   SUPABASE
-========================= */
 
 import {
 createClient
@@ -310,41 +322,19 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
+const projectsContainer =
+document.getElementById("projects");
 
-/* =========================
-   HELPERS
-========================= */
 
 function escapeHtml(value){
 
-return String(
-value ?? ""
-)
+return String(value ?? "")
 
-.replaceAll(
-"&",
-"&amp;"
-)
-
-.replaceAll(
-"<",
-"&lt;"
-)
-
-.replaceAll(
-">",
-"&gt;"
-)
-
-.replaceAll(
-'"',
-"&quot;"
-)
-
-.replaceAll(
-"'",
-"&#039;"
-);
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
 
@@ -364,9 +354,7 @@ return "-";
 const number =
 Number(value);
 
-if(
-Number.isNaN(number)
-){
+if(Number.isNaN(number)){
 
 return escapeHtml(value);
 
@@ -388,11 +376,7 @@ return "-";
 const date =
 new Date(value);
 
-if(
-Number.isNaN(
-date.getTime()
-)
-){
+if(Number.isNaN(date.getTime())){
 
 return "-";
 
@@ -403,65 +387,18 @@ return date.toLocaleString();
 }
 
 
-
 /* =========================
-   GET PROJECT ID
+   LOAD PROJECTS
 ========================= */
 
-const params =
-new URLSearchParams(
-window.location.search
-);
+async function loadProjects(){
 
-const projectId =
-params.get("id");
-
-
-
-/* =========================
-   LOAD PROJECT
-========================= */
-
-async function loadProject(){
-
-
-const content =
-document.getElementById(
-"content"
-);
-
-
-if(!projectId){
-
-content.innerHTML =
-
-`
-<div class="error">
-
-No project was selected.
-
-<br><br>
-
-<a
-class="button primary"
-href="projects.html">
-
-← Back to My Projects
-
-</a>
-
+projectsContainer.innerHTML = `
+<div class="message loading">
+Loading your projects...
 </div>
 `;
 
-return;
-
-}
-
-
-
-/* =========================
-   USER
-========================= */
 
 const {
 data:{
@@ -474,18 +411,14 @@ await supabase.auth.getUser();
 
 if(userError){
 
-content.innerHTML =
-
-`
-<div class="error">
+projectsContainer.innerHTML = `
+<div class="message error">
 
 Unable to verify your account.
 
 <br><br>
 
-${escapeHtml(
-userError.message
-)}
+${escapeHtml(userError.message)}
 
 </div>
 `;
@@ -497,20 +430,18 @@ return;
 
 if(!user){
 
-content.innerHTML =
-
-`
-<div class="error">
+projectsContainer.innerHTML = `
+<div class="message">
 
 You must login first.
 
 <br><br>
 
 <a
-class="button primary"
+class="back"
 href="index.html">
 
-Login
+← Login
 
 </a>
 
@@ -522,21 +453,19 @@ return;
 }
 
 
-
 /* =========================
-   PROJECT
+   GET PROJECTS
 ========================= */
 
 const {
-data:project,
+data,
 error
 } =
 await supabase
 
 .from("projects")
 
-.select(
-`
+.select(`
 "Id",
 created_at,
 user_id,
@@ -546,56 +475,61 @@ token_symbol,
 total_supply,
 network,
 description
-`
-)
-
-.eq(
-"Id",
-projectId
-)
+`)
 
 .eq(
 "user_id",
 user.id
 )
 
-.single();
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
-
-
-/* =========================
-   ERROR
-========================= */
 
 if(error){
 
 console.error(
-"Project error:",
+"Projects error:",
 error
 );
 
-content.innerHTML =
+projectsContainer.innerHTML = `
+<div class="message error">
 
-`
-<div class="error">
-
-<h2>
-Project not found
-</h2>
+<h3>
+Error loading projects
+</h3>
 
 <br>
 
-${escapeHtml(
-error.message
-)}
+${escapeHtml(error.message)}
+
+</div>
+`;
+
+return;
+
+}
+
+
+if(!data || data.length === 0){
+
+projectsContainer.innerHTML = `
+<div class="message">
+
+You don't have any projects yet.
 
 <br><br>
 
 <a
-class="button primary"
-href="projects.html">
+class="back"
+href="token-studio.html">
 
-← Back to My Projects
+Create Your First Project
 
 </a>
 
@@ -607,98 +541,39 @@ return;
 }
 
 
+projectsContainer.innerHTML = "";
+
 
 /* =========================
-   DISPLAY
+   DISPLAY PROJECTS
 ========================= */
 
-document.getElementById(
-"projectTitle"
-).textContent =
+data.forEach(
+project => {
+
+
+const card =
+document.createElement("div");
+
+card.className =
+"project";
+
+
+card.innerHTML = `
+
+<div class="badge">
+Sonativa Project
+</div>
+
+
+<div class="project-name">
+
+${escapeHtml(
 project.project_name ||
-"Unnamed Project";
-
-
-document.getElementById(
-"projectSubtitle"
-).textContent =
-project.token_name ||
-"Sonativa Project";
-
-
-document.getElementById(
-"projectStatus"
-).textContent =
-"Project Saved";
-
-
-
-content.innerHTML =
-
-`
-
-<div class="grid">
-
-
-<div class="card">
-
-<h2>
-Project Information
-</h2>
-
-
-<div class="row">
-
-<span class="label">
-Project Name
-</span>
-
-<span class="value">
-${escapeHtml(
-project.project_name || "-"
+"Unnamed Project"
 )}
-</span>
 
 </div>
-
-
-<div class="row">
-
-<span class="label">
-Network
-</span>
-
-<span class="value">
-${escapeHtml(
-project.network || "-"
-)}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-Created
-</span>
-
-<span class="value">
-${formatDate(
-project.created_at
-)}
-</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>
-Token Information
-</h2>
 
 
 <div class="row">
@@ -708,9 +583,12 @@ Token Name
 </span>
 
 <span class="value">
+
 ${escapeHtml(
-project.token_name || "-"
+project.token_name ||
+"-"
 )}
+
 </span>
 
 </div>
@@ -723,9 +601,12 @@ Token Symbol
 </span>
 
 <span class="value">
+
 ${escapeHtml(
-project.token_symbol || "-"
+project.token_symbol ||
+"-"
 )}
+
 </span>
 
 </div>
@@ -738,21 +619,56 @@ Total Supply
 </span>
 
 <span class="value">
+
 ${formatSupply(
 project.total_supply
 )}
+
 </span>
 
 </div>
 
+
+<div class="row">
+
+<span class="label">
+Network
+</span>
+
+<span class="value">
+
+${escapeHtml(
+project.network ||
+"-"
+)}
+
+</span>
+
 </div>
 
 
-<div class="card description">
+<div class="row">
 
-<h2>
-Project Description
-</h2>
+<span class="label">
+Created
+</span>
+
+<span class="value">
+
+${formatDate(
+project.created_at
+)}
+
+</span>
+
+</div>
+
+
+<div class="description">
+
+<div class="description-title">
+DESCRIPTION
+</div>
 
 <div class="description-text">
 
@@ -766,38 +682,201 @@ project.description ||
 </div>
 
 
-</div>
-
-
 <div class="actions">
 
-<a
-class="button primary"
-href="projects.html">
+<button
+class="btn open">
 
-← My Projects
+Open Project
 
-</a>
+</button>
 
-<a
-class="button"
-href="token-studio.html">
 
-Edit / Create Project
+<button
+class="btn delete">
 
-</a>
+Delete
+
+</button>
 
 </div>
 
 `;
 
+
+/* =========================
+   OPEN PROJECT
+========================= */
+
+card
+.querySelector(".open")
+.addEventListener(
+"click",
+function(){
+
+openProject(project);
+
+}
+);
+
+
+/* =========================
+   DELETE PROJECT
+========================= */
+
+card
+.querySelector(".delete")
+.addEventListener(
+"click",
+function(){
+
+deleteProject(project);
+
+}
+);
+
+
+projectsContainer.appendChild(card);
+
+}
+
+);
+
 }
 
 
-loadProject();
+/* =========================
+   OPEN PROJECT
+========================= */
 
+function openProject(project){
+
+if(
+!project ||
+!project.Id
+){
+
+alert(
+"Project ID not found."
+);
+
+return;
+
+}
+
+
+/*
+
+IMPORTANT:
+
+Send the real database ID
+to project.html.
+
+Example:
+
+project.html?id=123
+
+*/
+
+window.location.href =
+"project.html?id=" +
+encodeURIComponent(
+project.Id
+);
+
+}
+
+
+/* =========================
+   DELETE PROJECT
+========================= */
+
+async function deleteProject(project){
+
+const confirmed =
+confirm(
+'Delete project "' +
+(project.project_name || "Unnamed Project") +
+'"?'
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+const {
+data:{
+user
+}
+} =
+await supabase.auth.getUser();
+
+
+if(!user){
+
+alert(
+"You must login first."
+);
+
+return;
+
+}
+
+
+const {
+error
+} =
+await supabase
+
+.from("projects")
+
+.delete()
+
+.eq(
+"Id",
+project.Id
+)
+
+.eq(
+"user_id",
+user.id
+);
+
+
+if(error){
+
+console.error(
+"Delete error:",
+error
+);
+
+alert(
+"Delete failed: " +
+error.message
+);
+
+return;
+
+}
+
+
+await loadProjects();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadProjects();
 
 </script>
+
 
 </body>
 
