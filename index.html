@@ -3,116 +3,292 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Sonativa — Web3 Platform</title>
-<meta name="description" content="Sonativa — Build, launch and grow in Web3.">
+
+<meta name="description"
+content="Sonativa — Build, launch and grow in Web3.">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:#06080d;
 color:#fff;
 line-height:1.6;
 }
-a{text-decoration:none;color:inherit}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.container{width:92%;max-width:1200px;margin:auto}
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+button,
+input,
+select{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.container{
+width:92%;
+max-width:1200px;
+margin:auto;
+}
+
+/* HEADER */
 
 header{
-position:sticky;top:0;z-index:1000;
+position:sticky;
+top:0;
+z-index:1000;
 background:rgba(6,8,13,.94);
 backdrop-filter:blur(18px);
 border-bottom:1px solid #202633;
 }
+
 .nav{
-height:72px;display:flex;align-items:center;
-justify-content:space-between;gap:15px;
+height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
 }
-.logo{font-size:24px;font-weight:900;letter-spacing:2px}
-.nav-links{display:none;gap:22px;color:#9099aa;font-size:14px}
-.nav-links a:hover{color:#fff}
-.nav-actions{display:flex;gap:8px;align-items:center}
+
+.logo{
+font-size:24px;
+font-weight:900;
+letter-spacing:2px;
+}
+
+.nav-links{
+display:none;
+gap:22px;
+color:#9099aa;
+font-size:14px;
+}
+
+.nav-links a:hover{
+color:#fff;
+}
+
+.nav-actions{
+display:flex;
+gap:8px;
+align-items:center;
+}
+
 .lang{
-background:#0e131c;border:1px solid #293140;
-color:#fff;padding:9px;border-radius:8px;
+background:#0e131c;
+border:1px solid #293140;
+color:#fff;
+padding:9px;
+border-radius:8px;
 }
+
 .btn{
-display:inline-block;padding:13px 20px;
-border-radius:10px;font-weight:bold;
+display:inline-block;
+padding:13px 20px;
+border-radius:10px;
+font-weight:bold;
 border:1px solid #303847;
 }
-.primary{background:#fff;color:#06080d}
-.secondary{background:#10151e;color:#fff}
+
+.primary{
+background:#fff;
+color:#06080d;
+}
+
+.secondary{
+background:#10151e;
+color:#fff;
+}
+
 .wallet{
-background:#fff;color:#07090f;border:0;
-padding:10px 15px;border-radius:9px;
+background:#fff;
+color:#07090f;
+border:0;
+padding:10px 15px;
+border-radius:9px;
 font-weight:bold;
 }
-.menu{font-size:25px}
 
-.hero{text-align:center;padding:100px 0 70px}
-.badge{
-display:inline-block;border:1px solid #293140;
-background:#0d121b;color:#aab3c2;
-padding:8px 14px;border-radius:50px;
-font-size:13px;margin-bottom:25px;
+.menu{
+font-size:25px;
 }
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:100px 0 70px;
+}
+
+.badge{
+display:inline-block;
+border:1px solid #293140;
+background:#0d121b;
+color:#aab3c2;
+padding:8px 14px;
+border-radius:50px;
+font-size:13px;
+margin-bottom:25px;
+}
+
 .hero h1{
 font-size:clamp(45px,9vw,85px);
-line-height:1;letter-spacing:-4px;margin-bottom:25px;
+line-height:1;
+letter-spacing:-4px;
+margin-bottom:25px;
 }
-.hero h1 span{color:#9fa8b8}
-.hero p{max-width:720px;margin:auto;color:#8b95a6;font-size:18px}
-.hero-buttons{
-display:flex;justify-content:center;gap:12px;
-flex-wrap:wrap;margin-top:35px;
-}
-.metrics{
-display:grid;grid-template-columns:repeat(3,1fr);
-gap:10px;max-width:700px;margin:55px auto 0;
-}
-.metric{
-padding:20px 10px;border:1px solid #202733;
-border-radius:12px;background:#0c1017;
-}
-.metric strong{display:block;font-size:23px}
-.metric span{font-size:12px;color:#707b8e}
 
-section{padding:80px 0}
-.section-head{text-align:center;margin-bottom:45px}
-.section-head h2{font-size:38px;margin-bottom:10px}
-.section-head p{color:#808a9b}
+.hero h1 span{
+color:#9fa8b8;
+}
+
+.hero p{
+max-width:720px;
+margin:auto;
+color:#8b95a6;
+font-size:18px;
+}
+
+.hero-buttons{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+margin-top:35px;
+}
+
+.metrics{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+max-width:700px;
+margin:55px auto 0;
+}
+
+.metric{
+padding:20px 10px;
+border:1px solid #202733;
+border-radius:12px;
+background:#0c1017;
+}
+
+.metric strong{
+display:block;
+font-size:23px;
+}
+
+.metric span{
+font-size:12px;
+color:#707b8e;
+}
+
+/* SECTIONS */
+
+section{
+padding:80px 0;
+}
+
+.section-head{
+text-align:center;
+margin-bottom:45px;
+}
+
+.section-head h2{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.section-head p{
+color:#808a9b;
+}
+
+/* PRODUCTS */
 
 .products{
-display:grid;grid-template-columns:1fr;gap:16px;
+display:grid;
+grid-template-columns:1fr;
+gap:16px;
 }
+
 .card{
-padding:26px;background:#0c1017;
-border:1px solid #222a38;border-radius:16px;
+padding:26px;
+background:#0c1017;
+border:1px solid #222a38;
+border-radius:16px;
 transition:.2s;
 }
-.card:hover{transform:translateY(-3px)}
-.icon{font-size:31px;margin-bottom:15px}
-.card h3{font-size:20px;margin-bottom:7px}
-.card p{color:#818b9c;font-size:14px}
-.card-link{
-display:inline-block;margin-top:18px;
-font-size:13px;font-weight:bold;
+
+.card:hover{
+transform:translateY(-3px);
 }
-.soon{color:#687385}
+
+.icon{
+font-size:31px;
+margin-bottom:15px;
+}
+
+.card h3{
+font-size:20px;
+margin-bottom:7px;
+}
+
+.card p{
+color:#818b9c;
+font-size:14px;
+}
+
+.card-link{
+display:inline-block;
+margin-top:18px;
+font-size:13px;
+font-weight:bold;
+}
+
+.soon{
+color:#687385;
+}
+
+/* DASHBOARD */
 
 .dashboard{
-display:grid;grid-template-columns:1fr;gap:15px;
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
 }
+
 .dashboard-card{
-background:#0c1017;border:1px solid #222a38;
-border-radius:15px;padding:24px;
+background:#0c1017;
+border:1px solid #222a38;
+border-radius:15px;
+padding:24px;
 }
-.dashboard-card span{color:#707b8e;font-size:13px}
+
+.dashboard-card span{
+color:#707b8e;
+font-size:13px;
+}
+
 .dashboard-card strong{
-display:block;font-size:28px;margin-top:5px;
+display:block;
+font-size:28px;
+margin-top:5px;
 }
 
 .account-panel{
@@ -123,6 +299,7 @@ border:1px solid #222a38;
 border-radius:15px;
 padding:20px;
 }
+
 .account-row{
 display:flex;
 justify-content:space-between;
@@ -130,56 +307,112 @@ align-items:center;
 gap:15px;
 flex-wrap:wrap;
 }
-.user-email{color:#9ca6b7;font-size:14px}
+
+.user-email{
+color:#9ca6b7;
+font-size:14px;
+}
+
+/* CTA */
 
 .cta{
-text-align:center;background:#0c1017;
-border:1px solid #252d3b;border-radius:20px;
+text-align:center;
+background:#0c1017;
+border:1px solid #252d3b;
+border-radius:20px;
 padding:65px 25px;
 }
-.cta h2{font-size:40px;margin-bottom:12px}
-.cta p{max-width:650px;margin:auto;color:#818b9c}
+
+.cta h2{
+font-size:40px;
+margin-bottom:12px;
+}
+
+.cta p{
+max-width:650px;
+margin:auto;
+color:#818b9c;
+}
+
+/* FOOTER */
 
 footer{
-border-top:1px solid #202633;padding:45px 0;
-color:#687385;font-size:13px;
+border-top:1px solid #202633;
+padding:45px 0;
+color:#687385;
+font-size:13px;
 }
+
 .footer-grid{
-display:grid;grid-template-columns:1fr 1fr;gap:25px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
 }
-.footer-title{color:#fff;font-weight:bold;margin-bottom:12px}
-.footer-links a{display:block;margin:7px 0}
+
+.footer-title{
+color:#fff;
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.footer-links a{
+display:block;
+margin:7px 0;
+}
+
+/* MODAL */
 
 .modal{
-display:none;position:fixed;inset:0;
+display:none;
+position:fixed;
+inset:0;
 background:rgba(0,0,0,.82);
-z-index:2000;align-items:center;
-justify-content:center;padding:20px;
+z-index:2000;
+align-items:center;
+justify-content:center;
+padding:20px;
 }
+
 .modal-box{
-width:100%;max-width:430px;
+width:100%;
+max-width:430px;
 background:#0d121a;
 border:1px solid #303847;
-border-radius:16px;padding:30px;
+border-radius:16px;
+padding:30px;
 }
-.modal-box h2{margin-bottom:8px}
+
+.modal-box h2{
+margin-bottom:8px;
+}
+
 .modal-box p{
-color:#818b9c;font-size:14px;margin-bottom:20px;
+color:#818b9c;
+font-size:14px;
+margin-bottom:20px;
 }
+
 .modal-box input{
-width:100%;padding:14px;
+width:100%;
+padding:14px;
 background:#080b11;
 border:1px solid #303847;
-border-radius:9px;color:#fff;
+border-radius:9px;
+color:#fff;
 margin-bottom:12px;
 outline:none;
 }
+
 .modal-box input:focus{
 border-color:#687385;
 }
+
 .close{
-float:right;cursor:pointer;font-size:22px;
+float:right;
+cursor:pointer;
+font-size:22px;
 }
+
 .auth-message{
 margin-top:15px;
 padding:12px;
@@ -189,65 +422,121 @@ border-radius:8px;
 color:#9ca6b7;
 font-size:13px;
 }
-.auth-switch{
-margin-top:15px;
-text-align:center;
-font-size:13px;
-color:#818b9c;
+
+.github-button{
+width:100%;
+margin-top:10px;
+background:#fff;
+color:#06080d;
+border:1px solid #fff;
 }
-.auth-switch button{
-background:none;
-border:0;
-color:#fff;
-font-weight:bold;
+
+.divider{
+display:flex;
+align-items:center;
+gap:10px;
+margin:16px 0;
+color:#687385;
+font-size:12px;
+}
+
+.divider::before,
+.divider::after{
+content:"";
+height:1px;
+background:#293140;
+flex:1;
 }
 
 @media(min-width:750px){
-.nav-links{display:flex}
-.menu{display:none}
-.products{grid-template-columns:repeat(3,1fr)}
-.dashboard{grid-template-columns:repeat(4,1fr)}
-.footer-grid{grid-template-columns:repeat(4,1fr)}
-.hero{padding-top:130px}
+
+.nav-links{
+display:flex;
 }
+
+.menu{
+display:none;
+}
+
+.products{
+grid-template-columns:repeat(3,1fr);
+}
+
+.dashboard{
+grid-template-columns:repeat(4,1fr);
+}
+
+.footer-grid{
+grid-template-columns:repeat(4,1fr);
+}
+
+.hero{
+padding-top:130px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <header>
+
 <div class="container nav">
 
-<div class="logo">SONATIVA</div>
+<div class="logo">
+SONATIVA
+</div>
 
 <nav class="nav-links">
+
 <a href="#platform">Platform</a>
 <a href="#dashboard">Dashboard</a>
 <a href="#about">About</a>
+
 </nav>
 
 <div class="nav-actions">
 
-<select class="lang" onchange="changeLanguage(this.value)">
+<select
+class="lang"
+onchange="changeLanguage(this.value)">
+
 <option value="en">EN</option>
 <option value="fr">FR</option>
 <option value="ar">AR</option>
+
 </select>
 
-<button class="wallet" id="authButton" onclick="openAuth()">
+<button
+class="wallet"
+id="authButton"
+onclick="openAuth()">
+
 Login / Sign Up
+
 </button>
 
 </div>
 
-<div class="menu">☰</div>
+<div class="menu">
+☰
+</div>
 
 </div>
+
 </header>
+
 
 <main>
 
+<!-- HERO -->
+
 <section class="hero">
+
 <div class="container">
 
 <div class="badge">
@@ -265,163 +554,364 @@ to build, launch and grow in Web3.
 </p>
 
 <div class="hero-buttons">
-<a class="btn primary" href="#platform">
+
+<a
+class="btn primary"
+href="#platform">
+
 Explore Platform
+
 </a>
 
-<a class="btn secondary" href="#dashboard">
+<a
+class="btn secondary"
+href="#dashboard">
+
 Dashboard
+
 </a>
+
 </div>
 
 <div class="metrics">
 
 <div class="metric">
+
 <strong>∞</strong>
-<span>Possibilities</span>
+
+<span>
+Possibilities
+</span>
+
 </div>
 
 <div class="metric">
+
 <strong>24/7</strong>
-<span>Web3 Tools</span>
+
+<span>
+Web3 Tools
+</span>
+
 </div>
 
 <div class="metric">
+
 <strong>Global</strong>
-<span>Community</span>
-</div>
+
+<span>
+Community
+</span>
 
 </div>
 
 </div>
+
+</div>
+
 </section>
 
 
+<!-- PLATFORM -->
+
 <section id="platform">
+
 <div class="container">
 
 <div class="section-head">
-<h2>Sonativa Platform</h2>
-<p>Everything you need to build your Web3 project.</p>
+
+<h2>
+Sonativa Platform
+</h2>
+
+<p>
+Everything you need to build your Web3 project.
+</p>
+
 </div>
 
 <div class="products">
 
 <div class="card">
+
 <div class="icon">🪙</div>
-<h3>Token Studio</h3>
-<p>Design and plan your token project step by step.</p>
-<a class="card-link" href="token-studio.html">
+
+<h3>
+Token Studio
+</h3>
+
+<p>
+Design and plan your token project step by step.
+</p>
+
+<a
+class="card-link"
+href="token-studio.html">
+
 Open Studio →
+
 </a>
+
 </div>
 
+
 <div class="card">
+
 <div class="icon">📊</div>
-<h3>Tokenomics Studio</h3>
-<p>Design supply, allocations, vesting and distribution.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<h3>
+Tokenomics Studio
+</h3>
+
+<p>
+Design supply, allocations, vesting and distribution.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
+
 <div class="card">
+
 <div class="icon">🔍</div>
-<h3>Security Scanner</h3>
-<p>Analyze contracts, holders, liquidity and risks.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<h3>
+Security Scanner
+</h3>
+
+<p>
+Analyze contracts, holders, liquidity and risks.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
+
 <div class="card">
+
 <div class="icon">👛</div>
-<h3>Wallet Analyzer</h3>
-<p>Analyze wallet activity, holdings and transactions.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<h3>
+Wallet Analyzer
+</h3>
+
+<p>
+Analyze wallet activity, holdings and transactions.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
+
 <div class="card">
+
 <div class="icon">🐋</div>
-<h3>Whale Tracker</h3>
-<p>Track important wallets, smart money and movements.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<h3>
+Whale Tracker
+</h3>
+
+<p>
+Track important wallets, smart money and movements.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
+
 <div class="card">
+
 <div class="icon">🤖</div>
-<h3>Sonativa AI</h3>
-<p>Your intelligent assistant for building Web3 products.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<h3>
+Sonativa AI
+</h3>
+
+<p>
+Your intelligent assistant for building Web3 products.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
+
 <div class="card">
+
 <div class="icon">🌐</div>
-<h3>Website Builder</h3>
-<p>Create a professional Web3 website without coding.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<h3>
+Website Builder
+</h3>
+
+<p>
+Create a professional Web3 website without coding.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
+
 <div class="card">
+
 <div class="icon">📱</div>
-<h3>App Builder</h3>
-<p>Turn your Web3 idea into a modern mobile application.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<h3>
+App Builder
+</h3>
+
+<p>
+Turn your Web3 idea into a modern mobile application.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
+
 
 <div class="card">
+
 <div class="icon">🔗</div>
-<h3>API & Developer Tools</h3>
-<p>Build applications using Sonativa infrastructure.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<h3>
+API & Developer Tools
+</h3>
+
+<p>
+Build applications using Sonativa infrastructure.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
 </div>
+
 </div>
+
 </section>
 
 
+<!-- DASHBOARD -->
+
 <section id="dashboard">
+
 <div class="container">
 
 <div class="section-head">
-<h2>Your Web3 Dashboard</h2>
+
+<h2>
+Your Web3 Dashboard
+</h2>
+
 <p id="dashboardText">
 Login to manage your Sonativa projects.
 </p>
+
 </div>
 
 <div class="dashboard">
 
 <div class="dashboard-card">
-<span>Projects</span>
-<strong id="projectCount">0</strong>
+
+<span>
+Projects
+</span>
+
+<strong id="projectCount">
+0
+</strong>
+
 </div>
+
 
 <div class="dashboard-card">
-<span>Wallets</span>
-<strong>0</strong>
+
+<span>
+Wallets
+</span>
+
+<strong>
+0
+</strong>
+
 </div>
+
 
 <div class="dashboard-card">
-<span>Tokens</span>
-<strong>0</strong>
+
+<span>
+Tokens
+</span>
+
+<strong>
+0
+</strong>
+
 </div>
+
 
 <div class="dashboard-card">
-<span>Alerts</span>
-<strong>0</strong>
-</div>
+
+<span>
+Alerts
+</span>
+
+<strong>
+0
+</strong>
 
 </div>
 
-<div class="account-panel" id="accountPanel">
+</div>
+
+
+<div
+class="account-panel"
+id="accountPanel">
 
 <div class="account-row">
 
 <div>
-<strong>Signed in</strong>
-<div class="user-email" id="userEmail"></div>
+
+<strong>
+Signed in
+</strong>
+
+<div
+class="user-email"
+id="userEmail">
 </div>
 
-<button class="btn secondary" onclick="logout()">
+</div>
+
+<button
+class="btn secondary"
+onclick="logout()">
+
 Logout
+
 </button>
 
 </div>
@@ -429,68 +919,149 @@ Logout
 </div>
 
 </div>
+
 </section>
 
+
+<!-- FEATURES -->
 
 <section>
 
 <div class="container">
 
 <div class="section-head">
-<h2>Built for the Web3 Future</h2>
-<p>Powerful infrastructure without unnecessary complexity.</p>
+
+<h2>
+Built for the Web3 Future
+</h2>
+
+<p>
+Powerful infrastructure without unnecessary complexity.
+</p>
+
 </div>
 
 <div class="products">
 
 <div class="card">
-<div class="icon">🌍</div>
-<h3>Global</h3>
-<p>Designed for users around the world with multilingual support.</p>
+
+<div class="icon">
+🌍
 </div>
+
+<h3>
+Global
+</h3>
+
+<p>
+Designed for users around the world with multilingual support.
+</p>
+
+</div>
+
 
 <div class="card">
-<div class="icon">🔐</div>
-<h3>Security First</h3>
-<p>Security and user-controlled wallets are fundamental to the platform.</p>
+
+<div class="icon">
+🔐
 </div>
+
+<h3>
+Security First
+</h3>
+
+<p>
+Security and user-controlled wallets are fundamental to the platform.
+</p>
+
+</div>
+
 
 <div class="card">
-<div class="icon">⚡</div>
-<h3>Simple</h3>
-<p>Complex Web3 workflows transformed into simple user experiences.</p>
+
+<div class="icon">
+⚡
 </div>
+
+<h3>
+Simple
+</h3>
+
+<p>
+Complex Web3 workflows transformed into simple user experiences.
+</p>
+
+</div>
+
 
 <div class="card">
-<div class="icon">📈</div>
-<h3>Built to Scale</h3>
-<p>Designed to evolve into complete Web3 infrastructure.</p>
+
+<div class="icon">
+📈
 </div>
+
+<h3>
+Built to Scale
+</h3>
+
+<p>
+Designed to evolve into complete Web3 infrastructure.
+</p>
+
+</div>
+
 
 <div class="card">
-<div class="icon">🤖</div>
-<h3>AI Powered</h3>
-<p>Intelligent assistance for research, creation and development.</p>
+
+<div class="icon">
+🤖
 </div>
+
+<h3>
+AI Powered
+</h3>
+
+<p>
+Intelligent assistance for research, creation and development.
+</p>
+
+</div>
+
 
 <div class="card">
-<div class="icon">📱</div>
-<h3>Mobile Ready</h3>
-<p>Designed from the beginning for desktop, mobile and future apps.</p>
+
+<div class="icon">
+📱
 </div>
+
+<h3>
+Mobile Ready
+</h3>
+
+<p>
+Designed from the beginning for desktop, mobile and future apps.
+</p>
 
 </div>
 
 </div>
+
+</div>
+
 </section>
 
 
+<!-- ABOUT -->
+
 <section id="about">
+
 <div class="container">
 
 <div class="cta">
 
-<h2>Build something bigger.</h2>
+<h2>
+Build something bigger.
+</h2>
 
 <p>
 Sonativa's mission is to make Web3 accessible
@@ -499,18 +1070,27 @@ needed for the next generation of digital products.
 </p>
 
 <div class="hero-buttons">
-<a class="btn primary" href="#platform">
+
+<a
+class="btn primary"
+href="#platform">
+
 Start Building
+
 </a>
-</div>
 
 </div>
 
 </div>
+
+</div>
+
 </section>
 
 </main>
 
+
+<!-- FOOTER -->
 
 <footer>
 
@@ -519,42 +1099,104 @@ Start Building
 <div class="footer-grid">
 
 <div>
-<div class="footer-title">SONATIVA</div>
-<div>Build. Launch. Grow.</div>
+
+<div class="footer-title">
+SONATIVA
 </div>
 
 <div>
-<div class="footer-title">Platform</div>
-<div class="footer-links">
-<a href="#platform">Token Studio</a>
-<a href="#platform">Security</a>
-<a href="#platform">Wallets</a>
-<a href="#platform">AI</a>
-</div>
+Build. Launch. Grow.
 </div>
 
-<div>
-<div class="footer-title">Company</div>
-<div class="footer-links">
-<a href="#about">About</a>
-<a href="#">Documentation</a>
-<a href="#">Blog</a>
-<a href="#">Contact</a>
-</div>
 </div>
 
+
 <div>
-<div class="footer-title">Legal</div>
-<div class="footer-links">
-<a href="#">Privacy</a>
-<a href="#">Terms</a>
-<a href="#">Security</a>
+
+<div class="footer-title">
+Platform
 </div>
+
+<div class="footer-links">
+
+<a href="#platform">
+Token Studio
+</a>
+
+<a href="#platform">
+Security
+</a>
+
+<a href="#platform">
+Wallets
+</a>
+
+<a href="#platform">
+AI
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+Company
+</div>
+
+<div class="footer-links">
+
+<a href="#about">
+About
+</a>
+
+<a href="#">
+Documentation
+</a>
+
+<a href="#">
+Blog
+</a>
+
+<a href="#">
+Contact
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+Legal
+</div>
+
+<div class="footer-links">
+
+<a href="#">
+Privacy
+</a>
+
+<a href="#">
+Terms
+</a>
+
+<a href="#">
+Security
+</a>
+
+</div>
+
 </div>
 
 </div>
 
 <br><br>
+
 © 2026 Sonativa. All rights reserved.
 
 </div>
@@ -562,60 +1204,106 @@ Start Building
 </footer>
 
 
-<div class="modal" id="authModal">
+<!-- AUTH MODAL -->
+
+<div
+class="modal"
+id="authModal">
 
 <div class="modal-box">
 
-<span class="close" onclick="closeAuth()">×</span>
+<span
+class="close"
+onclick="closeAuth()">
+×
+</span>
 
-<h2 id="authTitle">
-Create your Sonativa account
+<h2>
+Sign in to Sonativa
 </h2>
 
-<p id="authDescription">
-Create an account to save your projects.
+<p>
+Use your email or continue with GitHub.
 </p>
+
+
+<button
+class="btn github-button"
+onclick="signInWithGitHub()">
+
+Continue with GitHub
+
+</button>
+
+
+<div class="divider">
+OR
+</div>
+
 
 <input
 id="email"
 type="email"
-placeholder="Email address">
+placeholder="Email address"
+autocomplete="email">
+
 
 <input
 id="password"
 type="password"
-placeholder="Password">
+placeholder="Password"
+autocomplete="current-password">
+
 
 <button
 class="btn primary"
 style="width:100%;margin-bottom:10px"
 onclick="signUp()">
+
 Create Account
+
 </button>
+
 
 <button
 class="btn secondary"
 style="width:100%"
 onclick="signIn()">
+
 Login
+
 </button>
 
-<div class="auth-message" id="authMessage">
+
+<div
+class="auth-message"
+id="authMessage">
+
 Your account is protected by Supabase Authentication.
+
 </div>
 
 </div>
+
 </div>
 
+
+<!-- SUPABASE -->
 
 <script type="module">
 
-import { createClient }
-from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import {
+createClient
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+
+/* SUPABASE CONFIG */
 
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
+
 
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
@@ -628,7 +1316,10 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-window.openAuth = function(){
+/* AUTH MODAL */
+
+window.openAuth =
+function(){
 
 document
 .getElementById("authModal")
@@ -637,7 +1328,8 @@ document
 };
 
 
-window.closeAuth = function(){
+window.closeAuth =
+function(){
 
 document
 .getElementById("authModal")
@@ -646,18 +1338,73 @@ document
 };
 
 
-window.signUp = async function(){
+/* GITHUB LOGIN */
 
-const email =
-document.getElementById("email")
-.value.trim();
-
-const password =
-document.getElementById("password")
-.value;
+window.signInWithGitHub =
+async function(){
 
 const message =
 document.getElementById("authMessage");
+
+
+message.textContent =
+"Connecting to GitHub...";
+
+
+const redirectUrl =
+window.location.origin +
+window.location.pathname;
+
+
+const {
+error
+} =
+await supabase.auth.signInWithOAuth({
+
+provider:"github",
+
+options:{
+
+redirectTo:
+redirectUrl
+
+}
+
+});
+
+
+if(error){
+
+message.textContent =
+"GitHub login error: " +
+error.message;
+
+}
+
+};
+
+
+/* EMAIL SIGN UP */
+
+window.signUp =
+async function(){
+
+const email =
+document
+.getElementById("email")
+.value
+.trim();
+
+
+const password =
+document
+.getElementById("password")
+.value;
+
+
+const message =
+document
+.getElementById("authMessage");
 
 
 if(!email || !password){
@@ -680,10 +1427,18 @@ return;
 }
 
 
-const {error} =
+message.textContent =
+"Creating your account...";
+
+
+const {
+error
+} =
 await supabase.auth.signUp({
+
 email,
 password
+
 });
 
 
@@ -692,28 +1447,38 @@ if(error){
 message.textContent =
 error.message;
 
-}else{
+return;
+
+}
+
 
 message.textContent =
 "Account created successfully. Check your email if confirmation is enabled.";
 
-}
-
 };
 
 
-window.signIn = async function(){
+/* EMAIL LOGIN */
+
+window.signIn =
+async function(){
 
 const email =
-document.getElementById("email")
-.value.trim();
+document
+.getElementById("email")
+.value
+.trim();
+
 
 const password =
-document.getElementById("password")
+document
+.getElementById("password")
 .value;
 
+
 const message =
-document.getElementById("authMessage");
+document
+.getElementById("authMessage");
 
 
 if(!email || !password){
@@ -726,10 +1491,18 @@ return;
 }
 
 
-const {error} =
+message.textContent =
+"Signing in...";
+
+
+const {
+error
+} =
 await supabase.auth.signInWithPassword({
+
 email,
 password
+
 });
 
 
@@ -747,16 +1520,22 @@ closeAuth();
 
 await updateUserInterface();
 
+
 document
 .getElementById("dashboard")
 .scrollIntoView({
+
 behavior:"smooth"
+
 });
 
 };
 
 
-window.logout = async function(){
+/* LOGOUT */
+
+window.logout =
+async function(){
 
 await supabase.auth.signOut();
 
@@ -765,72 +1544,25 @@ await updateUserInterface();
 };
 
 
-async function updateUserInterface(){
-
-const {
-data:{user}
-} =
-await supabase.auth.getUser();
-
-
-const button =
-document.getElementById("authButton");
-
-const panel =
-document.getElementById("accountPanel");
-
-const email =
-document.getElementById("userEmail");
-
-
-if(user){
-
-button.textContent =
-"Account";
-
-panel.style.display =
-"block";
-
-email.textContent =
-user.email || "";
-
-await loadProjects();
-
-document.getElementById("dashboardText")
-.textContent =
-"Your Sonativa workspace is ready.";
-
-}else{
-
-button.textContent =
-"Login / Sign Up";
-
-panel.style.display =
-"none";
-
-document.getElementById("projectCount")
-.textContent =
-"0";
-
-document.getElementById("dashboardText")
-.textContent =
-"Login to manage your Sonativa projects.";
-
-}
-
-}
-
+/* LOAD PROJECTS */
 
 async function loadProjects(){
 
 const {
+
 data,
 error
+
 } =
 await supabase
 .from("projects")
 .select("id")
-.order("id",{ascending:false});
+.order(
+"id",
+{
+ascending:false
+}
+);
 
 
 if(error){
@@ -840,29 +1572,129 @@ console.error(
 error
 );
 
+document
+.getElementById("projectCount")
+.textContent =
+"0";
+
 return;
 
 }
 
 
-document.getElementById("projectCount")
+document
+.getElementById("projectCount")
 .textContent =
 data.length;
 
 }
 
 
+/* UPDATE UI */
+
+async function updateUserInterface(){
+
+const {
+
+data:{
+user
+}
+
+} =
+await supabase.auth.getUser();
+
+
+const button =
+document
+.getElementById("authButton");
+
+
+const panel =
+document
+.getElementById("accountPanel");
+
+
+const email =
+document
+.getElementById("userEmail");
+
+
+if(user){
+
+button.textContent =
+"Account";
+
+
+panel.style.display =
+"block";
+
+
+email.textContent =
+user.email ||
+"GitHub account";
+
+
+await loadProjects();
+
+
+document
+.getElementById("dashboardText")
+.textContent =
+"Your Sonativa workspace is ready.";
+
+}else{
+
+button.textContent =
+"Login / Sign Up";
+
+
+panel.style.display =
+"none";
+
+
+document
+.getElementById("projectCount")
+.textContent =
+"0";
+
+
+document
+.getElementById("dashboardText")
+.textContent =
+"Login to manage your Sonativa projects.";
+
+}
+
+}
+
+
+/* AUTH STATE */
+
 supabase.auth.onAuthStateChange(
-async () => {
+async function(
+event,
+session
+){
+
+if(
+event === "SIGNED_IN" ||
+event === "SIGNED_OUT" ||
+event === "INITIAL_SESSION"
+){
 
 await updateUserInterface();
 
 }
-);
 
+});
+
+
+/* INITIAL LOAD */
 
 updateUserInterface();
 
+
+/* LANGUAGE */
 
 window.changeLanguage =
 function(language){
@@ -875,7 +1707,8 @@ alert(
 "العربية سيتم تفعيلها بالكامل في نظام الترجمة القادم."
 );
 
-}else if(language==="fr"){
+}
+else if(language==="fr"){
 
 document.documentElement.lang="fr";
 
@@ -883,7 +1716,8 @@ alert(
 "Le système français sera activé dans la prochaine version."
 );
 
-}else{
+}
+else{
 
 document.documentElement.lang="en";
 
@@ -894,6 +1728,26 @@ alert(
 }
 
 };
+
+
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+
+document
+.getElementById("authModal")
+.addEventListener(
+"click",
+function(event){
+
+if(
+event.target === this
+){
+
+closeAuth();
+
+}
+
+});
+
 
 </script>
 
