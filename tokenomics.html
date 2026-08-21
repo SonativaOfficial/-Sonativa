@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tokenomics Studio — Sonativa</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:
+radial-gradient(
+circle at 50% -10%,
+#172033 0%,
+#06080d 45%,
+#040509 100%
+);
+color:#fff;
+min-height:100vh;
+}
+
+.container{
+width:92%;
+max-width:950px;
+margin:auto;
+}
+
+header{
+border-bottom:1px solid #202633;
+background:rgba(5,7,12,.9);
+}
+
+.nav{
+height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:23px;
+font-weight:900;
+letter-spacing:3px;
+}
+
+.back{
+padding:10px 15px;
+border:1px solid #303847;
+border-radius:9px;
+background:#10151e;
+color:#fff;
+text-decoration:none;
+}
+
+main{
+padding:55px 0;
+}
+
+.hero{
+text-align:center;
+margin-bottom:35px;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#818b9c;
+}
+
+.project-box{
+background:#0d1119;
+border:1px solid #252d3b;
+border-radius:15px;
+padding:20px;
+margin-bottom:20px;
+}
+
+.project-box span{
+display:block;
+color:#707b8e;
+font-size:12px;
+margin-bottom:5px;
+}
+
+.project-box strong{
+font-size:20px;
+}
+
+.card{
+background:rgba(12,16,23,.92);
+border:1px solid #252d3b;
+border-radius:16px;
+padding:25px;
+margin-bottom:20px;
+}
+
+.card h2{
+font-size:20px;
+margin-bottom:20px;
+}
+
+.row{
+display:grid;
+grid-template-columns:1fr 140px;
+gap:12px;
+align-items:center;
+margin-bottom:14px;
+}
+
+label{
+color:#aeb7c6;
+font-size:14px;
+}
+
+input{
+width:100%;
+padding:13px;
+background:#080b12;
+border:1px solid #303847;
+border-radius:9px;
+color:#fff;
+font-size:15px;
+}
+
+input:focus{
+outline:none;
+border-color:#697386;
+}
+
+.total{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:20px;
+padding:18px;
+background:#080b12;
+border:1px solid #303847;
+border-radius:10px;
+}
+
+.total strong{
+font-size:20px;
+}
+
+.ok{
+color:#8ee6b0;
+}
+
+.bad{
+color:#ff8f8f;
+}
+
+.preview{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.preview-item{
+padding:16px;
+background:#080b12;
+border:1px solid #252d3b;
+border-radius:10px;
+}
+
+.preview-item span{
+display:block;
+color:#707b8e;
+font-size:12px;
+}
+
+.preview-item strong{
+font-size:18px;
+}
+
+.message{
+display:none;
+padding:14px;
+margin-bottom:20px;
+border-radius:10px;
+background:#10151e;
+border:1px solid #303847;
+color:#aeb7c6;
+}
+
+button{
+width:100%;
+padding:15px;
+border:0;
+border-radius:9px;
+background:#fff;
+color:#06080d;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+}
+
+button:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.success{
+display:none;
+margin-top:20px;
+padding:20px;
+border-radius:12px;
+background:#080b12;
+border:1px solid #303847;
+}
+
+.success h3{
+margin-bottom:10px;
+}
+
+.success p{
+color:#aeb7c6;
+margin:5px 0;
+}
+
+.success a{
+display:inline-block;
+margin-top:15px;
+color:#fff;
+}
+
+footer{
+text-align:center;
+padding:45px 0;
+color:#697386;
+font-size:13px;
+}
+
+@media(min-width:700px){
+
+.preview{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="container nav">
+
+<div class="logo">
+SONATIVA
+</div>
+
+<a
+class="back"
+href="projects.html">
+
+← My Projects
+
+</a>
+
+</div>
+
+</header>
+
+
+<main>
+
+<div class="container">
+
+<section class="hero">
+
+<h1>
+Tokenomics Studio
+</h1>
+
+<p>
+Design your token distribution and allocation.
+</p>
+
+</section>
+
+
+<div
+id="message"
+class="message">
+</div>
+
+
+<div
+class="project-box">
+
+<span>
+PROJECT
+</span>
+
+<strong id="projectName">
+Loading...
+</strong>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+Token Allocation
+</h2>
+
+
+<div class="row">
+
+<label>
+Team
+</label>
+
+<input
+id="team"
+type="number"
+min="0"
+max="100"
+value="5">
+
+</div>
+
+
+<div class="row">
+
+<label>
+Treasury
+</label>
+
+<input
+id="treasury"
+type="number"
+min="0"
+max="100"
+value="10">
+
+</div>
+
+
+<div class="row">
+
+<label>
+Community
+</label>
+
+<input
+id="community"
+type="number"
+min="0"
+max="100"
+value="20">
+
+</div>
+
+
+<div class="row">
+
+<label>
+Public Sale
+</label>
+
+<input
+id="sale"
+type="number"
+min="0"
+max="100"
+value="25">
+
+</div>
+
+
+<div class="row">
+
+<label>
+Liquidity
+</label>
+
+<input
+id="liquidity"
+type="number"
+min="0"
+max="100"
+value="10">
+
+</div>
+
+
+<div class="row">
+
+<label>
+Burn Reserve
+</label>
+
+<input
+id="burn"
+type="number"
+min="0"
+max="100"
+value="30">
+
+</div>
+
+
+<div class="total">
+
+<span>
+Total Allocation
+</span>
+
+<strong
+id="total"
+class="ok">
+
+100%
+
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+Tokenomics Preview
+</h2>
+
+
+<div class="preview">
+
+<div class="preview-item">
+
+<span>
+TEAM
+</span>
+
+<strong id="teamAmount">
+0
+</strong>
+
+</div>
+
+
+<div class="preview-item">
+
+<span>
+TREASURY
+</span>
+
+<strong id="treasuryAmount">
+0
+</strong>
+
+</div>
+
+
+<div class="preview-item">
+
+<span>
+COMMUNITY
+</span>
+
+<strong id="communityAmount">
+0
+</strong>
+
+</div>
+
+
+<div class="preview-item">
+
+<span>
+PUBLIC SALE
+</span>
+
+<strong id="saleAmount">
+0
+</strong>
+
+</div>
+
+
+<div class="preview-item">
+
+<span>
+LIQUIDITY
+</span>
+
+<strong id="liquidityAmount">
+0
+</strong>
+
+</div>
+
+
+<div class="preview-item">
+
+<span>
+BURN RESERVE
+</span>
+
+<strong id="burnAmount">
+0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button
+id="saveButton"
+onclick="saveTokenomics()">
+
+Save Tokenomics
+
+</button>
+
+
+<div
+id="success"
+class="success">
+
+<h3>
+Tokenomics Saved Successfully ✅
+</h3>
+
+<p id="successText"></p>
+
+<a href="projects.html">
+← Return to My Projects
+</a>
+
+</div>
+
+
+</div>
+
+</main>
+
+
+<footer>
+
+© 2026 Sonativa
+
+</footer>
+
+
+<script type="module">
+
+import {
+createClient
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+const SUPABASE_URL =
+"https://kallobeodjzzhrsaqszw.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
+
+const supabase =
+createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =========================
+GET PROJECT ID
+========================= */
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const projectId =
+params.get("id");
+
+
+let currentUser = null;
+let project = null;
+
+
+/* =========================
+HELPER
+========================= */
+
+function $(id){
+
+return document.getElementById(id);
+
+}
+
+
+function showMessage(text){
+
+$("message").textContent = text;
+$("message").style.display = "block";
+
+}
+
+
+/* =========================
+LOAD PROJECT
+========================= */
+
+async function loadProject(){
+
+if(!projectId){
+
+showMessage(
+"No project selected."
+);
+
+return;
+
+}
+
+
+const {
+data:{
+user
+},
+error:userError
+} =
+await supabase.auth.getUser();
+
+
+if(userError || !user){
+
+showMessage(
+"You must login first."
+);
+
+return;
+
+}
+
+
+currentUser = user;
+
+
+const {
+data,
+error
+} =
+await supabase
+
+.from("projects")
+
+.select(`
+Id,
+created_at,
+user_id,
+project_name,
+token_name,
+token_symbol,
+total_supply,
+network,
+description
+`)
+
+.eq(
+"Id",
+projectId
+)
+
+.eq(
+"user_id",
+user.id
+)
+
+.single();
+
+
+if(error){
+
+console.error(error);
+
+showMessage(
+"Project could not be loaded: " +
+error.message
+);
+
+return;
+
+}
+
+
+project = data;
+
+
+$("projectName").textContent =
+project.project_name ||
+"Unnamed Project";
+
+
+updatePreview();
+
+}
+
+
+/* =========================
+CALCULATE
+========================= */
+
+function getPercent(id){
+
+return Number(
+$(id).value
+) || 0;
+
+}
+
+
+function getTotal(){
+
+return (
+
+getPercent("team") +
+
+getPercent("treasury") +
+
+getPercent("community") +
+
+getPercent("sale") +
+
+getPercent("liquidity") +
+
+getPercent("burn")
+
+);
+
+}
+
+
+/* =========================
+PREVIEW
+========================= */
+
+function updatePreview(){
+
+if(!project){
+
+return;
+
+}
+
+
+const supply =
+Number(project.total_supply) || 0;
+
+
+const team =
+getPercent("team");
+
+const treasury =
+getPercent("treasury");
+
+const community =
+getPercent("community");
+
+const sale =
+getPercent("sale");
+
+const liquidity =
+getPercent("liquidity");
+
+const burn =
+getPercent("burn");
+
+
+$("teamAmount").textContent =
+(supply * team / 100)
+.toLocaleString();
+
+
+$("treasuryAmount").textContent =
+(supply * treasury / 100)
+.toLocaleString();
+
+
+$("communityAmount").textContent =
+(supply * community / 100)
+.toLocaleString();
+
+
+$("saleAmount").textContent =
+(supply * sale / 100)
+.toLocaleString();
+
+
+$("liquidityAmount").textContent =
+(supply * liquidity / 100)
+.toLocaleString();
+
+
+$("burnAmount").textContent =
+(supply * burn / 100)
+.toLocaleString();
+
+
+const total =
+getTotal();
+
+
+$("total").textContent =
+total + "%";
+
+
+if(total === 100){
+
+$("total").className =
+"ok";
+
+$("saveButton").disabled =
+false;
+
+}else{
+
+$("total").className =
+"bad";
+
+$("saveButton").disabled =
+true;
+
+}
+
+}
+
+
+/* =========================
+INPUT LISTENERS
+========================= */
+
+[
+"team",
+"treasury",
+"community",
+"sale",
+"liquidity",
+"burn"
+].forEach(function(id){
+
+$(id).addEventListener(
+"input",
+updatePreview
+);
+
+});
+
+
+/* =========================
+SAVE TOKENOMICS
+========================= */
+
+window.saveTokenomics =
+async function(){
+
+if(!project || !currentUser){
+
+showMessage(
+"Project or account not available."
+);
+
+return;
+
+}
+
+
+const total =
+getTotal();
+
+
+if(total !== 100){
+
+showMessage(
+"Allocation must equal exactly 100%."
+);
+
+return;
+
+}
+
+
+const button =
+$("saveButton");
+
+button.disabled = true;
+
+button.textContent =
+"Saving...";
+
+
+const tokenomics = {
+
+team:getPercent("team"),
+
+treasury:getPercent("treasury"),
+
+community:getPercent("community"),
+
+public_sale:getPercent("sale"),
+
+liquidity:getPercent("liquidity"),
+
+burn_reserve:getPercent("burn")
+
+};
+
+
+/*
+For now we save the Tokenomics
+inside the existing description.
+
+This avoids changing your database
+until we build the dedicated
+tokenomics database structure.
+*/
+
+const oldDescription =
+project.description || "";
+
+
+const cleanDescription =
+oldDescription
+.split("--- SONATIVA TOKENOMICS ---")[0]
+.trim();
+
+
+const newDescription =
+
+cleanDescription +
+
+"\n\n--- SONATIVA TOKENOMICS ---\n" +
+
+"Team: " +
+tokenomics.team +
+"%\n" +
+
+"Treasury: " +
+tokenomics.treasury +
+"%\n" +
+
+"Community: " +
+tokenomics.community +
+"%\n" +
+
+"Public Sale: " +
+tokenomics.public_sale +
+"%\n" +
+
+"Liquidity: " +
+tokenomics.liquidity +
+"%\n" +
+
+"Burn Reserve: " +
+tokenomics.burn_reserve +
+"%";
+
+
+const {
+error
+} =
+await supabase
+
+.from("projects")
+
+.update({
+
+description:newDescription
+
+})
+
+.eq(
+"Id",
+project.id
+)
+
+.eq(
+"user_id",
+currentUser.id
+);
+
+
+if(error){
+
+console.error(error);
+
+showMessage(
+"Could not save Tokenomics: " +
+error.message
+);
+
+button.disabled = false;
+
+button.textContent =
+"Save Tokenomics";
+
+return;
+
+}
+
+
+$("successText").textContent =
+"Tokenomics for " +
+project.project_name +
+" has been saved successfully.";
+
+
+$("success").style.display =
+"block";
+
+
+button.textContent =
+"Tokenomics Saved ✓";
+
+};
+
+
+/* =========================
+START
+========================= */
+
+loadProject();
+
+</script>
+
+</body>
+</html>
