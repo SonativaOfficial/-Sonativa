@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Sonativa — Project</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:
+radial-gradient(
+circle at 50% -10%,
+#172033 0%,
+#06080d 45%,
+#040509 100%
+);
+color:#fff;
+min-height:100vh;
+}
+
+.container{
+width:92%;
+max-width:1000px;
+margin:auto;
+}
+
+header{
+border-bottom:1px solid #202633;
+background:rgba(5,7,12,.85);
+backdrop-filter:blur(20px);
+}
+
+.nav{
+height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+}
+
+.logo{
+font-size:23px;
+font-weight:900;
+letter-spacing:3px;
+}
+
+.back{
+padding:10px 15px;
+border:1px solid #303847;
+border-radius:9px;
+background:#10151e;
+color:#fff;
+text-decoration:none;
+}
+
+main{
+padding:60px 0;
+}
+
+.hero{
+text-align:center;
+margin-bottom:40px;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#818b9c;
+}
+
+.status{
+display:inline-block;
+margin-top:15px;
+padding:6px 12px;
+border-radius:20px;
+background:#151a24;
+border:1px solid #303847;
+color:#9ca6b7;
+font-size:12px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(
+auto-fit,
+minmax(280px,1fr)
+);
+gap:18px;
+}
+
+.card{
+background:rgba(12,16,23,.92);
+border:1px solid #252d3b;
+border-radius:16px;
+padding:25px;
+}
+
+.card h2{
+font-size:19px;
+margin-bottom:20px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:15px;
+padding:13px 0;
+border-bottom:1px solid #202733;
+}
+
+.label{
+color:#707b8e;
+font-size:13px;
+}
+
+.value{
+text-align:right;
+word-break:break-word;
+font-size:14px;
+max-width:65%;
+}
+
+.description{
+grid-column:1/-1;
+}
+
+.description-text{
+color:#aeb7c6;
+line-height:1.7;
+white-space:pre-wrap;
+word-break:break-word;
+}
+
+.loading,
+.error,
+.empty{
+text-align:center;
+padding:40px;
+color:#818b9c;
+}
+
+.error{
+color:#ff8f8f;
+}
+
+.actions{
+margin-top:30px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.button{
+display:inline-block;
+padding:13px 20px;
+border-radius:9px;
+font-weight:bold;
+text-decoration:none;
+border:1px solid #303847;
+background:#10151e;
+color:#fff;
+}
+
+.primary{
+background:#fff;
+color:#06080d;
+}
+
+footer{
+text-align:center;
+padding:45px 0;
+color:#697386;
+font-size:13px;
+}
+
+@media(max-width:600px){
+
+.hero h1{
+font-size:32px;
+}
+
+.row{
+align-items:flex-start;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="container nav">
+
+<div class="logo">
+SONATIVA
+</div>
+
+<a
+class="back"
+href="projects.html">
+
+← My Projects
+
+</a>
+
+</div>
+
+</header>
+
+
+<main>
+
+<div class="container">
+
+
+<section class="hero">
+
+<h1 id="projectTitle">
+Loading...
+</h1>
+
+<p id="projectSubtitle">
+Loading project information...
+</p>
+
+<div
+class="status"
+id="projectStatus">
+
+Loading
+
+</div>
+
+</section>
+
+
+<div
+id="content">
+
+<div class="loading">
+
+Loading your project...
+
+</div>
+
+</div>
+
+
+</div>
+
+</main>
+
+
+<footer>
+
+© 2026 Sonativa
+
+</footer>
+
+
+<script type="module">
+
+
+/* =========================
+   SUPABASE
+========================= */
+
+import {
+createClient
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+const SUPABASE_URL =
+"https://kallobeodjzzhrsaqszw.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
+
+const supabase =
+createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function escapeHtml(value){
+
+return String(
+value ?? ""
+)
+
+.replaceAll(
+"&",
+"&amp;"
+)
+
+.replaceAll(
+"<",
+"&lt;"
+)
+
+.replaceAll(
+">",
+"&gt;"
+)
+
+.replaceAll(
+'"',
+"&quot;"
+)
+
+.replaceAll(
+"'",
+"&#039;"
+);
+
+}
+
+
+function formatSupply(value){
+
+if(
+value === null ||
+value === undefined ||
+value === ""
+){
+
+return "-";
+
+}
+
+const number =
+Number(value);
+
+if(
+Number.isNaN(number)
+){
+
+return escapeHtml(value);
+
+}
+
+return number.toLocaleString();
+
+}
+
+
+function formatDate(value){
+
+if(!value){
+
+return "-";
+
+}
+
+const date =
+new Date(value);
+
+if(
+Number.isNaN(
+date.getTime()
+)
+){
+
+return "-";
+
+}
+
+return date.toLocaleString();
+
+}
+
+
+
+/* =========================
+   GET PROJECT ID
+========================= */
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const projectId =
+params.get("id");
+
+
+
+/* =========================
+   LOAD PROJECT
+========================= */
+
+async function loadProject(){
+
+
+const content =
+document.getElementById(
+"content"
+);
+
+
+if(!projectId){
+
+content.innerHTML =
+
+`
+<div class="error">
+
+No project was selected.
+
+<br><br>
+
+<a
+class="button primary"
+href="projects.html">
+
+← Back to My Projects
+
+</a>
+
+</div>
+`;
+
+return;
+
+}
+
+
+
+/* =========================
+   USER
+========================= */
+
+const {
+data:{
+user
+},
+error:userError
+} =
+await supabase.auth.getUser();
+
+
+if(userError){
+
+content.innerHTML =
+
+`
+<div class="error">
+
+Unable to verify your account.
+
+<br><br>
+
+${escapeHtml(
+userError.message
+)}
+
+</div>
+`;
+
+return;
+
+}
+
+
+if(!user){
+
+content.innerHTML =
+
+`
+<div class="error">
+
+You must login first.
+
+<br><br>
+
+<a
+class="button primary"
+href="index.html">
+
+Login
+
+</a>
+
+</div>
+`;
+
+return;
+
+}
+
+
+
+/* =========================
+   PROJECT
+========================= */
+
+const {
+data:project,
+error
+} =
+await supabase
+
+.from("projects")
+
+.select(
+`
+"Id",
+created_at,
+user_id,
+project_name,
+token_name,
+token_symbol,
+total_supply,
+network,
+description
+`
+)
+
+.eq(
+"Id",
+projectId
+)
+
+.eq(
+"user_id",
+user.id
+)
+
+.single();
+
+
+
+/* =========================
+   ERROR
+========================= */
+
+if(error){
+
+console.error(
+"Project error:",
+error
+);
+
+content.innerHTML =
+
+`
+<div class="error">
+
+<h2>
+Project not found
+</h2>
+
+<br>
+
+${escapeHtml(
+error.message
+)}
+
+<br><br>
+
+<a
+class="button primary"
+href="projects.html">
+
+← Back to My Projects
+
+</a>
+
+</div>
+`;
+
+return;
+
+}
+
+
+
+/* =========================
+   DISPLAY
+========================= */
+
+document.getElementById(
+"projectTitle"
+).textContent =
+project.project_name ||
+"Unnamed Project";
+
+
+document.getElementById(
+"projectSubtitle"
+).textContent =
+project.token_name ||
+"Sonativa Project";
+
+
+document.getElementById(
+"projectStatus"
+).textContent =
+"Project Saved";
+
+
+
+content.innerHTML =
+
+`
+
+<div class="grid">
+
+
+<div class="card">
+
+<h2>
+Project Information
+</h2>
+
+
+<div class="row">
+
+<span class="label">
+Project Name
+</span>
+
+<span class="value">
+${escapeHtml(
+project.project_name || "-"
+)}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Network
+</span>
+
+<span class="value">
+${escapeHtml(
+project.network || "-"
+)}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Created
+</span>
+
+<span class="value">
+${formatDate(
+project.created_at
+)}
+</span>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+Token Information
+</h2>
+
+
+<div class="row">
+
+<span class="label">
+Token Name
+</span>
+
+<span class="value">
+${escapeHtml(
+project.token_name || "-"
+)}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Token Symbol
+</span>
+
+<span class="value">
+${escapeHtml(
+project.token_symbol || "-"
+)}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Total Supply
+</span>
+
+<span class="value">
+${formatSupply(
+project.total_supply
+)}
+</span>
+
+</div>
+
+</div>
+
+
+<div class="card description">
+
+<h2>
+Project Description
+</h2>
+
+<div class="description-text">
+
+${escapeHtml(
+project.description ||
+"No description provided."
+)}
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="actions">
+
+<a
+class="button primary"
+href="projects.html">
+
+← My Projects
+
+</a>
+
+<a
+class="button"
+href="token-studio.html">
+
+Edit / Create Project
+
+</a>
+
+</div>
+
+`;
+
+}
+
+
+loadProject();
+
+
+</script>
+
+</body>
+
+</html>
