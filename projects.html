@@ -18,7 +18,12 @@ box-sizing:border-box;
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:
-radial-gradient(circle at 50% -10%,#172033 0%,#06080d 45%,#040509 100%);
+radial-gradient(
+circle at 50% -10%,
+#172033 0%,
+#06080d 45%,
+#040509 100%
+);
 color:white;
 line-height:1.6;
 min-height:100vh;
@@ -39,6 +44,7 @@ background:rgba(5,7,12,.9);
 .logo{
 font-size:23px;
 font-weight:800;
+letter-spacing:3px;
 }
 
 .logo a{
@@ -111,6 +117,12 @@ background:#080b12;
 color:white;
 font-size:16px;
 outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:#697386;
 }
 
 textarea{
@@ -226,6 +238,13 @@ font-size:12px;
 color:#697386;
 }
 
+.limit{
+margin-top:8px;
+font-size:12px;
+color:#818b9c;
+word-break:break-word;
+}
+
 @media(min-width:700px){
 
 .grid{
@@ -278,7 +297,7 @@ Create and manage your Solana token project.
 1 Project
 </div>
 
-<div class="step">
+<div class="step active">
 2 Supply
 </div>
 
@@ -356,10 +375,16 @@ Total Supply
 id="supply"
 type="text"
 inputmode="numeric"
+autocomplete="off"
 placeholder="1000000000000">
 
 <div class="help">
-Enter any whole-number supply supported by Solana's token amount limit.
+Enter any whole-number supply, including billions and trillions.
+</div>
+
+<div
+id="supplyLimit"
+class="limit">
 </div>
 
 </div>
@@ -373,21 +398,51 @@ Decimals
 
 <select id="decimals">
 
-<option value="0">0 — No decimals</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6" selected>6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
+<option value="0">
+0 — No decimals
+</option>
+
+<option value="1">
+1
+</option>
+
+<option value="2">
+2
+</option>
+
+<option value="3">
+3
+</option>
+
+<option value="4">
+4
+</option>
+
+<option value="5">
+5
+</option>
+
+<option value="6" selected>
+6
+</option>
+
+<option value="7">
+7
+</option>
+
+<option value="8">
+8
+</option>
+
+<option value="9">
+9
+</option>
 
 </select>
 
 <div class="help">
-Decimals control how finely the token can be divided. Maximum SPL Token decimals: 9.
+Decimals control how finely the token can be divided.
+Maximum SPL Token decimals: 9.
 </div>
 
 
@@ -492,6 +547,7 @@ class="message"
 id="tokenMessage">
 </div>
 
+
 <div
 id="tokenResult"
 style="display:none;margin-top:20px;">
@@ -553,6 +609,7 @@ href="projects.html">
 
 <script type="module">
 
+
 /* =========================================
    SUPABASE
 ========================================= */
@@ -567,8 +624,10 @@ from
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
 
+
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
 
 const supabase =
 createClient(
@@ -583,7 +642,6 @@ SUPABASE_PUBLISHABLE_KEY
 
 import {
 Connection,
-PublicKey,
 Keypair,
 SystemProgram,
 Transaction
@@ -609,7 +667,7 @@ from
 
 
 /* =========================================
-   CONNECTION
+   DEVNET CONNECTION
 ========================================= */
 
 const connection =
@@ -632,7 +690,9 @@ const MAX_U64 =
 ========================================= */
 
 let currentUser = null;
+
 let savedProject = null;
+
 let walletPublicKey = null;
 
 
@@ -704,6 +764,116 @@ value ?? ""
 
 
 /* =========================================
+   SUPPLY HELPERS
+========================================= */
+
+function getSupplyBigInt(){
+
+const input =
+document.getElementById(
+"supply"
+);
+
+const value =
+input.value.trim();
+
+
+if(!/^\d+$/.test(value)){
+
+return null;
+
+}
+
+
+try{
+
+return BigInt(value);
+
+}catch{
+
+return null;
+
+}
+
+}
+
+
+function getMaximumSupply(
+decimals
+){
+
+const divisor =
+BigInt(10) **
+BigInt(decimals);
+
+return MAX_U64 / divisor;
+
+}
+
+
+function updateSupplyLimit(){
+
+const decimals =
+Number(
+document.getElementById(
+"decimals"
+).value
+);
+
+const maximum =
+getMaximumSupply(
+decimals
+);
+
+document.getElementById(
+"supplyLimit"
+).textContent =
+
+"Maximum supply with " +
+decimals +
+" decimals: " +
+maximum.toLocaleString();
+
+}
+
+
+/* =========================================
+   REMOVE NON-NUMBERS
+========================================= */
+
+document.getElementById(
+"supply"
+).addEventListener(
+"input",
+function(){
+
+this.value =
+this.value.replace(
+/[^\d]/g,
+""
+);
+
+}
+);
+
+
+/* =========================================
+   DECIMAL CHANGE
+========================================= */
+
+document.getElementById(
+"decimals"
+).addEventListener(
+"change",
+function(){
+
+updateSupplyLimit();
+
+}
+);
+
+
+/* =========================================
    LOGIN CHECK
 ========================================= */
 
@@ -716,8 +886,10 @@ user
 } =
 await supabase.auth.getUser();
 
+
 currentUser =
 user || null;
+
 
 if(!currentUser){
 
@@ -734,6 +906,13 @@ true;
 return false;
 
 }
+
+
+document.getElementById(
+"saveButton"
+).disabled =
+false;
+
 
 return true;
 
@@ -760,9 +939,8 @@ return;
 
 }
 
-if(
-!window.solana.isPhantom
-){
+
+if(!window.solana.isPhantom){
 
 showMessage(
 "Please use Phantom Wallet.",
@@ -773,35 +951,43 @@ return;
 
 }
 
+
 const response =
 await window.solana.connect();
 
+
 walletPublicKey =
 response.publicKey;
+
 
 document.getElementById(
 "walletBox"
 ).style.display =
 "block";
 
+
 document.getElementById(
 "walletAddress"
 ).textContent =
 walletPublicKey.toString();
+
 
 document.getElementById(
 "walletButton"
 ).textContent =
 "Wallet Connected ✓";
 
+
 showMessage(
 "Phantom wallet connected successfully.",
 "success"
 );
 
+
 }catch(error){
 
 console.error(error);
+
 
 showMessage(
 "Wallet connection failed: " +
@@ -824,8 +1010,11 @@ async function(){
 const loggedIn =
 await checkLogin();
 
+
 if(!loggedIn){
+
 return;
+
 }
 
 
@@ -879,6 +1068,10 @@ document.getElementById(
 ).value.trim();
 
 
+/* =========================================
+   BASIC VALIDATION
+========================================= */
+
 if(
 !projectName ||
 !tokenName ||
@@ -897,7 +1090,41 @@ return;
 
 
 if(
-!/^\d+$/.test(supply)
+!/^[A-Z0-9_]+$/i.test(
+tokenSymbol
+)
+){
+
+showMessage(
+"Token Symbol can contain only letters, numbers and underscore.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+tokenSymbol.length > 20
+){
+
+showMessage(
+"Token Symbol must be 20 characters or less.",
+"error"
+);
+
+return;
+
+}
+
+
+const supplyNumber =
+getSupplyBigInt();
+
+
+if(
+supplyNumber === null
 ){
 
 showMessage(
@@ -911,7 +1138,7 @@ return;
 
 
 if(
-BigInt(supply) <= BigInt(0)
+supplyNumber <= BigInt(0)
 ){
 
 showMessage(
@@ -939,6 +1166,10 @@ return;
 }
 
 
+/* =========================================
+   NETWORK
+========================================= */
+
 if(
 network === "Solana"
 ){
@@ -954,30 +1185,53 @@ return;
 
 
 /* =========================================
-   U64 VALIDATION
+   RAW SUPPLY
 ========================================= */
 
-const rawAmount =
-BigInt(supply) *
-(
+const multiplier =
 BigInt(10) **
-BigInt(decimals)
-);
+BigInt(decimals);
 
+
+const rawAmount =
+supplyNumber *
+multiplier;
+
+
+/* =========================================
+   U64 VALIDATION
+========================================= */
 
 if(
 rawAmount > MAX_U64
 ){
 
+const maximum =
+getMaximumSupply(
+decimals
+);
+
+
 showMessage(
-"This supply is too large for the selected decimals. Reduce the supply or reduce decimals.",
+
+"Supply is too large for " +
+decimals +
+" decimals. Maximum supply is " +
+maximum.toLocaleString() +
+".",
+
 "error"
+
 );
 
 return;
 
 }
 
+
+/* =========================================
+   SAVE
+========================================= */
 
 button.disabled =
 true;
@@ -1025,13 +1279,18 @@ description
 
 if(error){
 
-console.error(error);
+console.error(
+"Project save error:",
+error
+);
+
 
 showMessage(
 "Could not save project: " +
 error.message,
 "error"
 );
+
 
 button.disabled =
 false;
@@ -1044,8 +1303,11 @@ return;
 }
 
 
-savedProject =
-{
+/* =========================================
+   SAVED PROJECT
+========================================= */
+
+savedProject = {
 
 ...data,
 
@@ -1058,9 +1320,14 @@ decimals
 };
 
 
+/* =========================================
+   RESULT
+========================================= */
+
 document.getElementById(
 "rProject"
 ).innerHTML =
+
 "<strong>Project:</strong> " +
 escapeHTML(projectName);
 
@@ -1068,6 +1335,7 @@ escapeHTML(projectName);
 document.getElementById(
 "rToken"
 ).innerHTML =
+
 "<strong>Token:</strong> " +
 escapeHTML(tokenName);
 
@@ -1075,6 +1343,7 @@ escapeHTML(tokenName);
 document.getElementById(
 "rSymbol"
 ).innerHTML =
+
 "<strong>Symbol:</strong> " +
 escapeHTML(tokenSymbol);
 
@@ -1082,13 +1351,15 @@ escapeHTML(tokenSymbol);
 document.getElementById(
 "rSupply"
 ).innerHTML =
+
 "<strong>Total Supply:</strong> " +
-BigInt(supply).toLocaleString();
+supplyNumber.toLocaleString();
 
 
 document.getElementById(
 "rDecimals"
 ).innerHTML =
+
 "<strong>Decimals:</strong> " +
 decimals;
 
@@ -1096,6 +1367,7 @@ decimals;
 document.getElementById(
 "rNetwork"
 ).innerHTML =
+
 "<strong>Network:</strong> " +
 escapeHTML(network);
 
@@ -1114,6 +1386,7 @@ showMessage(
 
 button.disabled =
 false;
+
 
 button.textContent =
 "Project Saved ✓";
@@ -1183,7 +1456,7 @@ button.textContent =
 
 
 /* =========================================
-   CONNECT
+   CONNECT WALLET
 ========================================= */
 
 if(!walletPublicKey){
@@ -1202,6 +1475,10 @@ showTokenMessage(
 );
 
 
+/* =========================================
+   BALANCE
+========================================= */
+
 const balance =
 await connection.getBalance(
 walletPublicKey
@@ -1211,7 +1488,7 @@ walletPublicKey
 if(balance <= 0){
 
 showTokenMessage(
-"Your Phantom wallet has 0 SOL on Devnet. You need Devnet SOL before creating the token.",
+"Your Phantom wallet has 0 SOL on Devnet. Get Devnet SOL before creating the token.",
 "error"
 );
 
@@ -1250,19 +1527,23 @@ BigInt(decimals)
 );
 
 
+/* =========================================
+   U64 CHECK
+========================================= */
+
 if(
 rawAmount > MAX_U64
 ){
 
 throw new Error(
-"Supply is too large for the selected decimals. Please reduce the supply or decimals."
+"Supply is too large for the selected decimals."
 );
 
 }
 
 
 /* =========================================
-   GENERATE MINT
+   CREATE MINT
 ========================================= */
 
 showTokenMessage(
@@ -1275,7 +1556,7 @@ Keypair.generate();
 
 
 /* =========================================
-   RENT
+   MINT ACCOUNT
 ========================================= */
 
 const mintAccountSize =
@@ -1289,7 +1570,7 @@ mintAccountSize
 
 
 /* =========================================
-   INITIALIZE MINT TRANSACTION
+   MINT TRANSACTION
 ========================================= */
 
 const transaction =
@@ -1355,12 +1636,13 @@ await connection.getLatestBlockhash(
 transaction.recentBlockhash =
 blockhash;
 
+
 transaction.feePayer =
 walletPublicKey;
 
 
 /* =========================================
-   MINT SIGNS ITS OWN ACCOUNT
+   MINT SIGNS
 ========================================= */
 
 transaction.partialSign(
@@ -1369,7 +1651,7 @@ mint
 
 
 showTokenMessage(
-"Please approve the mint creation in Phantom..."
+"Please approve mint creation in Phantom..."
 );
 
 
@@ -1389,10 +1671,13 @@ transaction
 
 const signature =
 await connection.sendRawTransaction(
+
 signedTransaction.serialize(),
+
 {
 skipPreflight:false
 }
+
 );
 
 
@@ -1401,23 +1686,31 @@ skipPreflight:false
 ========================================= */
 
 await connection.confirmTransaction(
+
 {
+signature:
 signature,
+
+blockhash:
 blockhash,
+
+lastValidBlockHeight:
 lastValidBlockHeight
 },
+
 "confirmed"
+
 );
 
+
+/* =========================================
+   TOKEN ACCOUNT
+========================================= */
 
 showTokenMessage(
 "Mint created successfully. Creating token account..."
 );
 
-
-/* =========================================
-   ATA
-========================================= */
 
 const tokenAccount =
 await getAssociatedTokenAddress(
@@ -1477,12 +1770,13 @@ await connection.getLatestBlockhash(
 ataTransaction.recentBlockhash =
 ataBlockhash.blockhash;
 
+
 ataTransaction.feePayer =
 walletPublicKey;
 
 
 showTokenMessage(
-"Please approve the token account transaction in Phantom..."
+"Please approve token account creation in Phantom..."
 );
 
 
@@ -1494,14 +1788,18 @@ ataTransaction
 
 const ataSignature =
 await connection.sendRawTransaction(
+
 signedAta.serialize(),
+
 {
 skipPreflight:false
 }
+
 );
 
 
 await connection.confirmTransaction(
+
 {
 signature:
 ataSignature,
@@ -1512,7 +1810,9 @@ ataBlockhash.blockhash,
 lastValidBlockHeight:
 ataBlockhash.lastValidBlockHeight
 },
+
 "confirmed"
+
 );
 
 }
@@ -1561,6 +1861,7 @@ await connection.getLatestBlockhash(
 mintTransaction.recentBlockhash =
 mintBlockhash.blockhash;
 
+
 mintTransaction.feePayer =
 walletPublicKey;
 
@@ -1578,14 +1879,18 @@ mintTransaction
 
 const mintSignature =
 await connection.sendRawTransaction(
+
 signedMint.serialize(),
+
 {
 skipPreflight:false
 }
+
 );
 
 
 await connection.confirmTransaction(
+
 {
 signature:
 mintSignature,
@@ -1596,7 +1901,9 @@ mintBlockhash.blockhash,
 lastValidBlockHeight:
 mintBlockhash.lastValidBlockHeight
 },
+
 "confirmed"
+
 );
 
 
@@ -1629,6 +1936,7 @@ mintSignature;
 document.getElementById(
 "explorerLink"
 ).href =
+
 "https://explorer.solana.com/address/" +
 mintAddress +
 "?cluster=devnet";
@@ -1651,14 +1959,20 @@ console.error(
 error
 );
 
+
 showTokenMessage(
+
 "Token creation failed: " +
 (error?.message || error),
+
 "error"
+
 );
+
 
 button.disabled =
 false;
+
 
 button.textContent =
 "Create Token on Solana Devnet";
@@ -1671,6 +1985,8 @@ button.textContent =
 /* =========================================
    INITIAL
 ========================================= */
+
+updateSupplyLimit();
 
 checkLogin();
 
