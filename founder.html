@@ -1,2141 +1,611 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>Founder Control Center — Sonativa</title>
+<title>Sonativa — Founder Control Center</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#03050a;
-  --panel:rgba(9,14,23,.86);
-  --panel2:#0d1420;
-  --border:#1d2737;
-  --border2:#303c51;
+  --bg:#05070c;
+  --panel:#0b111b;
+  --panel2:#101722;
+  --border:#202b3d;
+  --border2:#334158;
   --text:#f5f7fb;
-  --muted:#7d899d;
-  --muted2:#aeb8c8;
-  --success:#62e39a;
-  --warning:#e8bd68;
-  --danger:#ff7373;
-  --blue:#8fb9ff;
-  --sidebar:265px;
-}
-
-html{
-  scroll-behavior:smooth;
+  --muted:#7f8ba0;
+  --green:#62e39a;
+  --red:#ff7373;
+  --yellow:#f5c86b;
 }
 
 body{
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 70% -10%,rgba(60,85,125,.25),transparent 35%),
+    radial-gradient(circle at 0 100%,rgba(30,55,90,.18),transparent 35%),
+    var(--bg);
   color:var(--text);
   min-height:100vh;
-  overflow-x:hidden;
 }
 
-/* =========================================
-   DIGITAL BACKGROUND
-========================================= */
+a{text-decoration:none;color:inherit}
 
-.background{
-  position:fixed;
-  inset:0;
-  z-index:-10;
-  overflow:hidden;
-
-  background:
-    radial-gradient(
-      circle at 75% -15%,
-      rgba(66,95,145,.32),
-      transparent 37%
-    ),
-    radial-gradient(
-      circle at 5% 90%,
-      rgba(37,68,111,.20),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(255,255,255,.018),
-      transparent 55%
-    ),
-    #03050a;
-}
-
-.background::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background-image:
-    linear-gradient(
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    );
-
-  background-size:48px 48px;
-
-  mask-image:
-    radial-gradient(
-      circle at center,
-      black,
-      transparent 85%
-    );
-}
-
-.background::after{
-  content:"";
-  position:absolute;
-
-  width:650px;
-  height:650px;
-
-  right:-260px;
-  top:90px;
-
-  border:1px solid rgba(255,255,255,.035);
-  border-radius:50%;
-
-  box-shadow:
-    0 0 0 90px rgba(255,255,255,.012),
-    0 0 0 180px rgba(255,255,255,.008);
-}
-
-/* =========================================
-   LAYOUT
-========================================= */
-
-.app{
-  min-height:100vh;
-}
-
-/* =========================================
-   SIDEBAR
-========================================= */
-
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-
-  width:var(--sidebar);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(7,11,18,.98),
-      rgba(3,6,12,.97)
-    );
-
-  border-right:1px solid var(--border);
-
-  display:flex;
-  flex-direction:column;
-
-  z-index:100;
-
-  backdrop-filter:blur(20px);
-
-  transition:.25s;
-}
-
-.brand{
-  height:76px;
-
+.topbar{
+  height:72px;
+  padding:0 25px;
   display:flex;
   align-items:center;
-
-  padding:0 22px;
-
+  justify-content:space-between;
   border-bottom:1px solid var(--border);
+  background:rgba(5,8,14,.88);
+  backdrop-filter:blur(18px);
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
-.brand-name{
-  font-size:20px;
+.logo{
+  font-size:19px;
   font-weight:900;
   letter-spacing:4px;
 }
 
-.founder-badge{
-  margin-left:10px;
-
-  padding:4px 7px;
-
-  color:var(--warning);
-
-  background:rgba(232,189,104,.06);
-
-  border:1px solid #62522c;
-  border-radius:5px;
-
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:1px;
-}
-
-.nav{
-  padding:17px 12px;
-  overflow-y:auto;
-}
-
-.section-title{
-  margin:18px 12px 8px;
-
-  color:#566277;
-
+.logo span{
+  color:#7f8ba0;
   font-size:9px;
-  font-weight:900;
-
-  letter-spacing:1.7px;
-  text-transform:uppercase;
-}
-
-.nav-item{
-  width:100%;
-
-  display:flex;
-  align-items:center;
-  gap:11px;
-
-  padding:11px 12px;
-  margin:3px 0;
-
-  color:var(--muted2);
-
-  border:1px solid transparent;
-  border-radius:9px;
-
-  text-decoration:none;
-
-  font-size:12px;
-
-  transition:.2s;
-}
-
-.nav-item:hover{
-  color:white;
-
-  background:rgba(255,255,255,.04);
-
-  border-color:#222d3e;
-}
-
-.nav-item.active{
-  color:white;
-
-  background:#151c29;
-
-  border-color:#303c50;
-}
-
-.nav-icon{
-  width:20px;
-  text-align:center;
-}
-
-.nav-label{
-  flex:1;
-}
-
-.nav-badge{
-  padding:2px 6px;
-
-  background:#1a2332;
-
+  letter-spacing:1px;
+  margin-left:8px;
+  border:1px solid var(--border2);
+  padding:4px 7px;
   border-radius:5px;
-
-  color:#8c99ad;
-
-  font-size:8px;
 }
 
-.sidebar-bottom{
-  margin-top:auto;
-
-  padding:13px;
-
-  border-top:1px solid var(--border);
-}
-
-.founder-account{
+.user{
   display:flex;
   align-items:center;
   gap:10px;
-
-  padding:10px;
-
-  background:rgba(255,255,255,.025);
-
-  border-radius:10px;
+  font-size:11px;
+  color:var(--muted);
 }
 
 .avatar{
-  width:36px;
-  height:36px;
-
+  width:35px;
+  height:35px;
+  border-radius:9px;
+  background:#182131;
+  border:1px solid var(--border2);
   display:flex;
   align-items:center;
   justify-content:center;
-
-  background:#1a2230;
-
-  border:1px solid #354156;
-
-  border-radius:9px;
-
-  font-weight:900;
-}
-
-.account-email{
-  max-width:165px;
-
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-
-  font-size:11px;
-  font-weight:700;
-}
-
-.account-role{
-  margin-top:3px;
-
-  color:var(--warning);
-
-  font-size:9px;
-}
-
-/* =========================================
-   MAIN
-========================================= */
-
-.main{
-  margin-left:var(--sidebar);
-
-  min-height:100vh;
-}
-
-/* =========================================
-   TOPBAR
-========================================= */
-
-.topbar{
-  height:76px;
-
-  position:sticky;
-  top:0;
-  z-index:50;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:0 30px;
-
-  background:rgba(5,8,14,.78);
-
-  border-bottom:1px solid var(--border);
-
-  backdrop-filter:blur(18px);
-}
-
-.page-title{
-  font-size:15px;
   font-weight:800;
-}
-
-.page-subtitle{
-  margin-top:3px;
-
-  color:var(--muted);
-
-  font-size:10px;
-}
-
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.lang{
-  height:37px;
-
-  padding:0 11px;
-
-  color:#c0c9d7;
-
-  background:#0c121c;
-
-  border:1px solid var(--border);
-  border-radius:8px;
-
-  outline:none;
-}
-
-.menu{
-  display:none;
-
-  width:38px;
-  height:38px;
-
   color:white;
-
-  background:#0d131e;
-
-  border:1px solid var(--border);
-  border-radius:9px;
-
-  cursor:pointer;
 }
 
-/* =========================================
-   CONTENT
-========================================= */
-
-.content{
-  width:min(1450px,94%);
-
+.container{
+  width:min(1400px,94%);
   margin:auto;
-
-  padding:34px 0 70px;
+  padding:35px 0 70px;
 }
 
 .hero{
   display:flex;
-  align-items:flex-end;
   justify-content:space-between;
+  align-items:flex-end;
   gap:20px;
-
   margin-bottom:25px;
 }
 
-.hero h1{
+h1{
   font-size:30px;
-  letter-spacing:-.7px;
+  letter-spacing:-.8px;
 }
 
-.hero p{
-  margin-top:7px;
-
+.subtitle{
   color:var(--muted);
-
   font-size:12px;
+  margin-top:7px;
 }
 
-.founder-status{
+.buttons{
   display:flex;
-  align-items:center;
-  gap:8px;
+  gap:9px;
+}
 
-  padding:9px 12px;
-
-  color:var(--success);
-
-  background:#09150f;
-
-  border:1px solid #244b37;
-
+button,.button{
+  border:1px solid var(--border2);
+  background:#101722;
+  color:white;
+  padding:11px 15px;
   border-radius:8px;
-
-  font-size:10px;
-  font-weight:800;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:700;
 }
 
-.status-dot{
-  width:7px;
-  height:7px;
-
-  background:var(--success);
-
-  border-radius:50%;
-
-  box-shadow:
-    0 0 12px rgba(98,227,154,.4);
+button:hover,.button:hover{
+  background:#182131;
 }
 
-/* =========================================
-   STATS
-========================================= */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:12px;
-
-  margin-bottom:20px;
+.danger{
+  border-color:#5b2d35;
+  color:#ff9292;
 }
-
-.stat{
-  padding:18px;
-
-  background:var(--panel);
-
-  border:1px solid var(--border);
-  border-radius:13px;
-
-  backdrop-filter:blur(14px);
-}
-
-.stat-label{
-  color:var(--muted);
-
-  font-size:10px;
-}
-
-.stat-value{
-  margin-top:8px;
-
-  font-size:21px;
-  font-weight:900;
-}
-
-.stat-note{
-  margin-top:5px;
-
-  color:#667387;
-
-  font-size:9px;
-}
-
-/* =========================================
-   GRID
-========================================= */
 
 .grid{
   display:grid;
-  grid-template-columns:1.35fr 1fr;
-  gap:17px;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+  margin-bottom:18px;
 }
 
 .card{
-  padding:21px;
-
-  background:var(--panel);
-
+  background:rgba(11,17,27,.9);
   border:1px solid var(--border);
   border-radius:14px;
-
-  backdrop-filter:blur(14px);
-
-  box-shadow:
-    0 18px 55px rgba(0,0,0,.12);
+  padding:20px;
+  box-shadow:0 15px 45px rgba(0,0,0,.15);
 }
 
-.card-wide{
-  grid-column:1 / -1;
+.label{
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
 }
 
-.card-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.value{
+  margin-top:8px;
+  font-size:23px;
+  font-weight:900;
+}
 
-  margin-bottom:18px;
+.green{color:var(--green)}
+.red{color:var(--red)}
+.yellow{color:var(--yellow)}
+
+.layout{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:18px;
 }
 
 .card-title{
   font-size:14px;
   font-weight:800;
+  margin-bottom:18px;
 }
 
-.card-description{
-  margin-top:4px;
-
-  color:var(--muted);
-
-  font-size:9px;
-}
-
-/* =========================================
-   FINANCE
-========================================= */
-
-.finance-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.finance{
-  padding:15px;
-
-  background:#090e17;
-
-  border:1px solid #1d2737;
-  border-radius:10px;
-}
-
-.finance-label{
-  color:var(--muted);
-
-  font-size:9px;
-}
-
-.finance-value{
-  margin-top:8px;
-
-  font-size:19px;
-  font-weight:900;
-}
-
-.finance-change{
-  margin-top:5px;
-
-  color:var(--success);
-
-  font-size:9px;
-}
-
-/* =========================================
-   PRIVACY
-========================================= */
-
-.privacy-box{
-  display:flex;
-  gap:15px;
-
-  padding:16px;
-
-  background:#08120d;
-
-  border:1px solid #214532;
-
-  border-radius:11px;
-}
-
-.privacy-icon{
-  width:42px;
-  height:42px;
-
+.status-box{
   display:flex;
   align-items:center;
-  justify-content:center;
-
-  flex-shrink:0;
-
-  background:#0e2016;
-
-  border:1px solid #2b5c40;
-
-  border-radius:10px;
-
-  font-size:18px;
-}
-
-.privacy-title{
-  font-size:12px;
-  font-weight:800;
-}
-
-.privacy-text{
-  margin-top:6px;
-
-  color:#8fa59a;
-
-  font-size:10px;
-  line-height:1.75;
-}
-
-/* =========================================
-   TREASURY
-========================================= */
-
-.treasury-list{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.treasury-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:12px 13px;
-
-  background:#090e17;
-
-  border:1px solid #1c2635;
-
-  border-radius:9px;
-}
-
-.treasury-label{
-  color:#aab4c3;
-
-  font-size:10px;
-}
-
-.treasury-value{
-  font-size:11px;
-  font-weight:800;
-}
-
-/* =========================================
-   TEAM
-========================================= */
-
-.team-list{
-  display:flex;
-  flex-direction:column;
-}
-
-.team-row{
-  display:flex;
-  align-items:center;
-  gap:11px;
-
-  padding:12px 0;
-
-  border-bottom:1px solid #1a2331;
-}
-
-.team-row:last-child{
-  border-bottom:0;
-}
-
-.team-avatar{
-  width:35px;
-  height:35px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:#141c29;
-
-  border:1px solid #29364a;
-
-  border-radius:8px;
-
-  font-size:11px;
-  font-weight:800;
-}
-
-.team-info{
-  flex:1;
-  min-width:0;
-}
-
-.team-name{
-  font-size:11px;
-  font-weight:800;
-}
-
-.team-email{
-  margin-top:3px;
-
-  color:#68758a;
-
-  font-size:9px;
-}
-
-.role{
-  padding:5px 8px;
-
-  background:#111823;
-
-  border:1px solid #303b4d;
-
-  border-radius:6px;
-
-  color:#aeb8c8;
-
-  font-size:8px;
-  font-weight:800;
-}
-
-.role.founder{
-  color:var(--warning);
-
-  background:#17140c;
-
-  border-color:#63532c;
-}
-
-.role.admin{
-  color:#9fc4ff;
-
-  border-color:#304a70;
-}
-
-.role.moderator{
-  color:#a7e4c1;
-
-  border-color:#315844;
-}
-
-/* =========================================
-   ACTIONS
-========================================= */
-
-.actions{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:9px;
-}
-
-.action{
+  gap:12px;
   padding:13px;
+  border:1px solid #254d39;
+  background:#091710;
+  border-radius:10px;
+  margin-bottom:12px;
+}
 
-  color:white;
+.status-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px rgba(98,227,154,.5);
+}
 
-  background:#0a1019;
+.status-text strong{
+  display:block;
+  font-size:12px;
+}
 
-  border:1px solid #202b3b;
-
-  border-radius:9px;
-
+.status-text span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
   font-size:10px;
-  font-weight:700;
-
-  cursor:pointer;
-
-  text-align:left;
-
-  transition:.2s;
 }
 
-.action:hover{
-  background:#111925;
-
-  border-color:#354258;
-
-  transform:translateY(-1px);
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:11px 0;
+  border-bottom:1px solid #1a2432;
+  font-size:11px;
 }
 
-/* =========================================
-   ACTIVITY
-========================================= */
+.info-row:last-child{border-bottom:0}
+
+.info-row span:first-child{color:var(--muted)}
+.info-row span:last-child{
+  text-align:right;
+  word-break:break-all;
+}
+
+.permissions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.permission{
+  padding:11px;
+  border:1px solid #243044;
+  background:#0a1019;
+  border-radius:9px;
+  font-size:10px;
+}
+
+.permission.ok{
+  border-color:#28543d;
+  background:#09150f;
+  color:var(--green);
+}
+
+.permission.no{
+  color:var(--red);
+}
 
 .activity{
-  display:flex;
-  flex-direction:column;
+  max-height:420px;
+  overflow:auto;
 }
 
-.activity-row{
-  display:flex;
-  gap:11px;
-
+.activity-item{
   padding:12px 0;
-
-  border-bottom:1px solid #1a2331;
+  border-bottom:1px solid #1b2432;
 }
 
-.activity-row:last-child{
-  border-bottom:0;
-}
+.activity-item:last-child{border-bottom:0}
 
-.activity-dot{
-  width:7px;
-  height:7px;
-
-  margin-top:5px;
-
-  flex-shrink:0;
-
-  background:#78869b;
-
-  border-radius:50%;
-}
-
-.activity-text{
-  color:#aeb8c7;
-
-  font-size:10px;
-}
-
-.activity-time{
-  margin-top:3px;
-
-  color:#5e6a7c;
-
-  font-size:8px;
-}
-
-/* =========================================
-   NOTICE
-========================================= */
-
-.notice{
-  margin-top:17px;
-
-  padding:13px;
-
-  background:#141107;
-
-  border:1px solid #44391d;
-
-  border-radius:9px;
-
-  color:#bfae7a;
-
-  font-size:9px;
-
-  line-height:1.7;
-}
-
-/* =========================================
-   TOAST
-========================================= */
-
-.toast{
-  position:fixed;
-
-  right:22px;
-  bottom:22px;
-
-  z-index:999;
-
-  max-width:340px;
-
-  padding:13px 16px;
-
-  background:#111925;
-
-  border:1px solid #354258;
-
-  border-radius:10px;
-
-  box-shadow:0 15px 40px rgba(0,0,0,.35);
-
-  color:white;
-
+.activity-action{
   font-size:11px;
-
-  opacity:0;
-
-  transform:translateY(15px);
-
-  pointer-events:none;
-
-  transition:.25s;
+  font-weight:700;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translateY(0);
+.activity-meta{
+  color:var(--muted);
+  font-size:9px;
+  margin-top:4px;
 }
 
-/* =========================================
-   FOOTER
-========================================= */
+.empty{
+  padding:25px;
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.loading{
+  position:fixed;
+  inset:0;
+  background:#04060b;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:12px;
+}
+
+.loading.hidden{display:none}
+
+.spinner{
+  width:30px;
+  height:30px;
+  border:3px solid #253044;
+  border-top-color:white;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.error{
+  position:fixed;
+  inset:0;
+  background:#04060b;
+  z-index:90;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:25px;
+}
+
+.error.show{display:flex}
+
+.error-box{
+  width:min(450px,100%);
+  background:#0b111b;
+  border:1px solid #43252c;
+  border-radius:15px;
+  padding:30px;
+}
+
+.error-icon{
+  font-size:35px;
+  margin-bottom:12px;
+}
+
+.error h2{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.error p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+  margin-bottom:20px;
+}
 
 footer{
-  padding:35px 0;
-
-  color:#515d70;
-
   text-align:center;
-
+  color:#4e5a6d;
   font-size:9px;
+  margin-top:30px;
 }
 
-/* =========================================
-   RTL
-========================================= */
-
-html[dir="rtl"] .sidebar{
-  left:auto;
-  right:0;
-
-  border-right:0;
-  border-left:1px solid var(--border);
+@media(max-width:1000px){
+  .grid{grid-template-columns:1fr 1fr}
+  .layout{grid-template-columns:1fr}
 }
 
-html[dir="rtl"] .main{
-  margin-left:0;
-  margin-right:var(--sidebar);
-}
-
-html[dir="rtl"] .founder-badge{
-  margin-left:0;
-  margin-right:10px;
-}
-
-html[dir="rtl"] .nav-item,
-html[dir="rtl"] .action{
-  text-align:right;
-}
-
-html[dir="rtl"] .topbar{
-  direction:rtl;
-}
-
-html[dir="rtl"] .hero{
-  direction:rtl;
-}
-
-html[dir="rtl"] .privacy-box{
-  direction:rtl;
-}
-
-html[dir="rtl"] .team-row,
-html[dir="rtl"] .treasury-row,
-html[dir="rtl"] .activity-row{
-  direction:rtl;
-}
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media(max-width:1200px){
-
-  .stats{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-}
-
-@media(max-width:900px){
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .card-wide{
-    grid-column:auto;
-  }
-
-  .finance-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-}
-
-@media(max-width:760px){
-
-  :root{
-    --sidebar:0px;
-  }
-
-  .sidebar{
-    transform:translateX(-100%);
-    width:265px;
-  }
-
-  .sidebar.open{
-    transform:translateX(0);
-  }
-
-  html[dir="rtl"] .sidebar{
-    transform:translateX(100%);
-  }
-
-  html[dir="rtl"] .sidebar.open{
-    transform:translateX(0);
-  }
-
-  .main{
-    margin-left:0;
-    margin-right:0;
-  }
-
-  html[dir="rtl"] .main{
-    margin-left:0;
-    margin-right:0;
-  }
-
-  .menu{
-    display:block;
-  }
-
-  .topbar{
-    padding:0 16px;
-  }
-
-  .content{
-    width:92%;
-    padding-top:25px;
-  }
-
-  .hero{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .hero h1{
-    font-size:25px;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-
-@media(max-width:500px){
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .finance-grid{
-    grid-template-columns:1fr;
-  }
-
-  .actions{
-    grid-template-columns:1fr;
-  }
-
-  .hero h1{
-    font-size:23px;
-  }
-
+@media(max-width:600px){
+  .topbar{padding:0 15px}
+  .container{width:92%;padding-top:25px}
+  .hero{flex-direction:column;align-items:flex-start}
+  .grid{grid-template-columns:1fr}
+  h1{font-size:25px}
+  .permissions{grid-template-columns:1fr}
+  .user-email{display:none}
 }
 </style>
 </head>
 
 <body>
 
-<div class="background"></div>
-
-<div class="toast" id="toast"></div>
-
-<div class="app">
-
-<!-- =========================================
-SIDEBAR
-========================================= -->
-
-<aside class="sidebar" id="sidebar">
-
-  <div class="brand">
-
-    <div class="brand-name">
-      SONATIVA
-    </div>
-
-    <div class="founder-badge">
-      FOUNDER
-    </div>
-
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div style="font-size:11px;color:#7f8ba0">
+    Verifying Founder Access...
   </div>
+</div>
 
+<div class="error" id="errorScreen">
+  <div class="error-box">
+    <div class="error-icon">🔒</div>
+    <h2 id="errorTitle">Founder Access Required</h2>
+    <p id="errorMessage">
+      Please sign in to Sonativa with your Founder account.
+    </p>
 
-  <nav class="nav">
-
-    <div class="section-title"
-         data-i18n="control">
-      Control
+    <div style="display:flex;gap:8px;justify-content:center">
+      <a class="button" href="index.html">Return to Dashboard</a>
+      <button onclick="location.reload()">Try Again</button>
     </div>
-
-    <a class="nav-item active"
-       href="founder.html">
-
-      <span class="nav-icon">◆</span>
-
-      <span class="nav-label"
-            data-i18n="founderOverview">
-        Founder Overview
-      </span>
-
-    </a>
-
-
-    <a class="nav-item"
-       href="index.html">
-
-      <span class="nav-icon">⌂</span>
-
-      <span class="nav-label"
-            data-i18n="mainDashboard">
-        Main Dashboard
-      </span>
-
-    </a>
-
-
-    <div class="section-title"
-         data-i18n="platform">
-      Platform
-    </div>
-
-
-    <a class="nav-item"
-       href="#users">
-
-      <span class="nav-icon">◉</span>
-
-      <span class="nav-label"
-            data-i18n="users">
-        Users
-      </span>
-
-    </a>
-
-
-    <a class="nav-item"
-       href="#privacy">
-
-      <span class="nav-icon">♢</span>
-
-      <span class="nav-label"
-            data-i18n="walletPrivacy">
-        Wallet Privacy
-      </span>
-
-    </a>
-
-
-    <a class="nav-item"
-       href="#projects">
-
-      <span class="nav-icon">▣</span>
-
-      <span class="nav-label"
-            data-i18n="projects">
-        Projects
-      </span>
-
-    </a>
-
-
-    <div class="section-title"
-         data-i18n="finance">
-      Finance
-    </div>
-
-
-    <a class="nav-item"
-       href="#treasury">
-
-      <span class="nav-icon">◇</span>
-
-      <span class="nav-label"
-            data-i18n="treasury">
-        Treasury
-      </span>
-
-    </a>
-
-
-    <a class="nav-item"
-       href="#revenue">
-
-      <span class="nav-icon">↗</span>
-
-      <span class="nav-label"
-            data-i18n="revenue">
-        Revenue
-      </span>
-
-    </a>
-
-
-    <a class="nav-item"
-       href="#investments">
-
-      <span class="nav-icon">◈</span>
-
-      <span class="nav-label"
-            data-i18n="investments">
-        Investments
-      </span>
-
-    </a>
-
-
-    <div class="section-title"
-         data-i18n="team">
-      Team
-    </div>
-
-
-    <a class="nav-item"
-       href="#team">
-
-      <span class="nav-icon">♙</span>
-
-      <span class="nav-label"
-            data-i18n="adminsModerators">
-        Admins & Moderators
-      </span>
-
-    </a>
-
-
-    <a class="nav-item"
-       href="#activity">
-
-      <span class="nav-icon">⌁</span>
-
-      <span class="nav-label"
-            data-i18n="activity">
-        System Activity
-      </span>
-
-    </a>
-
-  </nav>
-
-
-  <div class="sidebar-bottom">
-
-    <div class="founder-account">
-
-      <div class="avatar"
-           id="founderAvatar">
-        F
-      </div>
-
-      <div>
-
-        <div class="account-email"
-             id="founderEmail">
-          Founder
-        </div>
-
-        <div class="account-role"
-             data-i18n="fullAccess">
-          ● Full Founder Access
-        </div>
-
-      </div>
-
-    </div>
-
   </div>
+</div>
 
-</aside>
-
-
-<!-- =========================================
-MAIN
-========================================= -->
-
-<main class="main">
+<div id="app" style="display:none">
 
 <header class="topbar">
 
-  <div style="display:flex;align-items:center;gap:12px;">
-
-    <button
-      class="menu"
-      id="menuButton"
-      aria-label="Menu">
-      ☰
-    </button>
-
-    <div>
-
-      <div class="page-title"
-           data-i18n="founderControlCenter">
-        Founder Control Center
-      </div>
-
-      <div class="page-subtitle"
-           data-i18n="platformAdministration">
-        Sonativa platform administration
-      </div>
-
-    </div>
-
+  <div class="logo">
+    SONATIVA
+    <span>FOUNDER</span>
   </div>
 
-
-  <div class="top-actions">
-
-    <select
-      class="lang"
-      id="languageSelect"
-      aria-label="Language">
-
-      <option value="en">
-        English
-      </option>
-
-      <option value="ar">
-        العربية
-      </option>
-
-      <option value="fr">
-        Français
-      </option>
-
-    </select>
-
+  <div class="user">
+    <span class="user-email" id="userEmail">—</span>
+    <div class="avatar" id="avatar">F</div>
   </div>
 
 </header>
 
+<main class="container">
 
-<section class="content">
+  <section class="hero">
 
-<!-- =========================================
-HERO
-========================================= -->
-
-<div class="hero">
-
-  <div>
-
-    <h1 data-i18n="founderControlCenter">
-      Founder Control Center
-    </h1>
-
-    <p data-i18n="heroDescription">
-      Complete platform control without exposing private user wallet credentials or holdings.
-    </p>
-
-  </div>
-
-
-  <div class="founder-status">
-
-    <span class="status-dot"></span>
-
-    <span data-i18n="authenticated">
-      Founder authenticated
-    </span>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================
-STATS
-========================================= -->
-
-<div class="stats" id="users">
-
-  <div class="stat">
-
-    <div class="stat-label"
-         data-i18n="platformUsers">
-      Platform Users
+    <div>
+      <h1>Founder Control Center</h1>
+      <div class="subtitle">
+        Full platform administration and operational overview.
+      </div>
     </div>
 
-    <div class="stat-value"
-         id="usersCount">
-      —
+    <div class="buttons">
+      <a href="index.html" class="button">← Dashboard</a>
+      <button onclick="refreshAll()">↻ Refresh</button>
+      <button class="danger" onclick="signOut()">Sign Out</button>
     </div>
 
-    <div class="stat-note"
-         data-i18n="registeredAccounts">
-      Registered accounts
+  </section>
+
+  <section class="grid">
+
+    <div class="card">
+      <div class="label">Access</div>
+      <div class="value green" id="accessValue">VERIFIED</div>
     </div>
 
-  </div>
-
-
-  <div class="stat" id="projects">
-
-    <div class="stat-label"
-         data-i18n="projects">
-      Projects
+    <div class="card">
+      <div class="label">Projects</div>
+      <div class="value" id="projectsValue">—</div>
     </div>
 
-    <div class="stat-value"
-         id="projectsCount">
-      —
+    <div class="card">
+      <div class="label">Team Members</div>
+      <div class="value" id="teamValue">—</div>
     </div>
 
-    <div class="stat-note"
-         data-i18n="allProjects">
-      All platform projects
+    <div class="card">
+      <div class="label">Audit Events</div>
+      <div class="value" id="auditValue">—</div>
     </div>
 
-  </div>
+  </section>
 
-
-  <div class="stat">
-
-    <div class="stat-label"
-         data-i18n="tokens">
-      Tokens
-    </div>
-
-    <div class="stat-value"
-         id="tokensCount">
-      —
-    </div>
-
-    <div class="stat-note"
-         data-i18n="createdThroughSonativa">
-      Created through Sonativa
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="stat-label"
-         data-i18n="revenue">
-      Revenue
-    </div>
-
-    <div class="stat-value"
-         id="revenueValue">
-      $0
-    </div>
-
-    <div class="stat-note"
-         data-i18n="platformRevenue">
-      Platform revenue
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="stat-label"
-         data-i18n="treasury">
-      Treasury
-    </div>
-
-    <div class="stat-value"
-         id="treasuryValue">
-      $0
-    </div>
-
-    <div class="stat-note"
-         data-i18n="projectTreasury">
-      Project treasury
-    </div>
-
-  </div>
-
-
-  <div class="stat">
-
-    <div class="stat-label"
-         data-i18n="investments">
-      Investments
-    </div>
-
-    <div class="stat-value"
-         id="investmentValue">
-      $0
-    </div>
-
-    <div class="stat-note"
-         data-i18n="projectInvestments">
-      Project investments
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================
-GRID
-========================================= -->
-
-<div class="grid">
-
-
-<!-- =========================================
-REVENUE
-========================================= -->
-
-<section class="card"
-         id="revenue">
-
-  <div class="card-header">
+  <section class="layout">
 
     <div>
 
-      <div class="card-title"
-           data-i18n="financialOverview">
-        Financial Overview
-      </div>
+      <div class="card" style="margin-bottom:18px">
 
-      <div class="card-description"
-           data-i18n="financialDescription">
-        Separate accounting for project, founder and developer revenue.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="finance-grid">
-
-    <div class="finance">
-
-      <div class="finance-label"
-           data-i18n="projectRevenue">
-        Project Revenue
-      </div>
-
-      <div class="finance-value"
-           id="projectRevenue">
-        $0
-      </div>
-
-      <div class="finance-change"
-           data-i18n="platform">
-        Platform
-      </div>
-
-    </div>
-
-
-    <div class="finance">
-
-      <div class="finance-label"
-           data-i18n="founderRevenue">
-        Founder Revenue
-      </div>
-
-      <div class="finance-value"
-           id="founderRevenue">
-        $0
-      </div>
-
-      <div class="finance-change"
-           data-i18n="founder">
-        Founder
-      </div>
-
-    </div>
-
-
-    <div class="finance">
-
-      <div class="finance-label"
-           data-i18n="developerRevenue">
-        Developer Revenue
-      </div>
-
-      <div class="finance-value"
-           id="developerRevenue">
-        $0
-      </div>
-
-      <div class="finance-change"
-           data-i18n="development">
-        Development
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================
-PRIVACY
-========================================= -->
-
-<section class="card"
-         id="privacy">
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title"
-           data-i18n="walletPrivacyTitle">
-        User Wallet Privacy
-      </div>
-
-      <div class="card-description"
-           data-i18n="walletPrivacyDescription">
-        Platform administration is separated from private wallet credentials.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="privacy-box">
-
-    <div class="privacy-icon">
-      ♢
-    </div>
-
-    <div>
-
-      <div class="privacy-title"
-           data-i18n="privateArchitecture">
-        Private by architecture
-      </div>
-
-      <div class="privacy-text"
-           data-i18n="privacyText">
-
-        Sonativa does not store private keys or seed phrases in this dashboard.
-        The Founder Control Center does not display private wallet credentials
-        or user wallet holdings.
-
-        <br><br>
-
-        Blockchain addresses and transactions can be publicly visible on-chain.
-        Therefore Sonativa does not promise anonymity from the blockchain itself.
-
-        <br><br>
-
-        Users authorize their own wallet transactions.
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================
-TREASURY
-========================================= -->
-
-<section class="card"
-         id="treasury">
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title"
-           data-i18n="projectTreasuryTitle">
-        Project Treasury
-      </div>
-
-      <div class="card-description"
-           data-i18n="treasuryDescription">
-        Internal project accounting — not user wallet balances.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="treasury-list">
-
-    <div class="treasury-row">
-
-      <span class="treasury-label"
-            data-i18n="availableTreasury">
-        Available Treasury
-      </span>
-
-      <strong class="treasury-value"
-              id="treasuryAvailable">
-        $0
-      </strong>
-
-    </div>
-
-
-    <div class="treasury-row">
-
-      <span class="treasury-label"
-            data-i18n="reserved">
-        Reserved
-      </span>
-
-      <strong class="treasury-value"
-              id="treasuryReserved">
-        $0
-      </strong>
-
-    </div>
-
-
-    <div class="treasury-row">
-
-      <span class="treasury-label"
-            data-i18n="developerBudget">
-        Developer Budget
-      </span>
-
-      <strong class="treasury-value"
-              id="developerBudget">
-        $0
-      </strong>
-
-    </div>
-
-
-    <div class="treasury-row">
-
-      <span class="treasury-label"
-            data-i18n="investmentCapital">
-        Investment Capital
-      </span>
-
-      <strong class="treasury-value"
-              id="investmentCapital">
-        $0
-      </strong>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================
-INVESTMENTS
-========================================= -->
-
-<section class="card"
-         id="investments">
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title"
-           data-i18n="projectInvestmentsTitle">
-        Project Investments
-      </div>
-
-      <div class="card-description"
-           data-i18n="investmentsDescription">
-        Track investments made by the Sonativa project.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="treasury-list">
-
-    <div class="treasury-row">
-
-      <span class="treasury-label"
-            data-i18n="totalInvested">
-        Total Invested
-      </span>
-
-      <strong class="treasury-value"
-              id="totalInvested">
-        $0
-      </strong>
-
-    </div>
-
-
-    <div class="treasury-row">
-
-      <span class="treasury-label"
-            data-i18n="currentValue">
-        Current Value
-      </span>
-
-      <strong class="treasury-value"
-              id="currentInvestmentValue">
-        $0
-      </strong>
-
-    </div>
-
-
-    <div class="treasury-row">
-
-      <span class="treasury-label"
-            data-i18n="unrealizedPL">
-        Unrealized P/L
-      </span>
-
-      <strong class="treasury-value"
-              id="investmentProfit">
-        $0
-      </strong>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================
-TEAM
-========================================= -->
-
-<section class="card card-wide"
-         id="team">
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title"
-           data-i18n="adminsModerators">
-        Admins & Moderators
-      </div>
-
-      <div class="card-description"
-           data-i18n="teamDescription">
-        Founder remains the highest privilege.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="team-list"
-       id="teamList">
-
-    <div class="team-row">
-
-      <div class="team-avatar">
-        F
-      </div>
-
-      <div class="team-info">
-
-        <div class="team-name">
-          Founder
+        <div class="card-title">
+          Founder Identity
         </div>
 
-        <div class="team-email"
-             id="founderTeamEmail">
-          Loading...
+        <div class="status-box">
+          <div class="status-dot"></div>
+
+          <div class="status-text">
+            <strong>Founder access verified</strong>
+            <span>Supabase authentication and role verification passed.</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <span>Email</span>
+          <span id="identityEmail">—</span>
+        </div>
+
+        <div class="info-row">
+          <span>User ID</span>
+          <span id="identityId">—</span>
+        </div>
+
+        <div class="info-row">
+          <span>Role</span>
+          <span class="green" id="identityRole">—</span>
+        </div>
+
+        <div class="info-row">
+          <span>Session</span>
+          <span class="green">Authenticated</span>
         </div>
 
       </div>
 
-      <span class="role founder">
-        FOUNDER
-      </span>
+      <div class="card">
 
-    </div>
-
-  </div>
-
-
-  <div class="notice">
-
-    <strong data-i18n="security">
-      Role security:
-    </strong>
-
-    <span data-i18n="roleSecurityText">
-      Admins and moderators receive only explicitly assigned permissions.
-      They cannot receive Founder privileges. User wallet credentials remain
-      outside this dashboard.
-    </span>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================
-ACTIONS
-========================================= -->
-
-<section class="card">
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title"
-           data-i18n="founderActions">
-        Founder Actions
-      </div>
-
-      <div class="card-description"
-           data-i18n="actionsDescription">
-        Platform management shortcuts.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="actions">
-
-    <button class="action"
-            onclick="showToast('User management module is ready for the next backend step.')">
-      ♙ <span data-i18n="manageUsers">Manage Users</span>
-    </button>
-
-
-    <button class="action"
-            onclick="showToast('Administrator management module is ready.')">
-      ♙ <span data-i18n="addAdmin">Add Administrator</span>
-    </button>
-
-
-    <button class="action"
-            onclick="showToast('Moderator management module is ready.')">
-      ♙ <span data-i18n="addModerator">Add Moderator</span>
-    </button>
-
-
-    <button class="action"
-            onclick="showToast('Treasury management module is ready.')">
-      ◇ <span data-i18n="manageTreasury">Treasury</span>
-    </button>
-
-
-    <button class="action"
-            onclick="showToast('Revenue management module is ready.')">
-      ↗ <span data-i18n="manageRevenue">Revenue</span>
-    </button>
-
-
-    <button class="action"
-            onclick="showToast('Investment management module is ready.')">
-      ◈ <span data-i18n="manageInvestments">Investments</span>
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================
-ACTIVITY
-========================================= -->
-
-<section class="card"
-         id="activity">
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title"
-           data-i18n="systemActivity">
-        System Activity
-      </div>
-
-      <div class="card-description"
-           data-i18n="activityDescription">
-        Founder-level platform events.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="activity">
-
-    <div class="activity-row">
-
-      <div class="activity-dot"></div>
-
-      <div>
-
-        <div class="activity-text"
-             data-i18n="activity1">
-          Founder Control Center initialized.
+        <div class="card-title">
+          Founder Permissions
         </div>
 
-        <div class="activity-time"
-             data-i18n="currentSession">
-          Current session
+        <div class="permissions">
+
+          <div class="permission" id="pUsers">
+            Users
+          </div>
+
+          <div class="permission" id="pProjects">
+            Projects
+          </div>
+
+          <div class="permission" id="pFinance">
+            Finance
+          </div>
+
+          <div class="permission" id="pTreasury">
+            Treasury
+          </div>
+
+          <div class="permission" id="pInvestments">
+            Investments
+          </div>
+
+          <div class="permission" id="pTeam">
+            Team
+          </div>
+
+          <div class="permission" id="pAudit">
+            Audit Logs
+          </div>
+
+          <div class="permission" id="pActive">
+            Account Active
+          </div>
+
         </div>
 
       </div>
 
     </div>
 
+    <div>
 
-    <div class="activity-row">
+      <div class="card" style="margin-bottom:18px">
 
-      <div class="activity-dot"></div>
-
-      <div>
-
-        <div class="activity-text"
-             data-i18n="activity2">
-          User wallet privacy boundary enabled.
+        <div class="card-title">
+          Platform Overview
         </div>
 
-        <div class="activity-time">
-          Architecture protection
+        <div class="info-row">
+          <span>Platform</span>
+          <span>Sonativa</span>
+        </div>
+
+        <div class="info-row">
+          <span>Environment</span>
+          <span>Production</span>
+        </div>
+
+        <div class="info-row">
+          <span>Authentication</span>
+          <span class="green">Supabase Auth</span>
+        </div>
+
+        <div class="info-row">
+          <span>Database</span>
+          <span class="green">Connected</span>
+        </div>
+
+        <div class="info-row">
+          <span>Founder Mode</span>
+          <span class="green">Enabled</span>
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <div class="card-title">
+          Recent System Activity
+        </div>
+
+        <div class="activity" id="activity">
+          <div class="empty">
+            Loading activity...
+          </div>
         </div>
 
       </div>
 
     </div>
 
+  </section>
 
-    <div class="activity-row">
-
-      <div class="activity-dot"></div>
-
-      <div>
-
-        <div class="activity-text"
-             data-i18n="activity3">
-          Founder role verified through Supabase.
-        </div>
-
-        <div class="activity-time">
-          Access control
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-</div>
-
-
-<footer>
-© 2026 Sonativa — Founder Control Center
-</footer>
-
-</section>
+  <footer>
+    © 2026 Sonativa — Founder Control Center
+  </footer>
 
 </main>
 
 </div>
 
-
 <script type="module">
-
-/* =========================================
-   SUPABASE
-========================================= */
 
 import {
   createClient
-}
-from
+} from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
@@ -2154,926 +624,494 @@ createClient(
 );
 
 
-/* =========================================
-   TRANSLATIONS
-========================================= */
+let currentUser = null;
 
-const translations = {
 
-en: {
+/* ============================
+   HELPERS
+============================ */
 
-control:"Control",
-founderOverview:"Founder Overview",
-mainDashboard:"Main Dashboard",
-platform:"Platform",
-users:"Users",
-walletPrivacy:"Wallet Privacy",
-projects:"Projects",
-finance:"Finance",
-treasury:"Treasury",
-revenue:"Revenue",
-investments:"Investments",
-team:"Team",
-adminsModerators:"Admins & Moderators",
-activity:"System Activity",
-fullAccess:"● Full Founder Access",
-founderControlCenter:"Founder Control Center",
-platformAdministration:"Sonativa platform administration",
-heroDescription:"Complete platform control without exposing private user wallet credentials or holdings.",
-authenticated:"Founder authenticated",
-platformUsers:"Platform Users",
-registeredAccounts:"Registered accounts",
-allProjects:"All platform projects",
-tokens:"Tokens",
-createdThroughSonativa:"Created through Sonativa",
-platformRevenue:"Platform revenue",
-projectTreasury:"Project treasury",
-projectInvestments:"Project investments",
-financialOverview:"Financial Overview",
-financialDescription:"Separate accounting for project, founder and developer revenue.",
-projectRevenue:"Project Revenue",
-founderRevenue:"Founder Revenue",
-developerRevenue:"Developer Revenue",
-founder:"Founder",
-development:"Development",
-walletPrivacyTitle:"User Wallet Privacy",
-walletPrivacyDescription:"Platform administration is separated from private wallet credentials.",
-privateArchitecture:"Private by architecture",
-privacyText:"Sonativa does not store private keys or seed phrases in this dashboard. The Founder Control Center does not display private wallet credentials or user wallet holdings. Blockchain addresses and transactions can be publicly visible on-chain. Therefore Sonativa does not promise anonymity from the blockchain itself. Users authorize their own wallet transactions.",
-projectTreasuryTitle:"Project Treasury",
-treasuryDescription:"Internal project accounting — not user wallet balances.",
-availableTreasury:"Available Treasury",
-reserved:"Reserved",
-developerBudget:"Developer Budget",
-investmentCapital:"Investment Capital",
-projectInvestmentsTitle:"Project Investments",
-investmentsDescription:"Track investments made by the Sonativa project.",
-totalInvested:"Total Invested",
-currentValue:"Current Value",
-unrealizedPL:"Unrealized P/L",
-teamDescription:"Founder remains the highest privilege.",
-security:"Role security:",
-roleSecurityText:"Admins and moderators receive only explicitly assigned permissions. They cannot receive Founder privileges. User wallet credentials remain outside this dashboard.",
-founderActions:"Founder Actions",
-actionsDescription:"Platform management shortcuts.",
-manageUsers:"Manage Users",
-addAdmin:"Add Administrator",
-addModerator:"Add Moderator",
-manageTreasury:"Treasury",
-manageRevenue:"Revenue",
-manageInvestments:"Investments",
-systemActivity:"System Activity",
-activityDescription:"Founder-level platform events.",
-activity1:"Founder Control Center initialized.",
-currentSession:"Current session",
-activity2:"User wallet privacy boundary enabled.",
-activity3:"Founder role verified through Supabase."
+function showError(title,message){
 
-},
+  document.getElementById("loading")
+    .classList.add("hidden");
 
-ar: {
+  document.getElementById("errorTitle")
+    .textContent = title;
 
-control:"التحكم",
-founderOverview:"لوحة المؤسس",
-mainDashboard:"لوحة المنصة",
-platform:"المنصة",
-users:"المستخدمون",
-walletPrivacy:"خصوصية المحافظ",
-projects:"المشاريع",
-finance:"المالية",
-treasury:"الخزينة",
-revenue:"الأرباح",
-investments:"الاستثمارات",
-team:"الفريق",
-adminsModerators:"المشرفون والمديرون",
-activity:"نشاط النظام",
-fullAccess:"● وصول المؤسس الكامل",
-founderControlCenter:"مركز تحكم المؤسس",
-platformAdministration:"إدارة منصة Sonativa",
-heroDescription:"تحكم كامل في المنصة دون كشف مفاتيح أو ممتلكات محافظ المستخدمين الخاصة.",
-authenticated:"تم التحقق من المؤسس",
-platformUsers:"مستخدمو المنصة",
-registeredAccounts:"الحسابات المسجلة",
-allProjects:"جميع مشاريع المنصة",
-tokens:"التوكنات",
-createdThroughSonativa:"تم إنشاؤها عبر Sonativa",
-platformRevenue:"أرباح المنصة",
-projectTreasury:"خزينة المشروع",
-projectInvestments:"استثمارات المشروع",
-financialOverview:"نظرة مالية",
-financialDescription:"محاسبة منفصلة لأرباح المشروع والمؤسس والمطورين.",
-projectRevenue:"أرباح المشروع",
-founderRevenue:"أرباح المؤسس",
-developerRevenue:"أرباح المطورين",
-founder:"المؤسس",
-development:"التطوير",
-walletPrivacyTitle:"خصوصية محافظ المستخدمين",
-walletPrivacyDescription:"إدارة المنصة منفصلة عن بيانات المحافظ الخاصة.",
-privateArchitecture:"الخصوصية حسب التصميم",
-privacyText:"لا تخزن Sonativa المفاتيح الخاصة أو عبارات الاسترداد في لوحة المؤسس. لا تعرض اللوحة مفاتيح المحافظ الخاصة أو ممتلكات المستخدمين. يمكن أن تكون عناوين البلوكشين والمعاملات مرئية بشكل عام على الشبكة، لذلك لا يمكن للمنصة أن تضمن إخفاء الهوية عن البلوكشين نفسه. المستخدم هو من يصرح بمعاملات محفظته.",
-projectTreasuryTitle:"خزينة المشروع",
-treasuryDescription:"محاسبة داخلية للمشروع وليست أرصدة محافظ المستخدمين.",
-availableTreasury:"الخزينة المتاحة",
-reserved:"المحجوز",
-developerBudget:"ميزانية المطورين",
-investmentCapital:"رأس مال الاستثمارات",
-projectInvestmentsTitle:"استثمارات المشروع",
-investmentsDescription:"تتبع الاستثمارات التي يقوم بها مشروع Sonativa.",
-totalInvested:"إجمالي الاستثمار",
-currentValue:"القيمة الحالية",
-unrealizedPL:"الربح/الخسارة غير المحققة",
-teamDescription:"المؤسس يمتلك أعلى مستوى من الصلاحيات.",
-security:"أمان الصلاحيات:",
-roleSecurityText:"يحصل المديرون والمشرفون فقط على الصلاحيات المحددة لهم. لا يمكن منحهم صلاحيات المؤسس. بيانات المحافظ الخاصة تبقى خارج هذه اللوحة.",
-founderActions:"إجراءات المؤسس",
-actionsDescription:"اختصارات إدارة المنصة.",
-manageUsers:"إدارة المستخدمين",
-addAdmin:"إضافة مدير",
-addModerator:"إضافة مشرف",
-manageTreasury:"الخزينة",
-manageRevenue:"الأرباح",
-manageInvestments:"الاستثمارات",
-systemActivity:"نشاط النظام",
-activityDescription:"أحداث المنصة الخاصة بالمؤسس.",
-activity1:"تم تشغيل مركز تحكم المؤسس.",
-currentSession:"الجلسة الحالية",
-activity2:"تم تفعيل حدود خصوصية محافظ المستخدمين.",
-activity3:"تم التحقق من صلاحية المؤسس عبر Supabase."
+  document.getElementById("errorMessage")
+    .textContent = message;
 
-},
-
-fr: {
-
-control:"Contrôle",
-founderOverview:"Vue Fondateur",
-mainDashboard:"Tableau principal",
-platform:"Plateforme",
-users:"Utilisateurs",
-walletPrivacy:"Confidentialité Wallet",
-projects:"Projets",
-finance:"Finance",
-treasury:"Trésorerie",
-revenue:"Revenus",
-investments:"Investissements",
-team:"Équipe",
-adminsModerators:"Admins & Modérateurs",
-activity:"Activité système",
-fullAccess:"● Accès Fondateur complet",
-founderControlCenter:"Centre de contrôle Fondateur",
-platformAdministration:"Administration de la plateforme Sonativa",
-heroDescription:"Contrôle complet de la plateforme sans exposer les identifiants privés ni les avoirs des wallets utilisateurs.",
-authenticated:"Fondateur authentifié",
-platformUsers:"Utilisateurs",
-registeredAccounts:"Comptes enregistrés",
-allProjects:"Tous les projets",
-tokens:"Tokens",
-createdThroughSonativa:"Créés via Sonativa",
-platformRevenue:"Revenus de la plateforme",
-projectTreasury:"Trésorerie du projet",
-projectInvestments:"Investissements du projet",
-financialOverview:"Vue financière",
-financialDescription:"Comptabilité séparée du projet, du fondateur et des développeurs.",
-projectRevenue:"Revenus du projet",
-founderRevenue:"Revenus du fondateur",
-developerRevenue:"Revenus développeurs",
-founder:"Fondateur",
-development:"Développement",
-walletPrivacyTitle:"Confidentialité des wallets",
-walletPrivacyDescription:"L'administration est séparée des identifiants privés des wallets.",
-privateArchitecture:"Confidentialité par architecture",
-privacyText:"Sonativa ne stocke pas les clés privées ni les phrases de récupération dans ce tableau de bord. Les adresses et transactions blockchain peuvent être publiques sur le réseau. Sonativa ne promet donc pas l'anonymat vis-à-vis de la blockchain. Les utilisateurs autorisent eux-mêmes leurs transactions.",
-projectTreasuryTitle:"Trésorerie du projet",
-treasuryDescription:"Comptabilité interne du projet — pas les soldes des utilisateurs.",
-availableTreasury:"Trésorerie disponible",
-reserved:"Réservé",
-developerBudget:"Budget développeurs",
-investmentCapital:"Capital d'investissement",
-projectInvestmentsTitle:"Investissements du projet",
-investmentsDescription:"Suivi des investissements de Sonativa.",
-totalInvested:"Total investi",
-currentValue:"Valeur actuelle",
-unrealizedPL:"P/L non réalisé",
-teamDescription:"Le fondateur possède le niveau de privilège le plus élevé.",
-security:"Sécurité des rôles :",
-roleSecurityText:"Les admins et modérateurs reçoivent uniquement les permissions attribuées. Ils ne peuvent pas obtenir les privilèges Fondateur. Les données privées des wallets restent hors de ce tableau de bord.",
-founderActions:"Actions Fondateur",
-actionsDescription:"Raccourcis de gestion.",
-manageUsers:"Gérer les utilisateurs",
-addAdmin:"Ajouter un administrateur",
-addModerator:"Ajouter un modérateur",
-manageTreasury:"Trésorerie",
-manageRevenue:"Revenus",
-manageInvestments:"Investissements",
-systemActivity:"Activité système",
-activityDescription:"Événements de la plateforme.",
-activity1:"Centre de contrôle Fondateur initialisé.",
-currentSession:"Session actuelle",
-activity2:"Protection de confidentialité des wallets activée.",
-activity3:"Rôle Fondateur vérifié via Supabase."
-
+  document.getElementById("errorScreen")
+    .classList.add("show");
 }
 
-};
 
+function setPermission(id,enabled){
 
-/* =========================================
-   LANGUAGE SYSTEM
-========================================= */
+  const el =
+    document.getElementById(id);
 
-const languageSelect =
-document.getElementById(
-  "languageSelect"
-);
+  if(!el) return;
 
+  el.classList.remove("ok","no");
 
-function applyLanguage(language){
-
-  const dictionary =
-    translations[language] ||
-    translations.en;
-
-  document
-    .querySelectorAll("[data-i18n]")
-    .forEach(function(element){
-
-      const key =
-        element.getAttribute("data-i18n");
-
-      if(dictionary[key]){
-        element.textContent =
-          dictionary[key];
-      }
-
-    });
-
-
-  document.documentElement.lang =
-    language;
-
-  document.documentElement.dir =
-    language === "ar"
-      ? "rtl"
-      : "ltr";
-
-  localStorage.setItem(
-    "sonativa_language",
-    language
+  el.classList.add(
+    enabled ? "ok" : "no"
   );
 
+  el.textContent =
+    (enabled ? "✓ " : "✕ ") +
+    el.textContent.replace(/^[✓✕]\s*/,"");
+
 }
 
 
-const savedLanguage =
-  localStorage.getItem(
-    "sonativa_language"
-  ) || "en";
+function setValue(id,value){
+
+  const el =
+    document.getElementById(id);
+
+  if(el) el.textContent = value;
+
+}
 
 
-languageSelect.value =
-  savedLanguage;
+/* ============================
+   VERIFY FOUNDER
+============================ */
+
+async function verifyFounder(){
+
+  try{
+
+    const {
+      data:{
+        user
+      },
+      error:authError
+    } =
+      await supabase.auth.getUser();
 
 
-applyLanguage(
-  savedLanguage
-);
+    if(authError || !user){
+
+      showError(
+        "Founder Access Required",
+        "Please sign in to Sonativa with your Founder account."
+      );
+
+      return;
+    }
 
 
-languageSelect.addEventListener(
-  "change",
-  function(){
+    currentUser = user;
 
-    applyLanguage(
-      this.value
+
+    const email =
+      user.email || "";
+
+
+    setValue(
+      "userEmail",
+      email
+    );
+
+    setValue(
+      "identityEmail",
+      email
+    );
+
+    setValue(
+      "identityId",
+      user.id
+    );
+
+
+    /* ============================
+       USER ROLES
+    ============================ */
+
+    const {
+      data:roleRows,
+      error:roleError
+    } =
+      await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id",user.id)
+        .limit(1);
+
+
+    if(roleError){
+
+      console.error(
+        "user_roles error:",
+        roleError
+      );
+
+      showError(
+        "Security Verification Failed",
+        "Sonativa could not verify your founder role from the database."
+      );
+
+      return;
+    }
+
+
+    const role =
+      roleRows?.[0]?.role;
+
+
+    /* ============================
+       TEAM PERMISSIONS
+    ============================ */
+
+    const {
+      data:permissionRows,
+      error:permissionError
+    } =
+      await supabase
+        .from("team_permissions")
+        .select(`
+          role,
+          can_manage_users,
+          can_manage_projects,
+          can_manage_support,
+          can_view_finance,
+          can_manage_treasury,
+          can_manage_investments,
+          can_manage_team,
+          can_view_audit_logs,
+          active
+        `)
+        .eq("user_id",user.id)
+        .limit(1);
+
+
+    if(permissionError){
+
+      console.error(
+        "team_permissions error:",
+        permissionError
+      );
+
+      showError(
+        "Security Verification Failed",
+        "Sonativa could not verify your founder permissions."
+      );
+
+      return;
+    }
+
+
+    const permissions =
+      permissionRows?.[0];
+
+
+    const isFounder =
+      String(role || "").toLowerCase()
+      === "founder"
+      ||
+      String(permissions?.role || "").toLowerCase()
+      === "founder";
+
+
+    const isActive =
+      permissions
+      ? permissions.active === true
+      : true;
+
+
+    if(!isFounder || !isActive){
+
+      showError(
+        "Founder Access Required",
+        "This account does not have an active Founder role."
+      );
+
+      return;
+    }
+
+
+    /* ============================
+       ACCESS GRANTED
+    ============================ */
+
+    setValue(
+      "identityRole",
+      "FOUNDER"
+    );
+
+
+    setPermission(
+      "pUsers",
+      permissions?.can_manage_users === true
+    );
+
+    setPermission(
+      "pProjects",
+      permissions?.can_manage_projects === true
+    );
+
+    setPermission(
+      "pFinance",
+      permissions?.can_view_finance === true
+    );
+
+    setPermission(
+      "pTreasury",
+      permissions?.can_manage_treasury === true
+    );
+
+    setPermission(
+      "pInvestments",
+      permissions?.can_manage_investments === true
+    );
+
+    setPermission(
+      "pTeam",
+      permissions?.can_manage_team === true
+    );
+
+    setPermission(
+      "pAudit",
+      permissions?.can_view_audit_logs === true
+    );
+
+    setPermission(
+      "pActive",
+      isActive
+    );
+
+
+    await loadOverview();
+
+    await loadActivity();
+
+
+    document.getElementById("loading")
+      .classList.add("hidden");
+
+    document.getElementById("app")
+      .style.display = "block";
+
+  }catch(error){
+
+    console.error(error);
+
+    showError(
+      "Unexpected Error",
+      "An unexpected error occurred while verifying Founder access."
     );
 
   }
-);
-
-
-/* =========================================
-   MOBILE MENU
-========================================= */
-
-const sidebar =
-  document.getElementById(
-    "sidebar"
-  );
-
-
-document
-  .getElementById("menuButton")
-  .addEventListener(
-    "click",
-    function(){
-
-      sidebar.classList.toggle(
-        "open"
-      );
-
-    }
-  );
-
-
-document
-  .querySelectorAll(".nav-item")
-  .forEach(function(item){
-
-    item.addEventListener(
-      "click",
-      function(){
-
-        if(
-          window.innerWidth <= 760
-        ){
-
-          sidebar.classList.remove(
-            "open"
-          );
-
-        }
-
-      }
-    );
-
-  });
-
-
-/* =========================================
-   HELPERS
-========================================= */
-
-function money(value){
-
-  const number =
-    Number(value || 0);
-
-  return "$" +
-    number.toLocaleString(
-      "en-US",
-      {
-        minimumFractionDigits:0,
-        maximumFractionDigits:2
-      }
-    );
 
 }
 
 
-function initials(value){
+/* ============================
+   PLATFORM OVERVIEW
+============================ */
 
-  return String(
-    value || "F"
-  )
-  .charAt(0)
-  .toUpperCase();
+async function loadOverview(){
+
+  /* PROJECTS */
+
+  const {
+    count:projectCount
+  } =
+    await supabase
+      .from("projects")
+      .select("*",{count:"exact",head:true})
+      .eq("user_id",currentUser.id);
+
+
+  setValue(
+    "projectsValue",
+    projectCount ?? 0
+  );
+
+
+  /* TEAM */
+
+  const {
+    count:teamCount
+  } =
+    await supabase
+      .from("team_permissions")
+      .select("*",{count:"exact",head:true});
+
+
+  setValue(
+    "teamValue",
+    teamCount ?? 0
+  );
+
+
+  /* AUDIT */
+
+  const {
+    count:auditCount
+  } =
+    await supabase
+      .from("system_audit_logs")
+      .select("*",{count:"exact",head:true});
+
+
+  setValue(
+    "auditValue",
+    auditCount ?? 0
+  );
 
 }
 
+
+/* ============================
+   ACTIVITY
+============================ */
+
+async function loadActivity(){
+
+  const {
+    data,
+    error
+  } =
+    await supabase
+      .from("system_audit_logs")
+      .select(`
+        action,
+        target_type,
+        description,
+        created_at
+      `)
+      .order(
+        "created_at",
+        {ascending:false}
+      )
+      .limit(10);
+
+
+  const container =
+    document.getElementById("activity");
+
+
+  if(error){
+
+    console.error(
+      "Audit error:",
+      error
+    );
+
+    container.innerHTML =
+      `<div class="empty">
+        Audit activity unavailable.
+      </div>`;
+
+    return;
+  }
+
+
+  if(!data?.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        No system activity yet.
+      </div>`;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    data.map(function(item){
+
+      const date =
+        new Date(
+          item.created_at
+        ).toLocaleString();
+
+
+      return `
+        <div class="activity-item">
+
+          <div class="activity-action">
+            ${escapeHTML(
+              item.action || "System event"
+            )}
+          </div>
+
+          <div class="activity-meta">
+            ${escapeHTML(
+              item.description ||
+              item.target_type ||
+              ""
+            )}
+            <br>
+            ${escapeHTML(date)}
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+/* ============================
+   ESCAPE
+============================ */
 
 function escapeHTML(value){
 
-  return String(
-    value ?? ""
-  )
-
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-
-  .replace(
-    /</g,
-    "&lt;"
-  )
-
-  .replace(
-    />/g,
-    "&gt;"
-  )
-
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-
-  .replace(
-    /'/g,
-    "&#039;"
-  );
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================================
-   TOAST
-========================================= */
+/* ============================
+   REFRESH
+============================ */
 
-let toastTimer;
+window.refreshAll =
+async function(){
 
-
-window.showToast =
-function(message){
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-  toast.textContent =
-    message;
-
-  toast.classList.add(
-    "show"
+  setValue(
+    "accessValue",
+    "CHECKING..."
   );
 
-  clearTimeout(
-    toastTimer
-  );
-
-  toastTimer =
-    setTimeout(
-      function(){
-
-        toast.classList.remove(
-          "show"
-        );
-
-      },
-      3000
-    );
+  await verifyFounder();
 
 };
 
 
-/* =========================================
-   FOUNDER CHECK
-========================================= */
+/* ============================
+   SIGN OUT
+============================ */
 
-async function checkFounder(){
+window.signOut =
+async function(){
 
-  const {
-    data:{
-      user
-    },
-    error:userError
-  } =
-    await supabase.auth.getUser();
+  await supabase.auth.signOut();
 
+  window.location.href =
+    "index.html";
 
-  if(
-    userError ||
-    !user
-  ){
+};
 
-    showAccessDenied(
-      "Please sign in to Sonativa."
-    );
 
-    return;
-
-  }
-
-
-  const {
-    data:roleData,
-    error:roleError
-  } =
-    await supabase
-
-      .from("user_roles")
-
-      .select("role")
-
-      .eq(
-        "user_id",
-        user.id
-      )
-
-      .maybeSingle();
-
-
-  if(
-    roleError ||
-    !roleData ||
-    roleData.role !== "founder"
-  ){
-
-    showAccessDenied(
-      "This area is restricted to the Sonativa founder."
-    );
-
-    return;
-
-  }
-
-
-  document.getElementById(
-    "founderEmail"
-  ).textContent =
-    user.email ||
-    "Founder";
-
-
-  document.getElementById(
-    "founderTeamEmail"
-  ).textContent =
-    user.email ||
-    "Founder";
-
-
-  document.getElementById(
-    "founderAvatar"
-  ).textContent =
-    initials(
-      user.email
-    );
-
-
-  await loadPlatformData();
-
-}
-
-
-/* =========================================
-   ACCESS DENIED
-========================================= */
-
-function showAccessDenied(
-  message
-){
-
-  document.body.innerHTML = `
-
-  <div style="
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:25px;
-    background:#03050a;
-    color:white;
-    font-family:Arial,sans-serif;
-    text-align:center;
-  ">
-
-    <div>
-
-      <div style="
-        font-size:46px;
-        margin-bottom:15px;
-      ">
-        🔒
-      </div>
-
-      <h1>
-        Founder Access Required
-      </h1>
-
-      <p style="
-        margin-top:12px;
-        color:#8995a8;
-        line-height:1.6;
-      ">
-        ${escapeHTML(message)}
-      </p>
-
-      <a
-        href="index.html"
-        style="
-          display:inline-block;
-          margin-top:20px;
-          padding:12px 18px;
-          background:white;
-          color:#05070c;
-          border-radius:8px;
-          text-decoration:none;
-          font-weight:bold;
-        "
-      >
-        Return to Dashboard
-      </a>
-
-    </div>
-
-  </div>
-
-  `;
-
-}
-
-
-/* =========================================
-   LOAD PLATFORM DATA
-========================================= */
-
-async function loadPlatformData(){
-
-  await Promise.all([
-    loadProjects(),
-    loadTeam()
-  ]);
-
-  /*
-    Finance values remain $0 until the
-    dedicated finance tables are connected.
-
-    This prevents the dashboard from
-    inventing financial data.
-  */
-
-  setFinanceValue(
-    "revenueValue",
-    0
-  );
-
-  setFinanceValue(
-    "treasuryValue",
-    0
-  );
-
-  setFinanceValue(
-    "investmentValue",
-    0
-  );
-
-  setFinanceValue(
-    "projectRevenue",
-    0
-  );
-
-  setFinanceValue(
-    "founderRevenue",
-    0
-  );
-
-  setFinanceValue(
-    "developerRevenue",
-    0
-  );
-
-  setFinanceValue(
-    "treasuryAvailable",
-    0
-  );
-
-  setFinanceValue(
-    "treasuryReserved",
-    0
-  );
-
-  setFinanceValue(
-    "developerBudget",
-    0
-  );
-
-  setFinanceValue(
-    "investmentCapital",
-    0
-  );
-
-  setFinanceValue(
-    "totalInvested",
-    0
-  );
-
-  setFinanceValue(
-    "currentInvestmentValue",
-    0
-  );
-
-  setFinanceValue(
-    "investmentProfit",
-    0
-  );
-
-}
-
-
-/* =========================================
-   SET FINANCE VALUE
-========================================= */
-
-function setFinanceValue(
-  id,
-  value
-){
-
-  const element =
-    document.getElementById(
-      id
-    );
-
-  if(element){
-
-    element.textContent =
-      money(value);
-
-  }
-
-}
-
-
-/* =========================================
-   PROJECTS
-========================================= */
-
-async function loadProjects(){
-
-  const {
-    data,
-    error
-  } =
-    await supabase
-
-      .from("projects")
-
-      .select(`
-        id,
-        project_name,
-        token_status,
-        mint_address
-      `);
-
-
-  if(error){
-
-    console.warn(
-      "Projects unavailable:",
-      error.message
-    );
-
-    document.getElementById(
-      "projectsCount"
-    ).textContent =
-      "0";
-
-    document.getElementById(
-      "tokensCount"
-    ).textContent =
-      "0";
-
-    return;
-
-  }
-
-
-  const projects =
-    data || [];
-
-
-  document.getElementById(
-    "projectsCount"
-  ).textContent =
-    projects.length;
-
-
-  const tokens =
-    projects.filter(
-      function(project){
-
-        return (
-          project.mint_address ||
-          project.token_status === "created" ||
-          project.token_status === "minted"
-        );
-
-      }
-    );
-
-
-  document.getElementById(
-    "tokensCount"
-  ).textContent =
-    tokens.length;
-
-}
-
-
-/* =========================================
-   TEAM
-========================================= */
-
-async function loadTeam(){
-
-  const {
-    data,
-    error
-  } =
-    await supabase
-
-      .from("user_roles")
-
-      .select(`
-        user_id,
-        role,
-        created_at
-      `)
-
-      .order(
-        "created_at",
-        {
-          ascending:true
-        }
-      );
-
-
-  if(error){
-
-    console.warn(
-      "Team unavailable:",
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  const list =
-    document.getElementById(
-      "teamList"
-    );
-
-
-  if(
-    !data ||
-    !data.length
-  ){
-
-    return;
-
-  }
-
-
-  list.innerHTML =
-    "";
-
-
-  data.forEach(
-    function(member){
-
-      const role =
-        String(
-          member.role ||
-          "member"
-        )
-        .toLowerCase();
-
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "team-row";
-
-
-      row.innerHTML = `
-
-        <div class="team-avatar">
-          ${escapeHTML(
-            initials(role)
-          )}
-        </div>
-
-        <div class="team-info">
-
-          <div class="team-name">
-            ${escapeHTML(role)}
-          </div>
-
-          <div class="team-email">
-            User ID protected
-          </div>
-
-        </div>
-
-        <span class="role ${escapeHTML(role)}">
-          ${escapeHTML(
-            role.toUpperCase()
-          )}
-        </span>
-
-      `;
-
-
-      list.appendChild(
-        row
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================
+/* ============================
    START
-========================================= */
+============================ */
 
-checkFounder();
+verifyFounder();
 
 </script>
 
