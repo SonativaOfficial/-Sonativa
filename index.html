@@ -1438,10 +1438,18 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
 
+
 const supabase =
 createClient(
   SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
+  SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth:{
+      persistSession:true,
+      autoRefreshToken:true,
+      detectSessionInUrl:true
+    }
+  }
 );
 
 
@@ -1468,14 +1476,14 @@ document.getElementById("topActions");
 
 if(menuButton){
 
-menuButton.addEventListener(
-"click",
-function(){
+  menuButton.addEventListener(
+    "click",
+    function(){
 
-sidebar.classList.toggle("open");
+      sidebar.classList.toggle("open");
 
-}
-);
+    }
+  );
 
 }
 
@@ -1484,205 +1492,207 @@ document
 .querySelectorAll(".nav-item")
 .forEach(function(item){
 
-item.addEventListener(
-"click",
-function(){
+  item.addEventListener(
+    "click",
+    function(){
 
-if(window.innerWidth <= 760){
+      if(window.innerWidth <= 760){
 
-sidebar.classList.remove("open");
+        sidebar.classList.remove("open");
 
-}
+      }
 
-}
-);
+    }
+  );
 
 });
 
 
 /* =========================================
-   SECURITY
+   SECURITY HELPERS
 ========================================= */
 
 function escapeHTML(value){
 
-return String(
-value ?? ""
-)
-
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
 function getInitial(value){
 
-return String(
-value || "S"
-)
-.charAt(0)
-.toUpperCase();
+  return String(value || "S")
+    .charAt(0)
+    .toUpperCase();
 
 }
 
 
 /* =========================================
-   FOUNDER ROLE CHECK
+   SECURE FOUNDER CHECK
+=========================================
+
+   IMPORTANT:
+
+   Do NOT read user_roles directly to decide
+   Founder access.
+
+   The database RPC performs the complete
+   Founder verification server-side.
+
 ========================================= */
 
-async function checkFounder(user){
+async function checkFounder(){
 
-if(!user){
+  try{
 
-return false;
-
-}
-
-
-const {
-data,
-error
-} =
-await supabase
-
-.from("user_roles")
-
-.select("role")
-
-.eq(
-"user_id",
-user.id
-)
-
-.maybeSingle();
+    const {
+      data,
+      error
+    } =
+    await supabase.rpc(
+      "is_sonativa_founder"
+    );
 
 
-if(error){
+    if(error){
 
-console.warn(
-"Founder role check failed:",
-error.message
-);
+      console.warn(
+        "Founder RPC check failed:",
+        error.message
+      );
 
-return false;
+      return false;
 
-}
+    }
 
 
-return (
-data &&
-data.role === "founder"
-);
+    return data === true;
+
+  }catch(error){
+
+    console.warn(
+      "Founder verification failed:",
+      error
+    );
+
+    return false;
+
+  }
 
 }
 
 
 /* =========================================
-   FOUNDER ACCESS
+   FOUNDER ACCESS UI
 ========================================= */
 
 function addFounderAccess(){
 
-if(
-document.getElementById(
-"founderControlLink"
-)
-){
+  if(
+    document.getElementById(
+      "founderControlLink"
+    )
+  ){
 
-return;
+    return;
 
-}
-
-
-/* Sidebar */
-
-const nav =
-document.querySelector(".nav");
-
-if(nav){
-
-const section =
-document.createElement("div");
-
-section.className =
-"nav-section";
-
-section.textContent =
-"Founder";
+  }
 
 
-const link =
-document.createElement("a");
+  /* Sidebar */
 
-link.id =
-"founderControlLink";
-
-link.className =
-"nav-item";
-
-link.href =
-"founder.html";
+  const nav =
+  document.querySelector(".nav");
 
 
-link.innerHTML = `
+  if(nav){
 
-<span class="nav-icon">
-◆
-</span>
+    const section =
+    document.createElement("div");
 
-<span>
-Founder Control Center
-</span>
+    section.className =
+    "nav-section";
 
-<span
-class="nav-badge"
-style="
-color:#e8bd68;
-border:1px solid #5a4b29;
-background:#17140c;
-">
-
-FOUNDER
-
-</span>
-
-`;
-
-nav.appendChild(section);
-nav.appendChild(link);
-
-}
+    section.textContent =
+    "Founder";
 
 
-/* Topbar */
+    const link =
+    document.createElement("a");
 
-if(topActions){
+    link.id =
+    "founderControlLink";
 
-const button =
-document.createElement("a");
+    link.className =
+    "nav-item";
 
-button.id =
-"founderTopButton";
+    link.href =
+    "founder.html";
 
-button.className =
-"founder-button";
 
-button.href =
-"founder.html";
+    link.innerHTML = `
 
-button.textContent =
-"Founder";
+      <span class="nav-icon">
+        ◆
+      </span>
 
-topActions.insertBefore(
-button,
-topActions.firstChild
-);
+      <span>
+        Founder Control Center
+      </span>
 
-}
+      <span
+        class="nav-badge"
+        style="
+          color:#e8bd68;
+          border:1px solid #5a4b29;
+          background:#17140c;
+        ">
+
+        FOUNDER
+
+      </span>
+
+    `;
+
+
+    nav.appendChild(section);
+    nav.appendChild(link);
+
+  }
+
+
+  /* Topbar */
+
+  if(topActions){
+
+    const button =
+    document.createElement("a");
+
+    button.id =
+    "founderTopButton";
+
+    button.className =
+    "founder-button";
+
+    button.href =
+    "founder.html";
+
+    button.textContent =
+    "Founder";
+
+
+    topActions.insertBefore(
+      button,
+      topActions.firstChild
+    );
+
+  }
 
 }
 
@@ -1693,168 +1703,256 @@ topActions.firstChild
 
 async function loadUser(){
 
-const {
-data:{
-user
-},
-error
-} =
-await supabase.auth.getUser();
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabase.auth.getUser();
 
 
-if(error || !user){
+    if(error){
 
-document.getElementById(
-"accountName"
-).textContent =
-"Guest";
+      console.warn(
+        "Auth error:",
+        error.message
+      );
 
-document.getElementById(
-"avatar"
-).textContent =
-"G";
-
-document.getElementById(
-"walletStatus"
-).textContent =
-"Guest";
-
-return;
-
-}
+    }
 
 
-/* User name */
-
-const name =
-user.user_metadata?.full_name ||
-user.user_metadata?.name ||
-user.email?.split("@")[0] ||
-"Sonativa User";
+    const user =
+    data?.user;
 
 
-document.getElementById(
-"accountName"
-).textContent =
-name;
+    if(!user){
+
+      document.getElementById(
+        "accountName"
+      ).textContent =
+      "Guest";
 
 
-document.getElementById(
-"avatar"
-).textContent =
-getInitial(name);
+      document.getElementById(
+        "avatar"
+      ).textContent =
+      "G";
 
 
-document.getElementById(
-"walletStatus"
-).textContent =
-"Ready";
+      document.getElementById(
+        "walletStatus"
+      ).textContent =
+      "Guest";
 
 
-/* Founder */
-
-const isFounder =
-await checkFounder(user);
-
-
-if(isFounder){
-
-addFounderAccess();
-
-}
+      document.getElementById(
+        "projectsCount"
+      ).textContent =
+      "0";
 
 
-/* Projects */
+      document.getElementById(
+        "tokensCount"
+      ).textContent =
+      "0";
 
-await loadProjects(
-user.id
-);
+
+      renderProjects([]);
+
+
+      return;
+
+    }
+
+
+    /* User name */
+
+    const name =
+    user.user_metadata?.full_name ||
+    user.user_metadata?.name ||
+    user.email?.split("@")[0] ||
+    "Sonativa User";
+
+
+    document.getElementById(
+      "accountName"
+    ).textContent =
+    name;
+
+
+    document.getElementById(
+      "avatar"
+    ).textContent =
+    getInitial(name);
+
+
+    document.getElementById(
+      "walletStatus"
+    ).textContent =
+    "Ready";
+
+
+    /* =====================================
+       SECURE FOUNDER VERIFICATION
+    ===================================== */
+
+    const isFounder =
+    await checkFounder();
+
+
+    if(isFounder){
+
+      addFounderAccess();
+
+    }
+
+
+    /* =====================================
+       PROJECTS
+    ===================================== */
+
+    await loadProjects(
+      user.id
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "loadUser error:",
+      error
+    );
+
+  }
 
 }
 
 
 /* =========================================
-   PROJECTS
+   LOAD PROJECTS
 ========================================= */
 
 async function loadProjects(userId){
 
-const {
-data,
-error
-} =
-await supabase
+  const projectsCount =
+  document.getElementById(
+    "projectsCount"
+  );
 
-.from("projects")
-
-.select(`
-id,
-project_name,
-token_name,
-token_symbol,
-token_status,
-created_at,
-mint_address
-`)
-
-.eq(
-"user_id",
-userId
-)
-
-.order(
-"created_at",
-{
-ascending:false
-}
-);
+  const tokensCount =
+  document.getElementById(
+    "tokensCount"
+  );
 
 
-if(error){
+  try{
 
-console.error(
-"Projects error:",
-error
-);
+    const {
+      data,
+      error
+    } =
+    await supabase
 
-return;
+    .from("projects")
 
-}
+    .select(`
+      id,
+      project_name,
+      token_name,
+      token_symbol,
+      token_status,
+      created_at,
+      mint_address
+    `)
 
+    .eq(
+      "user_id",
+      userId
+    )
 
-const projects =
-data || [];
-
-
-document.getElementById(
-"projectsCount"
-).textContent =
-projects.length;
-
-
-const tokenCount =
-projects.filter(
-function(project){
-
-return (
-project.mint_address ||
-project.token_status === "created" ||
-project.token_status === "minted"
-);
-
-}
-).length;
+    .order(
+      "created_at",
+      {
+        ascending:false
+      }
+    );
 
 
-document.getElementById(
-"tokensCount"
-).textContent =
-tokenCount;
+    if(error){
+
+      console.error(
+        "Projects error:",
+        error
+      );
 
 
-renderProjects(
-projects
-);
+      projectsCount.textContent =
+      "0";
+
+
+      tokensCount.textContent =
+      "0";
+
+
+      renderProjects([]);
+
+
+      return;
+
+    }
+
+
+    const projects =
+    data || [];
+
+
+    projectsCount.textContent =
+    projects.length;
+
+
+    const tokenCount =
+    projects.filter(
+      function(project){
+
+        return (
+          !!project.mint_address ||
+          project.token_status === "created" ||
+          project.token_status === "minted"
+        );
+
+      }
+    ).length;
+
+
+    tokensCount.textContent =
+    tokenCount;
+
+
+    renderProjects(
+      projects
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "loadProjects error:",
+      error
+    );
+
+
+    projectsCount.textContent =
+    "0";
+
+
+    tokensCount.textContent =
+    "0";
+
+
+    renderProjects([]);
+
+  }
 
 }
 
@@ -1865,143 +1963,149 @@ projects
 
 function renderProjects(projects){
 
-const list =
-document.getElementById(
-"projectList"
-);
+  const list =
+  document.getElementById(
+    "projectList"
+  );
 
 
-if(!list){
+  if(!list){
 
-return;
+    return;
 
-}
-
-
-if(!projects.length){
-
-list.innerHTML = `
-
-<div class="project">
-
-<div class="project-icon">
-+
-</div>
-
-<div class="project-info">
-
-<div class="project-name">
-No projects yet
-</div>
-
-<div class="project-token">
-Create your first project with Token Studio.
-</div>
-
-</div>
-
-<a
-class="status created"
-href="token-studio.html">
-
-Create
-
-</a>
-
-</div>
-
-`;
-
-return;
-
-}
+  }
 
 
-list.innerHTML =
-projects
-.slice(0,5)
-.map(
-function(project){
+  if(!projects.length){
 
-const name =
-project.project_name ||
-"Unnamed Project";
+    list.innerHTML = `
 
+      <div class="project">
 
-const token =
-project.token_symbol
-?
-(
-(project.token_name || "Token")
-+
-" • $" +
-project.token_symbol
-)
-:
-(
-project.token_name ||
-"Token"
-);
+        <div class="project-icon">
+          +
+        </div>
 
+        <div class="project-info">
 
-const status =
-String(
-project.token_status ||
-"draft"
-)
-.toLowerCase();
+          <div class="project-name">
+            No projects yet
+          </div>
 
+          <div class="project-token">
+            Create your first project with Token Studio.
+          </div>
 
-const created =
-status === "created" ||
-status === "minted" ||
-!!project.mint_address;
+        </div>
+
+        <a
+          class="status created"
+          href="token-studio.html">
+
+          Create
+
+        </a>
+
+      </div>
+
+    `;
 
 
-return `
+    return;
 
-<div class="project">
+  }
 
-<div class="project-icon">
 
-${escapeHTML(
-name.charAt(0).toUpperCase()
-)}
+  list.innerHTML =
+  projects
+    .slice(0,5)
+    .map(
+      function(project){
 
-</div>
+        const name =
+        project.project_name ||
+        "Unnamed Project";
 
-<div class="project-info">
 
-<div class="project-name">
+        const token =
+        project.token_symbol
+        ?
+        (
+          (project.token_name || "Token")
+          +
+          " • $"
+          +
+          project.token_symbol
+        )
+        :
+        (
+          project.token_name ||
+          "Token"
+        );
 
-${escapeHTML(name)}
 
-</div>
+        const status =
+        String(
+          project.token_status ||
+          "draft"
+        )
+        .toLowerCase();
 
-<div class="project-token">
 
-${escapeHTML(token)}
+        const created =
+        status === "created" ||
+        status === "minted" ||
+        !!project.mint_address;
 
-</div>
 
-</div>
+        return `
 
-<span
-class="status ${
-created ? "created" : ""
-}">
+          <div class="project">
 
-${created ? "Created" : "Draft"}
+            <div class="project-icon">
 
-</span>
+              ${escapeHTML(
+                name.charAt(0).toUpperCase()
+              )}
 
-</div>
+            </div>
 
-`;
+            <div class="project-info">
 
-}
-)
-.join("");
+              <div class="project-name">
+
+                ${escapeHTML(name)}
+
+              </div>
+
+              <div class="project-token">
+
+                ${escapeHTML(token)}
+
+              </div>
+
+            </div>
+
+            <span
+              class="status ${
+                created ? "created" : ""
+              }">
+
+              ${
+                created
+                ? "Created"
+                : "Draft"
+              }
+
+            </span>
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
 
 }
 
@@ -2012,69 +2116,79 @@ ${created ? "Created" : "Draft"}
 
 if(languageSelect){
 
-languageSelect.addEventListener(
-"change",
-function(){
+  languageSelect.addEventListener(
+    "change",
+    function(){
 
-const language =
-this.value;
-
-localStorage.setItem(
-"sonativa_language",
-language
-);
-
-if(language === "ar"){
-
-document.documentElement.lang =
-"ar";
-
-document.documentElement.dir =
-"rtl";
-
-}else{
-
-document.documentElement.lang =
-language;
-
-document.documentElement.dir =
-"ltr";
-
-}
-
-}
-);
+      const language =
+      this.value;
 
 
-const savedLanguage =
-localStorage.getItem(
-"sonativa_language"
-);
+      localStorage.setItem(
+        "sonativa_language",
+        language
+      );
 
 
-if(savedLanguage){
+      if(language === "ar"){
 
-languageSelect.value =
-savedLanguage;
+        document.documentElement.lang =
+        "ar";
+
+        document.documentElement.dir =
+        "rtl";
+
+      }else{
+
+        document.documentElement.lang =
+        language;
+
+        document.documentElement.dir =
+        "ltr";
+
+      }
+
+    }
+  );
 
 
-if(savedLanguage === "ar"){
+  const savedLanguage =
+  localStorage.getItem(
+    "sonativa_language"
+  );
 
-document.documentElement.lang =
-"ar";
 
-document.documentElement.dir =
-"rtl";
+  if(savedLanguage){
 
-}
+    languageSelect.value =
+    savedLanguage;
 
-}
+
+    if(savedLanguage === "ar"){
+
+      document.documentElement.lang =
+      "ar";
+
+      document.documentElement.dir =
+      "rtl";
+
+    }else{
+
+      document.documentElement.lang =
+      savedLanguage;
+
+      document.documentElement.dir =
+      "ltr";
+
+    }
+
+  }
 
 }
 
 
 /* =========================================
-   START
+   START APPLICATION
 ========================================= */
 
 loadUser();
