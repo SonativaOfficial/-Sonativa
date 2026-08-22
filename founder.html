@@ -19,7 +19,6 @@
   --green:#62e39a;
   --red:#ff7373;
   --yellow:#f5c86b;
-  --blue:#72a7ff;
 }
 
 body{
@@ -86,7 +85,7 @@ a{text-decoration:none;color:inherit}
 }
 
 .container{
-  width:min(1450px,94%);
+  width:min(1400px,94%);
   margin:auto;
   padding:35px 0 70px;
 }
@@ -172,7 +171,6 @@ button:disabled{
 .green{color:var(--green)}
 .red{color:var(--red)}
 .yellow{color:var(--yellow)}
-.blue{color:var(--blue)}
 
 .layout{
   display:grid;
@@ -227,9 +225,13 @@ button:disabled{
   font-size:11px;
 }
 
-.info-row:last-child{border-bottom:0}
+.info-row:last-child{
+  border-bottom:0;
+}
 
-.info-row span:first-child{color:var(--muted)}
+.info-row span:first-child{
+  color:var(--muted);
+}
 
 .info-row span:last-child{
   text-align:right;
@@ -272,7 +274,9 @@ button:disabled{
   border-bottom:1px solid #1b2432;
 }
 
-.activity-item:last-child{border-bottom:0}
+.activity-item:last-child{
+  border-bottom:0;
+}
 
 .activity-action{
   font-size:11px;
@@ -306,7 +310,9 @@ button:disabled{
   gap:12px;
 }
 
-.loading.hidden{display:none}
+.loading.hidden{
+  display:none;
+}
 
 .spinner{
   width:30px;
@@ -317,7 +323,9 @@ button:disabled{
   animation:spin .8s linear infinite;
 }
 
-@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
 
 .error{
   position:fixed;
@@ -331,7 +339,9 @@ button:disabled{
   padding:25px;
 }
 
-.error.show{display:flex}
+.error.show{
+  display:flex;
+}
 
 .error-box{
   width:min(450px,100%);
@@ -404,7 +414,7 @@ button:disabled{
 }
 
 .projects-table{
-  min-width:1250px;
+  min-width:1100px;
 }
 
 .users-table th,
@@ -429,9 +439,12 @@ button:disabled{
   color:white;
 }
 
-.user-role,
-.project-status,
-.network-badge{
+.project-symbol{
+  color:var(--green);
+  font-weight:800;
+}
+
+.user-role{
   display:inline-block;
   padding:4px 7px;
   border-radius:5px;
@@ -448,30 +461,6 @@ button:disabled{
   color:#e8bd68;
 }
 
-.project-status.draft{
-  color:var(--yellow);
-  border-color:#5b4a27;
-  background:#151108;
-}
-
-.project-status.live{
-  color:var(--green);
-  border-color:#28543d;
-  background:#09150f;
-}
-
-.project-status.failed{
-  color:var(--red);
-  border-color:#4b2028;
-  background:#130b0d;
-}
-
-.network-badge{
-  color:var(--blue);
-  border-color:#30486c;
-  background:#0b1220;
-}
-
 .status-active{
   color:var(--green);
   font-weight:800;
@@ -482,25 +471,34 @@ button:disabled{
   font-weight:800;
 }
 
+.status-draft{
+  color:var(--yellow);
+  font-weight:800;
+}
+
+.status-created{
+  color:var(--green);
+  font-weight:800;
+}
+
+.edit-button{
+  padding:7px 10px;
+  font-size:9px;
+}
+
 .protected{
   color:var(--yellow);
   font-size:9px;
   font-weight:800;
 }
 
-.connection-warning{
-  margin-top:10px;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #5b4a27;
-  background:#151108;
-  color:var(--yellow);
+.project-action{
+  padding:7px 10px;
   font-size:9px;
-  line-height:1.6;
-  display:none;
 }
 
-.user-editor{
+.user-editor,
+.project-editor{
   display:none;
   margin-top:18px;
   padding:20px;
@@ -509,7 +507,10 @@ button:disabled{
   border-radius:12px;
 }
 
-.user-editor.show{display:block}
+.user-editor.show,
+.project-editor.show{
+  display:block;
+}
 
 .editor-header{
   display:flex;
@@ -550,7 +551,9 @@ button:disabled{
   margin-bottom:7px;
 }
 
-.editor-field select{
+.editor-field input,
+.editor-field select,
+.editor-field textarea{
   width:100%;
   padding:9px 10px;
   border:1px solid var(--border2);
@@ -559,6 +562,11 @@ button:disabled{
   color:white;
   font-size:10px;
   outline:none;
+}
+
+.editor-field textarea{
+  min-height:80px;
+  resize:vertical;
 }
 
 .permission-editor{
@@ -581,9 +589,13 @@ button:disabled{
   cursor:pointer;
 }
 
-.permission-toggle:hover{background:#101722}
+.permission-toggle:hover{
+  background:#101722;
+}
 
-.permission-toggle input{accent-color:#62e39a}
+.permission-toggle input{
+  accent-color:#62e39a;
+}
 
 .editor-actions{
   display:flex;
@@ -607,7 +619,9 @@ button:disabled{
   font-size:10px;
 }
 
-.editor-message.show{display:block}
+.editor-message.show{
+  display:block;
+}
 
 .editor-message.success{
   border:1px solid #28543d;
@@ -621,6 +635,18 @@ button:disabled{
   color:var(--red);
 }
 
+.connection-warning{
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #5b4a27;
+  background:#151108;
+  color:var(--yellow);
+  font-size:9px;
+  line-height:1.6;
+  display:none;
+}
+
 footer{
   text-align:center;
   color:#4e5a6d;
@@ -629,22 +655,57 @@ footer{
 }
 
 @media(max-width:1000px){
-  .grid{grid-template-columns:1fr 1fr}
-  .layout{grid-template-columns:1fr}
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .layout{
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:600px){
-  .topbar{padding:0 15px}
-  .container{width:92%;padding-top:25px}
-  .hero{flex-direction:column;align-items:flex-start}
-  .grid{grid-template-columns:1fr}
-  h1{font-size:25px}
-  .permissions{grid-template-columns:1fr}
-  .permission-editor{grid-template-columns:1fr}
-  .editor-grid{grid-template-columns:1fr}
-  .user-email{display:none}
-  .buttons{width:100%}
-  .button,button{flex:1;text-align:center}
+  .topbar{
+    padding:0 15px;
+  }
+
+  .container{
+    width:92%;
+    padding-top:25px;
+  }
+
+  .hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  h1{
+    font-size:25px;
+  }
+
+  .permissions,
+  .permission-editor,
+  .editor-grid{
+    grid-template-columns:1fr;
+  }
+
+  .user-email{
+    display:none;
+  }
+
+  .buttons{
+    width:100%;
+  }
+
+  .button,
+  button{
+    flex:1;
+    text-align:center;
+  }
 }
 </style>
 </head>
@@ -720,11 +781,11 @@ footer{
       ← Dashboard
     </a>
 
-    <button id="refreshButton" onclick="refreshAll()">
+    <button id="refreshButton">
       ↻ Refresh
     </button>
 
-    <button class="danger" onclick="signOut()">
+    <button class="danger" id="signOutButton">
       Sign Out
     </button>
 
@@ -732,13 +793,12 @@ footer{
 
 </section>
 
+
 <section class="grid">
 
   <div class="card">
     <div class="label">Access</div>
-    <div class="value green" id="accessValue">
-      VERIFIED
-    </div>
+    <div class="value green" id="accessValue">VERIFIED</div>
   </div>
 
   <div class="card">
@@ -758,8 +818,9 @@ footer{
 
 </section>
 
+
 <!-- =====================================================
-     PROJECT MANAGEMENT
+     PROJECTS
 ===================================================== -->
 
 <section class="card projects-card">
@@ -801,13 +862,12 @@ footer{
         <tr>
           <th>Project</th>
           <th>Token</th>
-          <th>Symbol</th>
           <th>Supply</th>
           <th>Network</th>
-          <th>Decimals</th>
+          <th>Owner</th>
           <th>Status</th>
-          <th>Mint Address</th>
           <th>Created</th>
+          <th>Action</th>
         </tr>
       </thead>
 
@@ -815,7 +875,7 @@ footer{
 
         <tr>
           <td
-            colspan="9"
+            colspan="8"
             style="padding:25px;text-align:center;color:var(--muted)"
           >
             Loading...
@@ -828,10 +888,94 @@ footer{
 
   </div>
 
+
+  <div class="project-editor" id="projectEditor">
+
+    <div class="editor-header">
+
+      <div>
+        <div class="editor-title">
+          Project Details
+        </div>
+
+        <div class="editor-subtitle" id="projectEditorSubtitle">
+          —
+        </div>
+      </div>
+
+      <div class="protected">
+        Founder View
+      </div>
+
+    </div>
+
+    <div class="editor-grid">
+
+      <div class="editor-field">
+        <label>Project Name</label>
+        <input id="projectNameField" readonly>
+      </div>
+
+      <div class="editor-field">
+        <label>Token Name</label>
+        <input id="projectTokenNameField" readonly>
+      </div>
+
+      <div class="editor-field">
+        <label>Token Symbol</label>
+        <input id="projectTokenSymbolField" readonly>
+      </div>
+
+      <div class="editor-field">
+        <label>Total Supply</label>
+        <input id="projectSupplyField" readonly>
+      </div>
+
+      <div class="editor-field">
+        <label>Network</label>
+        <input id="projectNetworkField" readonly>
+      </div>
+
+      <div class="editor-field">
+        <label>Decimals</label>
+        <input id="projectDecimalsField" readonly>
+      </div>
+
+      <div class="editor-field">
+        <label>Status</label>
+        <input id="projectStatusField" readonly>
+      </div>
+
+      <div class="editor-field">
+        <label>Mint Address</label>
+        <input id="projectMintField" readonly>
+      </div>
+
+      <div class="editor-field" style="grid-column:1/-1">
+        <label>Description</label>
+        <textarea id="projectDescriptionField" readonly></textarea>
+      </div>
+
+      <div class="editor-field" style="grid-column:1/-1">
+        <label>Creation Signature</label>
+        <input id="projectSignatureField" readonly>
+      </div>
+
+    </div>
+
+    <div class="editor-actions">
+      <button id="closeProjectButton">
+        Close
+      </button>
+    </div>
+
+  </div>
+
 </section>
 
+
 <!-- =====================================================
-     USERS MANAGEMENT
+     USERS
 ===================================================== -->
 
 <section class="card users-card">
@@ -860,6 +1004,7 @@ footer{
 
   </div>
 
+
   <div
     id="usersStatus"
     style="color:var(--muted);font-size:10px;margin-bottom:12px"
@@ -867,11 +1012,13 @@ footer{
     Loading users...
   </div>
 
+
   <div class="users-table-wrap">
 
     <table class="users-table">
 
       <thead>
+
         <tr>
           <th>Email</th>
           <th>Role</th>
@@ -881,6 +1028,7 @@ footer{
           <th>Access</th>
           <th>Action</th>
         </tr>
+
       </thead>
 
       <tbody id="usersTableBody">
@@ -899,6 +1047,7 @@ footer{
     </table>
 
   </div>
+
 
   <div class="user-editor" id="userEditor">
 
@@ -922,7 +1071,12 @@ footer{
 
     </div>
 
-    <input type="hidden" id="editorUserId">
+
+    <input
+      type="hidden"
+      id="editorUserId"
+    >
+
 
     <div class="editor-grid">
 
@@ -941,6 +1095,7 @@ footer{
 
       </div>
 
+
       <div class="editor-field">
 
         <label>Account Status</label>
@@ -956,9 +1111,11 @@ footer{
 
     </div>
 
+
     <div style="color:var(--muted);font-size:10px;margin-top:18px;margin-bottom:8px">
       Permissions
     </div>
+
 
     <div class="permission-editor">
 
@@ -1004,18 +1161,19 @@ footer{
 
     </div>
 
+
     <div class="editor-message" id="editorMessage"></div>
+
 
     <div class="editor-actions">
 
-      <button onclick="closeUserEditor()">
+      <button id="cancelUserButton">
         Cancel
       </button>
 
       <button
         class="save-button"
         id="saveUserButton"
-        onclick="saveUserPermissions()"
       >
         Save Changes
       </button>
@@ -1025,6 +1183,7 @@ footer{
   </div>
 
 </section>
+
 
 <section class="layout">
 
@@ -1076,6 +1235,7 @@ footer{
 
   </div>
 
+
   <div class="card">
 
     <div class="card-title">
@@ -1084,20 +1244,44 @@ footer{
 
     <div class="permissions">
 
-      <div class="permission" id="pUsers">Users</div>
-      <div class="permission" id="pProjects">Projects</div>
-      <div class="permission" id="pFinance">Finance</div>
-      <div class="permission" id="pTreasury">Treasury</div>
-      <div class="permission" id="pInvestments">Investments</div>
-      <div class="permission" id="pTeam">Team</div>
-      <div class="permission" id="pAudit">Audit Logs</div>
-      <div class="permission" id="pActive">Account Active</div>
+      <div class="permission" id="pUsers">
+        Users
+      </div>
+
+      <div class="permission" id="pProjects">
+        Projects
+      </div>
+
+      <div class="permission" id="pFinance">
+        Finance
+      </div>
+
+      <div class="permission" id="pTreasury">
+        Treasury
+      </div>
+
+      <div class="permission" id="pInvestments">
+        Investments
+      </div>
+
+      <div class="permission" id="pTeam">
+        Team
+      </div>
+
+      <div class="permission" id="pAudit">
+        Audit Logs
+      </div>
+
+      <div class="permission" id="pActive">
+        Account Active
+      </div>
 
     </div>
 
   </div>
 
 </div>
+
 
 <div>
 
@@ -1132,11 +1316,15 @@ footer{
       <span class="green">Enabled</span>
     </div>
 
-    <div id="connectionWarning" class="connection-warning">
+    <div
+      id="connectionWarning"
+      class="connection-warning"
+    >
       Some overview statistics could not be loaded.
     </div>
 
   </div>
+
 
   <div class="card">
 
@@ -1158,6 +1346,7 @@ footer{
 
 </section>
 
+
 <footer>
   © 2026 Sonativa — Founder Control Center
 </footer>
@@ -1166,12 +1355,19 @@ footer{
 
 </div>
 
+
 <script type="module">
 
 import {
   createClient
-} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
   "https://kallobeodjzzhrsaqszw.supabase.co";
@@ -1198,6 +1394,10 @@ let founderUsers = [];
 let founderProjects = [];
 let editingUser = null;
 
+
+/* =====================================================
+   HELPERS
+===================================================== */
 
 function setValue(id,value){
 
@@ -1227,12 +1427,14 @@ function setPermission(id,enabled){
   if(enabled){
 
     element.classList.add("ok");
+
     element.textContent =
       "✓ " + original;
 
   }else{
 
     element.classList.add("no");
+
     element.textContent =
       "✕ " + original;
 
@@ -1251,41 +1453,40 @@ function escapeHTML(value){
 }
 
 
-function showError(title,message){
-
-  document
-    .getElementById("loading")
-    .classList.add("hidden");
-
-  document
-    .getElementById("errorTitle")
-    .textContent = title;
-
-  document
-    .getElementById("errorMessage")
-    .textContent = message;
-
-  document
-    .getElementById("errorScreen")
-    .classList.add("show");
-
-  document
-    .getElementById("app")
-    .style.display = "none";
-}
-
-
 function setLoading(show){
 
   const loading =
     document.getElementById("loading");
 
-  if(show)
+  if(show){
     loading.classList.remove("hidden");
-  else
+  }else{
     loading.classList.add("hidden");
+  }
 }
 
+
+function showError(title,message){
+
+  setLoading(false);
+
+  document.getElementById("errorTitle")
+    .textContent = title;
+
+  document.getElementById("errorMessage")
+    .textContent = message;
+
+  document.getElementById("errorScreen")
+    .classList.add("show");
+
+  document.getElementById("app")
+    .style.display = "none";
+}
+
+
+/* =====================================================
+   FOUNDER PERMISSIONS
+===================================================== */
 
 function enableFounderPermissions(){
 
@@ -1327,8 +1528,7 @@ async function verifyFounder(){
 
       showError(
         "Session Error",
-        sessionError.message ||
-        "Unable to read your session."
+        sessionError.message
       );
 
       return;
@@ -1373,7 +1573,6 @@ async function verifyFounder(){
     const avatar =
       document.getElementById("avatar");
 
-
     if(avatar){
 
       avatar.textContent =
@@ -1386,6 +1585,8 @@ async function verifyFounder(){
 
     }
 
+
+    /* Server-side Founder verification */
 
     const {
       data:isFounder,
@@ -1412,31 +1613,33 @@ async function verifyFounder(){
 
       showError(
         "Founder Access Required",
-        "Your account is authenticated, but Founder access was not granted."
+        "Your authenticated account does not have Founder access."
       );
 
       return;
     }
 
 
-    setValue(
-      "identityRole",
-      "FOUNDER"
-    );
-
-    setValue(
-      "accessValue",
-      "VERIFIED"
-    );
-
-    setValue(
-      "sessionStatus",
-      "Authenticated"
-    );
-
+    setValue("identityRole","FOUNDER");
+    setValue("accessValue","VERIFIED");
+    setValue("sessionStatus","Authenticated");
 
     enableFounderPermissions();
 
+
+    document
+      .getElementById("app")
+      .style.display = "block";
+
+
+    setLoading(false);
+
+
+    /*
+      Load data AFTER the application is visible.
+      This prevents one failed RPC from hiding
+      the entire Founder dashboard.
+    */
 
     await Promise.allSettled([
 
@@ -1449,18 +1652,10 @@ async function verifyFounder(){
     ]);
 
 
-    document
-      .getElementById("app")
-      .style.display = "block";
-
-
-    setLoading(false);
-
-
   }catch(error){
 
     console.error(
-      "Founder verification error:",
+      "Founder verification:",
       error
     );
 
@@ -1483,8 +1678,8 @@ async function loadFounderPermissions(){
   if(!currentUser){
 
     enableFounderPermissions();
-    return;
 
+    return;
   }
 
 
@@ -1518,12 +1713,13 @@ async function loadFounderPermissions(){
     if(error || !data?.length){
 
       enableFounderPermissions();
-      return;
 
+      return;
     }
 
 
     const p = data[0];
+
 
     setPermission(
       "pUsers",
@@ -1565,7 +1761,12 @@ async function loadFounderPermissions(){
       p.active === true
     );
 
-  }catch{
+  }catch(error){
+
+    console.warn(
+      "Founder permissions:",
+      error
+    );
 
     enableFounderPermissions();
 
@@ -1579,6 +1780,16 @@ async function loadFounderPermissions(){
 
 async function loadOverview(){
 
+  const warning =
+    document.getElementById(
+      "connectionWarning"
+    );
+
+  if(warning){
+    warning.style.display = "none";
+  }
+
+
   try{
 
     const {
@@ -1590,34 +1801,36 @@ async function loadOverview(){
       );
 
 
-    if(error){
+    if(!error && data){
 
-      await loadOverviewFallback();
+      setValue(
+        "projectsValue",
+        Number(data.projects_count ?? 0)
+      );
+
+      setValue(
+        "teamValue",
+        Number(data.team_count ?? 0)
+      );
+
+      setValue(
+        "auditValue",
+        Number(data.audit_count ?? 0)
+      );
+
       return;
-
     }
 
 
-    const overview =
-      data || {};
+    await loadOverviewFallback();
 
 
-    setValue(
-      "projectsValue",
-      Number(overview.projects_count) || 0
+  }catch(error){
+
+    console.warn(
+      "Founder overview:",
+      error
     );
-
-    setValue(
-      "teamValue",
-      Number(overview.team_count) || 0
-    );
-
-    setValue(
-      "auditValue",
-      Number(overview.audit_count) || 0
-    );
-
-  }catch{
 
     await loadOverviewFallback();
 
@@ -1627,6 +1840,7 @@ async function loadOverview(){
 
 /* =====================================================
    OVERVIEW FALLBACK
+   IMPORTANT: projects primary key is "Id"
 ===================================================== */
 
 async function loadOverviewFallback(){
@@ -1650,15 +1864,18 @@ async function loadOverviewFallback(){
           }
         );
 
-    if(error)
+
+    if(error){
       failed = true;
-    else
-      setValue("projectsValue",count ?? 0);
+    }else{
+      setValue(
+        "projectsValue",
+        count ?? 0
+      );
+    }
 
   }catch{
-
     failed = true;
-
   }
 
 
@@ -1678,15 +1895,18 @@ async function loadOverviewFallback(){
           }
         );
 
-    if(error)
+
+    if(error){
       failed = true;
-    else
-      setValue("teamValue",count ?? 0);
+    }else{
+      setValue(
+        "teamValue",
+        count ?? 0
+      );
+    }
 
   }catch{
-
     failed = true;
-
   }
 
 
@@ -1699,34 +1919,33 @@ async function loadOverviewFallback(){
       await supabase
         .from("system_audit_logs")
         .select(
-          "created_at",
+          "*",
           {
             count:"exact",
             head:true
           }
         );
 
-    if(error)
+
+    if(error){
       failed = true;
-    else
-      setValue("auditValue",count ?? 0);
+    }else{
+      setValue(
+        "auditValue",
+        count ?? 0
+      );
+    }
 
   }catch{
-
     failed = true;
-
   }
 
 
-  const warning =
-    document.getElementById(
-      "connectionWarning"
-    );
+  if(failed && warning){
 
-  if(warning)
-    warning.style.display =
-      failed ? "block" : "none";
+    warning.style.display = "block";
 
+  }
 }
 
 
@@ -1747,24 +1966,19 @@ async function loadProjects(){
     );
 
 
-  if(!status || !tbody)
-    return;
+  if(!status || !tbody) return;
 
 
   status.textContent =
     "Loading projects...";
 
 
-  tbody.innerHTML =
-    `<tr>
-      <td colspan="9"
-        style="padding:25px;text-align:center;color:var(--muted)">
-        Loading...
-      </td>
-    </tr>`;
-
-
   try{
+
+    /*
+      Preferred method:
+      protected Founder RPC.
+    */
 
     const {
       data,
@@ -1777,24 +1991,32 @@ async function loadProjects(){
 
     if(error){
 
-      console.error(
-        "Founder projects:",
+      console.warn(
+        "Founder projects RPC:",
         error
       );
+
+      /*
+        Do NOT expose projects through an
+        unprotected fallback.
+
+        If the RPC fails, show the reason.
+      */
 
       status.textContent =
         "Unable to load projects.";
 
-      tbody.innerHTML =
-        `<tr>
-          <td colspan="9"
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="8"
             style="padding:25px;text-align:center;color:var(--red)">
             ${escapeHTML(
               error.message ||
-              "Access denied"
+              "Founder project access failed."
             )}
           </td>
-        </tr>`;
+        </tr>
+      `;
 
       return;
     }
@@ -1821,33 +2043,22 @@ async function loadProjects(){
     status.textContent =
       "Projects unavailable.";
 
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8"
+          style="padding:25px;text-align:center;color:var(--red)">
+          Unable to load projects.
+        </td>
+      </tr>
+    `;
+
   }
 }
 
 
-function formatSupply(value){
-
-  if(value === null || value === undefined)
-    return "—";
-
-
-  const n =
-    Number(value);
-
-
-  if(!Number.isFinite(n))
-    return String(value);
-
-
-  return new Intl.NumberFormat(
-    "en-US",
-    {
-      maximumFractionDigits:20
-    }
-  ).format(n);
-
-}
-
+/* =====================================================
+   RENDER PROJECTS
+===================================================== */
 
 function renderProjects(projects){
 
@@ -1862,8 +2073,7 @@ function renderProjects(projects){
     );
 
 
-  if(!tbody)
-    return;
+  if(!tbody) return;
 
 
   status.textContent =
@@ -1874,15 +2084,14 @@ function renderProjects(projects){
 
   if(!projects.length){
 
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="9">
-          <div class="empty">
-            No projects found yet.<br><br>
-            Projects created through Sonativa will appear here automatically.
-          </div>
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8"
+          style="padding:25px;text-align:center;color:var(--muted)">
+          No projects found.
         </td>
-      </tr>`;
+      </tr>
+    `;
 
     return;
   }
@@ -1890,6 +2099,21 @@ function renderProjects(projects){
 
   tbody.innerHTML =
     projects.map(project => {
+
+      /*
+        The RPC may return either:
+        Id
+        or
+        id
+
+        Normalize both safely.
+      */
+
+      const projectId =
+        project.Id ??
+        project.id ??
+        "";
+
 
       const created =
         project.created_at
@@ -1902,182 +2126,209 @@ function renderProjects(projects){
       const statusValue =
         String(
           project.token_status ||
+          project.status ||
           "draft"
-        ).toLowerCase();
+        );
 
 
-      let statusClass =
-        "draft";
-
-
-      if(
-        statusValue === "live" ||
-        statusValue === "deployed" ||
-        statusValue === "active"
-      ){
-
-        statusClass = "live";
-
-      }else if(
-        statusValue === "failed" ||
-        statusValue === "error"
-      ){
-
-        statusClass = "failed";
-
-      }
+      const statusClass =
+        statusValue.toLowerCase() === "draft"
+          ? "status-draft"
+          : "status-created";
 
 
       return `
+
         <tr>
 
           <td class="project-name-cell">
             ${escapeHTML(
-              project.project_name
+              project.project_name ||
+              "Unnamed"
             )}
           </td>
 
           <td>
-            ${escapeHTML(
-              project.token_name
-            )}
-          </td>
 
-          <td class="green">
-            ${escapeHTML(
-              project.token_symbol
-            )}
-          </td>
-
-          <td>
-            ${escapeHTML(
-              formatSupply(
-                project.total_supply
-              )
-            )}
-          </td>
-
-          <td>
-            <span class="network-badge">
+            <strong>
               ${escapeHTML(
-                project.network
+                project.token_name ||
+                "—"
+              )}
+            </strong>
+
+            <br>
+
+            <span class="project-symbol">
+              ${escapeHTML(
+                project.token_symbol ||
+                "—"
               )}
             </span>
+
           </td>
 
           <td>
             ${escapeHTML(
-              project.decimals
+              project.total_supply ??
+              "—"
             )}
           </td>
 
           <td>
-            <span class="project-status ${statusClass}">
+            ${escapeHTML(
+              project.network ||
+              "—"
+            )}
+          </td>
+
+          <td style="color:var(--muted)">
+            ${escapeHTML(
+              project.user_id ||
+              "—"
+            )}
+          </td>
+
+          <td>
+            <span class="${statusClass}">
               ${escapeHTML(
                 statusValue.toUpperCase()
               )}
             </span>
           </td>
 
-          <td
-            style="max-width:220px;color:var(--muted);word-break:break-all"
-          >
-            ${escapeHTML(
-              project.mint_address ||
-              "Not deployed"
-            )}
-          </td>
-
           <td style="color:var(--muted)">
             ${escapeHTML(created)}
           </td>
 
+          <td>
+
+            <button
+              class="project-action"
+              data-project-id="${escapeHTML(projectId)}"
+            >
+              View
+            </button>
+
+          </td>
+
         </tr>
+
       `;
 
     }).join("");
+
+
+  tbody
+    .querySelectorAll(
+      "[data-project-id]"
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          openProjectEditor(
+            button.dataset.projectId
+          );
+
+        }
+      );
+
+    });
 
 }
 
 
 /* =====================================================
-   PROJECT SEARCH
+   PROJECT DETAILS
 ===================================================== */
 
-document
-  .getElementById("projectSearch")
-  ?.addEventListener(
-    "input",
-    function(){
+function openProjectEditor(projectId){
 
-      const query =
-        this.value
-          .trim()
-          .toLowerCase();
+  const project =
+    founderProjects.find(
+      item =>
+        String(item.Id ?? item.id ?? "") ===
+        String(projectId)
+    );
 
 
-      if(!query){
-
-        renderProjects(
-          founderProjects
-        );
-
-        return;
-
-      }
+  if(!project) return;
 
 
-      const filtered =
-        founderProjects.filter(
-          project =>
-
-            String(
-              project.project_name || ""
-            )
-            .toLowerCase()
-            .includes(query)
-
-            ||
-
-            String(
-              project.token_name || ""
-            )
-            .toLowerCase()
-            .includes(query)
-
-            ||
-
-            String(
-              project.token_symbol || ""
-            )
-            .toLowerCase()
-            .includes(query)
-
-            ||
-
-            String(
-              project.network || ""
-            )
-            .toLowerCase()
-            .includes(query)
-
-            ||
-
-            String(
-              project.token_status || ""
-            )
-            .toLowerCase()
-            .includes(query)
-
-        );
-
-
-      renderProjects(
-        filtered
-      );
-
-    }
+  setValue(
+    "projectEditorSubtitle",
+    project.project_name ||
+    "Project"
   );
+
+
+  setValue(
+    "projectNameField",
+    project.project_name
+  );
+
+  setValue(
+    "projectTokenNameField",
+    project.token_name
+  );
+
+  setValue(
+    "projectTokenSymbolField",
+    project.token_symbol
+  );
+
+  setValue(
+    "projectSupplyField",
+    project.total_supply
+  );
+
+  setValue(
+    "projectNetworkField",
+    project.network
+  );
+
+  setValue(
+    "projectDecimalsField",
+    project.decimals
+  );
+
+  setValue(
+    "projectStatusField",
+    project.token_status
+  );
+
+  setValue(
+    "projectMintField",
+    project.mint_address
+  );
+
+  setValue(
+    "projectDescriptionField",
+    project.description
+  );
+
+  setValue(
+    "projectSignatureField",
+    project.creation_signature
+  );
+
+
+  document
+    .getElementById("projectEditor")
+    .classList.add("show");
+
+
+  document
+    .getElementById("projectEditor")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"nearest"
+    });
+
+}
 
 
 /* =====================================================
@@ -2117,8 +2368,8 @@ async function loadUsers(){
       status.textContent =
         "Unable to load users.";
 
-      tbody.innerHTML =
-        `<tr>
+      tbody.innerHTML = `
+        <tr>
           <td colspan="7"
             style="padding:25px;text-align:center;color:var(--red)">
             ${escapeHTML(
@@ -2126,10 +2377,10 @@ async function loadUsers(){
               "Access denied"
             )}
           </td>
-        </tr>`;
+        </tr>
+      `;
 
       return;
-
     }
 
 
@@ -2146,12 +2397,21 @@ async function loadUsers(){
 
   }catch(error){
 
+    console.error(
+      "loadUsers:",
+      error
+    );
+
     status.textContent =
       "Users unavailable.";
 
   }
 }
 
+
+/* =====================================================
+   RENDER USERS
+===================================================== */
 
 function renderUsers(users){
 
@@ -2174,13 +2434,14 @@ function renderUsers(users){
 
   if(!users.length){
 
-    tbody.innerHTML =
-      `<tr>
+    tbody.innerHTML = `
+      <tr>
         <td colspan="7"
           style="padding:25px;text-align:center;color:var(--muted)">
           No users found.
         </td>
-      </tr>`;
+      </tr>
+    `;
 
     return;
   }
@@ -2220,6 +2481,7 @@ function renderUsers(users){
 
 
       return `
+
         <tr>
 
           <td class="user-email-cell">
@@ -2229,11 +2491,15 @@ function renderUsers(users){
           </td>
 
           <td>
+
             <span class="user-role ${
               isFounder ? "founder" : ""
             }">
+
               ${escapeHTML(role)}
+
             </span>
+
           </td>
 
           <td style="color:var(--muted)">
@@ -2245,48 +2511,69 @@ function renderUsers(users){
           </td>
 
           <td>
+
             <span class="${
               active
                 ? "status-active"
                 : "status-inactive"
             }">
+
               ${
                 active
                   ? "● Active"
                   : "● Inactive"
               }
+
             </span>
+
           </td>
 
           <td>
+
             ${
               isFounder
-                ? `<span class="protected">
+                ? `
+                  <span class="protected">
                     🔐 Protected
-                  </span>`
-                : `<span style="color:var(--muted)">
+                  </span>
+                `
+                : `
+                  <span style="color:var(--muted)">
                     Editable
-                  </span>`
+                  </span>
+                `
             }
+
           </td>
 
           <td>
+
             ${
               isFounder
-                ? `<button
+                ? `
+                  <button
                     class="edit-button"
-                    disabled>
+                    disabled
+                  >
                     Protected
-                  </button>`
-                : `<button
+                  </button>
+                `
+                : `
+                  <button
                     class="edit-button"
-                    data-user-id="${escapeHTML(user.user_id)}">
+                    data-user-id="${escapeHTML(
+                      user.user_id
+                    )}"
+                  >
                     Manage
-                  </button>`
+                  </button>
+                `
             }
+
           </td>
 
         </tr>
+
       `;
 
     }).join("");
@@ -2301,9 +2588,11 @@ function renderUsers(users){
       button.addEventListener(
         "click",
         () => {
+
           openUserEditor(
             button.dataset.userId
           );
+
         }
       );
 
@@ -2343,14 +2632,18 @@ async function getUserPermissions(userId){
       .limit(1);
 
 
-  if(error)
+  if(error){
     throw error;
+  }
 
 
   return data?.[0] || null;
-
 }
 
+
+/* =====================================================
+   OPEN USER EDITOR
+===================================================== */
 
 async function openUserEditor(userId){
 
@@ -2361,8 +2654,7 @@ async function openUserEditor(userId){
     );
 
 
-  if(!user)
-    return;
+  if(!user) return;
 
 
   const role =
@@ -2378,7 +2670,6 @@ async function openUserEditor(userId){
     );
 
     return;
-
   }
 
 
@@ -2409,18 +2700,6 @@ async function openUserEditor(userId){
       user.user_id;
 
 
-  const message =
-    document.getElementById(
-      "editorMessage"
-    );
-
-
-  message.className =
-    "editor-message";
-
-  message.textContent = "";
-
-
   try{
 
     const p =
@@ -2447,28 +2726,51 @@ async function openUserEditor(userId){
         : "true";
 
 
-    document.getElementById("permUsers").checked =
+    document.getElementById(
+      "permUsers"
+    ).checked =
       p?.can_manage_users === true;
 
-    document.getElementById("permProjects").checked =
+
+    document.getElementById(
+      "permProjects"
+    ).checked =
       p?.can_manage_projects === true;
 
-    document.getElementById("permSupport").checked =
+
+    document.getElementById(
+      "permSupport"
+    ).checked =
       p?.can_manage_support === true;
 
-    document.getElementById("permFinance").checked =
+
+    document.getElementById(
+      "permFinance"
+    ).checked =
       p?.can_view_finance === true;
 
-    document.getElementById("permTreasury").checked =
+
+    document.getElementById(
+      "permTreasury"
+    ).checked =
       p?.can_manage_treasury === true;
 
-    document.getElementById("permInvestments").checked =
+
+    document.getElementById(
+      "permInvestments"
+    ).checked =
       p?.can_manage_investments === true;
 
-    document.getElementById("permTeam").checked =
+
+    document.getElementById(
+      "permTeam"
+    ).checked =
       p?.can_manage_team === true;
 
-    document.getElementById("permAudit").checked =
+
+    document.getElementById(
+      "permAudit"
+    ).checked =
       p?.can_view_audit_logs === true;
 
 
@@ -2489,9 +2791,12 @@ async function openUserEditor(userId){
     );
 
   }
-
 }
 
+
+/* =====================================================
+   CLOSE USER EDITOR
+===================================================== */
 
 function closeUserEditor(){
 
@@ -2500,9 +2805,12 @@ function closeUserEditor(){
     .classList.remove("show");
 
   editingUser = null;
-
 }
 
+
+/* =====================================================
+   EDITOR MESSAGE
+===================================================== */
 
 function showEditorMessage(
   message,
@@ -2518,17 +2826,20 @@ function showEditorMessage(
   element.textContent =
     message;
 
+
   element.className =
     "editor-message show " +
     type;
-
 }
 
 
+/* =====================================================
+   SAVE USER
+===================================================== */
+
 async function saveUserPermissions(){
 
-  if(!editingUser)
-    return;
+  if(!editingUser) return;
 
 
   if(
@@ -2544,7 +2855,6 @@ async function saveUserPermissions(){
     );
 
     return;
-
   }
 
 
@@ -2637,7 +2947,6 @@ async function saveUserPermissions(){
       );
 
       return;
-
     }
 
 
@@ -2649,7 +2958,6 @@ async function saveUserPermissions(){
       );
 
       return;
-
     }
 
 
@@ -2683,17 +2991,16 @@ async function saveUserPermissions(){
     button.textContent = "Save Changes";
 
   }
-
 }
 
 
 /* =====================================================
-   USER SEARCH
+   SEARCH USERS
 ===================================================== */
 
 document
   .getElementById("userSearch")
-  ?.addEventListener(
+  .addEventListener(
     "input",
     function(){
 
@@ -2710,7 +3017,6 @@ document
         );
 
         return;
-
       }
 
 
@@ -2744,6 +3050,67 @@ document
 
 
       renderUsers(
+        filtered
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   SEARCH PROJECTS
+===================================================== */
+
+document
+  .getElementById("projectSearch")
+  .addEventListener(
+    "input",
+    function(){
+
+      const query =
+        this.value
+          .trim()
+          .toLowerCase();
+
+
+      if(!query){
+
+        renderProjects(
+          founderProjects
+        );
+
+        return;
+      }
+
+
+      const filtered =
+        founderProjects.filter(
+          project => {
+
+            const text = [
+
+              project.project_name,
+              project.token_name,
+              project.token_symbol,
+              project.network,
+              project.token_status,
+              project.user_id
+
+            ]
+            .map(value =>
+              String(value ?? "")
+                .toLowerCase()
+            )
+            .join(" ");
+
+
+            return text.includes(query);
+
+          }
+        );
+
+
+      renderProjects(
         filtered
       );
 
@@ -2796,8 +3163,8 @@ async function loadActivity(){
     if(!error && data?.length){
 
       renderActivity(data);
-      return;
 
+      return;
     }
 
   }catch(error){
@@ -2837,15 +3204,14 @@ async function loadActivity(){
     if(!error && data?.length){
 
       renderActivity(data);
-      return;
 
+      return;
     }
 
 
     container.innerHTML =
       `<div class="empty">
-        No system activity yet.<br><br>
-        Activity will appear here when Sonativa creates its first audit event.
+        No system activity yet.
       </div>`;
 
 
@@ -2857,9 +3223,12 @@ async function loadActivity(){
       </div>`;
 
   }
-
 }
 
+
+/* =====================================================
+   RENDER ACTIVITY
+===================================================== */
 
 function renderActivity(data){
 
@@ -2877,7 +3246,6 @@ function renderActivity(data){
       </div>`;
 
     return;
-
   }
 
 
@@ -2932,59 +3300,93 @@ function renderActivity(data){
       `;
 
     }).join("");
-
 }
 
 
 /* =====================================================
-   REFRESH
+   BUTTONS
 ===================================================== */
 
-async function refreshAll(){
+document
+  .getElementById("refreshButton")
+  .addEventListener(
+    "click",
+    async function(){
 
-  const button =
-    document.getElementById(
-      "refreshButton"
-    );
+      const button = this;
 
+      button.disabled = true;
+      button.textContent = "Checking...";
 
-  button.disabled = true;
-  button.textContent = "Checking...";
+      try{
 
-  setValue(
-    "accessValue",
-    "CHECKING..."
+        await verifyFounder();
+
+      }finally{
+
+        button.disabled = false;
+        button.textContent = "↻ Refresh";
+
+      }
+
+    }
   );
 
 
-  try{
+document
+  .getElementById("signOutButton")
+  .addEventListener(
+    "click",
+    async function(){
 
-    await verifyFounder();
+      try{
 
-  }finally{
+        await supabase.auth.signOut();
 
-    button.disabled = false;
-    button.textContent = "↻ Refresh";
+      }catch(error){
 
-  }
+        console.warn(
+          "Sign out:",
+          error
+        );
 
-}
+      }
+
+      window.location.href =
+        "login.html";
+
+    }
+  );
 
 
-/* =====================================================
-   SIGN OUT
-===================================================== */
+document
+  .getElementById("cancelUserButton")
+  .addEventListener(
+    "click",
+    closeUserEditor
+  );
 
-async function signOut(){
 
-  try{
-    await supabase.auth.signOut();
-  }catch{}
+document
+  .getElementById("closeProjectButton")
+  .addEventListener(
+    "click",
+    function(){
 
-  window.location.href =
-    "login.html";
+      document
+        .getElementById("projectEditor")
+        .classList.remove("show");
 
-}
+    }
+  );
+
+
+document
+  .getElementById("saveUserButton")
+  .addEventListener(
+    "click",
+    saveUserPermissions
+  );
 
 
 /* =====================================================
