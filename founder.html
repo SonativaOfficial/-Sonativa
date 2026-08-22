@@ -608,9 +608,7 @@ footer{
   <div class="error-box">
     <div class="error-icon">🔒</div>
 
-    <h2 id="errorTitle">
-      Founder Access Required
-    </h2>
+    <h2 id="errorTitle">Founder Access Required</h2>
 
     <p id="errorMessage">
       Please sign in to Sonativa with your Founder account.
@@ -626,7 +624,7 @@ footer{
         Founder Login
       </a>
 
-      <button onclick="location.reload()">
+      <button id="tryAgainButton">
         Try Again
       </button>
 
@@ -644,15 +642,8 @@ footer{
   </div>
 
   <div class="user">
-
-    <span class="user-email" id="userEmail">
-      —
-    </span>
-
-    <div class="avatar" id="avatar">
-      F
-    </div>
-
+    <span class="user-email" id="userEmail">—</span>
+    <div class="avatar" id="avatar">F</div>
   </div>
 
 </header>
@@ -675,11 +666,11 @@ footer{
       ← Dashboard
     </a>
 
-    <button id="refreshButton" onclick="refreshAll()">
+    <button id="refreshButton">
       ↻ Refresh
     </button>
 
-    <button class="danger" onclick="signOut()">
+    <button class="danger" id="signOutButton">
       Sign Out
     </button>
 
@@ -691,9 +682,7 @@ footer{
 
   <div class="card">
     <div class="label">Access</div>
-    <div class="value green" id="accessValue">
-      VERIFIED
-    </div>
+    <div class="value green" id="accessValue">CHECKING</div>
   </div>
 
   <div class="card">
@@ -741,7 +730,7 @@ footer{
     id="usersStatus"
     style="color:var(--muted);font-size:10px;margin-bottom:12px"
   >
-    Loading users...
+    Waiting for Founder verification...
   </div>
 
   <div class="users-table-wrap">
@@ -762,8 +751,9 @@ footer{
 
       <tbody id="usersTableBody">
         <tr>
-          <td colspan="7" style="padding:25px;text-align:center;color:var(--muted)">
-            Loading...
+          <td colspan="7"
+              style="padding:25px;text-align:center;color:var(--muted)">
+            Waiting...
           </td>
         </tr>
       </tbody>
@@ -801,12 +791,10 @@ footer{
         <label>Role</label>
 
         <select id="editorRole">
-
           <option value="USER">USER</option>
           <option value="ADMIN">ADMIN</option>
           <option value="MODERATOR">MODERATOR</option>
           <option value="SUPPORT">SUPPORT</option>
-
         </select>
 
       </div>
@@ -816,10 +804,8 @@ footer{
         <label>Account Status</label>
 
         <select id="editorActive">
-
           <option value="true">Active</option>
           <option value="false">Inactive</option>
-
         </select>
 
       </div>
@@ -878,14 +864,13 @@ footer{
 
     <div class="editor-actions">
 
-      <button onclick="closeUserEditor()">
+      <button id="cancelEditButton">
         Cancel
       </button>
 
       <button
         class="save-button"
         id="saveUserButton"
-        onclick="saveUserPermissions()"
       >
         Save Changes
       </button>
@@ -1015,7 +1000,7 @@ footer{
   <div class="activity" id="activity">
 
     <div class="empty">
-      Loading activity...
+      Waiting for Founder verification...
     </div>
 
   </div>
@@ -1037,13 +1022,11 @@ footer{
 
 import {
   createClient
-}
-from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
 /* =====================================================
-   SUPABASE CONFIG
+   SUPABASE
 ===================================================== */
 
 const SUPABASE_URL =
@@ -1069,13 +1052,14 @@ const supabase =
 let currentUser = null;
 let founderUsers = [];
 let editingUser = null;
+let verificationInProgress = false;
 
 
 /* =====================================================
    HELPERS
 ===================================================== */
 
-function setValue(id,value){
+function setText(id,value){
 
   const element =
     document.getElementById(id);
@@ -1083,7 +1067,11 @@ function setValue(id,value){
   if(!element) return;
 
   element.textContent =
-    value ?? "—";
+    value === null ||
+    value === undefined ||
+    value === ""
+      ? "—"
+      : String(value);
 }
 
 
@@ -1103,19 +1091,13 @@ function setPermission(id,enabled){
     "no"
   );
 
-  if(enabled){
+  element.classList.add(
+    enabled ? "ok" : "no"
+  );
 
-    element.classList.add("ok");
-    element.textContent =
-      "✓ " + original;
-
-  }else{
-
-    element.classList.add("no");
-    element.textContent =
-      "✕ " + original;
-
-  }
+  element.textContent =
+    (enabled ? "✓ " : "✕ ") +
+    original;
 }
 
 
@@ -1157,8 +1139,25 @@ function showError(title,message){
 }
 
 
+function showApp(){
+
+  document
+    .getElementById("loading")
+    .classList.add("hidden");
+
+  document
+    .getElementById("errorScreen")
+    .classList.remove("show");
+
+  document
+    .getElementById("app")
+    .style.display =
+      "block";
+}
+
+
 /* =====================================================
-   FOUNDER PERMISSIONS
+   DEFAULT FOUNDER PERMISSIONS
 ===================================================== */
 
 function enableFounderPermissions(){
@@ -1181,27 +1180,37 @@ function enableFounderPermissions(){
 
 async function verifyFounder(){
 
+  if(verificationInProgress) return;
+
+  verificationInProgress = true;
+
+  document
+    .getElementById("loading")
+    .classList.remove("hidden");
+
   try{
 
-    document
-      .getElementById("errorScreen")
-      .classList.remove("show");
-
-
-    /*
-      IMPORTANT:
-      We get the real authenticated session first.
-      The SQL Editor has no auth.uid(), but the website does.
-    */
-
     const {
-      data:sessionData
+      data,
+      error
     } =
       await supabase.auth.getSession();
 
 
+    if(error){
+
+      showError(
+        "Authentication Error",
+        error.message ||
+        "Unable to read the current session."
+      );
+
+      return;
+    }
+
+
     const session =
-      sessionData?.session;
+      data?.session;
 
 
     if(!session?.user){
@@ -1219,17 +1228,17 @@ async function verifyFounder(){
       session.user;
 
 
-    setValue(
+    setText(
       "userEmail",
       currentUser.email
     );
 
-    setValue(
+    setText(
       "identityEmail",
       currentUser.email
     );
 
-    setValue(
+    setText(
       "identityId",
       currentUser.id
     );
@@ -1253,8 +1262,9 @@ async function verifyFounder(){
 
 
     /*
-      SECURITY CHECK:
-      This is performed server-side by Supabase.
+      IMPORTANT:
+      Founder verification happens through
+      the authenticated Supabase session.
     */
 
     const {
@@ -1269,14 +1279,14 @@ async function verifyFounder(){
     if(founderError){
 
       console.error(
-        "Founder verification:",
+        "is_sonativa_founder:",
         founderError
       );
 
       showError(
-        "Security Verification Failed",
+        "Founder Verification Failed",
         founderError.message ||
-        "Could not verify Founder access."
+        "The Founder verification function could not be executed."
       );
 
       return;
@@ -1287,58 +1297,57 @@ async function verifyFounder(){
 
       showError(
         "Founder Access Required",
-        "Your account is authenticated, but Founder access was not granted."
+        "This account is authenticated, but it is not registered as a Sonativa Founder."
       );
 
       return;
     }
 
 
-    setValue(
+    setText(
       "identityRole",
       "FOUNDER"
     );
 
-    setValue(
+    setText(
       "accessValue",
       "VERIFIED"
     );
 
-    setValue(
+    setText(
       "sessionStatus",
       "Authenticated"
     );
 
 
+    enableFounderPermissions();
+
+
+    showApp();
+
+
     /*
-      Founder is verified.
-      Load permissions and dashboard data.
+      These operations use the authenticated
+      Founder session.
     */
 
-    await loadFounderPermissions();
+    await Promise.allSettled([
 
-    await loadOverview();
+      loadFounderPermissions(),
 
-    await loadActivity();
+      loadOverview(),
 
-    await loadUsers();
+      loadActivity(),
 
+      loadUsers()
 
-    document
-      .getElementById("loading")
-      .classList.add("hidden");
-
-
-    document
-      .getElementById("app")
-      .style.display =
-        "block";
+    ]);
 
 
   }catch(error){
 
     console.error(
-      "Founder verification error:",
+      "Founder verification:",
       error
     );
 
@@ -1348,12 +1357,16 @@ async function verifyFounder(){
       "An unexpected error occurred."
     );
 
+  }finally{
+
+    verificationInProgress = false;
+
   }
 }
 
 
 /* =====================================================
-   LOAD FOUNDER PERMISSIONS
+   FOUNDER PERMISSIONS
 ===================================================== */
 
 async function loadFounderPermissions(){
@@ -1365,88 +1378,106 @@ async function loadFounderPermissions(){
   }
 
 
-  const {
-    data,
-    error
-  } =
-    await supabase
-      .from("team_permissions")
-      .select(`
-        role,
-        can_manage_users,
-        can_manage_projects,
-        can_manage_support,
-        can_view_finance,
-        can_manage_treasury,
-        can_manage_investments,
-        can_manage_team,
-        can_view_audit_logs,
-        active
-      `)
-      .eq(
-        "user_id",
-        currentUser.id
-      )
-      .limit(1);
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("team_permissions")
+        .select(`
+          role,
+          can_manage_users,
+          can_manage_projects,
+          can_manage_support,
+          can_view_finance,
+          can_manage_treasury,
+          can_manage_investments,
+          can_manage_team,
+          can_view_audit_logs,
+          active
+        `)
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .limit(1);
 
 
-  if(error || !data?.length){
+    if(error){
 
-    /*
-      The founder verification itself is already
-      server-side protected. If the permission row
-      is unavailable, show the Founder defaults.
-    */
+      console.warn(
+        "Founder permissions:",
+        error
+      );
+
+      enableFounderPermissions();
+      return;
+    }
+
+
+    if(!data?.length){
+
+      enableFounderPermissions();
+      return;
+    }
+
+
+    const p =
+      data[0];
+
+
+    setPermission(
+      "pUsers",
+      p.can_manage_users === true
+    );
+
+    setPermission(
+      "pProjects",
+      p.can_manage_projects === true
+    );
+
+    setPermission(
+      "pFinance",
+      p.can_view_finance === true
+    );
+
+    setPermission(
+      "pTreasury",
+      p.can_manage_treasury === true
+    );
+
+    setPermission(
+      "pInvestments",
+      p.can_manage_investments === true
+    );
+
+    setPermission(
+      "pTeam",
+      p.can_manage_team === true
+    );
+
+    setPermission(
+      "pAudit",
+      p.can_view_audit_logs === true
+    );
+
+    setPermission(
+      "pActive",
+      p.active === true
+    );
+
+  }catch(error){
+
+    console.warn(
+      "loadFounderPermissions:",
+      error
+    );
 
     enableFounderPermissions();
 
-    return;
   }
-
-
-  const p =
-    data[0];
-
-
-  setPermission(
-    "pUsers",
-    p.can_manage_users === true
-  );
-
-  setPermission(
-    "pProjects",
-    p.can_manage_projects === true
-  );
-
-  setPermission(
-    "pFinance",
-    p.can_view_finance === true
-  );
-
-  setPermission(
-    "pTreasury",
-    p.can_manage_treasury === true
-  );
-
-  setPermission(
-    "pInvestments",
-    p.can_manage_investments === true
-  );
-
-  setPermission(
-    "pTeam",
-    p.can_manage_team === true
-  );
-
-  setPermission(
-    "pAudit",
-    p.can_view_audit_logs === true
-  );
-
-  setPermission(
-    "pActive",
-    p.active === true
-  );
 
 }
 
@@ -1458,10 +1489,14 @@ async function loadFounderPermissions(){
 async function loadUsers(){
 
   const status =
-    document.getElementById("usersStatus");
+    document.getElementById(
+      "usersStatus"
+    );
 
   const tbody =
-    document.getElementById("usersTableBody");
+    document.getElementById(
+      "usersTableBody"
+    );
 
 
   if(!status || !tbody) return;
@@ -1472,6 +1507,12 @@ async function loadUsers(){
 
 
   try{
+
+    /*
+      This RPC must be SECURITY DEFINER
+      and must verify is_sonativa_founder()
+      on the server.
+    */
 
     const {
       data,
@@ -1485,22 +1526,20 @@ async function loadUsers(){
     if(error){
 
       console.error(
-        "Founder users:",
+        "sonativa_founder_users:",
         error
       );
 
-
       status.textContent =
-        "Unable to load users.";
-
+        "Users could not be loaded.";
 
       tbody.innerHTML = `
         <tr>
           <td colspan="7"
-            style="padding:25px;text-align:center;color:var(--red)">
+              style="padding:25px;text-align:center;color:var(--red)">
             ${escapeHTML(
               error.message ||
-              "Access denied"
+              "Founder users function unavailable."
             )}
           </td>
         </tr>
@@ -1532,6 +1571,7 @@ async function loadUsers(){
       "Users unavailable.";
 
   }
+
 }
 
 
@@ -1542,27 +1582,37 @@ async function loadUsers(){
 function renderUsers(users){
 
   const status =
-    document.getElementById("usersStatus");
+    document.getElementById(
+      "usersStatus"
+    );
 
   const tbody =
-    document.getElementById("usersTableBody");
+    document.getElementById(
+      "usersTableBody"
+    );
 
 
   if(!tbody) return;
 
 
+  const list =
+    Array.isArray(users)
+      ? users
+      : [];
+
+
   status.textContent =
-    `${users.length} user${
-      users.length === 1 ? "" : "s"
+    `${list.length} user${
+      list.length === 1 ? "" : "s"
     }`;
 
 
-  if(!users.length){
+  if(!list.length){
 
     tbody.innerHTML = `
       <tr>
         <td colspan="7"
-          style="padding:25px;text-align:center;color:var(--muted)">
+            style="padding:25px;text-align:center;color:var(--muted)">
           No users found.
         </td>
       </tr>
@@ -1573,7 +1623,7 @@ function renderUsers(users){
 
 
   tbody.innerHTML =
-    users.map(user => {
+    list.map(user => {
 
       const created =
         user.created_at
@@ -1616,15 +1666,11 @@ function renderUsers(users){
           </td>
 
           <td>
-
             <span class="user-role ${
               isFounder ? "founder" : ""
             }">
-
               ${escapeHTML(role)}
-
             </span>
-
           </td>
 
           <td style="color:var(--muted)">
@@ -1636,25 +1682,20 @@ function renderUsers(users){
           </td>
 
           <td>
-
             <span class="${
               active
                 ? "status-active"
                 : "status-inactive"
             }">
-
               ${
                 active
                   ? "● Active"
                   : "● Inactive"
               }
-
             </span>
-
           </td>
 
           <td>
-
             ${
               isFounder
                 ? `
@@ -1668,11 +1709,9 @@ function renderUsers(users){
                   </span>
                 `
             }
-
           </td>
 
           <td>
-
             ${
               isFounder
                 ? `
@@ -1686,13 +1725,14 @@ function renderUsers(users){
                 : `
                   <button
                     class="edit-button"
-                    data-user-id="${escapeHTML(user.user_id)}"
+                    data-user-id="${escapeHTML(
+                      user.user_id
+                    )}"
                   >
                     Manage
                   </button>
                 `
             }
-
           </td>
 
         </tr>
@@ -1701,12 +1741,6 @@ function renderUsers(users){
 
     }).join("");
 
-
-  /*
-    Event listeners are attached safely after rendering.
-    This avoids putting user-controlled values directly
-    inside onclick JavaScript.
-  */
 
   tbody
     .querySelectorAll(
@@ -1764,11 +1798,12 @@ async function getUserPermissions(userId){
   if(error) throw error;
 
   return data?.[0] || null;
+
 }
 
 
 /* =====================================================
-   OPEN USER EDITOR
+   OPEN EDITOR
 ===================================================== */
 
 async function openUserEditor(userId){
@@ -1791,8 +1826,9 @@ async function openUserEditor(userId){
 
   if(role === "founder"){
 
-    alert(
-      "Founder account is protected and cannot be modified."
+    showEditorMessage(
+      "Founder account is protected and cannot be modified.",
+      "error"
     );
 
     return;
@@ -1808,13 +1844,13 @@ async function openUserEditor(userId){
     .classList.add("show");
 
 
-  setValue(
+  setText(
     "editorUserEmail",
     user.email || "—"
   );
 
 
-  setValue(
+  setText(
     "editorProtection",
     "Editable user"
   );
@@ -1824,18 +1860,6 @@ async function openUserEditor(userId){
     .getElementById("editorUserId")
     .value =
       user.user_id;
-
-
-  const message =
-    document.getElementById(
-      "editorMessage"
-    );
-
-  message.className =
-    "editor-message";
-
-  message.textContent =
-    "";
 
 
   try{
@@ -1934,11 +1958,8 @@ async function openUserEditor(userId){
     );
 
   }
+
 }
-
-
-window.openUserEditor =
-  openUserEditor;
 
 
 /* =====================================================
@@ -1953,16 +1974,9 @@ function closeUserEditor(){
 
   editingUser =
     null;
+
 }
 
-
-window.closeUserEditor =
-  closeUserEditor;
-
-
-/* =====================================================
-   EDITOR MESSAGE
-===================================================== */
 
 function showEditorMessage(
   message,
@@ -1980,6 +1994,7 @@ function showEditorMessage(
   element.className =
     "editor-message show " +
     type;
+
 }
 
 
@@ -1991,10 +2006,6 @@ async function saveUserPermissions(){
 
   if(!editingUser) return;
 
-
-  /*
-    Never allow Founder modification from the UI.
-  */
 
   if(
     String(
@@ -2027,25 +2038,15 @@ async function saveUserPermissions(){
 
   try{
 
-    const role =
-      document.getElementById(
-        "editorRole"
-      ).value;
-
-
-    const active =
-      document.getElementById(
-        "editorActive"
-      ).value === "true";
-
-
     const params = {
 
       target_user_id:
         editingUser.user_id,
 
       new_role:
-        role,
+        document.getElementById(
+          "editorRole"
+        ).value,
 
       new_can_manage_users:
         document.getElementById(
@@ -2088,7 +2089,10 @@ async function saveUserPermissions(){
         ).checked,
 
       new_active:
-        active
+        document.getElementById(
+          "editorActive"
+        ).value === "true"
+
     };
 
 
@@ -2136,7 +2140,7 @@ async function saveUserPermissions(){
   }catch(error){
 
     console.error(
-      "Save permissions:",
+      "saveUserPermissions:",
       error
     );
 
@@ -2153,12 +2157,10 @@ async function saveUserPermissions(){
 
     button.textContent =
       "Save Changes";
+
   }
+
 }
-
-
-window.saveUserPermissions =
-  saveUserPermissions;
 
 
 /* =====================================================
@@ -2230,8 +2232,6 @@ document
 
 async function loadOverview(){
 
-  /* PROJECTS */
-
   try{
 
     const {
@@ -2249,23 +2249,27 @@ async function loadOverview(){
         );
 
 
-    setValue(
+    setText(
       "projectsValue",
       error
         ? "—"
         : count ?? 0
     );
 
-  }catch{
+  }catch(error){
 
-    setValue(
+    console.warn(
+      "Projects:",
+      error
+    );
+
+    setText(
       "projectsValue",
       "—"
     );
+
   }
 
-
-  /* TEAM */
 
   try{
 
@@ -2284,23 +2288,27 @@ async function loadOverview(){
         );
 
 
-    setValue(
+    setText(
       "teamValue",
       error
         ? "—"
         : count ?? 0
     );
 
-  }catch{
+  }catch(error){
 
-    setValue(
+    console.warn(
+      "Team:",
+      error
+    );
+
+    setText(
       "teamValue",
       "—"
     );
+
   }
 
-
-  /* AUDIT */
 
   try{
 
@@ -2321,7 +2329,7 @@ async function loadOverview(){
 
     if(!error){
 
-      setValue(
+      setText(
         "auditValue",
         count ?? 0
       );
@@ -2342,7 +2350,7 @@ async function loadOverview(){
         );
 
 
-    setValue(
+    setText(
       "auditValue",
       fallback.error
         ? "—"
@@ -2350,13 +2358,20 @@ async function loadOverview(){
     );
 
 
-  }catch{
+  }catch(error){
 
-    setValue(
+    console.warn(
+      "Audit:",
+      error
+    );
+
+    setText(
       "auditValue",
       "—"
     );
+
   }
+
 }
 
 
@@ -2370,6 +2385,9 @@ async function loadActivity(){
     document.getElementById(
       "activity"
     );
+
+
+  if(!container) return;
 
 
   container.innerHTML =
@@ -2417,6 +2435,7 @@ async function loadActivity(){
       "system_audit_logs:",
       error
     );
+
   }
 
 
@@ -2461,13 +2480,20 @@ async function loadActivity(){
       </div>`;
 
 
-  }catch{
+  }catch(error){
+
+    console.warn(
+      "audit_logs:",
+      error
+    );
 
     container.innerHTML =
       `<div class="empty">
         Audit activity is currently unavailable.
       </div>`;
+
   }
+
 }
 
 
@@ -2545,6 +2571,7 @@ function renderActivity(data){
       `;
 
     }).join("");
+
 }
 
 
@@ -2567,17 +2594,6 @@ async function refreshAll(){
     "Checking...";
 
 
-  setValue(
-    "accessValue",
-    "CHECKING..."
-  );
-
-
-  document
-    .getElementById("loading")
-    .classList.remove("hidden");
-
-
   try{
 
     await verifyFounder();
@@ -2589,12 +2605,10 @@ async function refreshAll(){
 
     button.textContent =
       "↻ Refresh";
+
   }
+
 }
-
-
-window.refreshAll =
-  refreshAll;
 
 
 /* =====================================================
@@ -2613,16 +2627,58 @@ async function signOut(){
       "Sign out:",
       error
     );
+
   }
 
 
   window.location.href =
     "login.html";
+
 }
 
 
-window.signOut =
-  signOut;
+/* =====================================================
+   BUTTON EVENTS
+===================================================== */
+
+document
+  .getElementById("refreshButton")
+  ?.addEventListener(
+    "click",
+    refreshAll
+  );
+
+
+document
+  .getElementById("signOutButton")
+  ?.addEventListener(
+    "click",
+    signOut
+  );
+
+
+document
+  .getElementById("tryAgainButton")
+  ?.addEventListener(
+    "click",
+    verifyFounder
+  );
+
+
+document
+  .getElementById("cancelEditButton")
+  ?.addEventListener(
+    "click",
+    closeUserEditor
+  );
+
+
+document
+  .getElementById("saveUserButton")
+  ?.addEventListener(
+    "click",
+    saveUserPermissions
+  );
 
 
 /* =====================================================
@@ -2636,6 +2692,18 @@ supabase.auth.onAuthStateChange(
 
       window.location.href =
         "login.html";
+
+      return;
+    }
+
+
+    if(
+      event === "TOKEN_REFRESHED" &&
+      session?.user
+    ){
+
+      currentUser =
+        session.user;
 
     }
 
