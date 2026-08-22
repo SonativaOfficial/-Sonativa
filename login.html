@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sonativa — Sign In</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#04060b;
+  --panel:rgba(10,15,24,.92);
+  --border:#202b3d;
+  --text:#f5f7fb;
+  --muted:#8793a6;
+  --success:#62e39a;
+  --danger:#ff7373;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 70% 0%,rgba(55,78,115,.30),transparent 38%),
+    radial-gradient(circle at 0% 100%,rgba(31,55,91,.20),transparent 35%),
+    var(--bg);
+  color:var(--text);
+}
+
+.background{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.45;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:50px 50px;
+  mask-image:radial-gradient(circle at center,black,transparent 85%);
+}
+
+.login-card{
+  position:relative;
+  width:min(430px,100%);
+  padding:32px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:0 25px 80px rgba(0,0,0,.45);
+  backdrop-filter:blur(20px);
+}
+
+.logo{
+  text-align:center;
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:5px;
+}
+
+.subtitle{
+  margin-top:9px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.form{
+  margin-top:28px;
+}
+
+label{
+  display:block;
+  margin-bottom:7px;
+  color:#aeb8c8;
+  font-size:11px;
+  font-weight:700;
+}
+
+input{
+  width:100%;
+  height:46px;
+  padding:0 13px;
+  margin-bottom:17px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  outline:none;
+  background:#090e17;
+  color:white;
+  font-size:13px;
+}
+
+input:focus{
+  border-color:#46556d;
+  box-shadow:0 0 0 3px rgba(100,130,170,.08);
+}
+
+button{
+  width:100%;
+  height:46px;
+  border:0;
+  border-radius:9px;
+  background:white;
+  color:#05070c;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#e9edf3;
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.message{
+  display:none;
+  margin-top:15px;
+  padding:11px 12px;
+  border-radius:9px;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.message.error{
+  display:block;
+  color:#ff9b9b;
+  background:#190c0c;
+  border:1px solid #4b2020;
+}
+
+.message.success{
+  display:block;
+  color:var(--success);
+  background:#091710;
+  border:1px solid #214b35;
+}
+
+.footer{
+  margin-top:22px;
+  text-align:center;
+  color:#566276;
+  font-size:9px;
+  line-height:1.7;
+}
+
+.back{
+  display:block;
+  margin-top:15px;
+  color:#78869b;
+  text-align:center;
+  font-size:10px;
+  text-decoration:none;
+}
+
+.back:hover{color:white}
+</style>
+</head>
+<body>
+<div class="background"></div>
+<main class="login-card">
+  <div class="logo">SONATIVA</div>
+  <div class="subtitle">
+    Secure access to your Web3 workspace
+  </div>
+  <form class="form" id="loginForm">
+<label for="email">Email</label>
+
+<input
+  id="email"
+  type="email"
+  autocomplete="email"
+  placeholder="you@example.com"
+  required
+>
+
+<label for="password">Password</label>
+
+<input
+  id="password"
+  type="password"
+  autocomplete="current-password"
+  placeholder="Your password"
+  required
+>
+
+<button id="loginButton" type="submit">
+  Sign In
+</button>
+
+<div id="message" class="message"></div>
+  </form>
+  <a class="back" href="index.html">
+    ← Back to Sonativa
+  </a>
+  <div class="footer">
+    Your wallet remains under your control.<br>
+    Sonativa never asks for private keys or seed phrases.
+  </div>
+</main>
+<script type="module">
+
+import {
+  createClient
+} from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+const SUPABASE_URL =
+"https://kallobeodjzzhrsaqszw.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+const form =
+document.getElementById("loginForm");
+
+const emailInput =
+document.getElementById("email");
+
+const passwordInput =
+document.getElementById("password");
+
+const button =
+document.getElementById("loginButton");
+
+const message =
+document.getElementById("message");
+
+
+function showMessage(
+  text,
+  type="error"
+){
+
+  message.textContent = text;
+
+  message.className =
+    "message " + type;
+
+}
+
+
+function clearMessage(){
+
+  message.textContent = "";
+
+  message.className = "message";
+
+}
+
+
+async function redirectAfterLogin(){
+
+  const {
+    data:{
+      user
+    }
+  } =
+  await supabase.auth.getUser();
+
+
+  if(!user){
+
+    showMessage(
+      "Login succeeded, but the user session could not be verified."
+    );
+
+    button.disabled = false;
+
+    return;
+
+  }
+
+
+  /*
+   * Founder role is checked from the database.
+   * We never trust a role stored only in the browser.
+   */
+
+  const {
+    data:roleData,
+    error:roleError
+  } =
+  await supabase
+
+  .from("user_roles")
+
+  .select("role")
+
+  .eq(
+    "user_id",
+    user.id
+  )
+
+  .maybeSingle();
+
+
+  if(roleError){
+
+    console.error(roleError);
+
+    showMessage(
+      "Signed in, but Sonativa could not verify your account role."
+    );
+
+    button.disabled = false;
+
+    return;
+
+  }
+
+
+  showMessage(
+    "Signed in successfully. Opening Sonativa...",
+    "success"
+  );
+
+
+  setTimeout(
+    function(){
+
+      if(
+        roleData &&
+        roleData.role === "founder"
+      ){
+
+        window.location.href =
+          "founder.html";
+
+      }else{
+
+        window.location.href =
+          "index.html";
+
+      }
+
+    },
+    500
+  );
+
+}
+
+
+form.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+    clearMessage();
+
+    const email =
+      emailInput.value.trim();
+
+    const password =
+      passwordInput.value;
+
+
+    if(!email || !password){
+
+      showMessage(
+        "Please enter your email and password."
+      );
+
+      return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+      "Signing in...";
+
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+      await supabase.auth.signInWithPassword({
+
+        email:email,
+
+        password:password
+
+      });
+
+
+      if(error){
+
+        console.error(error);
+
+        showMessage(
+          "Sign in failed: " +
+          error.message
+        );
+
+        button.disabled = false;
+
+        button.textContent =
+          "Sign In";
+
+        return;
+
+      }
+
+
+      if(!data || !data.user){
+
+        showMessage(
+          "Sign in failed. No user session was returned."
+        );
+
+        button.disabled = false;
+
+        button.textContent =
+          "Sign In";
+
+        return;
+
+      }
+
+
+      await redirectAfterLogin();
+
+
+    }catch(error){
+
+      console.error(error);
+
+      showMessage(
+        "Unexpected error. Please try again."
+      );
+
+      button.disabled = false;
+
+      button.textContent =
+        "Sign In";
+
+    }
+
+  }
+);
+
+
+/*
+ * If the user is already authenticated,
+ * do not force another login.
+ */
+
+async function checkExistingSession(){
+
+  const {
+    data:{
+      session
+    }
+  } =
+  await supabase.auth.getSession();
+
+
+  if(!session || !session.user){
+
+    return;
+
+  }
+
+
+  const {
+    data:roleData
+  } =
+  await supabase
+
+  .from("user_roles")
+
+  .select("role")
+
+  .eq(
+    "user_id",
+    session.user.id
+  )
+
+  .maybeSingle();
+
+
+  if(
+    roleData &&
+    roleData.role === "founder"
+  ){
+
+    window.location.href =
+      "founder.html";
+
+  }else{
+
+    window.location.href =
+      "index.html";
+
+  }
+
+}
+
+
+checkExistingSession();
+
+</script>
+</bod</body>
+</htm</html>
