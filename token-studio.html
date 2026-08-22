@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Token Studio — Sonativa</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -16,8 +19,13 @@ box-sizing:border-box;
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:
-radial-gradient(circle at 50% -10%,#172033 0%,#06080d 45%,#040509 100%);
-color:#fff;
+radial-gradient(
+circle at 50% -10%,
+#172033 0%,
+#06080d 45%,
+#040509 100%
+);
+color:white;
 line-height:1.6;
 min-height:100vh;
 }
@@ -82,8 +90,8 @@ border-color:#555f72;
 
 .step.done{
 color:#8ee6b0;
-background:#0d1712;
 border-color:#315c45;
+background:#0d1712;
 }
 
 .panel{
@@ -129,7 +137,12 @@ min-height:110px;
 resize:vertical;
 }
 
-.grid,
+.grid{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+}
+
 .tokenomics-grid{
 display:grid;
 grid-template-columns:1fr;
@@ -162,8 +175,8 @@ background:#10151e;
 border:1px solid #303949;
 display:flex;
 justify-content:space-between;
-align-items:center;
 gap:15px;
+align-items:center;
 }
 
 .total-label{
@@ -182,6 +195,10 @@ color:#8ee6b0;
 
 .total-value.invalid{
 color:#ff8f8f;
+}
+
+.total-value.optional{
+color:#aeb7c6;
 }
 
 button,
@@ -210,12 +227,6 @@ color:white;
 border:1px solid #303949;
 }
 
-.actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
 .message{
 display:none;
 margin-top:20px;
@@ -228,23 +239,20 @@ word-break:break-word;
 white-space:pre-wrap;
 }
 
-.message.success,
-.message.error,
-.message.info{
-display:block;
-}
-
 .message.success{
+display:block;
 color:#8ee6b0;
 border-color:#315c45;
 }
 
 .message.error{
+display:block;
 color:#ff8f8f;
 border-color:#633737;
 }
 
 .message.info{
+display:block;
 color:#aeb7c6;
 border-color:#303949;
 }
@@ -265,7 +273,6 @@ word-break:break-word;
 }
 
 .wallet-box{
-display:none;
 margin-top:25px;
 padding:18px;
 background:#080b12;
@@ -280,11 +287,35 @@ word-break:break-all;
 margin-top:7px;
 }
 
-.help,
-.limit{
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.back{
+display:inline-block;
+margin-top:20px;
+color:#8d96a7;
+text-decoration:none;
+}
+
+footer{
+text-align:center;
+padding:45px 0;
+color:#697386;
+}
+
+.help{
 margin-top:7px;
 font-size:12px;
 color:#697386;
+}
+
+.limit{
+margin-top:8px;
+font-size:12px;
+color:#818b9c;
 word-break:break-word;
 }
 
@@ -304,22 +335,28 @@ color:#8ee6b0;
 margin-top:7px;
 }
 
-.back{
-display:inline-block;
-margin-top:20px;
-color:#8d96a7;
-text-decoration:none;
+.metadata-note{
+margin-top:8px;
+font-size:12px;
+color:#697386;
 }
 
-footer{
-text-align:center;
-padding:45px 0;
-color:#697386;
+.optional-note{
+padding:14px;
+margin-bottom:20px;
+border-radius:10px;
+background:#10151e;
+border:1px solid #303949;
+color:#aeb7c6;
+font-size:13px;
 }
 
 @media(min-width:700px){
 
-.grid,
+.grid{
+grid-template-columns:1fr 1fr;
+}
+
 .tokenomics-grid{
 grid-template-columns:1fr 1fr;
 }
@@ -343,34 +380,47 @@ text-align:center;
 }
 
 }
+
 </style>
+
 </head>
 
+
 <body>
+
 
 <header>
 
 <div class="container">
 
 <div class="logo">
-<a href="index.html">SONATIVA</a>
+
+<a href="index.html">
+SONATIVA
+</a>
+
 </div>
 
 </div>
 
 </header>
 
+
 <main class="container">
+
 
 <section class="hero">
 
-<h1>Token Studio</h1>
+<h1>
+Token Studio
+</h1>
 
 <p>
 Create and manage your Solana token project.
 </p>
 
 </section>
+
 
 <div class="steps">
 
@@ -398,18 +448,24 @@ Create and manage your Solana token project.
 
 
 <!-- =====================================================
-PROJECT
+PROJECT INFORMATION
 ===================================================== -->
 
 <section class="panel">
 
-<h2>Project Information</h2>
+<h2>
+Project Information
+</h2>
+
 
 <div class="grid">
 
+
 <div>
 
-<label>Project Name</label>
+<label>
+Project Name
+</label>
 
 <input
 id="projectName"
@@ -417,9 +473,12 @@ placeholder="Example: Sonativa">
 
 </div>
 
+
 <div>
 
-<label>Token Name</label>
+<label>
+Token Name
+</label>
 
 <input
 id="tokenName"
@@ -427,30 +486,36 @@ placeholder="Example: Sonativa Token">
 
 </div>
 
+
 <div>
 
-<label>Token Symbol</label>
+<label>
+Token Symbol
+</label>
 
 <input
 id="tokenSymbol"
 placeholder="Example: SONA"
-maxlength="10">
+maxlength="20">
 
 </div>
 
+
 <div>
 
-<label>Total Supply</label>
+<label>
+Total Supply
+</label>
 
 <input
 id="supply"
 type="text"
 inputmode="numeric"
 autocomplete="off"
-placeholder="100000000">
+placeholder="1000000000">
 
 <div class="help">
-Enter a whole-number supply.
+Enter any positive whole-number supply.
 </div>
 
 <div
@@ -460,32 +525,67 @@ class="limit">
 
 </div>
 
+
 </div>
 
 
-<label>Decimals</label>
+<label>
+Decimals
+</label>
 
 <select id="decimals">
 
-<option value="0">0 — No decimals</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6" selected>6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
+<option value="0">
+0 — No decimals
+</option>
+
+<option value="1">
+1
+</option>
+
+<option value="2">
+2
+</option>
+
+<option value="3">
+3
+</option>
+
+<option value="4">
+4
+</option>
+
+<option value="5">
+5
+</option>
+
+<option value="6" selected>
+6
+</option>
+
+<option value="7">
+7
+</option>
+
+<option value="8">
+8
+</option>
+
+<option value="9">
+9
+</option>
 
 </select>
 
+
 <div class="help">
-Maximum SPL Token decimals: 9.
+Decimals control how finely the token can be divided. Maximum SPL Token decimals: 9.
 </div>
 
 
-<label>Network</label>
+<label>
+Network
+</label>
 
 <select id="network">
 
@@ -500,22 +600,26 @@ Solana Mainnet — Coming Soon
 </select>
 
 
-<label>Description</label>
+<label>
+Description
+</label>
 
 <textarea
 id="description"
 placeholder="Describe your project..."></textarea>
 
 
-<label>Metadata URI</label>
+<label>
+Metadata URI
+</label>
 
 <input
 id="metadataUri"
 type="url"
 placeholder="https://example.com/metadata.json">
 
-<div class="help">
-Direct URL to your token metadata JSON.
+<div class="metadata-note">
+Direct URL to your token metadata JSON. Optional for now.
 </div>
 
 </section>
@@ -527,21 +631,35 @@ TOKENOMICS
 
 <section class="panel">
 
-<h2>Tokenomics</h2>
+<h2>
+Tokenomics
+</h2>
 
-<p class="help">
-Define how the total supply will be distributed.
-The percentages must equal exactly 100%.
-</p>
+
+<div class="optional-note">
+
+Tokenomics are optional.
+
+You can create a token without defining a distribution.
+
+If you choose to use Tokenomics,
+the percentages must equal exactly 100%.
+
+</div>
 
 
 <div class="tokenomics-grid">
 
+
 <div class="tokenomics-card">
 
-<h3>Team</h3>
+<h3>
+Team
+</h3>
 
-<p>Team allocation</p>
+<p>
+Team allocation
+</p>
 
 <input
 id="team"
@@ -549,16 +667,21 @@ type="number"
 min="0"
 max="100"
 step="0.01"
-value="10">
+value="0"
+placeholder="0">
 
 </div>
 
 
 <div class="tokenomics-card">
 
-<h3>Treasury</h3>
+<h3>
+Treasury
+</h3>
 
-<p>Project treasury</p>
+<p>
+Project treasury
+</p>
 
 <input
 id="treasury"
@@ -566,16 +689,21 @@ type="number"
 min="0"
 max="100"
 step="0.01"
-value="20">
+value="0"
+placeholder="0">
 
 </div>
 
 
 <div class="tokenomics-card">
 
-<h3>Community</h3>
+<h3>
+Community
+</h3>
 
-<p>Community rewards and ecosystem</p>
+<p>
+Community rewards and ecosystem
+</p>
 
 <input
 id="community"
@@ -583,16 +711,21 @@ type="number"
 min="0"
 max="100"
 step="0.01"
-value="30">
+value="0"
+placeholder="0">
 
 </div>
 
 
 <div class="tokenomics-card">
 
-<h3>Public Sale</h3>
+<h3>
+Public Sale
+</h3>
 
-<p>Public distribution</p>
+<p>
+Public distribution
+</p>
 
 <input
 id="publicSale"
@@ -600,16 +733,21 @@ type="number"
 min="0"
 max="100"
 step="0.01"
-value="20">
+value="0"
+placeholder="0">
 
 </div>
 
 
 <div class="tokenomics-card">
 
-<h3>Liquidity</h3>
+<h3>
+Liquidity
+</h3>
 
-<p>DEX and market liquidity</p>
+<p>
+DEX and market liquidity
+</p>
 
 <input
 id="liquidity"
@@ -617,16 +755,21 @@ type="number"
 min="0"
 max="100"
 step="0.01"
-value="10">
+value="0"
+placeholder="0">
 
 </div>
 
 
 <div class="tokenomics-card">
 
-<h3>Burn Reserve</h3>
+<h3>
+Burn Reserve
+</h3>
 
-<p>Reserved for future burns</p>
+<p>
+Reserved for future burns
+</p>
 
 <input
 id="burnReserve"
@@ -634,9 +777,11 @@ type="number"
 min="0"
 max="100"
 step="0.01"
-value="10">
+value="0"
+placeholder="0">
 
 </div>
+
 
 </div>
 
@@ -649,8 +794,10 @@ Total Allocation
 
 <span
 id="tokenomicsTotal"
-class="total-value valid">
-100%
+class="total-value optional">
+
+0.00%
+
 </span>
 
 </div>
@@ -658,8 +805,12 @@ class="total-value valid">
 
 <div
 id="tokenomicsMessage"
-class="message">
+class="message info">
+
+Tokenomics are optional. You can continue with 0%.
+
 </div>
+
 
 </section>
 
@@ -672,55 +823,67 @@ ACTIONS
 
 <div class="actions">
 
+
 <button
 id="saveButton"
-type="button">
+type="button"
+onclick="saveProject()">
+
 Save Project
+
 </button>
+
 
 <button
 class="secondary"
 id="walletButton"
-type="button">
+type="button"
+onclick="connectWallet()">
+
 Connect Phantom
+
 </button>
+
 
 </div>
 
 
 <div
 class="wallet-box"
-id="walletBox">
+id="walletBox"
+style="display:none;">
 
 <strong>
 Connected Wallet
 </strong>
 
 <div
-id="walletAddress"
-class="wallet-address">
+class="wallet-address"
+id="walletAddress">
 </div>
 
 </div>
 
 
 <div
-id="message"
-class="message">
+class="message"
+id="message">
 </div>
 
 
 <!-- =====================================================
-RESULT
+SAVE RESULT
 ===================================================== -->
 
 <div
-id="result"
-class="result">
+class="result"
+id="result">
+
 
 <h3>
 Project Saved Successfully ✅
 </h3>
+
 
 <p id="rProject"></p>
 <p id="rToken"></p>
@@ -728,12 +891,17 @@ Project Saved Successfully ✅
 <p id="rSupply"></p>
 <p id="rDecimals"></p>
 <p id="rNetwork"></p>
+<p id="rMetadata"></p>
 <p id="rTokenomics"></p>
+
+
+<br>
 
 
 <button
 id="createTokenButton"
-type="button">
+type="button"
+onclick="createToken()">
 
 Create Token on Solana Devnet
 
@@ -741,36 +909,43 @@ Create Token on Solana Devnet
 
 
 <div
-id="tokenMessage"
-class="message">
+class="message"
+id="tokenMessage">
 </div>
 
 
 <div
 id="tokenResult"
-class="token-result-box">
+class="token-result-box"
+style="display:none;">
+
 
 <h3>
 Token Created Successfully 🎉
 </h3>
 
+
 <p>
 <strong>Mint Address:</strong>
 </p>
+
 
 <p
 id="mintAddress"
 class="address">
 </p>
 
+
 <p>
 <strong>Transaction:</strong>
 </p>
+
 
 <p
 id="transactionSignature"
 class="address">
 </p>
+
 
 <a
 id="explorerLink"
@@ -782,7 +957,9 @@ View on Solana Explorer
 
 </a>
 
+
 </div>
+
 
 </div>
 
@@ -795,17 +972,22 @@ href="projects.html">
 
 </a>
 
+
 </section>
+
 
 </main>
 
 
 <footer>
+
 © 2026 Sonativa — Token Studio
+
 </footer>
 
 
 <script type="module">
+
 
 /* =====================================================
 SUPABASE
@@ -815,7 +997,7 @@ import {
 createClient
 }
 from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
 
 const SUPABASE_URL =
@@ -868,7 +1050,7 @@ from
 
 
 /* =====================================================
-CONNECTION
+DEVNET
 ===================================================== */
 
 const connection =
@@ -898,46 +1080,26 @@ let walletPublicKey = null;
 
 
 /* =====================================================
-ELEMENTS
-===================================================== */
-
-const saveButton =
-document.getElementById(
-"saveButton"
-);
-
-const walletButton =
-document.getElementById(
-"walletButton"
-);
-
-const createTokenButton =
-document.getElementById(
-"createTokenButton"
-);
-
-
-/* =====================================================
 MESSAGES
 ===================================================== */
 
 function showMessage(
 text,
-type="info"
+type=""
 ){
 
-const element =
+const message =
 document.getElementById(
 "message"
 );
 
-element.textContent =
+message.textContent =
 text;
 
-element.className =
+message.className =
 "message " + type;
 
-element.style.display =
+message.style.display =
 "block";
 
 }
@@ -945,21 +1107,21 @@ element.style.display =
 
 function showTokenMessage(
 text,
-type="info"
+type=""
 ){
 
-const element =
+const message =
 document.getElementById(
 "tokenMessage"
 );
 
-element.textContent =
+message.textContent =
 text;
 
-element.className =
+message.className =
 "message " + type;
 
-element.style.display =
+message.style.display =
 "block";
 
 }
@@ -967,33 +1129,38 @@ element.style.display =
 
 function showTokenomicsMessage(
 text,
-type="info"
+type=""
 ){
 
-const element =
+const message =
 document.getElementById(
 "tokenomicsMessage"
 );
 
-element.textContent =
+message.textContent =
 text;
 
-element.className =
+message.className =
 "message " + type;
 
-element.style.display =
+message.style.display =
 "block";
 
 }
 
 
 /* =====================================================
-HTML ESCAPE
+ESCAPE HTML
 ===================================================== */
 
-function escapeHTML(value){
+function escapeHTML(
+value
+){
 
-return String(value ?? "")
+return String(
+value ?? ""
+)
+
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -1014,25 +1181,36 @@ document.getElementById(
 "supply"
 ).value.trim();
 
+
 if(!/^\d+$/.test(value)){
+
 return null;
+
 }
+
 
 try{
+
 return BigInt(value);
+
 }catch{
+
 return null;
-}
 
 }
 
+}
 
-function getMaximumSupply(decimals){
 
-return MAX_U64 /
-(
-BigInt(10) ** BigInt(decimals)
-);
+function getMaximumSupply(
+decimals
+){
+
+const divisor =
+BigInt(10) **
+BigInt(decimals);
+
+return MAX_U64 / divisor;
 
 }
 
@@ -1067,7 +1245,9 @@ maximum.toLocaleString();
 TOKENOMICS
 ===================================================== */
 
-function getNumber(id){
+function getNumber(
+id
+){
 
 const value =
 Number(
@@ -1078,7 +1258,9 @@ if(
 !Number.isFinite(value) ||
 value < 0
 ){
+
 return 0;
+
 }
 
 return value;
@@ -1090,17 +1272,23 @@ function getTokenomics(){
 
 return {
 
-team:getNumber("team"),
+team:
+getNumber("team"),
 
-treasury:getNumber("treasury"),
+treasury:
+getNumber("treasury"),
 
-community:getNumber("community"),
+community:
+getNumber("community"),
 
-public_sale:getNumber("publicSale"),
+public_sale:
+getNumber("publicSale"),
 
-liquidity:getNumber("liquidity"),
+liquidity:
+getNumber("liquidity"),
 
-burn_reserve:getNumber("burnReserve")
+burn_reserve:
+getNumber("burnReserve")
 
 };
 
@@ -1113,45 +1301,130 @@ const t =
 getTokenomics();
 
 return (
+
 t.team +
 t.treasury +
 t.community +
 t.public_sale +
 t.liquidity +
 t.burn_reserve
+
 );
+
+}
+
+
+function isTokenomicsEmpty(){
+
+return (
+getTokenomicsTotal() === 0
+);
+
+}
+
+
+function validateTokenomics(){
+
+const total =
+getTokenomicsTotal();
+
+
+/*
+No Tokenomics defined.
+This is allowed.
+*/
+
+if(
+Math.abs(total) < 0.001
+){
+
+return {
+valid:true,
+optional:true,
+total:0
+};
+
+}
+
+
+/*
+Tokenomics used.
+Must equal 100%.
+*/
+
+if(
+Math.abs(total - 100) <= 0.001
+){
+
+return {
+valid:true,
+optional:false,
+total:100
+};
+
+}
+
+
+return {
+valid:false,
+optional:false,
+total:total
+};
 
 }
 
 
 function updateTokenomicsTotal(){
 
-const total =
-getTokenomicsTotal();
+const result =
+validateTokenomics();
+
 
 const element =
 document.getElementById(
 "tokenomicsTotal"
 );
 
-element.textContent =
-total.toFixed(2) + "%";
 
 element.classList.remove(
 "valid",
-"invalid"
+"invalid",
+"optional"
 );
 
-if(
-Math.abs(total - 100) < 0.001
-){
+
+if(result.optional){
+
+element.textContent =
+"0.00%";
+
+element.classList.add(
+"optional"
+);
+
+showTokenomicsMessage(
+"Tokenomics are optional. You can continue without defining a distribution.",
+"info"
+);
+
+return;
+
+}
+
+
+element.textContent =
+result.total.toFixed(2) +
+"%";
+
+
+if(result.valid){
 
 element.classList.add(
 "valid"
 );
 
 showTokenomicsMessage(
-"Tokenomics allocation is valid.",
+"Tokenomics allocation is valid: exactly 100%.",
 "success"
 );
 
@@ -1163,7 +1436,7 @@ element.classList.add(
 
 showTokenomicsMessage(
 "Tokenomics must equal exactly 100%. Current total: " +
-total.toFixed(2) +
+result.total.toFixed(2) +
 "%",
 "error"
 );
@@ -1173,6 +1446,10 @@ total.toFixed(2) +
 }
 
 
+/* =====================================================
+TOKENOMICS INPUTS
+===================================================== */
+
 [
 "team",
 "treasury",
@@ -1181,7 +1458,8 @@ total.toFixed(2) +
 "liquidity",
 "burnReserve"
 ]
-.forEach(function(id){
+.forEach(
+function(id){
 
 document.getElementById(id)
 .addEventListener(
@@ -1189,11 +1467,12 @@ document.getElementById(id)
 updateTokenomicsTotal
 );
 
-});
+}
+);
 
 
 /* =====================================================
-INPUTS
+SUPPLY INPUT
 ===================================================== */
 
 document.getElementById(
@@ -1212,6 +1491,10 @@ this.value.replace(
 }
 );
 
+
+/* =====================================================
+DECIMALS
+===================================================== */
 
 document.getElementById(
 "decimals"
@@ -1236,43 +1519,75 @@ error
 } =
 await supabase.auth.getUser();
 
+
 if(error){
-throw error;
-}
 
-currentUser =
-data?.user || null;
-
-if(!currentUser){
+console.error(
+"Auth error:",
+error
+);
 
 showMessage(
-"You must login with GitHub before creating a Sonativa project.",
+"Could not verify your Sonativa login:\n" +
+error.message,
 "error"
 );
 
-saveButton.disabled =
+document.getElementById(
+"saveButton"
+).disabled =
 true;
 
 return false;
 
 }
 
-saveButton.disabled =
+
+currentUser =
+data?.user || null;
+
+
+if(!currentUser){
+
+showMessage(
+"You must login to create a Sonativa project.",
+"error"
+);
+
+document.getElementById(
+"saveButton"
+).disabled =
+true;
+
+return false;
+
+}
+
+
+document.getElementById(
+"saveButton"
+).disabled =
 false;
+
 
 return true;
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Login check error:",
+error
+);
 
 showMessage(
-"Could not verify your Sonativa login:\n" +
+"Login verification failed:\n" +
 (error?.message || error),
 "error"
 );
 
-saveButton.disabled =
+document.getElementById(
+"saveButton"
+).disabled =
 true;
 
 return false;
@@ -1312,17 +1627,19 @@ return null;
 }
 
 
-async function connectWallet(){
+window.connectWallet =
+async function(){
 
 try{
 
 const provider =
 getPhantom();
 
+
 if(!provider){
 
 showMessage(
-"Phantom was not detected. Open this page inside Phantom or use a browser with Phantom installed.",
+"Phantom Wallet is not detected. Open Sonativa in a browser with Phantom installed.",
 "error"
 );
 
@@ -1330,13 +1647,16 @@ return;
 
 }
 
+
 showMessage(
 "Connecting Phantom...",
 "info"
 );
 
+
 const response =
 await provider.connect();
+
 
 if(
 !response ||
@@ -1349,31 +1669,39 @@ throw new Error(
 
 }
 
+
 walletPublicKey =
 response.publicKey;
+
 
 document.getElementById(
 "walletBox"
 ).style.display =
 "block";
 
+
 document.getElementById(
 "walletAddress"
 ).textContent =
 walletPublicKey.toString();
 
-walletButton.textContent =
-"Phantom Connected ✓";
+
+document.getElementById(
+"walletButton"
+).textContent =
+"Wallet Connected ✓";
+
 
 showMessage(
 "Phantom wallet connected successfully.",
 "success"
 );
 
+
 }catch(error){
 
 console.error(
-"Phantom error:",
+"Wallet error:",
 error
 );
 
@@ -1385,26 +1713,50 @@ showMessage(
 
 }
 
-}
+};
 
 
 /* =====================================================
-DESCRIPTION
+BUILD TOKENOMICS DESCRIPTION
 ===================================================== */
 
-function buildDescription(){
-
-const description =
-document.getElementById(
-"description"
-).value.trim();
+function buildDescription(
+description
+){
 
 const t =
 getTokenomics();
 
+
+const total =
+getTokenomicsTotal();
+
+
+/*
+No Tokenomics.
+*/
+
+if(
+Math.abs(total) < 0.001
+){
+
+return description || "";
+
+}
+
+
+/*
+Tokenomics enabled.
+*/
+
+const marker =
+"--- SONATIVA TOKENOMICS ---";
+
+
 const tokenomicsText =
 
-"--- SONATIVA TOKENOMICS ---\n" +
+marker +
+"\n" +
 
 "Team: " +
 t.team +
@@ -1430,6 +1782,7 @@ t.liquidity +
 t.burn_reserve +
 "%";
 
+
 if(description){
 
 return (
@@ -1440,6 +1793,7 @@ tokenomicsText
 
 }
 
+
 return tokenomicsText;
 
 }
@@ -1449,34 +1803,49 @@ return tokenomicsText;
 SAVE PROJECT
 ===================================================== */
 
-async function saveProject(){
+window.saveProject =
+async function(){
 
-if(
-!await checkLogin()
-){
+const loggedIn =
+await checkLogin();
+
+
+if(!loggedIn){
+
 return;
+
 }
+
+
+const button =
+document.getElementById(
+"saveButton"
+);
+
 
 const projectName =
 document.getElementById(
 "projectName"
 ).value.trim();
 
+
 const tokenName =
 document.getElementById(
 "tokenName"
 ).value.trim();
 
+
 const tokenSymbol =
 document.getElementById(
 "tokenSymbol"
-).value.trim()
-.toUpperCase();
+).value.trim().toUpperCase();
+
 
 const supply =
 document.getElementById(
 "supply"
 ).value.trim();
+
 
 const decimals =
 Number(
@@ -1485,16 +1854,28 @@ document.getElementById(
 ).value
 );
 
+
 const network =
 document.getElementById(
 "network"
 ).value;
+
+
+const description =
+document.getElementById(
+"description"
+).value.trim();
+
 
 const metadataUri =
 document.getElementById(
 "metadataUri"
 ).value.trim();
 
+
+/* =====================================================
+BASIC VALIDATION
+===================================================== */
 
 if(
 !projectName ||
@@ -1530,11 +1911,11 @@ return;
 
 
 if(
-tokenSymbol.length > 10
+tokenSymbol.length > 20
 ){
 
 showMessage(
-"Token Symbol must be 10 characters or less.",
+"Token Symbol must be 20 characters or less.",
 "error"
 );
 
@@ -1542,17 +1923,21 @@ return;
 
 }
 
+
+/* =====================================================
+SUPPLY
+===================================================== */
 
 const supplyNumber =
 getSupplyBigInt();
 
+
 if(
-supplyNumber === null ||
-supplyNumber <= 0n
+supplyNumber === null
 ){
 
 showMessage(
-"Total supply must be a positive whole number.",
+"Total supply must contain whole numbers only.",
 "error"
 );
 
@@ -1560,6 +1945,24 @@ return;
 
 }
 
+
+if(
+supplyNumber <= BigInt(0)
+){
+
+showMessage(
+"Total supply must be greater than 0.",
+"error"
+);
+
+return;
+
+}
+
+
+/* =====================================================
+DECIMALS
+===================================================== */
 
 if(
 decimals < 0 ||
@@ -1576,13 +1979,16 @@ return;
 }
 
 
+/* =====================================================
+NETWORK
+===================================================== */
+
 if(
-network !==
-"Solana Devnet"
+network !== "Solana Devnet"
 ){
 
 showMessage(
-"Mainnet is not enabled yet. Use Solana Devnet.",
+"Mainnet creation is not enabled yet. Use Solana Devnet.",
 "error"
 );
 
@@ -1590,6 +1996,10 @@ return;
 
 }
 
+
+/* =====================================================
+METADATA URI
+===================================================== */
 
 if(metadataUri){
 
@@ -1611,18 +2021,21 @@ return;
 }
 
 
-const tokenomicsTotal =
-getTokenomicsTotal();
+/* =====================================================
+TOKENOMICS
+===================================================== */
+
+const tokenomics =
+validateTokenomics();
+
 
 if(
-Math.abs(
-tokenomicsTotal - 100
-) > 0.001
+!tokenomics.valid
 ){
 
 showMessage(
-"Tokenomics must equal exactly 100%. Current total: " +
-tokenomicsTotal.toFixed(2) +
+"Tokenomics are either empty or must equal exactly 100%. Current total: " +
+tokenomics.total.toFixed(2) +
 "%",
 "error"
 );
@@ -1632,20 +2045,34 @@ return;
 }
 
 
+/* =====================================================
+RAW SUPPLY
+===================================================== */
+
+const multiplier =
+BigInt(10) **
+BigInt(decimals);
+
+
 const rawAmount =
 supplyNumber *
-(
-BigInt(10) **
-BigInt(decimals)
-);
+multiplier;
 
 
 if(
 rawAmount > MAX_U64
 ){
 
+const maximum =
+getMaximumSupply(
+decimals
+);
+
 showMessage(
-"Supply is too large for the selected decimals.",
+"Supply is too large for " +
+decimals +
+" decimals.\n\nMaximum supply: " +
+maximum.toLocaleString(),
 "error"
 );
 
@@ -1654,14 +2081,30 @@ return;
 }
 
 
-saveButton.disabled =
+/* =====================================================
+SAVE
+===================================================== */
+
+button.disabled =
 true;
 
-saveButton.textContent =
+button.textContent =
 "Saving Project...";
 
 
 try{
+
+const finalDescription =
+buildDescription(
+description
+);
+
+
+const tokenomicsData =
+isTokenomicsEmpty()
+? null
+: getTokenomics();
+
 
 const {
 data,
@@ -1692,10 +2135,16 @@ network:
 network,
 
 description:
-buildDescription(),
+finalDescription,
 
 decimals:
 decimals,
+
+metadata_uri:
+metadataUri || null,
+
+tokenomics:
+tokenomicsData,
 
 token_status:
 "draft"
@@ -1707,16 +2156,40 @@ token_status:
 
 
 if(error){
+
 throw error;
+
 }
 
 
-savedProject = data;
+/* =====================================================
+SAVE STATE
+===================================================== */
 
+savedProject = {
+
+...data,
+
+total_supply:
+supply,
+
+decimals:
+decimals,
+
+metadata_uri:
+metadataUri || null
+
+};
+
+
+/* =====================================================
+RESULT
+===================================================== */
 
 document.getElementById(
 "rProject"
 ).innerHTML =
+
 "<strong>Project:</strong> " +
 escapeHTML(projectName);
 
@@ -1724,6 +2197,7 @@ escapeHTML(projectName);
 document.getElementById(
 "rToken"
 ).innerHTML =
+
 "<strong>Token:</strong> " +
 escapeHTML(tokenName);
 
@@ -1731,6 +2205,7 @@ escapeHTML(tokenName);
 document.getElementById(
 "rSymbol"
 ).innerHTML =
+
 "<strong>Symbol:</strong> " +
 escapeHTML(tokenSymbol);
 
@@ -1738,6 +2213,7 @@ escapeHTML(tokenSymbol);
 document.getElementById(
 "rSupply"
 ).innerHTML =
+
 "<strong>Total Supply:</strong> " +
 supplyNumber.toLocaleString();
 
@@ -1745,6 +2221,7 @@ supplyNumber.toLocaleString();
 document.getElementById(
 "rDecimals"
 ).innerHTML =
+
 "<strong>Decimals:</strong> " +
 decimals;
 
@@ -1752,14 +2229,32 @@ decimals;
 document.getElementById(
 "rNetwork"
 ).innerHTML =
+
 "<strong>Network:</strong> " +
 escapeHTML(network);
 
 
 document.getElementById(
+"rMetadata"
+).innerHTML =
+
+"<strong>Metadata URI:</strong> " +
+escapeHTML(
+metadataUri ||
+"Not defined"
+);
+
+
+document.getElementById(
 "rTokenomics"
 ).innerHTML =
-"<strong>Tokenomics:</strong> 100% allocation saved";
+
+"<strong>Tokenomics:</strong> " +
+(
+isTokenomicsEmpty()
+? "Not defined — optional"
+: "100% allocation saved"
+);
 
 
 document.getElementById(
@@ -1769,16 +2264,22 @@ document.getElementById(
 
 
 showMessage(
-"Project saved successfully. Connect Phantom and create your Devnet token.",
+"Project saved successfully. Connect Phantom to create your Devnet token.",
 "success"
 );
 
-saveButton.textContent =
+
+button.textContent =
 "Project Saved ✓";
+
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Project save error:",
+error
+);
+
 
 showMessage(
 "Could not save project:\n" +
@@ -1786,22 +2287,30 @@ showMessage(
 "error"
 );
 
-saveButton.disabled =
+
+button.disabled =
 false;
 
-saveButton.textContent =
+button.textContent =
 "Save Project";
 
 }
 
-}
+};
 
 
 /* =====================================================
 CREATE TOKEN
 ===================================================== */
 
-async function createToken(){
+window.createToken =
+async function(){
+
+const button =
+document.getElementById(
+"createTokenButton"
+);
+
 
 if(!savedProject){
 
@@ -1821,7 +2330,7 @@ savedProject.network !==
 ){
 
 showTokenMessage(
-"Only Solana Devnet is enabled.",
+"Only Solana Devnet is enabled in this version.",
 "error"
 );
 
@@ -1833,10 +2342,11 @@ return;
 const provider =
 getPhantom();
 
+
 if(!provider){
 
 showTokenMessage(
-"Phantom is not detected.",
+"Phantom Wallet is not installed.",
 "error"
 );
 
@@ -1847,19 +2357,22 @@ return;
 
 try{
 
-createTokenButton.disabled =
+button.disabled =
 true;
 
-createTokenButton.textContent =
-"Preparing...";
+button.textContent =
+"Connecting Wallet...";
 
 
-/* CONNECT */
+/* =====================================================
+CONNECT
+===================================================== */
 
 if(!walletPublicKey){
 
 const response =
 await provider.connect();
+
 
 if(
 !response ||
@@ -1872,31 +2385,22 @@ throw new Error(
 
 }
 
+
 walletPublicKey =
 response.publicKey;
 
 }
 
 
-/* LOGIN */
-
-if(
-!currentUser
-){
-
-throw new Error(
-"Your Sonativa login session is missing."
-);
-
-}
-
-
-/* BALANCE */
+/* =====================================================
+BALANCE
+===================================================== */
 
 showTokenMessage(
 "Checking Devnet wallet...",
 "info"
 );
+
 
 const balance =
 await connection.getBalance(
@@ -1907,18 +2411,21 @@ walletPublicKey
 if(balance <= 0){
 
 throw new Error(
-"Your Phantom wallet has 0 SOL on Devnet. Get Devnet SOL first."
+"Your Phantom wallet has 0 SOL on Devnet. Get Devnet SOL before creating the token."
 );
 
 }
 
 
-/* VALUES */
+/* =====================================================
+VALUES
+===================================================== */
 
 const decimals =
 Number(
 savedProject.decimals
 );
+
 
 const supply =
 BigInt(
@@ -1926,6 +2433,7 @@ String(
 savedProject.total_supply
 )
 );
+
 
 const rawAmount =
 supply *
@@ -1946,18 +2454,23 @@ throw new Error(
 }
 
 
-/* MINT */
+/* =====================================================
+GENERATE MINT
+===================================================== */
 
 showTokenMessage(
 "Generating token mint...",
 "info"
 );
 
+
 const mint =
 Keypair.generate();
 
+
 const mintAccountSize =
 82;
+
 
 const lamports =
 await connection
@@ -1965,6 +2478,10 @@ await connection
 mintAccountSize
 );
 
+
+/* =====================================================
+CREATE MINT TRANSACTION
+===================================================== */
 
 const transaction =
 new Transaction();
@@ -2013,7 +2530,14 @@ TOKEN_PROGRAM_ID
 );
 
 
-const latestBlockhash =
+/* =====================================================
+BLOCKHASH
+===================================================== */
+
+const {
+blockhash,
+lastValidBlockHeight
+} =
 await connection
 .getLatestBlockhash(
 "confirmed"
@@ -2021,18 +2545,24 @@ await connection
 
 
 transaction.recentBlockhash =
-latestBlockhash.blockhash;
+blockhash;
+
 
 transaction.feePayer =
 walletPublicKey;
+
 
 transaction.partialSign(
 mint
 );
 
 
+/* =====================================================
+PHANTOM SIGN
+===================================================== */
+
 showTokenMessage(
-"Approve mint creation in Phantom...",
+"Please approve mint creation in Phantom...",
 "info"
 );
 
@@ -2043,8 +2573,13 @@ transaction
 );
 
 
+/* =====================================================
+SEND
+===================================================== */
+
 const signature =
-await connection.sendRawTransaction(
+await connection
+.sendRawTransaction(
 signedTransaction.serialize(),
 {
 skipPreflight:false
@@ -2052,18 +2587,22 @@ skipPreflight:false
 );
 
 
-await connection.confirmTransaction(
+/* =====================================================
+CONFIRM
+===================================================== */
+
+await connection
+.confirmTransaction(
 
 {
 signature:
 signature,
 
 blockhash:
-latestBlockhash.blockhash,
+blockhash,
 
 lastValidBlockHeight:
-latestBlockhash.lastValidBlockHeight
-
+lastValidBlockHeight
 },
 
 "confirmed"
@@ -2071,10 +2610,12 @@ latestBlockhash.lastValidBlockHeight
 );
 
 
-/* TOKEN ACCOUNT */
+/* =====================================================
+CREATE TOKEN ACCOUNT
+===================================================== */
 
 showTokenMessage(
-"Creating token account...",
+"Mint created. Creating token account...",
 "info"
 );
 
@@ -2129,7 +2670,8 @@ ASSOCIATED_TOKEN_PROGRAM_ID
 
 
 const ataBlockhash =
-await connection.getLatestBlockhash(
+await connection
+.getLatestBlockhash(
 "confirmed"
 );
 
@@ -2137,12 +2679,13 @@ await connection.getLatestBlockhash(
 ataTransaction.recentBlockhash =
 ataBlockhash.blockhash;
 
+
 ataTransaction.feePayer =
 walletPublicKey;
 
 
 showTokenMessage(
-"Approve token account creation in Phantom...",
+"Please approve token account creation in Phantom...",
 "info"
 );
 
@@ -2154,7 +2697,8 @@ ataTransaction
 
 
 const ataSignature =
-await connection.sendRawTransaction(
+await connection
+.sendRawTransaction(
 
 signedAta.serialize(),
 
@@ -2165,7 +2709,8 @@ skipPreflight:false
 );
 
 
-await connection.confirmTransaction(
+await connection
+.confirmTransaction(
 
 {
 signature:
@@ -2176,7 +2721,6 @@ ataBlockhash.blockhash,
 
 lastValidBlockHeight:
 ataBlockhash.lastValidBlockHeight
-
 },
 
 "confirmed"
@@ -2186,7 +2730,9 @@ ataBlockhash.lastValidBlockHeight
 }
 
 
-/* MINT SUPPLY */
+/* =====================================================
+MINT TOTAL SUPPLY
+===================================================== */
 
 showTokenMessage(
 "Minting total supply...",
@@ -2229,12 +2775,13 @@ await connection
 mintTransaction.recentBlockhash =
 mintBlockhash.blockhash;
 
+
 mintTransaction.feePayer =
 walletPublicKey;
 
 
 showTokenMessage(
-"Approve total supply in Phantom...",
+"Please approve the total supply transaction in Phantom...",
 "info"
 );
 
@@ -2246,7 +2793,8 @@ mintTransaction
 
 
 const mintSignature =
-await connection.sendRawTransaction(
+await connection
+.sendRawTransaction(
 
 signedMint.serialize(),
 
@@ -2257,7 +2805,8 @@ skipPreflight:false
 );
 
 
-await connection.confirmTransaction(
+await connection
+.confirmTransaction(
 
 {
 signature:
@@ -2268,7 +2817,6 @@ mintBlockhash.blockhash,
 
 lastValidBlockHeight:
 mintBlockhash.lastValidBlockHeight
-
 },
 
 "confirmed"
@@ -2276,7 +2824,9 @@ mintBlockhash.lastValidBlockHeight
 );
 
 
-/* DATABASE */
+/* =====================================================
+DATABASE UPDATE
+===================================================== */
 
 const mintAddress =
 mint.publicKey.toString();
@@ -2323,7 +2873,9 @@ updateError
 }
 
 
-/* RESULT */
+/* =====================================================
+RESULT
+===================================================== */
 
 document.getElementById(
 "tokenResult"
@@ -2348,13 +2900,30 @@ document.getElementById(
 ).href =
 
 "https://explorer.solana.com/address/" +
-encodeURIComponent(mintAddress) +
+encodeURIComponent(
+mintAddress
+) +
 "?cluster=devnet";
 
 
-document.querySelectorAll(
-".step"
-).forEach(function(step){
+showTokenMessage(
+"Your Devnet token was created successfully! 🎉",
+"success"
+);
+
+
+button.textContent =
+"Token Created ✓";
+
+
+/* =====================================================
+STEP STATUS
+===================================================== */
+
+document
+.querySelectorAll(".step")
+.forEach(
+function(step){
 
 if(
 step.textContent.includes(
@@ -2368,17 +2937,8 @@ step.classList.add(
 
 }
 
-});
-
-
-showTokenMessage(
-"Your Devnet token was created successfully! 🎉",
-"success"
+}
 );
-
-
-createTokenButton.textContent =
-"Token Created ✓";
 
 
 }catch(error){
@@ -2388,49 +2948,41 @@ console.error(
 error
 );
 
+
 showTokenMessage(
+
 "Token creation failed:\n" +
 (error?.message || error),
+
 "error"
+
 );
 
-createTokenButton.disabled =
+
+button.disabled =
 false;
 
-createTokenButton.textContent =
+
+button.textContent =
 "Create Token on Solana Devnet";
 
 }
 
-}
+};
 
 
 /* =====================================================
-EVENTS
-===================================================== */
-
-saveButton.addEventListener(
-"click",
-saveProject
-);
-
-walletButton.addEventListener(
-"click",
-connectWallet
-);
-
-createTokenButton.addEventListener(
-"click",
-createToken
-);
-
-
-/* =====================================================
-AUTH EVENTS
+AUTH STATE
 ===================================================== */
 
 supabase.auth.onAuthStateChange(
 function(event,session){
+
+console.log(
+"Supabase Auth:",
+event
+);
+
 
 if(
 session &&
@@ -2440,10 +2992,13 @@ session.user
 currentUser =
 session.user;
 
-saveButton.disabled =
+document.getElementById(
+"saveButton"
+).disabled =
 false;
 
 }
+
 
 if(
 event === "SIGNED_OUT"
@@ -2452,17 +3007,18 @@ event === "SIGNED_OUT"
 currentUser =
 null;
 
-saveButton.disabled =
+document.getElementById(
+"saveButton"
+).disabled =
 true;
 
 }
 
-}
-);
+});
 
 
 /* =====================================================
-START
+INITIAL
 ===================================================== */
 
 updateSupplyLimit();
@@ -2473,5 +3029,7 @@ await checkLogin();
 
 </script>
 
+
 </body>
+
 </html>
