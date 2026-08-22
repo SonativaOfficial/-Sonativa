@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Token Studio — Sonativa</title>
 
-<meta
-name="description"
-content="Sonativa Token Studio — Design and plan your Web3 token project."
->
+<meta name="description"
+content="Sonativa Token Studio — Design and save your Web3 token project.">
 
 <style>
-
-/* =========================================================
-   SONATIVA TOKEN STUDIO
-   Premium UI
-========================================================= */
 
 *{
 margin:0;
@@ -28,16 +19,14 @@ box-sizing:border-box;
 
 :root{
 --bg:#05070c;
---panel:rgba(13,17,26,.78);
---panel-strong:#0d121b;
+--panel:#0d121b;
+--panel2:#080b12;
 --border:#252d3b;
---border-light:#343e50;
---text:#ffffff;
+--border2:#343e50;
+--text:#fff;
 --muted:#858fa1;
---muted-2:#667184;
 --green:#8ee6b0;
 --red:#ff8f8f;
---blue:#8fb7ff;
 }
 
 html{
@@ -45,88 +34,27 @@ scroll-behavior:smooth;
 }
 
 body{
-font-family:
-Inter,
-Arial,
-Helvetica,
-sans-serif;
-
+font-family:Inter,Arial,Helvetica,sans-serif;
 background:
-radial-gradient(
-circle at 50% -10%,
-#182338 0%,
-#090d15 32%,
-#05070c 70%,
-#030407 100%
-);
-
+radial-gradient(circle at 50% -10%,#182338 0%,#090d15 32%,#05070c 70%,#030407 100%);
 color:var(--text);
-line-height:1.6;
 min-height:100vh;
+line-height:1.6;
 overflow-x:hidden;
 }
-
-/* =========================================================
-   BACKGROUND EFFECT
-========================================================= */
 
 body::before{
 content:"";
 position:fixed;
 inset:0;
 pointer-events:none;
-
 background:
-linear-gradient(
-rgba(255,255,255,.018) 1px,
-transparent 1px
-),
-linear-gradient(
-90deg,
-rgba(255,255,255,.018) 1px,
-transparent 1px
-);
-
+linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
 background-size:55px 55px;
-
-mask-image:
-linear-gradient(
-to bottom,
-black,
-transparent 85%
-);
-
+mask-image:linear-gradient(to bottom,black,transparent 85%);
 z-index:-2;
 }
-
-body::after{
-content:"";
-position:fixed;
-width:550px;
-height:550px;
-
-top:-280px;
-left:50%;
-
-transform:translateX(-50%);
-
-background:
-radial-gradient(
-circle,
-rgba(100,130,190,.12),
-transparent 68%
-);
-
-filter:blur(30px);
-
-pointer-events:none;
-
-z-index:-1;
-}
-
-/* =========================================================
-   CONTAINER
-========================================================= */
 
 .container{
 width:92%;
@@ -134,992 +62,419 @@ max-width:1050px;
 margin:auto;
 }
 
-/* =========================================================
-   HEADER
-========================================================= */
+/* HEADER */
 
 header{
 position:sticky;
 top:0;
 z-index:1000;
-
-background:
-rgba(5,7,12,.72);
-
-backdrop-filter:
-blur(20px);
-
--webkit-backdrop-filter:
-blur(20px);
-
-border-bottom:
-1px solid rgba(255,255,255,.08);
+background:rgba(5,7,12,.75);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .nav{
 height:72px;
-
 display:flex;
 align-items:center;
 justify-content:space-between;
-
 gap:20px;
 }
-
-/* =========================================================
-   LOGO
-========================================================= */
 
 .logo{
 display:flex;
 align-items:center;
-gap:11px;
-
+gap:10px;
 text-decoration:none;
 color:#fff;
-
 font-size:21px;
 font-weight:900;
-
 letter-spacing:2.5px;
 }
 
 .logo-mark{
 width:36px;
 height:36px;
-
 border-radius:11px;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
-background:
-linear-gradient(
-135deg,
-#ffffff,
-#aeb8c9
-);
-
+background:linear-gradient(135deg,#fff,#aeb8c9);
 color:#07090f;
-
-font-size:17px;
 font-weight:900;
-
-box-shadow:
-0 0 25px rgba(255,255,255,.10);
-
-position:relative;
-overflow:hidden;
+box-shadow:0 0 25px rgba(255,255,255,.1);
 }
 
-.logo-mark::after{
-content:"";
-
-position:absolute;
-
-width:100%;
-height:100%;
-
-background:
-linear-gradient(
-120deg,
-transparent 25%,
-rgba(255,255,255,.8) 50%,
-transparent 75%
-);
-
-transform:
-translateX(-120%);
-
-animation:
-logoShine 4s infinite;
-}
-
-@keyframes logoShine{
-
-0%{
-transform:translateX(-120%);
-}
-
-35%,100%{
-transform:translateX(120%);
-}
-
-}
-
-.logo-text{
-line-height:1;
-}
-
-/* =========================================================
-   HEADER RIGHT
-========================================================= */
-
-.back-home{
-display:inline-flex;
-align-items:center;
-gap:7px;
-
+.back{
 padding:9px 13px;
-
 border-radius:9px;
-
 border:1px solid var(--border);
-
-background:
-rgba(15,20,30,.8);
-
+background:rgba(15,20,30,.8);
 color:#b7c0ce;
-
 font-size:13px;
-
 text-decoration:none;
-
 transition:.2s;
 }
 
-.back-home:hover{
+.back:hover{
 color:#fff;
-border-color:var(--border-light);
-transform:translateY(-1px);
+border-color:var(--border2);
 }
 
-/* =========================================================
-   HERO
-========================================================= */
+/* HERO */
 
 .hero{
 text-align:center;
-
-padding:
-75px 0 35px;
-
-animation:
-heroIn .7s ease both;
+padding:70px 0 35px;
 }
 
-@keyframes heroIn{
-
-from{
-opacity:0;
-transform:translateY(15px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-.hero-badge{
-
+.badge{
 display:inline-flex;
 align-items:center;
 gap:8px;
-
 padding:7px 13px;
-
+border:1px solid rgba(255,255,255,.12);
 border-radius:50px;
-
-border:
-1px solid rgba(255,255,255,.12);
-
-background:
-rgba(15,20,30,.7);
-
+background:rgba(15,20,30,.7);
 color:#9faabd;
-
 font-size:12px;
-
 margin-bottom:20px;
-
-box-shadow:
-0 0 30px rgba(100,130,190,.05);
 }
 
-.badge-dot{
-
+.dot{
 width:7px;
 height:7px;
-
 border-radius:50%;
-
-background:#8ee6b0;
-
-box-shadow:
-0 0 10px rgba(142,230,176,.8);
-
+background:var(--green);
+box-shadow:0 0 10px rgba(142,230,176,.8);
 }
 
 .hero h1{
-
-font-size:
-clamp(40px,7vw,62px);
-
+font-size:clamp(40px,7vw,62px);
 line-height:1.05;
-
 letter-spacing:-2.5px;
-
 margin-bottom:14px;
-
-background:
-linear-gradient(
-180deg,
-#ffffff 0%,
-#c3cbd8 100%
-);
-
+background:linear-gradient(180deg,#fff,#c3cbd8);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-
 max-width:620px;
-
 margin:auto;
-
 color:#818b9c;
-
 font-size:16px;
 }
 
-/* =========================================================
-   STEPS
-========================================================= */
+/* STEPS */
 
 .steps{
-
 display:grid;
-
-grid-template-columns:
-repeat(4,1fr);
-
+grid-template-columns:repeat(4,1fr);
 gap:9px;
-
-margin:
-25px 0 22px;
-
+margin:25px 0 22px;
 }
 
 .step{
-
-position:relative;
-
 padding:12px 8px;
-
 text-align:center;
-
-border:
-1px solid #242c39;
-
+border:1px solid #242c39;
 border-radius:10px;
-
-background:
-rgba(12,16,24,.68);
-
+background:rgba(12,16,24,.68);
 color:#667184;
-
 font-size:12px;
-
-transition:.25s;
-
 }
 
 .step.active{
-
 color:#fff;
-
-background:
-linear-gradient(
-180deg,
-rgba(30,36,48,.9),
-rgba(14,18,27,.9)
-);
-
+background:linear-gradient(180deg,rgba(30,36,48,.9),rgba(14,18,27,.9));
 border-color:#3a4558;
-
-box-shadow:
-0 0 25px rgba(120,150,200,.04);
 }
 
 .step-number{
-
 display:block;
-
 font-size:10px;
-
 color:#707b8e;
-
 margin-bottom:2px;
-
 }
 
-.step.active .step-number{
-
-color:#aeb8c8;
-}
-
-/* =========================================================
-   MAIN PANEL
-========================================================= */
+/* PANEL */
 
 .panel{
-
-position:relative;
-
-background:
-linear-gradient(
-145deg,
-rgba(17,22,32,.88),
-rgba(8,11,17,.92)
-);
-
-border:
-1px solid rgba(255,255,255,.09);
-
+background:linear-gradient(145deg,rgba(17,22,32,.88),rgba(8,11,17,.92));
+border:1px solid rgba(255,255,255,.09);
 border-radius:22px;
-
 padding:32px;
-
 margin-bottom:25px;
-
 box-shadow:
 0 25px 80px rgba(0,0,0,.28),
 inset 0 1px 0 rgba(255,255,255,.025);
-
-overflow:hidden;
-}
-
-.panel::before{
-
-content:"";
-
-position:absolute;
-
-width:350px;
-height:350px;
-
-top:-240px;
-right:-160px;
-
-background:
-radial-gradient(
-circle,
-rgba(120,150,210,.08),
-transparent 70%
-);
-
-pointer-events:none;
-}
-
-/* =========================================================
-   PANEL HEADER
-========================================================= */
-
-.panel-header{
-
-display:flex;
-
-align-items:flex-start;
-justify-content:space-between;
-
-gap:20px;
-
-margin-bottom:25px;
-
 }
 
 .panel-title{
-
 display:flex;
 align-items:center;
 gap:13px;
+margin-bottom:25px;
 }
 
 .panel-icon{
-
 width:42px;
 height:42px;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
 border-radius:12px;
-
-background:
-linear-gradient(
-135deg,
-#ffffff,
-#b9c2d0
-);
-
+background:linear-gradient(135deg,#fff,#b9c2d0);
 color:#080b11;
-
-font-size:19px;
-
-box-shadow:
-0 8px 25px rgba(255,255,255,.07);
+font-weight:bold;
 }
 
-.panel-header h2{
-
+.panel-title h2{
 font-size:20px;
-
-margin-bottom:2px;
 }
 
-.panel-header p{
-
+.panel-title p{
 font-size:12px;
-
 color:#687385;
 }
 
-/* =========================================================
-   FORM
-========================================================= */
+/* FORM */
 
 .grid{
-
 display:grid;
-
-grid-template-columns:
-1fr;
-
+grid-template-columns:1fr;
 gap:17px;
 }
 
 label{
-
 display:block;
-
-margin:
-5px 0 7px;
-
+margin:5px 0 7px;
 font-size:13px;
-
 font-weight:600;
-
 color:#aeb7c6;
 }
 
 input,
 select,
 textarea{
-
 width:100%;
-
 padding:13px 14px;
-
 border-radius:10px;
-
-border:
-1px solid #2a3342;
-
-background:
-rgba(5,8,13,.82);
-
+border:1px solid #2a3342;
+background:rgba(5,8,13,.82);
 color:#fff;
-
 font-size:15px;
-
 outline:none;
-
-transition:
-border-color .2s,
-box-shadow .2s,
-background .2s;
-}
-
-input::placeholder,
-textarea::placeholder{
-
-color:#4f5a6b;
+transition:.2s;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-
 border-color:#56647a;
+box-shadow:0 0 0 3px rgba(120,145,190,.07);
+}
 
-background:#080c13;
-
-box-shadow:
-0 0 0 3px rgba(120,145,190,.07);
+input::placeholder,
+textarea::placeholder{
+color:#4f5a6b;
 }
 
 textarea{
-
 min-height:115px;
-
 resize:vertical;
 }
 
 select{
-
-appearance:none;
-
-background-image:
-linear-gradient(45deg,transparent 50%,#7e899b 50%),
-linear-gradient(135deg,#7e899b 50%,transparent 50%);
-
-background-position:
-calc(100% - 17px) 18px,
-calc(100% - 12px) 18px;
-
-background-size:
-5px 5px,
-5px 5px;
-
-background-repeat:no-repeat;
-
-padding-right:35px;
+cursor:pointer;
 }
 
-/* =========================================================
-   TOKENOMICS
-========================================================= */
+/* TOKENOMICS */
 
 .tokenomics{
-
 margin-top:30px;
-
 padding-top:28px;
-
-border-top:
-1px solid #242c3b;
+border-top:1px solid #242c3b;
 }
 
 .tokenomics-header{
-
 display:flex;
-
 justify-content:space-between;
-
-align-items:flex-end;
-
-gap:15px;
-
 margin-bottom:20px;
 }
 
 .tokenomics-header h2{
-
 font-size:20px;
 }
 
 .tokenomics-header p{
-
 color:#687385;
-
 font-size:12px;
 }
 
-/* =========================================================
-   ALLOCATION
-========================================================= */
-
 .allocation{
-
 display:grid;
-
-grid-template-columns:
-1fr 105px;
-
+grid-template-columns:1fr 105px;
 gap:10px;
-
-margin-bottom:11px;
+margin-bottom:12px;
 }
 
 .allocation-name{
-
 color:#8d97a8 !important;
-
 cursor:not-allowed;
 }
 
 .percent{
-
 text-align:center;
-
 font-weight:bold;
 }
 
-/* =========================================================
-   TOTAL
-========================================================= */
-
-.total-box{
-
+.total{
 margin-top:22px;
-
 padding:17px;
-
 border-radius:12px;
-
-background:
-rgba(5,8,13,.8);
-
-border:
-1px solid #293342;
-
+background:rgba(5,8,13,.8);
+border:1px solid #293342;
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
-
-gap:15px;
-}
-
-.total-label{
-
-font-size:13px;
-
-color:#7c8799;
 }
 
 .total-number{
-
 font-size:18px;
-
 font-weight:800;
-
-transition:.2s;
 }
 
 .total-ok{
-
 color:var(--green);
-
-text-shadow:
-0 0 18px rgba(142,230,176,.15);
 }
 
 .total-error{
-
 color:var(--red);
-
-text-shadow:
-0 0 18px rgba(255,143,143,.12);
 }
 
-/* =========================================================
-   GENERATE BUTTON
-========================================================= */
-
-.generate-wrap{
-
-margin-top:28px;
-}
+/* BUTTON */
 
 button{
-
 width:100%;
-
 padding:15px 22px;
-
 border:0;
-
 border-radius:11px;
-
-background:
-linear-gradient(
-135deg,
-#ffffff,
-#d7dde6
-);
-
+background:linear-gradient(135deg,#fff,#d7dde6);
 color:#07090f;
-
 font-weight:800;
-
 font-size:15px;
-
 cursor:pointer;
-
-box-shadow:
-0 12px 35px rgba(255,255,255,.06);
-
-transition:
-transform .2s,
-box-shadow .2s,
-opacity .2s;
+transition:.2s;
+margin-top:25px;
 }
 
 button:hover{
-
 transform:translateY(-2px);
-
-box-shadow:
-0 16px 40px rgba(255,255,255,.10);
-}
-
-button:active{
-
-transform:
-translateY(0);
 }
 
 button:disabled{
-
 opacity:.5;
-
 cursor:not-allowed;
-
 transform:none;
-
-box-shadow:none;
 }
 
-/* =========================================================
-   MESSAGE
-========================================================= */
+/* MESSAGE */
 
 .message{
-
 display:none;
-
 margin-top:18px;
-
 padding:13px 15px;
-
 border-radius:10px;
-
-background:
-rgba(16,21,30,.9);
-
-border:
-1px solid #303949;
-
+background:rgba(16,21,30,.9);
+border:1px solid #303949;
 color:#aeb7c6;
-
 font-size:13px;
-
-animation:
-fadeIn .3s ease;
+word-break:break-word;
 }
 
-@keyframes fadeIn{
-
-from{
-opacity:0;
-transform:translateY(5px);
+.message.error{
+color:var(--red);
+border-color:#633737;
 }
 
-to{
-opacity:1;
-transform:translateY(0);
+.message.success{
+color:var(--green);
+border-color:#315c45;
 }
 
-}
-
-/* =========================================================
-   RESULT
-========================================================= */
+/* RESULT */
 
 .result{
-
 display:none;
-
 margin-top:25px;
-
 padding:23px;
-
-border:
-1px solid rgba(142,230,176,.18);
-
+border:1px solid rgba(142,230,176,.18);
 border-radius:15px;
-
-background:
-linear-gradient(
-145deg,
-rgba(12,23,19,.8),
-rgba(7,12,11,.9)
-);
-
-animation:
-resultIn .45s ease;
+background:linear-gradient(145deg,rgba(12,23,19,.8),rgba(7,12,11,.9));
 }
 
-@keyframes resultIn{
-
-from{
-opacity:0;
-transform:translateY(12px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-.success-title{
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-font-size:18px;
-
+.result h3{
 margin-bottom:18px;
 }
 
-.success-icon{
-
-width:31px;
-height:31px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-border-radius:50%;
-
-background:
-rgba(142,230,176,.12);
-
-border:
-1px solid rgba(142,230,176,.25);
-
-color:var(--green);
-}
-
 .result-row{
-
 display:flex;
-
 justify-content:space-between;
-
 gap:20px;
-
 padding:11px 0;
-
-border-bottom:
-1px solid rgba(255,255,255,.055);
-
+border-bottom:1px solid rgba(255,255,255,.055);
 font-size:13px;
 }
 
-.result-row:last-child{
-
-border-bottom:0;
-}
-
 .result-label{
-
 color:#687385;
 }
 
 .result-value{
-
 color:#d5dbe4;
-
 text-align:right;
-
 word-break:break-word;
 }
 
-.result-tokenomics{
-
-margin-top:20px;
-
-padding-top:18px;
-
-border-top:
-1px solid rgba(255,255,255,.07);
-}
-
-.result-tokenomics h3{
-
-font-size:15px;
-
-margin-bottom:13px;
-}
-
 .token-line{
-
 display:flex;
-
 justify-content:space-between;
-
 padding:6px 0;
-
 color:#9ca6b7;
-
 font-size:13px;
 }
 
 .token-line strong{
-
 color:#fff;
 }
 
-.back{
-
-display:inline-flex;
-
-align-items:center;
-
-gap:7px;
-
+.project-link{
+display:inline-block;
 margin-top:20px;
-
-color:#8d96a7;
-
-font-size:13px;
-
-text-decoration:none;
-
-transition:.2s;
-}
-
-.back:hover{
-
 color:#fff;
-
-transform:translateX(-2px);
+text-decoration:none;
+font-size:13px;
 }
-
-/* =========================================================
-   FOOTER
-========================================================= */
 
 footer{
-
 text-align:center;
-
-padding:
-35px 0 50px;
-
+padding:35px 0 50px;
 color:#5f6a7c;
-
 font-size:12px;
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* RESPONSIVE */
 
 @media(min-width:700px){
 
 .grid{
-
-grid-template-columns:
-1fr 1fr;
+grid-template-columns:1fr 1fr;
 }
 
 .panel{
-
 padding:38px;
 }
 
@@ -1128,154 +483,83 @@ padding:38px;
 @media(max-width:600px){
 
 .nav{
-
 height:64px;
 }
 
 .logo{
-
 font-size:18px;
-
-letter-spacing:2px;
 }
 
 .logo-mark{
-
 width:32px;
 height:32px;
-
-border-radius:9px;
 }
 
-.back-home{
-
-padding:8px 10px;
-
+.back{
 font-size:12px;
-}
-
-.hero{
-
-padding-top:55px;
-}
-
-.hero h1{
-
-letter-spacing:-1.5px;
-}
-
-.steps{
-
-grid-template-columns:
-repeat(4,145px);
-
-overflow-x:auto;
-
-padding-bottom:4px;
+padding:8px 10px;
 }
 
 .panel{
-
 padding:22px 17px;
-
 border-radius:18px;
 }
 
-.panel-header{
-
-align-items:center;
-}
-
-.allocation{
-
-grid-template-columns:
-1fr 90px;
+.steps{
+grid-template-columns:repeat(4,145px);
+overflow-x:auto;
+padding-bottom:4px;
 }
 
 }
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+/* REDUCED MOTION */
 
 @media(prefers-reduced-motion:reduce){
 
 *{
-
-animation:none !important;
-
-transition:none !important;
-
-scroll-behavior:auto !important;
+animation:none!important;
+transition:none!important;
+scroll-behavior:auto!important;
 }
 
 }
 
 </style>
-
 </head>
 
 <body>
-
-<!-- =======================================================
-HEADER
-======================================================= -->
 
 <header>
 
 <div class="container nav">
 
-<a
-href="index.html"
-class="logo"
->
+<a href="index.html" class="logo">
 
-<div class="logo-mark">
-S
-</div>
+<div class="logo-mark">S</div>
 
-<div class="logo-text">
 SONATIVA
-</div>
 
 </a>
 
-<a
-href="index.html"
-class="back-home"
->
-
-← Back
-
+<a href="projects.html" class="back">
+← My Projects
 </a>
 
 </div>
 
 </header>
 
-
-<!-- =======================================================
-MAIN
-======================================================= -->
-
 <main class="container">
-
-
-<!-- HERO -->
 
 <section class="hero">
 
-<div class="hero-badge">
-
-<span class="badge-dot"></span>
-
+<div class="badge">
+<span class="dot"></span>
 Sonativa Web3 Infrastructure
-
 </div>
 
-<h1>
-Token Studio
-</h1>
+<h1>Token Studio</h1>
 
 <p>
 Design, structure and save your Web3 token project
@@ -1284,92 +568,49 @@ with a simple and powerful workspace.
 
 </section>
 
-
-<!-- =======================================================
-STEPS
-======================================================= -->
-
 <div class="steps">
 
 <div class="step active">
-
-<span class="step-number">
-01
-</span>
-
+<span class="step-number">01</span>
 Project
-
 </div>
 
 <div class="step active">
-
-<span class="step-number">
-02
-</span>
-
+<span class="step-number">02</span>
 Supply
-
 </div>
 
 <div class="step active">
-
-<span class="step-number">
-03
-</span>
-
+<span class="step-number">03</span>
 Tokenomics
-
 </div>
 
 <div class="step">
-
-<span class="step-number">
-04
-</span>
-
+<span class="step-number">04</span>
 Review
-
 </div>
 
 </div>
-
-
-<!-- =======================================================
-MAIN PANEL
-======================================================= -->
 
 <section class="panel">
 
-
-<div class="panel-header">
-
 <div class="panel-title">
 
-<div class="panel-icon">
-✦
-</div>
+<div class="panel-icon">✦</div>
 
 <div>
 
-<h2>
-Project Information
-</h2>
+<h2>Project Information</h2>
 
 <p>
-Start by defining the core information of your project.
+Define the core information of your token project.
 </p>
 
 </div>
 
 </div>
 
-</div>
-
-
-<!-- PROJECT INFORMATION -->
-
 <div class="grid">
-
 
 <div>
 
@@ -1380,11 +621,9 @@ Project Name
 <input
 id="projectName"
 placeholder="Example: Sonativa"
-autocomplete="off"
->
+autocomplete="off">
 
 </div>
-
 
 <div>
 
@@ -1395,11 +634,9 @@ Token Name
 <input
 id="tokenName"
 placeholder="Example: Sonativa Token"
-autocomplete="off"
->
+autocomplete="off">
 
 </div>
-
 
 <div>
 
@@ -1411,11 +648,9 @@ Token Symbol
 id="tokenSymbol"
 maxlength="20"
 placeholder="Example: SONA"
-autocomplete="off"
->
+autocomplete="off">
 
 </div>
-
 
 <div>
 
@@ -1425,18 +660,14 @@ Total Supply
 
 <input
 id="supply"
-type="number"
-min="1"
-step="1"
+type="text"
+inputmode="numeric"
 placeholder="100000000"
->
+autocomplete="off">
 
 </div>
 
 </div>
-
-
-<!-- NETWORK -->
 
 <label for="network">
 Network
@@ -1462,9 +693,6 @@ BNB Chain
 
 </select>
 
-
-<!-- DESCRIPTION -->
-
 <label for="description">
 Project Description
 </label>
@@ -1474,21 +702,13 @@ id="description"
 placeholder="Describe your project, its purpose and what makes it different..."
 ></textarea>
 
-
-<!-- =====================================================
-TOKENOMICS
-===================================================== -->
-
 <div class="tokenomics">
-
 
 <div class="tokenomics-header">
 
 <div>
 
-<h2>
-Tokenomics
-</h2>
+<h2>Tokenomics</h2>
 
 <p>
 Define how your total supply will be distributed.
@@ -1498,348 +718,202 @@ Define how your total supply will be distributed.
 
 </div>
 
-
-<!-- TEAM -->
-
-<label for="team">
-Team
-</label>
+<label>Team</label>
 
 <div class="allocation">
 
 <input
 class="allocation-name"
 value="Team"
-disabled
->
+disabled>
 
 <input
-class="allocation-percent percent"
+class="percent"
 id="team"
 type="number"
 min="0"
 max="100"
-value="5"
->
+value="5">
 
 </div>
 
-
-<!-- TREASURY -->
-
-<label for="treasury">
-Treasury
-</label>
+<label>Treasury</label>
 
 <div class="allocation">
 
 <input
 class="allocation-name"
 value="Treasury"
-disabled
->
+disabled>
 
 <input
-class="allocation-percent percent"
+class="percent"
 id="treasury"
 type="number"
 min="0"
 max="100"
-value="10"
->
+value="10">
 
 </div>
 
-
-<!-- COMMUNITY -->
-
-<label for="community">
-Community
-</label>
+<label>Community</label>
 
 <div class="allocation">
 
 <input
 class="allocation-name"
 value="Community"
-disabled
->
+disabled>
 
 <input
-class="allocation-percent percent"
+class="percent"
 id="community"
 type="number"
 min="0"
 max="100"
-value="20"
->
+value="20">
 
 </div>
 
-
-<!-- PUBLIC SALE -->
-
-<label for="sale">
-Public Sale
-</label>
+<label>Public Sale</label>
 
 <div class="allocation">
 
 <input
 class="allocation-name"
 value="Public Sale"
-disabled
->
+disabled>
 
 <input
-class="allocation-percent percent"
+class="percent"
 id="sale"
 type="number"
 min="0"
 max="100"
-value="25"
->
+value="25">
 
 </div>
 
-
-<!-- LIQUIDITY -->
-
-<label for="liquidity">
-Liquidity
-</label>
+<label>Liquidity</label>
 
 <div class="allocation">
 
 <input
 class="allocation-name"
 value="Liquidity"
-disabled
->
+disabled>
 
 <input
-class="allocation-percent percent"
+class="percent"
 id="liquidity"
 type="number"
 min="0"
 max="100"
-value="10"
->
+value="10">
 
 </div>
 
-
-<!-- BURN -->
-
-<label for="burn">
-Burn Reserve
-</label>
+<label>Burn Reserve</label>
 
 <div class="allocation">
 
 <input
 class="allocation-name"
 value="Burn Reserve"
-disabled
->
+disabled>
 
 <input
-class="allocation-percent percent"
+class="percent"
 id="burn"
 type="number"
 min="0"
 max="100"
-value="30"
->
+value="30">
 
 </div>
 
+<div class="total">
 
-<!-- TOTAL -->
-
-<div class="total-box">
-
-<span class="total-label">
-Total Allocation
-</span>
+<span>Total Allocation</span>
 
 <strong
 id="allocationTotal"
-class="total-number total-ok"
->
+class="total-number total-ok">
 100%
 </strong>
 
 </div>
 
-
 </div>
-
-
-<!-- =====================================================
-BUTTON
-===================================================== -->
-
-<div class="generate-wrap">
 
 <button
 id="generateButton"
-onclick="generateProject()"
->
+onclick="generateProject()">
 
 Generate & Save Project
 
 </button>
 
-</div>
+<div id="message" class="message"></div>
 
-
-<!-- MESSAGE -->
-
-<div
-id="message"
-class="message"
-></div>
-
-
-<!-- =====================================================
-RESULT
-===================================================== -->
-
-<div
-id="result"
-class="result"
->
-
-
-<div class="success-title">
-
-<div class="success-icon">
-✓
-</div>
-
-<div>
-Project Saved Successfully
-</div>
-
-</div>
-
-
-<div class="result-row">
-
-<span class="result-label">
-Project
-</span>
-
-<span
-class="result-value"
-id="rProject"
-></span>
-
-</div>
-
-
-<div class="result-row">
-
-<span class="result-label">
-Token
-</span>
-
-<span
-class="result-value"
-id="rToken"
-></span>
-
-</div>
-
-
-<div class="result-row">
-
-<span class="result-label">
-Symbol
-</span>
-
-<span
-class="result-value"
-id="rSymbol"
-></span>
-
-</div>
-
-
-<div class="result-row">
-
-<span class="result-label">
-Total Supply
-</span>
-
-<span
-class="result-value"
-id="rSupply"
-></span>
-
-</div>
-
-
-<div class="result-row">
-
-<span class="result-label">
-Network
-</span>
-
-<span
-class="result-value"
-id="rNetwork"
-></span>
-
-</div>
-
-
-<div class="result-tokenomics">
+<div id="result" class="result">
 
 <h3>
+✓ Project Saved Successfully
+</h3>
+
+<div class="result-row">
+<span class="result-label">Project</span>
+<span class="result-value" id="rProject"></span>
+</div>
+
+<div class="result-row">
+<span class="result-label">Token</span>
+<span class="result-value" id="rToken"></span>
+</div>
+
+<div class="result-row">
+<span class="result-label">Symbol</span>
+<span class="result-value" id="rSymbol"></span>
+</div>
+
+<div class="result-row">
+<span class="result-label">Total Supply</span>
+<span class="result-value" id="rSupply"></span>
+</div>
+
+<div class="result-row">
+<span class="result-label">Network</span>
+<span class="result-value" id="rNetwork"></span>
+</div>
+
+<div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07)">
+
+<h3 style="font-size:15px;margin-bottom:13px">
 Tokenomics
 </h3>
 
-<div
-id="rTokenomics"
-></div>
+<div id="rTokenomics"></div>
 
 </div>
 
-
 <a
-class="back"
 href="projects.html"
->
+class="project-link">
 
 ← View My Projects
 
 </a>
 
-
 </div>
-
 
 </section>
 
 </main>
 
-
-<!-- =======================================================
-FOOTER
-======================================================= -->
-
 <footer>
-
 © 2026 Sonativa — Token Studio
-
 </footer>
-
-
-<!-- =======================================================
-SUPABASE
-======================================================= -->
 
 <script type="module">
 
@@ -1868,10 +942,13 @@ SUPABASE_PUBLISHABLE_KEY
 
 
 /* =========================================================
-MESSAGE
+HELPERS
 ========================================================= */
 
-function showMessage(text){
+function showMessage(
+text,
+type=""
+){
 
 const message =
 document.getElementById("message");
@@ -1879,20 +956,18 @@ document.getElementById("message");
 message.textContent =
 text;
 
+message.className =
+"message " + type;
+
 message.style.display =
 "block";
 
 }
 
 
-/* =========================================================
-ESCAPE HTML
-========================================================= */
-
 function escapeHTML(value){
 
 return String(value ?? "")
-
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -1903,101 +978,95 @@ return String(value ?? "")
 
 
 /* =========================================================
-TOKENOMICS IDS
+SUPPLY
+========================================================= */
+
+function getSupply(){
+
+const value =
+document.getElementById("supply").value.trim();
+
+if(!/^\d+$/.test(value)){
+return null;
+}
+
+try{
+
+return BigInt(value);
+
+}catch{
+
+return null;
+
+}
+
+}
+
+
+/* =========================================================
+TOKENOMICS
 ========================================================= */
 
 const allocationIds = [
-
 "team",
 "treasury",
 "community",
 "sale",
 "liquidity",
 "burn"
-
 ];
 
-
-/* =========================================================
-CALCULATE TOKENOMICS
-========================================================= */
 
 function calculateAllocation(){
 
 let total = 0;
 
 allocationIds.forEach(
-function(id){
-
-const input =
-document.getElementById(id);
+id => {
 
 let value =
-Number(input.value);
+Number(
+document.getElementById(id).value
+);
 
-if(
-!Number.isFinite(value) ||
-value < 0
-){
-
+if(!Number.isFinite(value) || value < 0){
 value = 0;
-
 }
 
 if(value > 100){
-
 value = 100;
-
 }
 
 total += value;
 
-}
-);
+});
 
-
-const display =
+const element =
 document.getElementById(
 "allocationTotal"
 );
 
-
-display.textContent =
+element.textContent =
 total + "%";
 
-
-display.classList.remove(
+element.classList.remove(
 "total-ok",
 "total-error"
 );
 
-
-if(total === 100){
-
-display.classList.add(
-"total-ok"
+element.classList.add(
+total === 100
+? "total-ok"
+: "total-error"
 );
-
-}else{
-
-display.classList.add(
-"total-error"
-);
-
-}
-
 
 return total;
 
 }
 
 
-/* =========================================================
-LISTEN TO TOKENOMICS
-========================================================= */
-
 allocationIds.forEach(
-function(id){
+id => {
 
 document
 .getElementById(id)
@@ -2009,7 +1078,17 @@ calculateAllocation
 });
 
 
-calculateAllocation();
+document
+.getElementById("supply")
+.addEventListener(
+"input",
+function(){
+
+this.value =
+this.value.replace(/[^\d]/g,"");
+
+}
+);
 
 
 /* =========================================================
@@ -2024,18 +1103,15 @@ document.getElementById(
 "generateButton"
 );
 
-
 const project =
 document.getElementById(
 "projectName"
 ).value.trim();
 
-
 const token =
 document.getElementById(
 "tokenName"
 ).value.trim();
-
 
 const symbol =
 document.getElementById(
@@ -2044,18 +1120,15 @@ document.getElementById(
 .trim()
 .toUpperCase();
 
-
-const supply =
+const supplyText =
 document.getElementById(
 "supply"
-).value;
-
+).value.trim();
 
 const network =
 document.getElementById(
 "network"
 ).value;
-
 
 const description =
 document.getElementById(
@@ -2063,19 +1136,18 @@ document.getElementById(
 ).value.trim();
 
 
-/* =====================================================
-VALIDATION
-===================================================== */
+/* VALIDATION */
 
 if(
 !project ||
 !token ||
 !symbol ||
-!supply
+!supplyText
 ){
 
 showMessage(
-"Please complete all required fields."
+"Please complete all required fields.",
+"error"
 );
 
 return;
@@ -2084,14 +1156,30 @@ return;
 
 
 if(
-!Number.isFinite(
-Number(supply)
-) ||
-Number(supply) <= 0
+!/^[A-Z0-9_]+$/i.test(symbol)
 ){
 
 showMessage(
-"Total supply must be greater than 0."
+"Token Symbol can contain only letters, numbers and underscore.",
+"error"
+);
+
+return;
+
+}
+
+
+const supply =
+getSupply();
+
+if(
+supply === null ||
+supply <= 0n
+){
+
+showMessage(
+"Total Supply must be a positive whole number.",
+"error"
 );
 
 return;
@@ -2102,11 +1190,13 @@ return;
 const allocationTotal =
 calculateAllocation();
 
-
-if(allocationTotal !== 100){
+if(
+allocationTotal !== 100
+){
 
 showMessage(
-"Tokenomics allocation must equal exactly 100%."
+"Tokenomics allocation must equal exactly 100%.",
+"error"
 );
 
 return;
@@ -2114,9 +1204,7 @@ return;
 }
 
 
-/* =====================================================
-LOADING
-===================================================== */
+/* LOGIN */
 
 button.disabled =
 true;
@@ -2124,10 +1212,6 @@ true;
 button.textContent =
 "Saving Project...";
 
-
-/* =====================================================
-GET USER
-===================================================== */
 
 const {
 data:{
@@ -2144,7 +1228,8 @@ userError ||
 ){
 
 showMessage(
-"You must login before creating a project."
+"You must login before creating a project.",
+"error"
 );
 
 button.disabled =
@@ -2158,48 +1243,38 @@ return;
 }
 
 
-/* =====================================================
-TOKENOMICS
-===================================================== */
+/* TOKENOMICS */
 
 const tokenomics = {
 
-team:
-Number(
+team:Number(
 document.getElementById("team").value
 ),
 
-treasury:
-Number(
+treasury:Number(
 document.getElementById("treasury").value
 ),
 
-community:
-Number(
+community:Number(
 document.getElementById("community").value
 ),
 
-public_sale:
-Number(
+public_sale:Number(
 document.getElementById("sale").value
 ),
 
-liquidity:
-Number(
+liquidity:Number(
 document.getElementById("liquidity").value
 ),
 
-burn_reserve:
-Number(
+burn_reserve:Number(
 document.getElementById("burn").value
 )
 
 };
 
 
-/* =====================================================
-DESCRIPTION
-===================================================== */
+/* DESCRIPTION */
 
 const finalDescription =
 
@@ -2214,56 +1289,30 @@ description ||
 
 +
 
-"Team: "
-+
-tokenomics.team
-+
-"%\n"
+`Team: ${tokenomics.team}%\n`
 
 +
 
-"Treasury: "
-+
-tokenomics.treasury
-+
-"%\n"
+`Treasury: ${tokenomics.treasury}%\n`
 
 +
 
-"Community: "
-+
-tokenomics.community
-+
-"%\n"
+`Community: ${tokenomics.community}%\n`
 
 +
 
-"Public Sale: "
-+
-tokenomics.public_sale
-+
-"%\n"
+`Public Sale: ${tokenomics.public_sale}%\n`
 
 +
 
-"Liquidity: "
-+
-tokenomics.liquidity
-+
-"%\n"
+`Liquidity: ${tokenomics.liquidity}%\n`
 
 +
 
-"Burn Reserve: "
-+
-tokenomics.burn_reserve
-+
-"%";
+`Burn Reserve: ${tokenomics.burn_reserve}%`;
 
 
-/* =====================================================
-INSERT
-===================================================== */
+/* DATABASE */
 
 const {
 data,
@@ -2283,7 +1332,7 @@ token_name:token,
 
 token_symbol:symbol,
 
-total_supply:Number(supply),
+total_supply:supply.toString(),
 
 network:network,
 
@@ -2296,21 +1345,16 @@ description:finalDescription
 .single();
 
 
-/* =====================================================
-ERROR
-===================================================== */
-
 if(error){
 
 console.error(
-"Project save error:",
 error
 );
 
 showMessage(
-"Could not save project: "
-+
-error.message
+"Could not save project: " +
+error.message,
+"error"
 );
 
 button.disabled =
@@ -2324,55 +1368,33 @@ return;
 }
 
 
-/* =====================================================
-SUCCESS
-===================================================== */
-
-console.log(
-"Project saved:",
-data
-);
-
+/* RESULT */
 
 document.getElementById(
 "rProject"
-).innerHTML =
-
-escapeHTML(project);
-
+).textContent =
+project;
 
 document.getElementById(
 "rToken"
-).innerHTML =
-
-escapeHTML(token);
-
+).textContent =
+token;
 
 document.getElementById(
 "rSymbol"
-).innerHTML =
-
-escapeHTML(symbol);
-
+).textContent =
+symbol;
 
 document.getElementById(
 "rSupply"
-).innerHTML =
-
-Number(supply)
-.toLocaleString();
-
+).textContent =
+supply.toLocaleString();
 
 document.getElementById(
 "rNetwork"
-).innerHTML =
+).textContent =
+network;
 
-escapeHTML(network);
-
-
-/* =====================================================
-TOKENOMICS RESULT
-===================================================== */
 
 document.getElementById(
 "rTokenomics"
@@ -2411,18 +1433,16 @@ document.getElementById(
 `;
 
 
-/* SHOW RESULT */
-
 document.getElementById(
 "result"
 ).style.display =
 "block";
 
 
-document.getElementById(
-"message"
-).style.display =
-"none";
+showMessage(
+"Project saved successfully.",
+"success"
+);
 
 
 button.disabled =
@@ -2432,11 +1452,6 @@ button.textContent =
 "Project Saved ✓";
 
 
-/* SCROLL */
-
-setTimeout(
-function(){
-
 document
 .getElementById("result")
 .scrollIntoView({
@@ -2444,15 +1459,11 @@ behavior:"smooth",
 block:"center"
 });
 
-},
-100
-);
-
 };
 
 
 /* =========================================================
-CHECK LOGIN
+AUTH CHECK
 ========================================================= */
 
 async function checkLogin(){
@@ -2464,44 +1475,39 @@ user
 } =
 await supabase.auth.getUser();
 
+const button =
+document.getElementById(
+"generateButton"
+);
 
 if(!user){
 
-showMessage(
-"⚠️ You are not logged in. Please return to Sonativa and login first."
-);
-
-document.getElementById(
-"generateButton"
-).disabled =
+button.disabled =
 true;
+
+showMessage(
+"⚠️ Please login to Sonativa before creating a project.",
+"error"
+);
 
 return;
 
 }
 
-
-/* USER IS LOGGED IN */
-
-document.getElementById(
-"generateButton"
-).disabled =
+button.disabled =
 false;
 
-document.getElementById(
-"message"
-).style.display =
+const message =
+document.getElementById("message");
+
+message.style.display =
 "none";
 
 }
 
 
-/* =========================================================
-AUTH STATE
-========================================================= */
-
 supabase.auth.onAuthStateChange(
-function(){
+() => {
 
 checkLogin();
 
@@ -2513,10 +1519,11 @@ checkLogin();
 INITIAL
 ========================================================= */
 
+calculateAllocation();
+
 checkLogin();
 
 </script>
 
 </body>
-
 </html>
