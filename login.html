@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Sonativa — Founder Sign In</title>
+<title>Sonativa — Founder Access</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Arial,sans-serif;background:#04060b;color:#fff}
@@ -22,14 +22,17 @@ button:disabled{opacity:.6;cursor:not-allowed}
 </head>
 
 <body>
-
 <div class="card">
 
 <div class="logo">SONATIVA</div>
 
-<div class="sub">Secure access to your Web3 workspace</div>
+<div class="sub">
+Secure access to your Web3 workspace
+</div>
 
-<div class="badge">🔒 Founder Access</div>
+<div class="badge">
+🔒 Founder Access
+</div>
 
 <button id="githubBtn">
 Continue with GitHub
@@ -68,15 +71,16 @@ message.className=type;
 
 async function verifyFounder(){
 
-const{data,error}=await supabase
-.rpc("is_sonativa_founder");
+const{data,error}=await supabase.rpc(
+"is_sonativa_founder"
+);
 
 if(error){
 
 console.error("Founder verification error:",error);
 
 show(
-"Founder verification failed. Please try again.",
+"Security Verification Failed: "+error.message,
 "error"
 );
 
@@ -84,7 +88,6 @@ button.disabled=false;
 button.textContent="Continue with GitHub";
 
 return;
-
 }
 
 if(data===true){
@@ -94,16 +97,15 @@ show(
 "success"
 );
 
-setTimeout(()=>{
+setTimeout(function(){
 window.location.href="founder.html";
-},700);
+},800);
 
 return;
-
 }
 
 show(
-"Your account is signed in, but Founder access was not found.",
+"Security Verification Failed: Sonativa could not verify your founder role from the database.",
 "error"
 );
 
@@ -112,7 +114,9 @@ button.textContent="Continue with GitHub";
 
 }
 
-button.addEventListener("click",async()=>{
+button.addEventListener(
+"click",
+async function(){
 
 button.disabled=true;
 button.textContent="Connecting to GitHub...";
@@ -146,15 +150,10 @@ button.textContent="Continue with GitHub";
 });
 
 supabase.auth.onAuthStateChange(
-async(event,session)=>{
+async function(event,session){
 
-if(
-event==="SIGNED_IN"&&
-session
-){
-
+if(event==="SIGNED_IN"&&session){
 await verifyFounder();
-
 }
 
 });
@@ -163,13 +162,8 @@ async function start(){
 
 const{data}=await supabase.auth.getSession();
 
-if(
-data&&
-data.session
-){
-
+if(data&&data.session){
 await verifyFounder();
-
 }
 
 }
@@ -177,6 +171,5 @@ await verifyFounder();
 start();
 
 </script>
-
 </body>
 </html>
