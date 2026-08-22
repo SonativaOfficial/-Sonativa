@@ -1,2456 +1,1303 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
-
-<meta
-name="theme-color"
-content="#06080d"
->
-
-<meta
-name="description"
-content="Sonativa — Build, launch and grow in Web3."
->
-
-<meta
-name="robots"
-content="index,follow"
->
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Sonativa — Web3 Platform</title>
 
 <style>
-
-/* =========================================================
-   SONATIVA — GLOBAL
-========================================================= */
-
-:root{
-    --bg:#040509;
-    --bg2:#080b12;
-    --panel:#0c1017;
-    --panel2:#10151e;
-
-    --border:#252d3b;
-    --border2:#303847;
-
-    --text:#ffffff;
-    --muted:#818b9c;
-    --muted2:#697386;
-
-    --success:#8ee6b0;
-    --danger:#ff8f8f;
-
-    --radius:16px;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+:root{
+  --bg:#05070c;
+  --panel:rgba(12,17,27,.82);
+  --panel2:rgba(16,22,34,.9);
+  --border:#202b3d;
+  --border2:#2d394d;
+  --text:#f5f7fb;
+  --muted:#7f8ba0;
+  --muted2:#aab4c4;
+  --accent:#ffffff;
+  --success:#62e39a;
+  --danger:#ff7373;
+  --sidebar:250px;
 }
 
 html{
-    scroll-behavior:smooth;
-    scroll-padding-top:90px;
+  scroll-behavior:smooth;
 }
 
 body{
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-    background:
-        radial-gradient(
-            circle at 50% -15%,
-            #1b2942 0%,
-            #080b12 38%,
-            #040509 75%
-        );
-
-    color:var(--text);
-    line-height:1.6;
-    min-height:100vh;
-    overflow-x:hidden;
+  background:#04060b;
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-body.modal-open{
-    overflow:hidden;
+/* ==============================
+   DIGITAL BACKGROUND
+============================== */
+
+.background{
+  position:fixed;
+  inset:0;
+  z-index:-10;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at 65% -10%,
+      rgba(55,78,115,.34),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(31,55,91,.22),
+      transparent 35%
+    ),
+    #04060b;
 }
 
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:-2;
+.background::before{
+  content:"";
+  position:absolute;
+  inset:0;
 
-    background:
-        linear-gradient(
-            rgba(255,255,255,.018) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.018) 1px,
-            transparent 1px
-        );
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px
+    );
 
-    background-size:50px 50px;
+  background-size:50px 50px;
 
-    mask-image:
-        linear-gradient(
-            to bottom,
-            black,
-            transparent 85%
-        );
+  mask-image:
+    radial-gradient(
+      circle at center,
+      black,
+      transparent 80%
+    );
 }
 
-body::after{
-    content:"";
-    position:fixed;
+.background::after{
+  content:"";
+  position:absolute;
+  width:600px;
+  height:600px;
+  right:-220px;
+  top:100px;
 
-    width:600px;
-    height:600px;
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:50%;
 
-    top:-300px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(120,150,210,.13),
-            transparent 65%
-        );
-
-    filter:blur(20px);
-
-    pointer-events:none;
-    z-index:-1;
-
-    animation:
-        heroGlow 7s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 0 80px rgba(255,255,255,.015),
+    0 0 0 160px rgba(255,255,255,.01);
 }
 
-@keyframes heroGlow{
+/* ==============================
+   APP
+============================== */
 
-    from{
-        opacity:.5;
-        transform:
-            translateX(-50%)
-            scale(.9);
-    }
-
-    to{
-        opacity:1;
-        transform:
-            translateX(-50%)
-            scale(1.15);
-    }
+.app{
+  min-height:100vh;
 }
 
-a{
-    color:inherit;
-    text-decoration:none;
+/* ==============================
+   SIDEBAR
+============================== */
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:var(--sidebar);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8,12,20,.96),
+      rgba(5,8,14,.94)
+    );
+
+  border-right:1px solid var(--border);
+
+  display:flex;
+  flex-direction:column;
+
+  z-index:100;
+
+  backdrop-filter:blur(18px);
 }
 
-button,
-input,
-select{
-    font:inherit;
+.brand{
+  height:76px;
+
+  display:flex;
+  align-items:center;
+
+  padding:0 24px;
+
+  border-bottom:1px solid var(--border);
 }
 
-button{
-    cursor:pointer;
+.brand-logo{
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:4px;
 }
 
-button:disabled{
-    cursor:not-allowed;
-    opacity:.55;
-}
+.brand-version{
+  margin-left:8px;
+  padding:3px 7px;
 
-.container{
-    width:92%;
-    max-width:1200px;
-    margin:auto;
-}
+  border:1px solid var(--border2);
+  border-radius:5px;
 
-/* =========================================================
-   HEADER
-========================================================= */
-
-header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-
-    background:
-        rgba(5,7,12,.76);
-
-    backdrop-filter:blur(22px);
-    -webkit-backdrop-filter:blur(22px);
-
-    border-bottom:
-        1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:1px;
 }
 
 .nav{
-    min-height:76px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:20px;
+  padding:18px 12px;
+  overflow-y:auto;
 }
 
-/* =========================================================
-   LOGO
-========================================================= */
+.nav-section{
+  margin:18px 12px 8px;
 
-.logo-link{
-    display:flex;
-    align-items:center;
-    gap:11px;
-
-    flex-shrink:0;
+  color:#596579;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
 }
 
-.logo-mark{
-    width:38px;
-    height:38px;
+.nav-item{
+  width:100%;
 
-    position:relative;
+  display:flex;
+  align-items:center;
+  gap:12px;
 
-    border-radius:12px;
+  padding:11px 13px;
+  margin:3px 0;
 
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #9aa6b9
-        );
+  color:var(--muted2);
+  text-decoration:none;
 
-    box-shadow:
-        0 0 25px rgba(255,255,255,.13),
-        inset 0 0 15px rgba(0,0,0,.12);
+  border:1px solid transparent;
+  border-radius:9px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  font-size:13px;
 
-    overflow:hidden;
-
-    transition:.3s ease;
+  transition:.2s;
 }
 
-.logo-mark::before{
-    content:"";
-
-    position:absolute;
-
-    width:21px;
-    height:21px;
-
-    border:
-        3px solid
-        #080b11;
-
-    border-radius:50%;
+.nav-item:hover{
+  color:white;
+  background:rgba(255,255,255,.045);
+  border-color:#202a3a;
 }
 
-.logo-mark::after{
-    content:"";
-
-    position:absolute;
-
-    width:7px;
-    height:7px;
-
-    background:#080b11;
-
-    border-radius:50%;
+.nav-item.active{
+  color:white;
+  background:#151c29;
+  border-color:#303b4f;
 }
 
-.logo-text{
-    font-size:22px;
-    font-weight:900;
-
-    letter-spacing:3px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #fff,
-            #9ca8ba
-        );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+.nav-icon{
+  width:18px;
+  text-align:center;
+  opacity:.85;
 }
 
-.logo-link:hover .logo-mark{
-    transform:
-        rotate(-8deg)
-        scale(1.05);
+.nav-badge{
+  margin-left:auto;
+
+  padding:2px 6px;
+
+  border-radius:5px;
+
+  background:#202a39;
+  color:#9ba8bb;
+
+  font-size:9px;
 }
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
+.sidebar-bottom{
+  margin-top:auto;
+  padding:14px 12px;
 
-.nav-links{
-    display:none;
-
-    gap:28px;
-
-    color:#8e98aa;
-
-    font-size:14px;
+  border-top:1px solid var(--border);
 }
 
-.nav-links a{
-    position:relative;
-    transition:.25s;
+.account{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:10px;
+
+  border-radius:10px;
+
+  background:rgba(255,255,255,.025);
 }
 
-.nav-links a::after{
-    content:"";
+.avatar{
+  width:34px;
+  height:34px;
 
-    position:absolute;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-    left:0;
-    bottom:-8px;
+  border-radius:9px;
 
-    width:0;
-    height:1px;
+  background:#1a2230;
+  border:1px solid #303b4d;
 
-    background:#fff;
-
-    transition:.25s;
+  font-size:13px;
+  font-weight:bold;
 }
 
-.nav-links a:hover{
-    color:#fff;
+.account-info{
+  min-width:0;
 }
 
-.nav-links a:hover::after{
-    width:100%;
+.account-name{
+  font-size:12px;
+  font-weight:700;
 }
 
-.nav-actions{
-    display:flex;
-    align-items:center;
-    gap:8px;
+.account-status{
+  margin-top:2px;
+
+  color:var(--success);
+  font-size:10px;
+}
+
+/* ==============================
+   MAIN
+============================== */
+
+.main{
+  margin-left:var(--sidebar);
+  min-height:100vh;
+}
+
+/* ==============================
+   TOPBAR
+============================== */
+
+.topbar{
+  height:76px;
+
+  position:sticky;
+  top:0;
+  z-index:50;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+
+  padding:0 30px;
+
+  background:rgba(5,8,14,.78);
+  border-bottom:1px solid var(--border);
+
+  backdrop-filter:blur(18px);
+}
+
+.page-title{
+  font-size:15px;
+  font-weight:700;
+}
+
+.page-subtitle{
+  margin-top:2px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.icon-button{
+  width:38px;
+  height:38px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#0d131e;
+  border:1px solid var(--border);
+  border-radius:9px;
+
+  color:#b6c0cf;
+
+  cursor:pointer;
+}
+
+.icon-button:hover{
+  background:#151d2a;
+  border-color:var(--border2);
+  color:white;
 }
 
 .lang{
-    background:#0c1119;
-    border:1px solid #293140;
+  height:38px;
 
-    color:#fff;
+  padding:0 11px;
 
-    padding:9px 10px;
+  color:#b6c0cf;
+  background:#0d131e;
 
-    border-radius:8px;
+  border:1px solid var(--border);
+  border-radius:9px;
 
-    outline:none;
+  outline:none;
 }
 
-.lang:focus{
-    border-color:#687385;
+/* ==============================
+   CONTENT
+============================== */
+
+.content{
+  width:min(1400px,94%);
+  margin:auto;
+  padding:35px 0 70px;
 }
 
-.btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
+/* ==============================
+   WELCOME
+============================== */
 
-    min-height:44px;
+.welcome{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
 
-    padding:
-        11px 20px;
-
-    border-radius:10px;
-
-    font-weight:bold;
-
-    border:
-        1px solid
-        #303847;
-
-    transition:
-        transform .25s,
-        border-color .25s,
-        box-shadow .25s,
-        background .25s;
+  margin-bottom:28px;
 }
 
-.btn:hover{
-    transform:translateY(-2px);
-
-    border-color:#667287;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0,0,0,.25);
+.welcome h1{
+  font-size:31px;
+  letter-spacing:-.8px;
 }
 
-.primary{
-    background:#fff;
-    color:#06080d;
+.welcome p{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:13px;
 }
 
-.secondary{
-    background:#10151e;
-    color:#fff;
+.primary-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  padding:12px 17px;
+
+  border-radius:9px;
+
+  background:white;
+  color:#05070c;
+
+  border:1px solid white;
+
+  font-weight:800;
+  font-size:12px;
+
+  text-decoration:none;
+
+  cursor:pointer;
 }
 
-.wallet{
-    background:#fff;
-    color:#07090f;
-
-    border:0;
-
-    padding:
-        10px 15px;
-
-    border-radius:9px;
-
-    font-weight:bold;
-
-    transition:.25s;
+.primary-button:hover{
+  background:#e9edf3;
 }
 
-.wallet:hover{
-    transform:translateY(-2px);
+.secondary-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 
-    box-shadow:
-        0 8px 25px
-        rgba(255,255,255,.12);
+  padding:11px 15px;
+
+  border-radius:9px;
+
+  background:#101722;
+  color:white;
+
+  border:1px solid var(--border2);
+
+  font-size:12px;
+  font-weight:700;
+
+  text-decoration:none;
 }
 
-.owner-button{
-    display:none;
+/* ==============================
+   STATS
+============================== */
 
-    background:
-        linear-gradient(
-            135deg,
-            #fff,
-            #d9dee8
-        );
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
 
-    color:#06080d;
-
-    border:0;
-
-    padding:
-        10px 15px;
-
-    border-radius:9px;
-
-    font-weight:bold;
-
-    box-shadow:
-        0 0 25px
-        rgba(255,255,255,.08);
+  margin-bottom:22px;
 }
 
-.menu-button{
-    display:flex;
+.stat-card{
+  padding:20px;
 
-    align-items:center;
-    justify-content:center;
+  background:var(--panel);
+  border:1px solid var(--border);
 
-    width:42px;
-    height:42px;
+  border-radius:14px;
 
-    border:
-        1px solid
-        #303847;
-
-    border-radius:9px;
-
-    background:#10151e;
-    color:#fff;
-
-    font-size:21px;
+  backdrop-filter:blur(12px);
 }
 
-/* =========================================================
-   MOBILE NAV
-========================================================= */
-
-.mobile-menu{
-    display:none;
-
-    position:absolute;
-
-    top:76px;
-    left:0;
-    right:0;
-
-    background:
-        rgba(7,10,16,.97);
-
-    border-bottom:
-        1px solid
-        #252d3b;
-
-    padding:18px;
-
-    box-shadow:
-        0 20px 40px
-        rgba(0,0,0,.35);
+.stat-label{
+  color:var(--muted);
+  font-size:11px;
 }
 
-.mobile-menu.open{
-    display:block;
+.stat-value{
+  margin-top:8px;
+
+  font-size:24px;
+  font-weight:800;
 }
 
-.mobile-menu a{
-    display:block;
-
-    padding:13px;
-
-    color:#aeb7c6;
-
-    border-radius:9px;
+.stat-small{
+  margin-top:6px;
+  color:#68758a;
+  font-size:10px;
 }
 
-.mobile-menu a:hover{
-    background:#10151e;
-    color:#fff;
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-    text-align:center;
-
-    padding:
-        125px 0
-        85px;
-
-    position:relative;
-}
-
-.badge{
-    display:inline-flex;
-
-    align-items:center;
-    gap:8px;
-
-    border:
-        1px solid
-        #293140;
-
-    background:
-        rgba(13,18,27,.72);
-
-    color:#aab3c2;
-
-    padding:
-        8px 15px;
-
-    border-radius:50px;
-
-    font-size:13px;
-
-    margin-bottom:28px;
-
-    box-shadow:
-        0 0 30px
-        rgba(255,255,255,.025);
-
-    animation:
-        fadeUp .8s ease both;
-}
-
-.badge::before{
-    content:"";
-
-    width:7px;
-    height:7px;
-
-    border-radius:50%;
-
-    background:var(--success);
-
-    box-shadow:
-        0 0 12px
-        rgba(142,230,176,.7);
-
-    animation:
-        pulse 2s infinite;
-}
-
-@keyframes pulse{
-
-    0%,100%{
-        opacity:1;
-        transform:scale(1);
-    }
-
-    50%{
-        opacity:.5;
-        transform:scale(.7);
-    }
-}
-
-.hero h1{
-    font-size:
-        clamp(
-            48px,
-            9vw,
-            88px
-        );
-
-    line-height:.98;
-
-    letter-spacing:-5px;
-
-    margin-bottom:27px;
-
-    animation:
-        fadeUp .9s ease .1s both;
-}
-
-.hero h1 span{
-    background:
-        linear-gradient(
-            90deg,
-            #fff,
-            #8895a9
-        );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.hero p{
-    max-width:720px;
-
-    margin:auto;
-
-    color:#8b95a6;
-
-    font-size:18px;
-
-    animation:
-        fadeUp .9s ease .2s both;
-}
-
-.hero-buttons{
-    display:flex;
-
-    justify-content:center;
-
-    gap:12px;
-
-    flex-wrap:wrap;
-
-    margin-top:36px;
-
-    animation:
-        fadeUp .9s ease .3s both;
-}
-
-.metrics{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:10px;
-
-    max-width:700px;
-
-    margin:
-        58px auto 0;
-
-    animation:
-        fadeUp .9s ease .4s both;
-}
-
-.metric{
-    padding:
-        20px 10px;
-
-    border:
-        1px solid
-        #202733;
-
-    border-radius:12px;
-
-    background:
-        rgba(12,16,23,.72);
-
-    transition:.3s;
-}
-
-.metric:hover{
-    transform:translateY(-5px);
-
-    border-color:#3d4759;
-
-    background:
-        rgba(20,25,35,.85);
-}
-
-.metric strong{
-    display:block;
-
-    font-size:23px;
-}
-
-.metric span{
-    font-size:12px;
-    color:#707b8e;
-}
-
-/* =========================================================
-   ANIMATION
-========================================================= */
-
-@keyframes fadeUp{
-
-    from{
-        opacity:0;
-        transform:translateY(25px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-section{
-    padding:90px 0;
-}
-
-.section-head{
-    text-align:center;
-    margin-bottom:45px;
-}
-
-.section-head h2{
-    font-size:38px;
-    margin-bottom:10px;
-    letter-spacing:-1px;
-}
-
-.section-head p{
-    color:#808a9b;
-}
-
-/* =========================================================
-   PRODUCTS
-========================================================= */
-
-.products{
-    display:grid;
-
-    grid-template-columns:
-        1fr;
-
-    gap:16px;
+/* ==============================
+   GRID
+============================== */
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:1.45fr 1fr;
+  gap:18px;
 }
 
 .card{
-    padding:27px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
 
-    background:
-        linear-gradient(
-            145deg,
-            rgba(15,20,29,.92),
-            rgba(9,12,18,.92)
-        );
+  padding:22px;
 
-    border:
-        1px solid
-        #222a38;
+  backdrop-filter:blur(14px);
 
-    border-radius:16px;
-
-    transition:
-        transform .3s,
-        border-color .3s,
-        box-shadow .3s;
-
-    position:relative;
-
-    overflow:hidden;
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.12);
 }
 
-.card::before{
-    content:"";
+.card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-    position:absolute;
-
-    top:-100%;
-    left:-100%;
-
-    width:200%;
-    height:200%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.06),
-            transparent 35%
-        );
-
-    opacity:0;
-
-    transition:.4s;
+  margin-bottom:19px;
 }
 
-.card:hover::before{
-    opacity:1;
-}
-
-.card:hover{
-    transform:translateY(-7px);
-
-    border-color:#414c60;
-
-    box-shadow:
-        0 18px 45px
-        rgba(0,0,0,.25);
-}
-
-.icon{
-    font-size:31px;
-
-    margin-bottom:15px;
-
-    position:relative;
-
-    transition:.3s;
-}
-
-.card:hover .icon{
-    transform:
-        translateY(-4px)
-        scale(1.08);
-}
-
-.card h3{
-    font-size:20px;
-    margin-bottom:7px;
-}
-
-.card p{
-    color:#818b9c;
-    font-size:14px;
+.card-title{
+  font-size:15px;
+  font-weight:800;
 }
 
 .card-link{
-    display:inline-block;
-
-    margin-top:18px;
-
-    font-size:13px;
-    font-weight:bold;
+  color:#8f9bad;
+  font-size:11px;
+  text-decoration:none;
 }
 
-.soon{
-    color:#687385;
+.card-link:hover{
+  color:white;
 }
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
+/* ==============================
+   QUICK TOOLS
+============================== */
 
-.dashboard{
-    display:grid;
-
-    grid-template-columns:
-        1fr;
-
-    gap:15px;
+.tools{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
 
-.dashboard-card{
-    background:
-        rgba(12,16,23,.86);
+.tool{
+  display:flex;
+  align-items:center;
+  gap:12px;
 
-    border:
-        1px solid
-        #222a38;
+  padding:14px;
 
-    border-radius:15px;
+  background:#090e17;
+  border:1px solid #1d2737;
+  border-radius:11px;
 
-    padding:24px;
+  text-decoration:none;
+  color:white;
 
-    transition:.3s;
+  transition:.2s;
 }
 
-.dashboard-card:hover{
-    border-color:#394354;
-
-    transform:translateY(-4px);
-
-    box-shadow:
-        0 15px 35px
-        rgba(0,0,0,.2);
+.tool:hover{
+  transform:translateY(-1px);
+  background:#101722;
+  border-color:#344157;
 }
 
-.dashboard-card span{
-    color:#707b8e;
-    font-size:13px;
+.tool-icon{
+  width:38px;
+  height:38px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:9px;
+
+  background:#151d2a;
+  border:1px solid #293548;
+
+  font-size:16px;
 }
 
-.dashboard-card strong{
-    display:block;
-
-    font-size:28px;
-
-    margin-top:5px;
+.tool-name{
+  font-size:12px;
+  font-weight:800;
 }
 
-.projects-link{
-    display:block;
+.tool-description{
+  margin-top:3px;
+  color:#68758a;
+  font-size:10px;
 }
 
-/* =========================================================
-   ACCOUNT PANEL
-========================================================= */
+/* ==============================
+   ACTIVITY
+============================== */
 
-.account-panel{
-    display:none;
-
-    margin-top:25px;
-
-    background:
-        rgba(12,16,23,.9);
-
-    border:
-        1px solid
-        #222a38;
-
-    border-radius:15px;
-
-    padding:25px;
+.activity{
+  display:flex;
+  flex-direction:column;
 }
 
-.account-row{
-    display:flex;
+.activity-item{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
 
-    justify-content:space-between;
+  padding:13px 0;
 
-    align-items:center;
-
-    gap:15px;
-
-    flex-wrap:wrap;
+  border-bottom:1px solid #1b2432;
 }
 
-.user-email{
-    color:#9ca6b7;
-
-    font-size:14px;
-
-    margin-top:4px;
+.activity-item:last-child{
+  border-bottom:0;
 }
 
-.account-provider{
-    color:#707b8e;
+.activity-dot{
+  width:8px;
+  height:8px;
 
-    font-size:12px;
+  margin-top:5px;
 
-    margin-top:4px;
+  border-radius:50%;
+  background:#718096;
+
+  box-shadow:0 0 12px rgba(255,255,255,.12);
 }
 
-.account-actions{
-    display:flex;
-
-    gap:10px;
-
-    flex-wrap:wrap;
+.activity-text{
+  font-size:11px;
+  color:#a8b2c1;
 }
 
-/* =========================================================
-   CTA
-========================================================= */
-
-.cta{
-    text-align:center;
-
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            rgba(80,100,135,.12),
-            transparent 60%
-        ),
-        rgba(12,16,23,.88);
-
-    border:
-        1px solid
-        #252d3b;
-
-    border-radius:22px;
-
-    padding:
-        70px 25px;
-
-    position:relative;
-
-    overflow:hidden;
+.activity-time{
+  margin-top:3px;
+  color:#5f6c80;
+  font-size:9px;
 }
 
-.cta::after{
-    content:"";
+/* ==============================
+   PROJECTS
+============================== */
 
-    position:absolute;
-
-    width:300px;
-    height:300px;
-
-    left:50%;
-    top:50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.04),
-            transparent 70%
-        );
-
-    pointer-events:none;
+.project-list{
+  display:flex;
+  flex-direction:column;
 }
 
-.cta h2{
-    font-size:40px;
-    margin-bottom:12px;
+.project{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  padding:13px 0;
+
+  border-bottom:1px solid #1b2432;
 }
 
-.cta p{
-    max-width:650px;
-
-    margin:auto;
-
-    color:#818b9c;
+.project:last-child{
+  border-bottom:0;
 }
 
-/* =========================================================
+.project-icon{
+  width:40px;
+  height:40px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:10px;
+
+  background:#121a27;
+  border:1px solid #283449;
+
+  font-weight:900;
+  font-size:12px;
+}
+
+.project-info{
+  min-width:0;
+  flex:1;
+}
+
+.project-name{
+  font-size:12px;
+  font-weight:800;
+}
+
+.project-token{
+  margin-top:3px;
+  color:#69768a;
+  font-size:10px;
+}
+
+.status{
+  padding:5px 8px;
+
+  border-radius:6px;
+
+  background:#101922;
+  border:1px solid #273444;
+
+  color:#8c9aac;
+
+  font-size:9px;
+}
+
+.status.created{
+  color:var(--success);
+  border-color:#28543d;
+  background:#0b1711;
+}
+
+/* ==============================
+   SECURITY
+============================== */
+
+.security{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.security-score{
+  width:86px;
+  height:86px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  flex-shrink:0;
+
+  border-radius:50%;
+
+  border:7px solid #263243;
+
+  font-size:20px;
+  font-weight:900;
+}
+
+.security-info h3{
+  font-size:13px;
+}
+
+.security-info p{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+}
+
+/* ==============================
    FOOTER
-========================================================= */
+============================== */
 
 footer{
-    border-top:
-        1px solid
-        #202633;
+  padding:35px 0;
 
-    padding:
-        45px 0;
+  color:#515d70;
 
-    color:#687385;
+  text-align:center;
 
-    font-size:13px;
-
-    background:#05070b;
+  font-size:10px;
 }
 
-.footer-grid{
-    display:grid;
+/* ==============================
+   MOBILE MENU
+============================== */
 
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:25px;
+.menu-button{
+  display:none;
 }
 
-.footer-title{
-    color:#fff;
+/* ==============================
+   MOBILE
+============================== */
 
-    font-weight:bold;
+@media(max-width:1050px){
 
-    margin-bottom:12px;
+.stats{
+  grid-template-columns:repeat(2,1fr);
 }
 
-.footer-links a{
-    display:block;
-
-    margin:7px 0;
-
-    transition:.2s;
+.dashboard-grid{
+  grid-template-columns:1fr;
 }
-
-.footer-links a:hover{
-    color:#fff;
-}
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-.modal,
-.account-modal,
-.owner-modal{
-    display:none;
-
-    position:fixed;
-
-    inset:0;
-
-    background:
-        rgba(0,0,0,.84);
-
-    z-index:2000;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:20px;
-
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-}
-
-.owner-modal{
-    z-index:3000;
-
-    background:
-        rgba(0,0,0,.91);
-}
-
-.modal-box,
-.account-box,
-.owner-modal-box{
-    width:100%;
-
-    max-width:450px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #101620,
-            #0b0f16
-        );
-
-    border:
-        1px solid
-        #303847;
-
-    border-radius:18px;
-
-    padding:30px;
-
-    box-shadow:
-        0 25px 80px
-        rgba(0,0,0,.5);
-
-    animation:
-        modalIn .25s ease;
-}
-
-.owner-modal-box{
-    max-width:950px;
-
-    max-height:90vh;
-
-    overflow:auto;
-}
-
-@keyframes modalIn{
-
-    from{
-        opacity:0;
-        transform:
-            scale(.95)
-            translateY(10px);
-    }
-
-    to{
-        opacity:1;
-        transform:
-            scale(1)
-            translateY(0);
-    }
-}
-
-.modal-box h2,
-.account-box h2{
-    margin-bottom:8px;
-}
-
-.modal-box p{
-    color:#818b9c;
-
-    font-size:14px;
-
-    margin-bottom:20px;
-}
-
-.close{
-    float:right;
-
-    cursor:pointer;
-
-    font-size:22px;
-
-    color:#8d97a8;
-
-    transition:.2s;
-
-    line-height:1;
-}
-
-.close:hover{
-    color:#fff;
-    transform:rotate(90deg);
-}
-
-.modal-box input{
-    width:100%;
-
-    padding:14px;
-
-    background:#080b11;
-
-    border:
-        1px solid
-        #303847;
-
-    border-radius:9px;
-
-    color:#fff;
-
-    margin-bottom:12px;
-
-    outline:none;
-}
-
-.modal-box input:focus{
-    border-color:#687385;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(255,255,255,.04);
-}
-
-.github-button{
-    width:100%;
-
-    margin-top:10px;
-
-    background:#fff;
-
-    color:#06080d;
-
-    border:1px solid #fff;
-}
-
-.divider{
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    margin:16px 0;
-
-    color:#687385;
-
-    font-size:12px;
-}
-
-.divider::before,
-.divider::after{
-    content:"";
-
-    height:1px;
-
-    background:#293140;
-
-    flex:1;
-}
-
-.auth-message{
-    margin-top:15px;
-
-    padding:12px;
-
-    background:#10151e;
-
-    border:
-        1px solid
-        #293140;
-
-    border-radius:8px;
-
-    color:#9ca6b7;
-
-    font-size:13px;
-
-    word-break:break-word;
-
-    min-height:42px;
-}
-
-.auth-message.success{
-    color:var(--success);
-    border-color:#315c45;
-}
-
-.auth-message.error{
-    color:var(--danger);
-    border-color:#633737;
-}
-
-/* =========================================================
-   ACCOUNT MODAL
-========================================================= */
-
-.account-info{
-    background:#080b11;
-
-    border:
-        1px solid
-        #293140;
-
-    border-radius:10px;
-
-    padding:16px;
-
-    margin-bottom:15px;
-}
-
-.account-label{
-    font-size:12px;
-    color:#707b8e;
-
-    margin-bottom:4px;
-}
-
-.account-value{
-    font-size:15px;
-
-    word-break:break-word;
-}
-
-.logout-button{
-    width:100%;
-    margin-top:10px;
-}
-
-/* =========================================================
-   OWNER
-========================================================= */
-
-.owner-modal-header{
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:flex-start;
-
-    gap:15px;
-
-    margin-bottom:25px;
-}
-
-.owner-modal-header h2{
-    font-size:30px;
-}
-
-.owner-status{
-    color:#818b9c;
-
-    font-size:13px;
-
-    margin-top:5px;
-}
-
-.owner-status.success{
-    color:var(--success);
-}
-
-.owner-status.error{
-    color:var(--danger);
-}
-
-.owner-grid{
-    display:grid;
-
-    grid-template-columns:
-        1fr;
-
-    gap:15px;
-}
-
-.owner-card{
-    background:#080b11;
-
-    border:
-        1px solid
-        #252d3b;
-
-    border-radius:14px;
-
-    padding:20px;
-
-    transition:.25s;
-}
-
-.owner-card:hover{
-    transform:translateY(-3px);
-
-    border-color:#414c60;
-}
-
-.owner-card span{
-    color:#707b8e;
-
-    font-size:12px;
-}
-
-.owner-card strong{
-    display:block;
-
-    font-size:25px;
-
-    margin-top:5px;
-}
-
-.owner-tools{
-    display:grid;
-
-    grid-template-columns:
-        1fr;
-
-    gap:12px;
-
-    margin-top:20px;
-}
-
-.owner-tool{
-    background:#10151e;
-
-    border:
-        1px solid
-        #293140;
-
-    border-radius:12px;
-
-    padding:18px;
-
-    transition:.2s;
-}
-
-.owner-tool:hover{
-    border-color:#424c5e;
-
-    transform:translateY(-2px);
-}
-
-.owner-tool strong{
-    display:block;
-
-    margin-bottom:4px;
-}
-
-.owner-tool span{
-    color:#818b9c;
-
-    font-size:13px;
-}
-
-.owner-debug{
-    margin-top:20px;
-
-    padding:15px;
-
-    border-radius:10px;
-
-    background:#070a0f;
-
-    border:
-        1px solid
-        #252d3b;
-
-    font-size:12px;
-
-    color:#727d8f;
-
-    word-break:break-word;
-}
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loading{
-    position:relative;
-    color:transparent !important;
-}
-
-.loading::after{
-    content:"";
-
-    position:absolute;
-
-    width:14px;
-    height:14px;
-
-    border:
-        2px solid
-        rgba(0,0,0,.25);
-
-    border-top-color:#06080d;
-
-    border-radius:50%;
-
-    animation:
-        spin .7s linear infinite;
-}
-
-@keyframes spin{
-
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(min-width:750px){
-
-    .nav-links{
-        display:flex;
-    }
-
-    .menu-button{
-        display:none;
-    }
-
-    .products{
-        grid-template-columns:
-            repeat(3,1fr);
-    }
-
-    .dashboard{
-        grid-template-columns:
-            repeat(4,1fr);
-    }
-
-    .owner-grid{
-        grid-template-columns:
-            repeat(4,1fr);
-    }
-
-    .owner-tools{
-        grid-template-columns:
-            repeat(3,1fr);
-    }
-
-    .footer-grid{
-        grid-template-columns:
-            repeat(4,1fr);
-    }
-
-    .hero{
-        padding-top:145px;
-    }
-}
-
-@media(max-width:749px){
-
-    .nav-actions .owner-button{
-        display:none !important;
-    }
-
-    .nav-actions .lang{
-        display:none;
-    }
-}
-
-@media(max-width:600px){
-
-    .container{
-        width:94%;
-    }
-
-    .logo-text{
-        font-size:18px;
-        letter-spacing:2px;
-    }
-
-    .logo-mark{
-        width:34px;
-        height:34px;
-    }
-
-    .hero h1{
-        font-size:48px;
-        letter-spacing:-3px;
-    }
-
-    .hero p{
-        font-size:16px;
-    }
-
-    .section-head h2{
-        font-size:31px;
-    }
-
-    .metrics{
-        gap:6px;
-    }
-
-    .metric{
-        padding:16px 5px;
-    }
-
-    .metric strong{
-        font-size:19px;
-    }
-
-    .metric span{
-        font-size:10px;
-    }
-
-    .wallet{
-        padding:9px 11px;
-    }
-
-    .cta h2{
-        font-size:32px;
-    }
-
-    .modal-box,
-    .account-box{
-        padding:22px;
-    }
-
-    .owner-modal-box{
-        padding:22px;
-    }
-
-    .owner-modal-header h2{
-        font-size:23px;
-    }
 
 }
 
+@media(max-width:760px){
+
+:root{
+  --sidebar:0px;
+}
+
+.sidebar{
+  transform:translateX(-100%);
+  transition:.25s;
+  width:260px;
+}
+
+.sidebar.open{
+  transform:translateX(0);
+}
+
+.main{
+  margin-left:0;
+}
+
+.menu-button{
+  display:flex;
+}
+
+.topbar{
+  padding:0 16px;
+}
+
+.content{
+  width:92%;
+  padding-top:25px;
+}
+
+.welcome{
+  align-items:flex-start;
+  flex-direction:column;
+}
+
+.welcome h1{
+  font-size:26px;
+}
+
+.stats{
+  grid-template-columns:1fr 1fr;
+}
+
+.tools{
+  grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:480px){
+
+.stats{
+  grid-template-columns:1fr;
+}
+
+.topbar{
+  height:68px;
+}
+
+.page-subtitle{
+  display:none;
+}
+
+.lang{
+  display:none;
+}
+
+.card{
+  padding:17px;
+}
+
+}
 </style>
-
 </head>
 
 <body>
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+<div class="background"></div>
 
-<header>
+<div class="app">
 
-<div class="container nav">
+<!-- =========================================
+     SIDEBAR
+========================================= -->
 
-<a
-href="index.html"
-class="logo-link"
-aria-label="Sonativa Home"
->
+<aside class="sidebar" id="sidebar">
 
-<div class="logo-mark"></div>
-
-<div class="logo-text">
-SONATIVA
+<div class="brand">
+  <div class="brand-logo">SONATIVA</div>
+  <div class="brand-version">BETA</div>
 </div>
 
+<nav class="nav">
+
+<div class="nav-section">
+Workspace
+</div>
+
+<a class="nav-item active" href="index.html">
+  <span class="nav-icon">⌂</span>
+  <span>Dashboard</span>
 </a>
 
-
-<nav
-class="nav-links"
-aria-label="Main navigation"
->
-
-<a href="#platform">
-Platform
+<a class="nav-item" href="projects.html">
+  <span class="nav-icon">▣</span>
+  <span>My Projects</span>
 </a>
 
-<a href="#dashboard">
-Dashboard
+<div class="nav-section">
+Build
+</div>
+
+<a class="nav-item" href="token-studio.html">
+  <span class="nav-icon">◇</span>
+  <span>Token Studio</span>
 </a>
 
-<a href="#about">
-About
+<a class="nav-item" href="tokenomics-studio.html">
+  <span class="nav-icon">◈</span>
+  <span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="#">
+  <span class="nav-icon">⬡</span>
+  <span>Website Builder</span>
+  <span class="nav-badge">SOON</span>
+</a>
+
+<a class="nav-item" href="#">
+  <span class="nav-icon">▤</span>
+  <span>App Builder</span>
+  <span class="nav-badge">SOON</span>
+</a>
+
+<div class="nav-section">
+Intelligence
+</div>
+
+<a class="nav-item" href="#">
+  <span class="nav-icon">✦</span>
+  <span>Sonativa AI</span>
+  <span class="nav-badge">SOON</span>
+</a>
+
+<a class="nav-item" href="#">
+  <span class="nav-icon">⌁</span>
+  <span>Security Scanner</span>
+</a>
+
+<div class="nav-section">
+Account
+</div>
+
+<a class="nav-item" href="#">
+  <span class="nav-icon">⚙</span>
+  <span>Settings</span>
 </a>
 
 </nav>
 
+<div class="sidebar-bottom">
 
-<div class="nav-actions">
+<div class="account">
+
+<div class="avatar" id="avatar">
+S
+</div>
+
+<div class="account-info">
+
+<div class="account-name" id="accountName">
+Sonativa User
+</div>
+
+<div class="account-status">
+● Connected
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+aria-label="Open menu">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Dashboard
+</div>
+
+<div class="page-subtitle">
+Your Sonativa workspace
+</div>
+
+</div>
+
+</div>
+
+
+<div class="top-actions">
 
 <select
 class="lang"
 id="languageSelect"
-aria-label="Language"
->
+aria-label="Language">
 
 <option value="en">
-EN
-</option>
-
-<option value="fr">
-FR
+English
 </option>
 
 <option value="ar">
-AR
+العربية
+</option>
+
+<option value="fr">
+Français
 </option>
 
 </select>
 
-
 <button
-class="owner-button"
-id="ownerButton"
-type="button"
->
-
-👑 Owner
-
+class="icon-button"
+title="Notifications">
+♢
 </button>
 
-
 <button
-class="wallet"
-id="authButton"
-type="button"
->
-
-Login / Sign Up
-
+class="icon-button"
+title="Account">
+◉
 </button>
-
-
-<button
-class="menu-button"
-id="menuButton"
-type="button"
-aria-label="Open menu"
-aria-expanded="false"
->
-
-☰
-
-</button>
-
-</div>
-
-</div>
-
-
-<div
-class="mobile-menu"
-id="mobileMenu"
->
-
-<a href="#platform">
-Platform
-</a>
-
-<a href="#dashboard">
-Dashboard
-</a>
-
-<a href="#about">
-About
-</a>
 
 </div>
 
 </header>
 
 
-<main>
+<section class="content">
 
-<!-- =========================================================
-     HERO
-========================================================= -->
 
-<section class="hero">
+<!-- =========================================
+     WELCOME
+========================================= -->
 
-<div class="container">
-
-<div class="badge">
-Sonativa Web3 Infrastructure
-</div>
-
-
-<h1>
-
-Build the
-<span>
-Web3 Future.
-</span>
-
-</h1>
-
-
-<p>
-
-Powerful and simple Web3 tools for creators,
-developers, businesses and communities.
-Build, launch and grow your next digital product
-with Sonativa.
-
-</p>
-
-
-<div class="hero-buttons">
-
-<a
-class="btn primary"
-href="#platform"
->
-
-Explore Platform
-
-</a>
-
-
-<a
-class="btn secondary"
-href="#dashboard"
->
-
-Open Dashboard
-
-</a>
-
-</div>
-
-
-<div class="metrics">
-
-<div class="metric">
-
-<strong>
-∞
-</strong>
-
-<span>
-Possibilities
-</span>
-
-</div>
-
-
-<div class="metric">
-
-<strong>
-24/7
-</strong>
-
-<span>
-Web3 Tools
-</span>
-
-</div>
-
-
-<div class="metric">
-
-<strong>
-Global
-</strong>
-
-<span>
-Community
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-     PLATFORM
-========================================================= -->
-
-<section id="platform">
-
-<div class="container">
-
-<div class="section-head">
-
-<h2>
-Sonativa Platform
-</h2>
-
-<p>
-Everything you need to build your Web3 project.
-</p>
-
-</div>
-
-
-<div class="products">
-
-
-<div class="card">
-
-<div class="icon">
-🪙
-</div>
-
-<h3>
-Token Studio
-</h3>
-
-<p>
-Create and manage Solana token projects
-with a simple step-by-step workflow.
-</p>
-
-<a
-class="card-link"
-href="token-studio.html"
->
-
-Open Studio →
-
-</a>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-📊
-</div>
-
-<h3>
-Tokenomics Studio
-</h3>
-
-<p>
-Design supply, allocations, vesting
-and token distribution.
-</p>
-
-<a
-class="card-link"
-href="tokenomics-studio.html"
->
-
-Open Studio →
-
-</a>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-🔍
-</div>
-
-<h3>
-Security Scanner
-</h3>
-
-<p>
-Analyze contracts, holders,
-liquidity and project risks.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-👛
-</div>
-
-<h3>
-Wallet Analyzer
-</h3>
-
-<p>
-Analyze wallet activity,
-holdings and transactions.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-🐋
-</div>
-
-<h3>
-Whale Tracker
-</h3>
-
-<p>
-Track important wallets,
-smart money and movements.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-🤖
-</div>
-
-<h3>
-Sonativa AI
-</h3>
-
-<p>
-Your intelligent assistant
-for building Web3 products.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-🌐
-</div>
-
-<h3>
-Website Builder
-</h3>
-
-<p>
-Create professional Web3 websites
-without complicated coding.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-📱
-</div>
-
-<h3>
-App Builder
-</h3>
-
-<p>
-Turn your Web3 idea into
-a modern mobile application.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-🔗
-</div>
-
-<h3>
-API & Developer Tools
-</h3>
-
-<p>
-Build applications using
-Sonativa infrastructure.
-</p>
-
-<span class="card-link soon">
-Coming Soon →
-</span>
-
-</div>
-
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-     DASHBOARD
-========================================================= -->
-
-<section id="dashboard">
-
-<div class="container">
-
-<div class="section-head">
-
-<h2>
-Your Web3 Dashboard
-</h2>
-
-<p id="dashboardText">
-Login to manage your Sonativa projects.
-</p>
-
-</div>
-
-
-<div class="dashboard">
-
-<a
-href="projects.html"
-class="dashboard-card projects-link"
->
-
-<span>
-Projects
-</span>
-
-<strong id="projectCount">
-0
-</strong>
-
-</a>
-
-
-<div class="dashboard-card">
-
-<span>
-Wallets
-</span>
-
-<strong>
-0
-</strong>
-
-</div>
-
-
-<div class="dashboard-card">
-
-<span>
-Tokens
-</span>
-
-<strong>
-0
-</strong>
-
-</div>
-
-
-<div class="dashboard-card">
-
-<span>
-Alerts
-</span>
-
-<strong>
-0
-</strong>
-
-</div>
-
-</div>
-
-
-<div
-class="account-panel"
-id="accountPanel"
->
-
-<div class="account-row">
+<div class="welcome">
 
 <div>
 
-<strong>
-Signed in
-</strong>
-
-<div
-class="user-email"
-id="userEmail"
->
-</div>
-
-<div
-class="account-provider"
-id="accountProvider"
->
-</div>
-
-</div>
-
-
-<div class="account-actions">
-
-<button
-class="btn secondary"
-id="accountButton"
-type="button"
->
-
-Account
-
-</button>
-
-
-<button
-class="btn secondary"
-id="logoutButton"
-type="button"
->
-
-Logout
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-     FEATURES
-========================================================= -->
-
-<section>
-
-<div class="container">
-
-<div class="section-head">
-
-<h2>
-Built for the Web3 Future
-</h2>
+<h1>
+Build the Web3 Future.
+</h1>
 
 <p>
-Powerful infrastructure without unnecessary complexity.
+Create, manage and secure your Web3 projects from one workspace.
 </p>
 
 </div>
-
-
-<div class="products">
-
-
-<div class="card">
-
-<div class="icon">
-🌍
-</div>
-
-<h3>
-Global
-</h3>
-
-<p>
-Designed for users around the world
-with multilingual support.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-🔐
-</div>
-
-<h3>
-Security First
-</h3>
-
-<p>
-Security and user-controlled wallets
-are fundamental to the platform.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-⚡
-</div>
-
-<h3>
-Simple
-</h3>
-
-<p>
-Complex Web3 workflows transformed
-into simple user experiences.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-📈
-</div>
-
-<h3>
-Built to Scale
-</h3>
-
-<p>
-Designed to evolve into complete
-Web3 infrastructure.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-🤖
-</div>
-
-<h3>
-AI Powered
-</h3>
-
-<p>
-Intelligent assistance for research,
-creation and development.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icon">
-📱
-</div>
-
-<h3>
-Mobile Ready
-</h3>
-
-<p>
-Designed for desktop, mobile
-and future applications.
-</p>
-
-</div>
-
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-     ABOUT / CTA
-========================================================= -->
-
-<section id="about">
-
-<div class="container">
-
-<div class="cta">
-
-<h2>
-Build something bigger.
-</h2>
-
-<p>
-
-Sonativa's mission is to make Web3 accessible
-to everyone and provide the tools and infrastructure
-needed for the next generation of digital products.
-
-</p>
-
-
-<div class="hero-buttons">
 
 <a
-class="btn primary"
 href="token-studio.html"
->
+class="primary-button">
 
-Start Building
+＋ Create Project
+
+</a>
+
+</div>
+
+
+<!-- =========================================
+     STATS
+========================================= -->
+
+<div class="stats">
+
+<div class="stat-card">
+
+<div class="stat-label">
+Projects
+</div>
+
+<div
+class="stat-value"
+id="projectsCount">
+—</div>
+
+<div class="stat-small">
+Your projects
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+Tokens Created
+</div>
+
+<div
+class="stat-value"
+id="tokensCount">
+—</div>
+
+<div class="stat-small">
+On Solana
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+Wallet
+</div>
+
+<div
+class="stat-value"
+id="walletStatus">
+—</div>
+
+<div class="stat-small">
+Connection status
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+Security
+</div>
+
+<div class="stat-value">
+Protected
+</div>
+
+<div class="stat-small">
+Sonativa workspace
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================================
+     DASHBOARD GRID
+========================================= -->
+
+<div class="dashboard-grid">
+
+
+<!-- QUICK TOOLS -->
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-title">
+Quick Tools
+</div>
+
+<a
+href="#"
+class="card-link">
+View all
+</a>
+
+</div>
+
+
+<div class="tools">
+
+<a
+href="token-studio.html"
+class="tool">
+
+<div class="tool-icon">
+◇
+</div>
+
+<div>
+
+<div class="tool-name">
+Token Studio
+</div>
+
+<div class="tool-description">
+Create a Solana token
+</div>
+
+</div>
+
+</a>
+
+
+<a
+href="projects.html"
+class="tool">
+
+<div class="tool-icon">
+▣
+</div>
+
+<div>
+
+<div class="tool-name">
+My Projects
+</div>
+
+<div class="tool-description">
+Manage your projects
+</div>
+
+</div>
+
+</a>
+
+
+<a
+href="tokenomics-studio.html"
+class="tool">
+
+<div class="tool-icon">
+◈
+</div>
+
+<div>
+
+<div class="tool-name">
+Tokenomics
+</div>
+
+<div class="tool-description">
+Design token economics
+</div>
+
+</div>
+
+</a>
+
+
+<a
+href="#"
+class="tool">
+
+<div class="tool-icon">
+⌁
+</div>
+
+<div>
+
+<div class="tool-name">
+Security Scanner
+</div>
+
+<div class="tool-description">
+Analyze Web3 contracts
+</div>
+
+</div>
 
 </a>
 
@@ -2458,564 +1305,210 @@ Start Building
 
 </div>
 
+
+<!-- ACTIVITY -->
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-title">
+Recent Activity
 </div>
+
+</div>
+
+
+<div
+class="activity"
+id="activity">
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div>
+
+<div class="activity-text">
+Welcome to Sonativa.
+</div>
+
+<div class="activity-time">
+Your workspace is ready.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div>
+
+<div class="activity-text">
+Connect your wallet when needed.
+</div>
+
+<div class="activity-time">
+Wallet data stays under your control.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div>
+
+<div class="activity-text">
+Create your first project.
+</div>
+
+<div class="activity-time">
+Token Studio is ready.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PROJECTS -->
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-title">
+Recent Projects
+</div>
+
+<a
+href="projects.html"
+class="card-link">
+View projects →
+</a>
+
+</div>
+
+
+<div
+class="project-list"
+id="projectList">
+
+<div class="project">
+
+<div class="project-icon">
+S
+</div>
+
+<div class="project-info">
+
+<div class="project-name">
+No projects loaded
+</div>
+
+<div class="project-token">
+Create a project to see it here.
+</div>
+
+</div>
+
+<span class="status">
+Ready
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- SECURITY -->
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-title">
+Workspace Security
+</div>
+
+<a
+href="#"
+class="card-link">
+Security
+</a>
+
+</div>
+
+
+<div class="security">
+
+<div class="security-score">
+✓
+</div>
+
+<div class="security-info">
+
+<h3>
+Your wallet stays yours.
+</h3>
+
+<p>
+Sonativa does not request your private key or seed phrase.
+Wallet actions require your own wallet authorization.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<footer>
+© 2026 Sonativa — Web3 tools for everyone.
+</footer>
 
 </section>
 
 </main>
 
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer>
-
-<div class="container">
-
-<div class="footer-grid">
-
-
-<div>
-
-<div class="footer-title">
-SONATIVA
 </div>
 
-<div>
-Build. Launch. Grow.
-</div>
-
-</div>
-
-
-<div>
-
-<div class="footer-title">
-Platform
-</div>
-
-<div class="footer-links">
-
-<a href="token-studio.html">
-Token Studio
-</a>
-
-<a href="tokenomics-studio.html">
-Tokenomics
-</a>
-
-<a href="#platform">
-Security
-</a>
-
-<a href="#platform">
-AI
-</a>
-
-</div>
-
-</div>
-
-
-<div>
-
-<div class="footer-title">
-Company
-</div>
-
-<div class="footer-links">
-
-<a href="#about">
-About
-</a>
-
-<a href="#">
-Documentation
-</a>
-
-<a href="#">
-Blog
-</a>
-
-<a href="#">
-Contact
-</a>
-
-</div>
-
-</div>
-
-
-<div>
-
-<div class="footer-title">
-Legal
-</div>
-
-<div class="footer-links">
-
-<a href="#">
-Privacy
-</a>
-
-<a href="#">
-Terms
-</a>
-
-<a href="#">
-Security
-</a>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<br><br>
-
-© 2026 Sonativa. All rights reserved.
-
-</div>
-
-</footer>
-
-
-<!-- =========================================================
-     LOGIN MODAL
-========================================================= -->
-
-<div
-class="modal"
-id="authModal"
-role="dialog"
-aria-modal="true"
-aria-labelledby="authTitle"
->
-
-<div class="modal-box">
-
-<span
-class="close"
-id="closeAuth"
-role="button"
-tabindex="0"
-aria-label="Close"
->
-
-×
-
-</span>
-
-
-<h2 id="authTitle">
-Sign in to Sonativa
-</h2>
-
-
-<p>
-Use your email or continue with GitHub.
-</p>
-
-
-<button
-class="btn github-button"
-id="githubButton"
-type="button"
->
-
-Continue with GitHub
-
-</button>
-
-
-<div class="divider">
-OR
-</div>
-
-
-<input
-id="email"
-type="email"
-placeholder="Email address"
-autocomplete="email"
->
-
-
-<input
-id="password"
-type="password"
-placeholder="Password"
-autocomplete="current-password"
->
-
-
-<button
-class="btn primary"
-id="signupButton"
-type="button"
-style="width:100%;margin-bottom:10px"
->
-
-Create Account
-
-</button>
-
-
-<button
-class="btn secondary"
-id="signinButton"
-type="button"
-style="width:100%"
->
-
-Login
-
-</button>
-
-
-<div
-class="auth-message"
-id="authMessage"
->
-
-Your account is protected by Supabase Authentication.
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-     ACCOUNT MODAL
-========================================================= -->
-
-<div
-class="account-modal"
-id="accountModal"
-role="dialog"
-aria-modal="true"
->
-
-<div class="account-box">
-
-<span
-class="close"
-id="closeAccount"
-role="button"
-tabindex="0"
-aria-label="Close"
->
-
-×
-
-</span>
-
-
-<h2>
-Your Sonativa Account
-</h2>
-
-
-<div class="account-info">
-
-<div class="account-label">
-EMAIL
-</div>
-
-<div
-class="account-value"
-id="accountEmail"
->
--
-</div>
-
-</div>
-
-
-<div class="account-info">
-
-<div class="account-label">
-SIGN-IN METHOD
-</div>
-
-<div
-class="account-value"
-id="accountProviderValue"
->
--
-</div>
-
-</div>
-
-
-<div class="account-info">
-
-<div class="account-label">
-PROJECTS
-</div>
-
-<div
-class="account-value"
-id="accountProjects"
->
-0
-</div>
-
-</div>
-
-
-<button
-class="btn secondary logout-button"
-id="accountLogoutButton"
-type="button"
->
-
-Logout
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-     OWNER MODAL
-========================================================= -->
-
-<div
-class="owner-modal"
-id="ownerModal"
-role="dialog"
-aria-modal="true"
->
-
-<div class="owner-modal-box">
-
-<div class="owner-modal-header">
-
-<div>
-
-<h2>
-👑 Sonativa Owner Dashboard
-</h2>
-
-<div
-class="owner-status"
-id="ownerStatus"
->
-
-Verifying owner access...
-
-</div>
-
-</div>
-
-
-<span
-class="close"
-id="closeOwner"
-role="button"
-tabindex="0"
-aria-label="Close"
->
-
-×
-
-</span>
-
-</div>
-
-
-<div class="owner-grid">
-
-<div class="owner-card">
-
-<span>
-OWNER
-</span>
-
-<strong>
-Active
-</strong>
-
-</div>
-
-
-<div class="owner-card">
-
-<span>
-YOUR PROJECTS
-</span>
-
-<strong id="ownerProjectCount">
-0
-</strong>
-
-</div>
-
-
-<div class="owner-card">
-
-<span>
-USERS
-</span>
-
-<strong>
-Protected
-</strong>
-
-</div>
-
-
-<div class="owner-card">
-
-<span>
-SECURITY
-</span>
-
-<strong>
-RLS
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="owner-tools">
-
-<div class="owner-tool">
-
-<strong>
-👥 User Management
-</strong>
-
-<span>
-Manage platform users and roles.
-</span>
-
-</div>
-
-
-<div class="owner-tool">
-
-<strong>
-📁 Project Management
-</strong>
-
-<span>
-Manage Sonativa projects and resources.
-</span>
-
-</div>
-
-
-<div class="owner-tool">
-
-<strong>
-💰 Revenue
-</strong>
-
-<span>
-Platform revenue and financial controls.
-</span>
-
-</div>
-
-
-<div class="owner-tool">
-
-<strong>
-🔐 Security
-</strong>
-
-<span>
-Security, access control and audit systems.
-</span>
-
-</div>
-
-
-<div class="owner-tool">
-
-<strong>
-📊 Analytics
-</strong>
-
-<span>
-Platform statistics and activity.
-</span>
-
-</div>
-
-
-<div class="owner-tool">
-
-<strong>
-⚙️ Platform Settings
-</strong>
-
-<span>
-Core Sonativa configuration.
-</span>
-
-</div>
-
-</div>
-
-
-<div
-class="owner-debug"
-id="ownerDebug"
->
-
-Owner verification will appear here.
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
 
 <script type="module">
 
-/*
-=========================================================
-SONATIVA FRONTEND
-Supabase client
-
-IMPORTANT:
-Only the public/publishable key belongs in frontend code.
-Never put a service_role/secret key here.
-=========================================================
-*/
-
+/* =========================================
+   SUPABASE
+========================================= */
 
 import {
-    createClient
+  createClient
 }
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* =========================================================
-   SUPABASE CONFIG
-========================================================= */
-
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
+
 
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
@@ -3023,1346 +1516,455 @@ const SUPABASE_PUBLISHABLE_KEY =
 
 const supabase =
 createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY,
-    {
-        auth:{
-            persistSession:true,
-            autoRefreshToken:true,
-            detectSessionInUrl:true
-        }
-    }
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
 );
 
 
-/* =========================================================
-   STATE
-========================================================= */
+/* =========================================
+   MOBILE SIDEBAR
+========================================= */
 
-let currentUser = null;
+const sidebar =
+document.getElementById("sidebar");
 
-let currentIsOwner = false;
-
-let projectsLoaded = false;
-
-let authBusy = false;
+const menuButton =
+document.getElementById("menuButton");
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
+menuButton.addEventListener(
+"click",
+function(){
 
-const $ = (id) =>
-    document.getElementById(id);
-
-
-function setModal(
-    element,
-    visible
-){
-
-    if(!element){
-        return;
-    }
-
-    element.style.display =
-        visible ? "flex" : "none";
-
-    document.body.classList.toggle(
-        "modal-open",
-        visible
-    );
+sidebar.classList.toggle("open");
 
 }
-
-
-function setAuthMessage(
-    message,
-    type = ""
-){
-
-    const box =
-        $("authMessage");
-
-    if(!box){
-        return;
-    }
-
-    box.textContent =
-        message;
-
-    box.className =
-        "auth-message";
-
-    if(type){
-        box.classList.add(type);
-    }
-
-}
-
-
-function setButtonLoading(
-    button,
-    loading,
-    text
-){
-
-    if(!button){
-        return;
-    }
-
-    button.disabled =
-        loading;
-
-    if(loading){
-
-        button.dataset.originalText =
-            button.textContent;
-
-        button.classList.add(
-            "loading"
-        );
-
-        button.textContent =
-            text || "Loading...";
-
-    }else{
-
-        button.classList.remove(
-            "loading"
-        );
-
-        button.textContent =
-            button.dataset.originalText ||
-            text ||
-            button.textContent;
-    }
-
-}
-
-
-/* =========================================================
-   AUTH MODAL
-========================================================= */
-
-function openAuth(){
-
-    setAuthMessage(
-        "Your account is protected by Supabase Authentication."
-    );
-
-    setModal(
-        $("authModal"),
-        true
-    );
-
-}
-
-
-function closeAuth(){
-
-    setModal(
-        $("authModal"),
-        false
-    );
-
-}
-
-
-function openAccountPanel(){
-
-    if(!currentUser){
-
-        openAuth();
-
-        return;
-    }
-
-
-    $("accountEmail").textContent =
-        currentUser.email ||
-        "GitHub account";
-
-
-    $("accountProviderValue").textContent =
-        getProviderName(
-            currentUser
-        );
-
-
-    $("accountProjects").textContent =
-        $("projectCount").textContent;
-
-
-    setModal(
-        $("accountModal"),
-        true
-    );
-
-}
-
-
-function closeAccountPanel(){
-
-    setModal(
-        $("accountModal"),
-        false
-    );
-
-}
-
-
-function closeOwnerDashboard(){
-
-    setModal(
-        $("ownerModal"),
-        false
-    );
-
-}
-
-
-/* =========================================================
-   AUTH BUTTON
-========================================================= */
-
-$("authButton").addEventListener(
-    "click",
-    function(){
-
-        if(currentUser){
-
-            openAccountPanel();
-
-        }else{
-
-            openAuth();
-
-        }
-
-    }
 );
 
 
-/* =========================================================
-   GITHUB LOGIN
-========================================================= */
-
-async function signInWithGitHub(){
-
-    if(authBusy){
-        return;
-    }
-
-    authBusy = true;
-
-    const button =
-        $("githubButton");
-
-    setButtonLoading(
-        button,
-        true,
-        "Connecting..."
-    );
-
-    setAuthMessage(
-        "Connecting to GitHub..."
-    );
-
-
-    try{
-
-        /*
-         * On GitHub Pages:
-         *
-         * https://sonativaofficial.github.io/-Sonativa/
-         *
-         * Using the current origin + pathname means the
-         * callback remains on the current Sonativa page.
-         */
-
-        const redirectUrl =
-            window.location.origin +
-            window.location.pathname;
-
-
-        const {
-            error
-        } =
-        await supabase.auth.signInWithOAuth({
-
-            provider:"github",
-
-            options:{
-                redirectTo:
-                    redirectUrl
-            }
-
-        });
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-    }catch(error){
-
-        console.error(
-            "GitHub OAuth error:",
-            error
-        );
-
-
-        setAuthMessage(
-            "GitHub login error: " +
-            (
-                error?.message ||
-                "Unknown error"
-            ),
-            "error"
-        );
-
-
-        setButtonLoading(
-            button,
-            false
-        );
-
-    }finally{
-
-        authBusy = false;
-
-    }
-
-}
-
-
-/* =========================================================
-   SIGN UP
-========================================================= */
-
-async function signUp(){
-
-    if(authBusy){
-        return;
-    }
-
-    const email =
-        $("email").value.trim();
-
-    const password =
-        $("password").value;
-
-
-    if(!email || !password){
-
-        setAuthMessage(
-            "Enter your email and password.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if(password.length < 6){
-
-        setAuthMessage(
-            "Password must contain at least 6 characters.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    authBusy = true;
-
-
-    setButtonLoading(
-        $("signupButton"),
-        true,
-        "Creating..."
-    );
-
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabase.auth.signUp({
-
-            email,
-            password
-
-        });
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        /*
-         * If email confirmation is disabled,
-         * Supabase can return an active session.
-         */
-
-        if(data?.session){
-
-            setAuthMessage(
-                "Account created successfully.",
-                "success"
-            );
-
-            await updateUserInterface();
-
-
-            setTimeout(
-                closeAuth,
-                700
-            );
-
-        }else{
-
-            setAuthMessage(
-                "Account created. Check your email to confirm your account.",
-                "success"
-            );
-
-        }
-
-
-    }catch(error){
-
-        console.error(
-            "Sign up error:",
-            error
-        );
-
-
-        setAuthMessage(
-            error?.message ||
-            "Unable to create account.",
-            "error"
-        );
-
-
-    }finally{
-
-        setButtonLoading(
-            $("signupButton"),
-            false
-        );
-
-        authBusy = false;
-
-    }
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function signIn(){
-
-    if(authBusy){
-        return;
-    }
-
-
-    const email =
-        $("email").value.trim();
-
-    const password =
-        $("password").value;
-
-
-    if(!email || !password){
-
-        setAuthMessage(
-            "Enter your email and password.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    authBusy = true;
-
-
-    setButtonLoading(
-        $("signinButton"),
-        true,
-        "Signing in..."
-    );
-
-
-    try{
-
-        const {
-            error
-        } =
-        await supabase.auth.signInWithPassword({
-
-            email,
-            password
-
-        });
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        setAuthMessage(
-            "Login successful.",
-            "success"
-        );
-
-
-        await updateUserInterface();
-
-
-        setTimeout(
-            closeAuth,
-            400
-        );
-
-
-        $("dashboard").scrollIntoView({
-            behavior:"smooth"
-        });
-
-
-    }catch(error){
-
-        console.error(
-            "Login error:",
-            error
-        );
-
-
-        setAuthMessage(
-            error?.message ||
-            "Unable to sign in.",
-            "error"
-        );
-
-
-    }finally{
-
-        setButtonLoading(
-            $("signinButton"),
-            false
-        );
-
-        authBusy = false;
-
-    }
-
-}
-
-
-/* =========================================================
-   PROVIDER
-========================================================= */
-
-function getProviderName(user){
-
-    const provider =
-        user?.app_metadata?.provider;
-
-
-    if(provider === "github"){
-        return "GitHub";
-    }
-
-
-    if(provider === "email"){
-        return "Email";
-    }
-
-
-    if(provider){
-        return provider;
-    }
-
-
-    if(
-        user?.identities &&
-        user.identities.length
-    ){
-
-        return user.identities[0].provider;
-
-    }
-
-
-    return "Sonativa Authentication";
-
-}
-
-
-/* =========================================================
-   LOAD PROJECTS
-========================================================= */
-
-async function loadProjects(){
-
-    if(!currentUser){
-
-        $("projectCount").textContent =
-            "0";
-
-        projectsLoaded =
-            false;
-
-        return;
-
-    }
-
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabase
-            .from("projects")
-            .select("id")
-            .eq(
-                "user_id",
-                currentUser.id
-            );
-
-
-        if(error){
-
-            /*
-             * The UI should not crash if the projects table
-             * or RLS policy is still being configured.
-             */
-
-            console.warn(
-                "Projects query:",
-                error.message
-            );
-
-
-            $("projectCount").textContent =
-                "0";
-
-            projectsLoaded =
-                false;
-
-            return;
-
-        }
-
-
-        $("projectCount").textContent =
-            String(
-                data?.length || 0
-            );
-
-
-        projectsLoaded =
-            true;
-
-
-    }catch(error){
-
-        console.error(
-            "Projects error:",
-            error
-        );
-
-
-        $("projectCount").textContent =
-            "0";
-
-        projectsLoaded =
-            false;
-
-    }
-
-}
-
-
-/* =========================================================
-   OWNER CHECK
-========================================================= */
-
-async function checkOwner(){
-
-    if(!currentUser){
-
-        currentIsOwner =
-            false;
-
-        $("ownerButton").style.display =
-            "none";
-
-        return false;
-
-    }
-
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabase.rpc(
-            "is_owner"
-        );
-
-
-        if(error){
-
-            console.warn(
-                "Owner RPC:",
-                error.message
-            );
-
-
-            currentIsOwner =
-                false;
-
-            $("ownerButton").style.display =
-                "none";
-
-            return false;
-
-        }
-
-
-        currentIsOwner =
-            data === true;
-
-
-        $("ownerButton").style.display =
-            currentIsOwner
-                ? "inline-block"
-                : "none";
-
-
-        return currentIsOwner;
-
-
-    }catch(error){
-
-        console.error(
-            "Owner check error:",
-            error
-        );
-
-
-        currentIsOwner =
-            false;
-
-        $("ownerButton").style.display =
-            "none";
-
-        return false;
-
-    }
-
-}
-
-
-/* =========================================================
-   OWNER DASHBOARD
-========================================================= */
-
-async function openOwnerDashboard(){
-
-    if(!currentUser){
-
-        openAuth();
-
-        return;
-
-    }
-
-
-    $("ownerStatus").textContent =
-        "Verifying owner access...";
-
-    $("ownerStatus").className =
-        "owner-status";
-
-
-    const isOwner =
-        await checkOwner();
-
-
-    if(!isOwner){
-
-        $("ownerStatus").textContent =
-            "Access denied.";
-
-        $("ownerStatus").className =
-            "owner-status error";
-
-        $("ownerDebug").textContent =
-            "Your authenticated account does not have owner permissions.";
-
-        setModal(
-            $("ownerModal"),
-            true
-        );
-
-        return;
-
-    }
-
-
-    $("ownerStatus").textContent =
-        "Owner access verified. Protected by Supabase.";
-
-    $("ownerStatus").className =
-        "owner-status success";
-
-
-    $("ownerProjectCount").textContent =
-        $("projectCount").textContent;
-
-
-    $("ownerDebug").textContent =
-        "Owner access verified successfully for the current authenticated session.";
-
-
-    setModal(
-        $("ownerModal"),
-        true
-    );
-
-}
-
-
-/* =========================================================
-   UPDATE UI
-========================================================= */
-
-async function updateUserInterface(){
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabase.auth.getUser();
-
-
-        if(error){
-
-            console.warn(
-                "Auth user:",
-                error.message
-            );
-
-            currentUser =
-                null;
-
-        }else{
-
-            currentUser =
-                data?.user ||
-                null;
-
-        }
-
-
-        if(currentUser){
-
-            $("authButton").textContent =
-                "Account";
-
-
-            $("accountPanel").style.display =
-                "block";
-
-
-            $("userEmail").textContent =
-                currentUser.email ||
-                "GitHub account";
-
-
-            $("accountProvider").textContent =
-                "Signed in with " +
-                getProviderName(
-                    currentUser
-                );
-
-
-            $("dashboardText").textContent =
-                "Your Sonativa workspace is ready.";
-
-
-            await loadProjects();
-
-            await checkOwner();
-
-
-        }else{
-
-            $("authButton").textContent =
-                "Login / Sign Up";
-
-
-            $("accountPanel").style.display =
-                "none";
-
-
-            $("ownerButton").style.display =
-                "none";
-
-
-            $("projectCount").textContent =
-                "0";
-
-
-            $("dashboardText").textContent =
-                "Login to manage your Sonativa projects.";
-
-
-            currentIsOwner =
-                false;
-
-        }
-
-
-    }catch(error){
-
-        console.error(
-            "Interface error:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-async function logout(){
-
-    try{
-
-        const {
-            error
-        } =
-        await supabase.auth.signOut();
-
-
-        if(error){
-
-            console.error(
-                "Logout error:",
-                error
-            );
-
-        }
-
-    }catch(error){
-
-        console.error(
-            "Logout exception:",
-            error
-        );
-
-    }
-
-
-    currentUser =
-        null;
-
-    currentIsOwner =
-        false;
-
-    closeAccountPanel();
-
-    closeOwnerDashboard();
-
-    await updateUserInterface();
-
-}
-
-
-/* =========================================================
-   LANGUAGE
-========================================================= */
-
-function changeLanguage(
-    language
-){
-
-    document.documentElement.lang =
-        language;
-
-
-    /*
-     * Full translations will be connected
-     * after the language files/pages are finalized.
-     */
-
-    if(language === "ar"){
-
-        console.log(
-            "Arabic selected."
-        );
-
-    }else if(language === "fr"){
-
-        console.log(
-            "French selected."
-        );
-
-    }else{
-
-        console.log(
-            "English selected."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-function toggleMobileMenu(){
-
-    const menu =
-        $("mobileMenu");
-
-    const button =
-        $("menuButton");
-
-
-    const isOpen =
-        menu.classList.toggle(
-            "open"
-        );
-
-
-    button.setAttribute(
-        "aria-expanded",
-        String(isOpen)
-    );
-
-
-    button.textContent =
-        isOpen ? "×" : "☰";
-
-}
-
-
-function closeMobileMenu(){
-
-    $("mobileMenu")
-        .classList.remove(
-            "open"
-        );
-
-    $("menuButton")
-        .setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-    $("menuButton")
-        .textContent =
-        "☰";
-
-}
-
-
-/* =========================================================
-   EVENT LISTENERS
-========================================================= */
-
-$("githubButton")
-    .addEventListener(
-        "click",
-        signInWithGitHub
-    );
-
-
-$("signupButton")
-    .addEventListener(
-        "click",
-        signUp
-    );
-
-
-$("signinButton")
-    .addEventListener(
-        "click",
-        signIn
-    );
-
-
-$("accountButton")
-    .addEventListener(
-        "click",
-        openAccountPanel
-    );
-
-
-$("logoutButton")
-    .addEventListener(
-        "click",
-        logout
-    );
-
-
-$("accountLogoutButton")
-    .addEventListener(
-        "click",
-        logout
-    );
-
-
-$("ownerButton")
-    .addEventListener(
-        "click",
-        openOwnerDashboard
-    );
-
-
-$("closeAuth")
-    .addEventListener(
-        "click",
-        closeAuth
-    );
-
-
-$("closeAccount")
-    .addEventListener(
-        "click",
-        closeAccountPanel
-    );
-
-
-$("closeOwner")
-    .addEventListener(
-        "click",
-        closeOwnerDashboard
-    );
-
-
-$("menuButton")
-    .addEventListener(
-        "click",
-        toggleMobileMenu
-    );
-
-
-$("languageSelect")
-    .addEventListener(
-        "change",
-        function(){
-
-            changeLanguage(
-                this.value
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   MOBILE MENU LINKS
-========================================================= */
+/* =========================================
+   CLOSE SIDEBAR AFTER LINK
+========================================= */
 
 document
-    .querySelectorAll(
-        "#mobileMenu a"
-    )
-    .forEach(
-        function(link){
+.querySelectorAll(".nav-item")
+.forEach(function(item){
 
-            link.addEventListener(
-                "click",
-                closeMobileMenu
-            );
+item.addEventListener(
+"click",
+function(){
 
-        }
-    );
+if(
+window.innerWidth <= 760
+){
 
+sidebar.classList.remove("open");
 
-/* =========================================================
-   MODAL OUTSIDE CLICK
-========================================================= */
+}
 
-$("authModal")
-    .addEventListener(
-        "click",
-        function(event){
+}
+);
 
-            if(
-                event.target === this
-            ){
-
-                closeAuth();
-
-            }
-
-        }
-    );
+});
 
 
-$("accountModal")
-    .addEventListener(
-        "click",
-        function(event){
+/* =========================================
+   LOAD USER
+========================================= */
 
-            if(
-                event.target === this
-            ){
+async function loadUser(){
 
-                closeAccountPanel();
-
-            }
-
-        }
-    );
+const {
+data:{
+user
+}
+} =
+await supabase.auth.getUser();
 
 
-$("ownerModal")
-    .addEventListener(
-        "click",
-        function(event){
+if(!user){
 
-            if(
-                event.target === this
-            ){
+document.getElementById(
+"accountName"
+).textContent =
+"Guest";
 
-                closeOwnerDashboard();
+document.getElementById(
+"avatar"
+).textContent =
+"G";
 
-            }
+document.getElementById(
+"walletStatus"
+).textContent =
+"Guest";
 
-        }
-    );
+return;
 
-
-/* =========================================================
-   ESCAPE KEY
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key !== "Escape"){
-            return;
-        }
+}
 
 
-        closeAuth();
+/* USER NAME */
 
-        closeAccountPanel();
+const name =
+user.user_metadata?.full_name ||
+user.user_metadata?.name ||
+user.email?.split("@")[0] ||
+"Sonativa User";
 
-        closeOwnerDashboard();
 
-        closeMobileMenu();
+document.getElementById(
+"accountName"
+).textContent =
+name;
 
-    }
+
+document.getElementById(
+"avatar"
+).textContent =
+name
+.charAt(0)
+.toUpperCase();
+
+
+document.getElementById(
+"walletStatus"
+).textContent =
+"Ready";
+
+
+await loadProjects(user.id);
+
+}
+
+
+/* =========================================
+   LOAD PROJECTS
+========================================= */
+
+async function loadProjects(
+userId
+){
+
+const {
+data,
+error
+} =
+await supabase
+
+.from("projects")
+
+.select(`
+Id,
+project_name,
+token_name,
+token_symbol,
+token_status,
+created_at,
+mint_address
+`)
+
+.eq(
+"user_id",
+userId
+)
+
+.order(
+"created_at",
+{
+ascending:false
+}
 );
 
 
-/* =========================================================
-   ENTER KEY IN LOGIN
-========================================================= */
+if(error){
 
-$("password")
-    .addEventListener(
-        "keydown",
-        function(event){
+console.error(
+"Projects error:",
+error
+);
 
-            if(
-                event.key === "Enter"
-            ){
+return;
 
-                signIn();
-
-            }
-
-        }
-    );
+}
 
 
-/* =========================================================
-   SUPABASE AUTH STATE
-========================================================= */
-
-supabase.auth.onAuthStateChange(
-    function(
-        event,
-        session
-    ){
-
-        console.log(
-            "Supabase auth event:",
-            event
-        );
+const projects =
+data || [];
 
 
-        /*
-         * Don't perform heavy async work directly
-         * inside the auth callback.
-         */
+document.getElementById(
+"projectsCount"
+).textContent =
+projects.length;
 
-        setTimeout(
-            function(){
 
-                currentUser =
-                    session?.user ||
-                    null;
+const tokenCount =
+projects.filter(function(project){
 
-                updateUserInterface();
+return (
+project.mint_address ||
+project.token_status === "created" ||
+project.token_status === "minted"
+);
 
-            },
-            0
-        );
+}).length;
 
-    }
+
+document.getElementById(
+"tokensCount"
+).textContent =
+tokenCount;
+
+
+renderProjects(projects);
+
+}
+
+
+/* =========================================
+   RENDER PROJECTS
+========================================= */
+
+function renderProjects(
+projects
+){
+
+const list =
+document.getElementById(
+"projectList"
 );
 
 
-/* =========================================================
-   INITIAL START
-========================================================= */
+if(!projects.length){
 
-updateUserInterface();
+list.innerHTML = `
 
+<div class="project">
+
+<div class="project-icon">
++
+</div>
+
+<div class="project-info">
+
+<div class="project-name">
+No projects yet
+</div>
+
+<div class="project-token">
+Create your first project with Token Studio.
+</div>
+
+</div>
+
+<a
+class="status created"
+href="token-studio.html">
+
+Create
+
+</a>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+list.innerHTML =
+projects
+.slice(0,5)
+.map(function(project){
+
+const name =
+project.project_name ||
+"Unnamed Project";
+
+
+const token =
+project.token_symbol
+?
+project.token_name +
+" • $" +
+project.token_symbol
+:
+project.token_name ||
+"Token";
+
+
+const status =
+String(
+project.token_status ||
+"draft"
+)
+.toLowerCase();
+
+
+const created =
+status === "created" ||
+status === "minted" ||
+!!project.mint_address;
+
+
+return `
+
+<div class="project">
+
+<div class="project-icon">
+
+${escapeHTML(
+name.charAt(0)
+.toUpperCase()
+)}
+
+</div>
+
+<div class="project-info">
+
+<div class="project-name">
+
+${escapeHTML(name)}
+
+</div>
+
+<div class="project-token">
+
+${escapeHTML(token)}
+
+</div>
+
+</div>
+
+<span
+class="status ${
+created ? "created" : ""
+}">
+
+${created ? "Created" : "Draft"}
+
+</span>
+
+</div>
+
+`;
+
+})
+.join("");
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(
+value
+){
+
+return String(
+value ?? ""
+)
+
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   LANGUAGE
+========================================= */
+
+const languageSelect =
+document.getElementById(
+"languageSelect"
+);
+
+
+languageSelect.addEventListener(
+"change",
+function(){
+
+const language =
+this.value;
+
+
+localStorage.setItem(
+"sonativa_language",
+language
+);
+
+
+/*
+  Full translation system
+  will be connected to all
+  Sonativa pages later.
+*/
+
+if(language === "ar"){
+
+document.documentElement.lang =
+"ar";
+
+document.documentElement.dir =
+"rtl";
+
+}else{
+
+document.documentElement.lang =
+language;
+
+document.documentElement.dir =
+"ltr";
+
+}
+
+});
+
+
+/* =========================================
+   INITIAL LANGUAGE
+========================================= */
+
+const savedLanguage =
+localStorage.getItem(
+"sonativa_language"
+);
+
+
+if(savedLanguage){
+
+languageSelect.value =
+savedLanguage;
+
+if(savedLanguage === "ar"){
+
+document.documentElement.lang =
+"ar";
+
+document.documentElement.dir =
+"rtl";
+
+}
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+loadUser();
 
 </script>
 
 </body>
-
 </html>
