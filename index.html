@@ -4,12 +4,28 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta
+name="theme-color"
+content="#06080d"
+>
+
+<meta
+name="description"
+content="Sonativa — Build, launch and grow in Web3."
+>
+
+<meta
+name="robots"
+content="index,follow"
+>
 
 <title>Sonativa — Web3 Platform</title>
-
-<meta name="description"
-content="Sonativa — Build, launch and grow in Web3.">
 
 <style>
 
@@ -17,550 +33,696 @@ content="Sonativa — Build, launch and grow in Web3.">
    SONATIVA — GLOBAL
 ========================================================= */
 
+:root{
+    --bg:#040509;
+    --bg2:#080b12;
+    --panel:#0c1017;
+    --panel2:#10151e;
+
+    --border:#252d3b;
+    --border2:#303847;
+
+    --text:#ffffff;
+    --muted:#818b9c;
+    --muted2:#697386;
+
+    --success:#8ee6b0;
+    --danger:#ff8f8f;
+
+    --radius:16px;
+}
+
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html{
-scroll-behavior:smooth;
+    scroll-behavior:smooth;
+    scroll-padding-top:90px;
 }
 
 body{
-font-family:Arial,Helvetica,sans-serif;
-background:
-radial-gradient(circle at 50% -15%,#1b2942 0%,#080b12 38%,#040509 75%);
-color:#fff;
-line-height:1.6;
-min-height:100vh;
-overflow-x:hidden;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 50% -15%,
+            #1b2942 0%,
+            #080b12 38%,
+            #040509 75%
+        );
+
+    color:var(--text);
+    line-height:1.6;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+body.modal-open{
+    overflow:hidden;
 }
 
 body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:-2;
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
 
-background:
-linear-gradient(
-rgba(255,255,255,.018) 1px,
-transparent 1px
-),
-linear-gradient(
-90deg,
-rgba(255,255,255,.018) 1px,
-transparent 1px
-);
+    background:
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        );
 
-background-size:50px 50px;
+    background-size:50px 50px;
 
-mask-image:
-linear-gradient(
-to bottom,
-black,
-transparent 85%
-);
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 85%
+        );
 }
 
 body::after{
-content:"";
-position:fixed;
-width:600px;
-height:600px;
-top:-300px;
-left:50%;
-transform:translateX(-50%);
-border-radius:50%;
+    content:"";
+    position:fixed;
 
-background:
-radial-gradient(
-circle,
-rgba(120,150,210,.13),
-transparent 65%
-);
+    width:600px;
+    height:600px;
 
-filter:blur(20px);
-pointer-events:none;
-z-index:-1;
+    top:-300px;
+    left:50%;
 
-animation:
-heroGlow 7s ease-in-out infinite alternate;
+    transform:translateX(-50%);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(120,150,210,.13),
+            transparent 65%
+        );
+
+    filter:blur(20px);
+
+    pointer-events:none;
+    z-index:-1;
+
+    animation:
+        heroGlow 7s ease-in-out infinite alternate;
 }
 
 @keyframes heroGlow{
 
-from{
-opacity:.5;
-transform:translateX(-50%) scale(.9);
-}
+    from{
+        opacity:.5;
+        transform:
+            translateX(-50%)
+            scale(.9);
+    }
 
-to{
-opacity:1;
-transform:translateX(-50%) scale(1.15);
-}
-
+    to{
+        opacity:1;
+        transform:
+            translateX(-50%)
+            scale(1.15);
+    }
 }
 
 a{
-text-decoration:none;
-color:inherit;
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
 input,
 select{
-font:inherit;
+    font:inherit;
 }
 
 button{
-cursor:pointer;
+    cursor:pointer;
+}
+
+button:disabled{
+    cursor:not-allowed;
+    opacity:.55;
 }
 
 .container{
-width:92%;
-max-width:1200px;
-margin:auto;
+    width:92%;
+    max-width:1200px;
+    margin:auto;
 }
-
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 header{
-position:sticky;
-top:0;
-z-index:1000;
+    position:sticky;
+    top:0;
+    z-index:1000;
 
-background:
-rgba(5,7,12,.72);
+    background:
+        rgba(5,7,12,.76);
 
-backdrop-filter:blur(22px);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
 
-border-bottom:1px solid rgba(255,255,255,.08);
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
 }
 
 .nav{
-height:76px;
+    min-height:76px;
 
-display:flex;
-align-items:center;
-justify-content:space-between;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-gap:20px;
+    gap:20px;
 }
 
-
 /* =========================================================
-   SONATIVA LOGO
+   LOGO
 ========================================================= */
 
 .logo-link{
-display:flex;
-align-items:center;
-gap:11px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    flex-shrink:0;
 }
 
 .logo-mark{
-width:38px;
-height:38px;
+    width:38px;
+    height:38px;
 
-position:relative;
+    position:relative;
 
-border-radius:12px;
+    border-radius:12px;
 
-background:
-linear-gradient(
-145deg,
-#ffffff,
-#9aa6b9
-);
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #9aa6b9
+        );
 
-box-shadow:
-0 0 25px rgba(255,255,255,.13),
-inset 0 0 15px rgba(0,0,0,.12);
+    box-shadow:
+        0 0 25px rgba(255,255,255,.13),
+        inset 0 0 15px rgba(0,0,0,.12);
 
-display:flex;
-align-items:center;
-justify-content:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-overflow:hidden;
+    overflow:hidden;
+
+    transition:.3s ease;
 }
 
 .logo-mark::before{
-content:"";
+    content:"";
 
-position:absolute;
+    position:absolute;
 
-width:21px;
-height:21px;
+    width:21px;
+    height:21px;
 
-border:3px solid #080b11;
+    border:
+        3px solid
+        #080b11;
 
-border-radius:50%;
-
-opacity:.95;
+    border-radius:50%;
 }
 
 .logo-mark::after{
-content:"";
+    content:"";
 
-position:absolute;
+    position:absolute;
 
-width:7px;
-height:7px;
+    width:7px;
+    height:7px;
 
-background:#080b11;
+    background:#080b11;
 
-border-radius:50%;
+    border-radius:50%;
 }
 
 .logo-text{
-font-size:22px;
-font-weight:900;
-letter-spacing:3px;
+    font-size:22px;
+    font-weight:900;
 
-background:
-linear-gradient(
-90deg,
-#fff,
-#9ca8ba
-);
+    letter-spacing:3px;
 
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #9ca8ba
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .logo-link:hover .logo-mark{
-transform:rotate(-8deg) scale(1.05);
+    transform:
+        rotate(-8deg)
+        scale(1.05);
 }
-
-.logo-mark{
-transition:.3s ease;
-}
-
 
 /* =========================================================
-   NAV
+   NAVIGATION
 ========================================================= */
 
 .nav-links{
-display:none;
-gap:28px;
-color:#8e98aa;
-font-size:14px;
+    display:none;
+
+    gap:28px;
+
+    color:#8e98aa;
+
+    font-size:14px;
 }
 
 .nav-links a{
-transition:.25s;
-position:relative;
+    position:relative;
+    transition:.25s;
 }
 
 .nav-links a::after{
-content:"";
+    content:"";
 
-position:absolute;
+    position:absolute;
 
-left:0;
-bottom:-8px;
+    left:0;
+    bottom:-8px;
 
-width:0;
-height:1px;
+    width:0;
+    height:1px;
 
-background:#fff;
+    background:#fff;
 
-transition:.25s;
+    transition:.25s;
 }
 
 .nav-links a:hover{
-color:#fff;
+    color:#fff;
 }
 
 .nav-links a:hover::after{
-width:100%;
+    width:100%;
 }
 
 .nav-actions{
-display:flex;
-gap:8px;
-align-items:center;
+    display:flex;
+    align-items:center;
+    gap:8px;
 }
 
 .lang{
-background:#0c1119;
-border:1px solid #293140;
-color:#fff;
+    background:#0c1119;
+    border:1px solid #293140;
 
-padding:9px 10px;
+    color:#fff;
 
-border-radius:8px;
-outline:none;
+    padding:9px 10px;
+
+    border-radius:8px;
+
+    outline:none;
+}
+
+.lang:focus{
+    border-color:#687385;
 }
 
 .btn{
-display:inline-block;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
 
-padding:13px 20px;
+    min-height:44px;
 
-border-radius:10px;
+    padding:
+        11px 20px;
 
-font-weight:bold;
+    border-radius:10px;
 
-border:1px solid #303847;
+    font-weight:bold;
 
-transition:
-transform .25s,
-border-color .25s,
-box-shadow .25s;
+    border:
+        1px solid
+        #303847;
+
+    transition:
+        transform .25s,
+        border-color .25s,
+        box-shadow .25s,
+        background .25s;
 }
 
 .btn:hover{
-transform:translateY(-3px);
+    transform:translateY(-2px);
 
-border-color:#667287;
+    border-color:#667287;
 
-box-shadow:
-0 10px 30px rgba(0,0,0,.25);
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,.25);
 }
 
 .primary{
-background:#fff;
-color:#06080d;
+    background:#fff;
+    color:#06080d;
 }
 
 .secondary{
-background:#10151e;
-color:#fff;
+    background:#10151e;
+    color:#fff;
 }
 
 .wallet{
-background:#fff;
-color:#07090f;
+    background:#fff;
+    color:#07090f;
 
-border:0;
+    border:0;
 
-padding:10px 15px;
+    padding:
+        10px 15px;
 
-border-radius:9px;
+    border-radius:9px;
 
-font-weight:bold;
+    font-weight:bold;
 
-transition:.25s;
+    transition:.25s;
 }
 
 .wallet:hover{
-transform:translateY(-2px);
-box-shadow:
-0 8px 25px rgba(255,255,255,.12);
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 8px 25px
+        rgba(255,255,255,.12);
 }
 
 .owner-button{
-display:none;
+    display:none;
 
-background:
-linear-gradient(
-135deg,
-#fff,
-#d9dee8
-);
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #d9dee8
+        );
 
-color:#06080d;
+    color:#06080d;
 
-border:0;
+    border:0;
 
-padding:10px 15px;
+    padding:
+        10px 15px;
 
-border-radius:9px;
+    border-radius:9px;
 
-font-weight:bold;
+    font-weight:bold;
 
-box-shadow:
-0 0 25px rgba(255,255,255,.08);
-
+    box-shadow:
+        0 0 25px
+        rgba(255,255,255,.08);
 }
 
-.menu{
-font-size:25px;
+.menu-button{
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    width:42px;
+    height:42px;
+
+    border:
+        1px solid
+        #303847;
+
+    border-radius:9px;
+
+    background:#10151e;
+    color:#fff;
+
+    font-size:21px;
 }
 
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-menu{
+    display:none;
+
+    position:absolute;
+
+    top:76px;
+    left:0;
+    right:0;
+
+    background:
+        rgba(7,10,16,.97);
+
+    border-bottom:
+        1px solid
+        #252d3b;
+
+    padding:18px;
+
+    box-shadow:
+        0 20px 40px
+        rgba(0,0,0,.35);
+}
+
+.mobile-menu.open{
+    display:block;
+}
+
+.mobile-menu a{
+    display:block;
+
+    padding:13px;
+
+    color:#aeb7c6;
+
+    border-radius:9px;
+}
+
+.mobile-menu a:hover{
+    background:#10151e;
+    color:#fff;
+}
 
 /* =========================================================
    HERO
 ========================================================= */
 
 .hero{
-text-align:center;
+    text-align:center;
 
-padding:125px 0 85px;
+    padding:
+        125px 0
+        85px;
 
-position:relative;
+    position:relative;
 }
 
 .badge{
-display:inline-flex;
+    display:inline-flex;
 
-align-items:center;
-gap:8px;
+    align-items:center;
+    gap:8px;
 
-border:1px solid #293140;
+    border:
+        1px solid
+        #293140;
 
-background:
-rgba(13,18,27,.72);
+    background:
+        rgba(13,18,27,.72);
 
-color:#aab3c2;
+    color:#aab3c2;
 
-padding:8px 15px;
+    padding:
+        8px 15px;
 
-border-radius:50px;
+    border-radius:50px;
 
-font-size:13px;
+    font-size:13px;
 
-margin-bottom:28px;
+    margin-bottom:28px;
 
-box-shadow:
-0 0 30px rgba(255,255,255,.025);
+    box-shadow:
+        0 0 30px
+        rgba(255,255,255,.025);
 
-animation:
-fadeUp .8s ease both;
+    animation:
+        fadeUp .8s ease both;
 }
 
 .badge::before{
-content:"";
+    content:"";
 
-width:7px;
-height:7px;
+    width:7px;
+    height:7px;
 
-border-radius:50%;
+    border-radius:50%;
 
-background:#8ee6b0;
+    background:var(--success);
 
-box-shadow:
-0 0 12px rgba(142,230,176,.7);
+    box-shadow:
+        0 0 12px
+        rgba(142,230,176,.7);
 
-animation:
-pulse 2s infinite;
+    animation:
+        pulse 2s infinite;
 }
 
 @keyframes pulse{
 
-0%,100%{
-opacity:1;
-transform:scale(1);
-}
+    0%,100%{
+        opacity:1;
+        transform:scale(1);
+    }
 
-50%{
-opacity:.5;
-transform:scale(.7);
-}
-
+    50%{
+        opacity:.5;
+        transform:scale(.7);
+    }
 }
 
 .hero h1{
-font-size:clamp(48px,9vw,88px);
+    font-size:
+        clamp(
+            48px,
+            9vw,
+            88px
+        );
 
-line-height:.98;
+    line-height:.98;
 
-letter-spacing:-5px;
+    letter-spacing:-5px;
 
-margin-bottom:27px;
+    margin-bottom:27px;
 
-animation:
-fadeUp .9s ease .1s both;
+    animation:
+        fadeUp .9s ease .1s both;
 }
 
 .hero h1 span{
-background:
-linear-gradient(
-90deg,
-#fff,
-#8895a9
-);
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #8895a9
+        );
 
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-max-width:720px;
+    max-width:720px;
 
-margin:auto;
+    margin:auto;
 
-color:#8b95a6;
+    color:#8b95a6;
 
-font-size:18px;
+    font-size:18px;
 
-animation:
-fadeUp .9s ease .2s both;
+    animation:
+        fadeUp .9s ease .2s both;
 }
 
 .hero-buttons{
-display:flex;
+    display:flex;
 
-justify-content:center;
+    justify-content:center;
 
-gap:12px;
+    gap:12px;
 
-flex-wrap:wrap;
+    flex-wrap:wrap;
 
-margin-top:36px;
+    margin-top:36px;
 
-animation:
-fadeUp .9s ease .3s both;
+    animation:
+        fadeUp .9s ease .3s both;
 }
 
 .metrics{
-display:grid;
+    display:grid;
 
-grid-template-columns:
-repeat(3,1fr);
+    grid-template-columns:
+        repeat(3,1fr);
 
-gap:10px;
+    gap:10px;
 
-max-width:700px;
+    max-width:700px;
 
-margin:58px auto 0;
+    margin:
+        58px auto 0;
 
-animation:
-fadeUp .9s ease .4s both;
+    animation:
+        fadeUp .9s ease .4s both;
 }
 
 .metric{
-padding:20px 10px;
+    padding:
+        20px 10px;
 
-border:1px solid #202733;
+    border:
+        1px solid
+        #202733;
 
-border-radius:12px;
+    border-radius:12px;
 
-background:
-rgba(12,16,23,.72);
+    background:
+        rgba(12,16,23,.72);
 
-transition:.3s;
+    transition:.3s;
 }
 
 .metric:hover{
-transform:translateY(-5px);
+    transform:translateY(-5px);
 
-border-color:#3d4759;
+    border-color:#3d4759;
 
-background:
-rgba(20,25,35,.85);
+    background:
+        rgba(20,25,35,.85);
 }
 
 .metric strong{
-display:block;
+    display:block;
 
-font-size:23px;
+    font-size:23px;
 }
 
 .metric span{
-font-size:12px;
-
-color:#707b8e;
+    font-size:12px;
+    color:#707b8e;
 }
-
 
 /* =========================================================
    ANIMATION
@@ -568,381 +730,380 @@ color:#707b8e;
 
 @keyframes fadeUp{
 
-from{
-opacity:0;
-transform:translateY(25px);
-}
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
 
-to{
-opacity:1;
-transform:translateY(0);
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
-
-}
-
 
 /* =========================================================
    SECTIONS
 ========================================================= */
 
 section{
-padding:90px 0;
+    padding:90px 0;
 }
 
 .section-head{
-text-align:center;
-
-margin-bottom:45px;
+    text-align:center;
+    margin-bottom:45px;
 }
 
 .section-head h2{
-font-size:38px;
-
-margin-bottom:10px;
-
-letter-spacing:-1px;
+    font-size:38px;
+    margin-bottom:10px;
+    letter-spacing:-1px;
 }
 
 .section-head p{
-color:#808a9b;
+    color:#808a9b;
 }
-
 
 /* =========================================================
    PRODUCTS
 ========================================================= */
 
 .products{
-display:grid;
+    display:grid;
 
-grid-template-columns:1fr;
+    grid-template-columns:
+        1fr;
 
-gap:16px;
+    gap:16px;
 }
 
 .card{
-padding:27px;
+    padding:27px;
 
-background:
-linear-gradient(
-145deg,
-rgba(15,20,29,.92),
-rgba(9,12,18,.92)
-);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,20,29,.92),
+            rgba(9,12,18,.92)
+        );
 
-border:1px solid #222a38;
+    border:
+        1px solid
+        #222a38;
 
-border-radius:16px;
+    border-radius:16px;
 
-transition:
-transform .3s,
-border-color .3s,
-box-shadow .3s;
+    transition:
+        transform .3s,
+        border-color .3s,
+        box-shadow .3s;
 
-position:relative;
+    position:relative;
 
-overflow:hidden;
+    overflow:hidden;
 }
 
 .card::before{
-content:"";
+    content:"";
 
-position:absolute;
+    position:absolute;
 
-top:-100%;
-left:-100%;
+    top:-100%;
+    left:-100%;
 
-width:200%;
-height:200%;
+    width:200%;
+    height:200%;
 
-background:
-radial-gradient(
-circle,
-rgba(255,255,255,.06),
-transparent 35%
-);
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.06),
+            transparent 35%
+        );
 
-opacity:0;
+    opacity:0;
 
-transition:.4s;
+    transition:.4s;
 }
 
 .card:hover::before{
-opacity:1;
+    opacity:1;
 }
 
 .card:hover{
-transform:translateY(-7px);
+    transform:translateY(-7px);
 
-border-color:#414c60;
+    border-color:#414c60;
 
-box-shadow:
-0 18px 45px rgba(0,0,0,.25);
+    box-shadow:
+        0 18px 45px
+        rgba(0,0,0,.25);
 }
 
 .icon{
-font-size:31px;
+    font-size:31px;
 
-margin-bottom:15px;
+    margin-bottom:15px;
 
-position:relative;
+    position:relative;
 
-transition:.3s;
+    transition:.3s;
 }
 
 .card:hover .icon{
-transform:
-translateY(-4px)
-scale(1.08);
+    transform:
+        translateY(-4px)
+        scale(1.08);
 }
 
 .card h3{
-font-size:20px;
-
-margin-bottom:7px;
+    font-size:20px;
+    margin-bottom:7px;
 }
 
 .card p{
-color:#818b9c;
-
-font-size:14px;
+    color:#818b9c;
+    font-size:14px;
 }
 
 .card-link{
-display:inline-block;
+    display:inline-block;
 
-margin-top:18px;
+    margin-top:18px;
 
-font-size:13px;
-
-font-weight:bold;
+    font-size:13px;
+    font-weight:bold;
 }
 
 .soon{
-color:#687385;
+    color:#687385;
 }
-
 
 /* =========================================================
    DASHBOARD
 ========================================================= */
 
 .dashboard{
-display:grid;
+    display:grid;
 
-grid-template-columns:1fr;
+    grid-template-columns:
+        1fr;
 
-gap:15px;
+    gap:15px;
 }
 
 .dashboard-card{
-background:
-rgba(12,16,23,.86);
+    background:
+        rgba(12,16,23,.86);
 
-border:1px solid #222a38;
+    border:
+        1px solid
+        #222a38;
 
-border-radius:15px;
+    border-radius:15px;
 
-padding:24px;
+    padding:24px;
 
-transition:.3s;
+    transition:.3s;
 }
 
 .dashboard-card:hover{
-border-color:#394354;
+    border-color:#394354;
 
-transform:translateY(-4px);
+    transform:translateY(-4px);
 
-box-shadow:
-0 15px 35px rgba(0,0,0,.2);
+    box-shadow:
+        0 15px 35px
+        rgba(0,0,0,.2);
 }
 
 .dashboard-card span{
-color:#707b8e;
-
-font-size:13px;
+    color:#707b8e;
+    font-size:13px;
 }
 
 .dashboard-card strong{
-display:block;
+    display:block;
 
-font-size:28px;
+    font-size:28px;
 
-margin-top:5px;
+    margin-top:5px;
 }
 
 .projects-link{
-display:block;
-
-cursor:pointer;
+    display:block;
 }
 
-
 /* =========================================================
-   ACCOUNT
+   ACCOUNT PANEL
 ========================================================= */
 
 .account-panel{
-display:none;
+    display:none;
 
-margin-top:25px;
+    margin-top:25px;
 
-background:
-rgba(12,16,23,.9);
+    background:
+        rgba(12,16,23,.9);
 
-border:1px solid #222a38;
+    border:
+        1px solid
+        #222a38;
 
-border-radius:15px;
+    border-radius:15px;
 
-padding:25px;
+    padding:25px;
 }
 
 .account-row{
-display:flex;
+    display:flex;
 
-justify-content:space-between;
+    justify-content:space-between;
 
-align-items:center;
+    align-items:center;
 
-gap:15px;
+    gap:15px;
 
-flex-wrap:wrap;
+    flex-wrap:wrap;
 }
 
 .user-email{
-color:#9ca6b7;
+    color:#9ca6b7;
 
-font-size:14px;
+    font-size:14px;
 
-margin-top:4px;
+    margin-top:4px;
 }
 
 .account-provider{
-color:#707b8e;
+    color:#707b8e;
 
-font-size:12px;
+    font-size:12px;
 
-margin-top:4px;
+    margin-top:4px;
 }
 
 .account-actions{
-display:flex;
+    display:flex;
 
-gap:10px;
+    gap:10px;
 
-flex-wrap:wrap;
+    flex-wrap:wrap;
 }
-
 
 /* =========================================================
    CTA
 ========================================================= */
 
 .cta{
-text-align:center;
+    text-align:center;
 
-background:
-radial-gradient(
-circle at 50% 0%,
-rgba(80,100,135,.12),
-transparent 60%
-),
-rgba(12,16,23,.88);
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(80,100,135,.12),
+            transparent 60%
+        ),
+        rgba(12,16,23,.88);
 
-border:1px solid #252d3b;
+    border:
+        1px solid
+        #252d3b;
 
-border-radius:22px;
+    border-radius:22px;
 
-padding:70px 25px;
+    padding:
+        70px 25px;
 
-position:relative;
+    position:relative;
 
-overflow:hidden;
+    overflow:hidden;
 }
 
 .cta::after{
-content:"";
+    content:"";
 
-position:absolute;
+    position:absolute;
 
-width:300px;
-height:300px;
+    width:300px;
+    height:300px;
 
-left:50%;
-top:50%;
+    left:50%;
+    top:50%;
 
-transform:translate(-50%,-50%);
+    transform:
+        translate(-50%,-50%);
 
-background:
-radial-gradient(
-circle,
-rgba(255,255,255,.04),
-transparent 70%
-);
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.04),
+            transparent 70%
+        );
 
-pointer-events:none;
+    pointer-events:none;
 }
 
 .cta h2{
-font-size:40px;
-
-margin-bottom:12px;
+    font-size:40px;
+    margin-bottom:12px;
 }
 
 .cta p{
-max-width:650px;
+    max-width:650px;
 
-margin:auto;
+    margin:auto;
 
-color:#818b9c;
+    color:#818b9c;
 }
-
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 footer{
-border-top:1px solid #202633;
+    border-top:
+        1px solid
+        #202633;
 
-padding:45px 0;
+    padding:
+        45px 0;
 
-color:#687385;
+    color:#687385;
 
-font-size:13px;
+    font-size:13px;
 
-background:#05070b;
+    background:#05070b;
 }
 
 .footer-grid{
-display:grid;
+    display:grid;
 
-grid-template-columns:
-1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
-gap:25px;
+    gap:25px;
 }
 
 .footer-title{
-color:#fff;
+    color:#fff;
 
-font-weight:bold;
+    font-weight:bold;
 
-margin-bottom:12px;
+    margin-bottom:12px;
 }
 
 .footer-links a{
-display:block;
+    display:block;
 
-margin:7px 0;
+    margin:7px 0;
 
-transition:.2s;
+    transition:.2s;
 }
 
 .footer-links a:hover{
-color:#fff;
+    color:#fff;
 }
-
 
 /* =========================================================
    MODALS
@@ -951,360 +1112,431 @@ color:#fff;
 .modal,
 .account-modal,
 .owner-modal{
-display:none;
+    display:none;
 
-position:fixed;
+    position:fixed;
 
-inset:0;
+    inset:0;
 
-background:
-rgba(0,0,0,.84);
+    background:
+        rgba(0,0,0,.84);
 
-z-index:2000;
+    z-index:2000;
 
-align-items:center;
+    align-items:center;
 
-justify-content:center;
+    justify-content:center;
 
-padding:20px;
+    padding:20px;
 
-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
 }
 
 .owner-modal{
-z-index:3000;
+    z-index:3000;
 
-background:
-rgba(0,0,0,.91);
+    background:
+        rgba(0,0,0,.91);
 }
 
 .modal-box,
 .account-box,
 .owner-modal-box{
-width:100%;
+    width:100%;
 
-max-width:450px;
+    max-width:450px;
 
-background:
-linear-gradient(
-145deg,
-#101620,
-#0b0f16
-);
+    background:
+        linear-gradient(
+            145deg,
+            #101620,
+            #0b0f16
+        );
 
-border:1px solid #303847;
+    border:
+        1px solid
+        #303847;
 
-border-radius:18px;
+    border-radius:18px;
 
-padding:30px;
+    padding:30px;
 
-box-shadow:
-0 25px 80px rgba(0,0,0,.5);
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,.5);
 
-animation:
-modalIn .25s ease;
+    animation:
+        modalIn .25s ease;
+}
+
+.owner-modal-box{
+    max-width:950px;
+
+    max-height:90vh;
+
+    overflow:auto;
 }
 
 @keyframes modalIn{
 
-from{
-opacity:0;
-transform:scale(.95) translateY(10px);
-}
+    from{
+        opacity:0;
+        transform:
+            scale(.95)
+            translateY(10px);
+    }
 
-to{
-opacity:1;
-transform:scale(1) translateY(0);
-}
-
+    to{
+        opacity:1;
+        transform:
+            scale(1)
+            translateY(0);
+    }
 }
 
 .modal-box h2,
 .account-box h2{
-margin-bottom:8px;
+    margin-bottom:8px;
 }
 
 .modal-box p{
-color:#818b9c;
+    color:#818b9c;
 
-font-size:14px;
+    font-size:14px;
 
-margin-bottom:20px;
-}
-
-.modal-box input{
-width:100%;
-
-padding:14px;
-
-background:#080b11;
-
-border:1px solid #303847;
-
-border-radius:9px;
-
-color:#fff;
-
-margin-bottom:12px;
-
-outline:none;
-}
-
-.modal-box input:focus{
-border-color:#687385;
-
-box-shadow:
-0 0 0 3px rgba(255,255,255,.04);
+    margin-bottom:20px;
 }
 
 .close{
-float:right;
+    float:right;
 
-cursor:pointer;
+    cursor:pointer;
 
-font-size:22px;
+    font-size:22px;
 
-color:#8d97a8;
+    color:#8d97a8;
 
-transition:.2s;
+    transition:.2s;
+
+    line-height:1;
 }
 
 .close:hover{
-color:#fff;
-
-transform:rotate(90deg);
+    color:#fff;
+    transform:rotate(90deg);
 }
 
-.auth-message{
-margin-top:15px;
+.modal-box input{
+    width:100%;
 
-padding:12px;
+    padding:14px;
 
-background:#10151e;
+    background:#080b11;
 
-border:1px solid #293140;
+    border:
+        1px solid
+        #303847;
 
-border-radius:8px;
+    border-radius:9px;
 
-color:#9ca6b7;
+    color:#fff;
 
-font-size:13px;
+    margin-bottom:12px;
 
-word-break:break-word;
+    outline:none;
+}
+
+.modal-box input:focus{
+    border-color:#687385;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255,255,255,.04);
 }
 
 .github-button{
-width:100%;
+    width:100%;
 
-margin-top:10px;
+    margin-top:10px;
 
-background:#fff;
+    background:#fff;
 
-color:#06080d;
+    color:#06080d;
 
-border:1px solid #fff;
+    border:1px solid #fff;
 }
 
 .divider{
-display:flex;
+    display:flex;
 
-align-items:center;
+    align-items:center;
 
-gap:10px;
+    gap:10px;
 
-margin:16px 0;
+    margin:16px 0;
 
-color:#687385;
+    color:#687385;
 
-font-size:12px;
+    font-size:12px;
 }
 
 .divider::before,
 .divider::after{
-content:"";
+    content:"";
 
-height:1px;
+    height:1px;
 
-background:#293140;
+    background:#293140;
 
-flex:1;
+    flex:1;
 }
 
+.auth-message{
+    margin-top:15px;
+
+    padding:12px;
+
+    background:#10151e;
+
+    border:
+        1px solid
+        #293140;
+
+    border-radius:8px;
+
+    color:#9ca6b7;
+
+    font-size:13px;
+
+    word-break:break-word;
+
+    min-height:42px;
+}
+
+.auth-message.success{
+    color:var(--success);
+    border-color:#315c45;
+}
+
+.auth-message.error{
+    color:var(--danger);
+    border-color:#633737;
+}
+
+/* =========================================================
+   ACCOUNT MODAL
+========================================================= */
+
 .account-info{
-background:#080b11;
+    background:#080b11;
 
-border:1px solid #293140;
+    border:
+        1px solid
+        #293140;
 
-border-radius:10px;
+    border-radius:10px;
 
-padding:16px;
+    padding:16px;
 
-margin-bottom:15px;
+    margin-bottom:15px;
 }
 
 .account-label{
-font-size:12px;
+    font-size:12px;
+    color:#707b8e;
 
-color:#707b8e;
-
-margin-bottom:4px;
+    margin-bottom:4px;
 }
 
 .account-value{
-font-size:15px;
+    font-size:15px;
 
-word-break:break-word;
+    word-break:break-word;
 }
 
 .logout-button{
-width:100%;
-
-margin-top:10px;
+    width:100%;
+    margin-top:10px;
 }
-
 
 /* =========================================================
    OWNER
 ========================================================= */
 
-.owner-modal-box{
-max-width:950px;
-
-max-height:90vh;
-
-overflow:auto;
-}
-
 .owner-modal-header{
-display:flex;
+    display:flex;
 
-justify-content:space-between;
+    justify-content:space-between;
 
-align-items:flex-start;
+    align-items:flex-start;
 
-gap:15px;
+    gap:15px;
 
-margin-bottom:25px;
+    margin-bottom:25px;
 }
 
 .owner-modal-header h2{
-font-size:30px;
+    font-size:30px;
 }
 
 .owner-status{
-color:#818b9c;
+    color:#818b9c;
 
-font-size:13px;
+    font-size:13px;
 
-margin-top:5px;
+    margin-top:5px;
 }
 
 .owner-status.success{
-color:#8ee6b0;
+    color:var(--success);
 }
 
 .owner-status.error{
-color:#ff8f8f;
+    color:var(--danger);
 }
 
 .owner-grid{
-display:grid;
+    display:grid;
 
-grid-template-columns:1fr;
+    grid-template-columns:
+        1fr;
 
-gap:15px;
+    gap:15px;
 }
 
 .owner-card{
-background:#080b11;
+    background:#080b11;
 
-border:1px solid #252d3b;
+    border:
+        1px solid
+        #252d3b;
 
-border-radius:14px;
+    border-radius:14px;
 
-padding:20px;
+    padding:20px;
 
-transition:.25s;
+    transition:.25s;
 }
 
 .owner-card:hover{
-transform:translateY(-3px);
+    transform:translateY(-3px);
 
-border-color:#414c60;
+    border-color:#414c60;
 }
 
 .owner-card span{
-color:#707b8e;
+    color:#707b8e;
 
-font-size:12px;
+    font-size:12px;
 }
 
 .owner-card strong{
-display:block;
+    display:block;
 
-font-size:25px;
+    font-size:25px;
 
-margin-top:5px;
+    margin-top:5px;
 }
 
 .owner-tools{
-display:grid;
+    display:grid;
 
-grid-template-columns:1fr;
+    grid-template-columns:
+        1fr;
 
-gap:12px;
+    gap:12px;
 
-margin-top:20px;
+    margin-top:20px;
 }
 
 .owner-tool{
-background:#10151e;
+    background:#10151e;
 
-border:1px solid #293140;
+    border:
+        1px solid
+        #293140;
 
-border-radius:12px;
+    border-radius:12px;
 
-padding:18px;
+    padding:18px;
 
-transition:.2s;
+    transition:.2s;
 }
 
 .owner-tool:hover{
-border-color:#424c5e;
+    border-color:#424c5e;
 
-transform:translateY(-2px);
+    transform:translateY(-2px);
 }
 
 .owner-tool strong{
-display:block;
+    display:block;
 
-margin-bottom:4px;
+    margin-bottom:4px;
 }
 
 .owner-tool span{
-color:#818b9c;
+    color:#818b9c;
 
-font-size:13px;
+    font-size:13px;
 }
 
 .owner-debug{
-margin-top:20px;
+    margin-top:20px;
 
-padding:15px;
+    padding:15px;
 
-border-radius:10px;
+    border-radius:10px;
 
-background:#070a0f;
+    background:#070a0f;
 
-border:1px solid #252d3b;
+    border:
+        1px solid
+        #252d3b;
 
-font-size:12px;
+    font-size:12px;
 
-color:#727d8f;
+    color:#727d8f;
 
-word-break:break-all;
+    word-break:break-word;
 }
 
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading{
+    position:relative;
+    color:transparent !important;
+}
+
+.loading::after{
+    content:"";
+
+    position:absolute;
+
+    width:14px;
+    height:14px;
+
+    border:
+        2px solid
+        rgba(0,0,0,.25);
+
+    border-top-color:#06080d;
+
+    border-radius:50%;
+
+    animation:
+        spin .7s linear infinite;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
 
 /* =========================================================
    RESPONSIVE
@@ -1312,91 +1544,120 @@ word-break:break-all;
 
 @media(min-width:750px){
 
-.nav-links{
-display:flex;
+    .nav-links{
+        display:flex;
+    }
+
+    .menu-button{
+        display:none;
+    }
+
+    .products{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .dashboard{
+        grid-template-columns:
+            repeat(4,1fr);
+    }
+
+    .owner-grid{
+        grid-template-columns:
+            repeat(4,1fr);
+    }
+
+    .owner-tools{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .footer-grid{
+        grid-template-columns:
+            repeat(4,1fr);
+    }
+
+    .hero{
+        padding-top:145px;
+    }
 }
 
-.menu{
-display:none;
-}
+@media(max-width:749px){
 
-.products{
-grid-template-columns:
-repeat(3,1fr);
-}
+    .nav-actions .owner-button{
+        display:none !important;
+    }
 
-.dashboard{
-grid-template-columns:
-repeat(4,1fr);
-}
-
-.owner-grid{
-grid-template-columns:
-repeat(4,1fr);
-}
-
-.owner-tools{
-grid-template-columns:
-repeat(3,1fr);
-}
-
-.footer-grid{
-grid-template-columns:
-repeat(4,1fr);
-}
-
-.hero{
-padding-top:145px;
-}
-
+    .nav-actions .lang{
+        display:none;
+    }
 }
 
 @media(max-width:600px){
 
-.logo-text{
-font-size:18px;
+    .container{
+        width:94%;
+    }
 
-letter-spacing:2px;
-}
+    .logo-text{
+        font-size:18px;
+        letter-spacing:2px;
+    }
 
-.logo-mark{
-width:34px;
-height:34px;
-}
+    .logo-mark{
+        width:34px;
+        height:34px;
+    }
 
-.hero h1{
-font-size:48px;
+    .hero h1{
+        font-size:48px;
+        letter-spacing:-3px;
+    }
 
-letter-spacing:-3px;
-}
+    .hero p{
+        font-size:16px;
+    }
 
-.section-head h2{
-font-size:31px;
-}
+    .section-head h2{
+        font-size:31px;
+    }
 
-.metrics{
-gap:6px;
-}
+    .metrics{
+        gap:6px;
+    }
 
-.metric{
-padding:16px 5px;
-}
+    .metric{
+        padding:16px 5px;
+    }
 
-.metric strong{
-font-size:19px;
-}
+    .metric strong{
+        font-size:19px;
+    }
 
-.metric span{
-font-size:10px;
-}
+    .metric span{
+        font-size:10px;
+    }
 
-.wallet{
-padding:9px 11px;
-}
+    .wallet{
+        padding:9px 11px;
+    }
 
-.lang{
-display:none;
-}
+    .cta h2{
+        font-size:32px;
+    }
+
+    .modal-box,
+    .account-box{
+        padding:22px;
+    }
+
+    .owner-modal-box{
+        padding:22px;
+    }
+
+    .owner-modal-header h2{
+        font-size:23px;
+    }
 
 }
 
@@ -1406,7 +1667,6 @@ display:none;
 
 <body>
 
-
 <!-- =========================================================
      HEADER
 ========================================================= -->
@@ -1415,10 +1675,11 @@ display:none;
 
 <div class="container nav">
 
-
 <a
 href="index.html"
-class="logo-link">
+class="logo-link"
+aria-label="Sonativa Home"
+>
 
 <div class="logo-mark"></div>
 
@@ -1429,7 +1690,10 @@ SONATIVA
 </a>
 
 
-<nav class="nav-links">
+<nav
+class="nav-links"
+aria-label="Main navigation"
+>
 
 <a href="#platform">
 Platform
@@ -1448,10 +1712,11 @@ About
 
 <div class="nav-actions">
 
-
 <select
 class="lang"
-onchange="changeLanguage(this.value)">
+id="languageSelect"
+aria-label="Language"
+>
 
 <option value="en">
 EN
@@ -1471,7 +1736,8 @@ AR
 <button
 class="owner-button"
 id="ownerButton"
-onclick="openOwnerDashboard()">
+type="button"
+>
 
 👑 Owner
 
@@ -1481,19 +1747,47 @@ onclick="openOwnerDashboard()">
 <button
 class="wallet"
 id="authButton"
-onclick="handleAuthButton()">
+type="button"
+>
 
 Login / Sign Up
 
 </button>
 
 
-</div>
+<button
+class="menu-button"
+id="menuButton"
+type="button"
+aria-label="Open menu"
+aria-expanded="false"
+>
 
-
-<div class="menu">
 ☰
+
+</button>
+
 </div>
+
+</div>
+
+
+<div
+class="mobile-menu"
+id="mobileMenu"
+>
+
+<a href="#platform">
+Platform
+</a>
+
+<a href="#dashboard">
+Dashboard
+</a>
+
+<a href="#about">
+About
+</a>
 
 </div>
 
@@ -1502,7 +1796,6 @@ Login / Sign Up
 
 <main>
 
-
 <!-- =========================================================
      HERO
 ========================================================= -->
@@ -1510,7 +1803,6 @@ Login / Sign Up
 <section class="hero">
 
 <div class="container">
-
 
 <div class="badge">
 Sonativa Web3 Infrastructure
@@ -1541,7 +1833,8 @@ with Sonativa.
 
 <a
 class="btn primary"
-href="#platform">
+href="#platform"
+>
 
 Explore Platform
 
@@ -1550,7 +1843,8 @@ Explore Platform
 
 <a
 class="btn secondary"
-href="#dashboard">
+href="#dashboard"
+>
 
 Open Dashboard
 
@@ -1614,7 +1908,6 @@ Community
 
 <div class="container">
 
-
 <div class="section-head">
 
 <h2>
@@ -1648,7 +1941,8 @@ with a simple step-by-step workflow.
 
 <a
 class="card-link"
-href="token-studio.html">
+href="token-studio.html"
+>
 
 Open Studio →
 
@@ -1672,9 +1966,14 @@ Design supply, allocations, vesting
 and token distribution.
 </p>
 
-<span class="card-link soon">
-Coming Soon →
-</span>
+<a
+class="card-link"
+href="tokenomics-studio.html"
+>
+
+Open Studio →
+
+</a>
 
 </div>
 
@@ -1848,7 +2147,6 @@ Coming Soon →
 
 <div class="container">
 
-
 <div class="section-head">
 
 <h2>
@@ -1864,10 +2162,10 @@ Login to manage your Sonativa projects.
 
 <div class="dashboard">
 
-
 <a
 href="projects.html"
-class="dashboard-card projects-link">
+class="dashboard-card projects-link"
+>
 
 <span>
 Projects
@@ -1923,10 +2221,10 @@ Alerts
 
 <div
 class="account-panel"
-id="accountPanel">
+id="accountPanel"
+>
 
 <div class="account-row">
-
 
 <div>
 
@@ -1936,12 +2234,14 @@ Signed in
 
 <div
 class="user-email"
-id="userEmail">
+id="userEmail"
+>
 </div>
 
 <div
 class="account-provider"
-id="accountProvider">
+id="accountProvider"
+>
 </div>
 
 </div>
@@ -1949,10 +2249,11 @@ id="accountProvider">
 
 <div class="account-actions">
 
-
 <button
 class="btn secondary"
-onclick="openAccountPanel()">
+id="accountButton"
+type="button"
+>
 
 Account
 
@@ -1961,12 +2262,13 @@ Account
 
 <button
 class="btn secondary"
-onclick="logout()">
+id="logoutButton"
+type="button"
+>
 
 Logout
 
 </button>
-
 
 </div>
 
@@ -1986,7 +2288,6 @@ Logout
 <section>
 
 <div class="container">
-
 
 <div class="section-head">
 
@@ -2127,7 +2428,6 @@ and future applications.
 
 <div class="container">
 
-
 <div class="cta">
 
 <h2>
@@ -2147,7 +2447,8 @@ needed for the next generation of digital products.
 
 <a
 class="btn primary"
-href="token-studio.html">
+href="token-studio.html"
+>
 
 Start Building
 
@@ -2171,7 +2472,6 @@ Start Building
 <footer>
 
 <div class="container">
-
 
 <div class="footer-grid">
 
@@ -2201,12 +2501,12 @@ Platform
 Token Studio
 </a>
 
-<a href="#platform">
-Security
+<a href="tokenomics-studio.html">
+Tokenomics
 </a>
 
 <a href="#platform">
-Wallets
+Security
 </a>
 
 <a href="#platform">
@@ -2277,9 +2577,7 @@ Security
 
 <br><br>
 
-
 © 2026 Sonativa. All rights reserved.
-
 
 </div>
 
@@ -2292,21 +2590,28 @@ Security
 
 <div
 class="modal"
-id="authModal">
+id="authModal"
+role="dialog"
+aria-modal="true"
+aria-labelledby="authTitle"
+>
 
 <div class="modal-box">
 
-
 <span
 class="close"
-onclick="closeAuth()">
+id="closeAuth"
+role="button"
+tabindex="0"
+aria-label="Close"
+>
 
 ×
 
 </span>
 
 
-<h2>
+<h2 id="authTitle">
 Sign in to Sonativa
 </h2>
 
@@ -2318,7 +2623,9 @@ Use your email or continue with GitHub.
 
 <button
 class="btn github-button"
-onclick="signInWithGitHub()">
+id="githubButton"
+type="button"
+>
 
 Continue with GitHub
 
@@ -2334,20 +2641,24 @@ OR
 id="email"
 type="email"
 placeholder="Email address"
-autocomplete="email">
+autocomplete="email"
+>
 
 
 <input
 id="password"
 type="password"
 placeholder="Password"
-autocomplete="current-password">
+autocomplete="current-password"
+>
 
 
 <button
 class="btn primary"
+id="signupButton"
+type="button"
 style="width:100%;margin-bottom:10px"
-onclick="signUp()">
+>
 
 Create Account
 
@@ -2356,8 +2667,10 @@ Create Account
 
 <button
 class="btn secondary"
+id="signinButton"
+type="button"
 style="width:100%"
-onclick="signIn()">
+>
 
 Login
 
@@ -2366,12 +2679,12 @@ Login
 
 <div
 class="auth-message"
-id="authMessage">
+id="authMessage"
+>
 
 Your account is protected by Supabase Authentication.
 
 </div>
-
 
 </div>
 
@@ -2384,14 +2697,20 @@ Your account is protected by Supabase Authentication.
 
 <div
 class="account-modal"
-id="accountModal">
+id="accountModal"
+role="dialog"
+aria-modal="true"
+>
 
 <div class="account-box">
 
-
 <span
 class="close"
-onclick="closeAccountPanel()">
+id="closeAccount"
+role="button"
+tabindex="0"
+aria-label="Close"
+>
 
 ×
 
@@ -2411,10 +2730,9 @@ EMAIL
 
 <div
 class="account-value"
-id="accountEmail">
-
+id="accountEmail"
+>
 -
-
 </div>
 
 </div>
@@ -2428,10 +2746,9 @@ SIGN-IN METHOD
 
 <div
 class="account-value"
-id="accountProviderValue">
-
+id="accountProviderValue"
+>
 -
-
 </div>
 
 </div>
@@ -2445,10 +2762,9 @@ PROJECTS
 
 <div
 class="account-value"
-id="accountProjects">
-
+id="accountProjects"
+>
 0
-
 </div>
 
 </div>
@@ -2456,12 +2772,13 @@ id="accountProjects">
 
 <button
 class="btn secondary logout-button"
-onclick="logoutFromAccount()">
+id="accountLogoutButton"
+type="button"
+>
 
 Logout
 
 </button>
-
 
 </div>
 
@@ -2474,10 +2791,12 @@ Logout
 
 <div
 class="owner-modal"
-id="ownerModal">
+id="ownerModal"
+role="dialog"
+aria-modal="true"
+>
 
 <div class="owner-modal-box">
-
 
 <div class="owner-modal-header">
 
@@ -2489,7 +2808,8 @@ id="ownerModal">
 
 <div
 class="owner-status"
-id="ownerStatus">
+id="ownerStatus"
+>
 
 Verifying owner access...
 
@@ -2500,7 +2820,11 @@ Verifying owner access...
 
 <span
 class="close"
-onclick="closeOwnerDashboard()">
+id="closeOwner"
+role="button"
+tabindex="0"
+aria-label="Close"
+>
 
 ×
 
@@ -2510,7 +2834,6 @@ onclick="closeOwnerDashboard()">
 
 
 <div class="owner-grid">
-
 
 <div class="owner-card">
 
@@ -2563,12 +2886,10 @@ RLS
 
 </div>
 
-
 </div>
 
 
 <div class="owner-tools">
-
 
 <div class="owner-tool">
 
@@ -2647,18 +2968,17 @@ Core Sonativa configuration.
 
 </div>
 
-
 </div>
 
 
 <div
 class="owner-debug"
-id="ownerDebug">
+id="ownerDebug"
+>
 
 Owner verification will appear here.
 
 </div>
-
 
 </div>
 
@@ -2671,16 +2991,27 @@ Owner verification will appear here.
 
 <script type="module">
 
+/*
+=========================================================
+SONATIVA FRONTEND
+Supabase client
+
+IMPORTANT:
+Only the public/publishable key belongs in frontend code.
+Never put a service_role/secret key here.
+=========================================================
+*/
+
 
 import {
-createClient
+    createClient
 }
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
 /* =========================================================
-   SUPABASE
+   SUPABASE CONFIG
 ========================================================= */
 
 const SUPABASE_URL =
@@ -2689,10 +3020,18 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
 
+
 const supabase =
 createClient(
-SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+        auth:{
+            persistSession:true,
+            autoRefreshToken:true,
+            detectSessionInUrl:true
+        }
+    }
 );
 
 
@@ -2701,16 +3040,184 @@ SUPABASE_PUBLISHABLE_KEY
 ========================================================= */
 
 let currentUser = null;
+
 let currentIsOwner = false;
+
+let projectsLoaded = false;
+
+let authBusy = false;
 
 
 /* =========================================================
-   HELPER
+   HELPERS
 ========================================================= */
 
-function $(id){
+const $ = (id) =>
+    document.getElementById(id);
 
-return document.getElementById(id);
+
+function setModal(
+    element,
+    visible
+){
+
+    if(!element){
+        return;
+    }
+
+    element.style.display =
+        visible ? "flex" : "none";
+
+    document.body.classList.toggle(
+        "modal-open",
+        visible
+    );
+
+}
+
+
+function setAuthMessage(
+    message,
+    type = ""
+){
+
+    const box =
+        $("authMessage");
+
+    if(!box){
+        return;
+    }
+
+    box.textContent =
+        message;
+
+    box.className =
+        "auth-message";
+
+    if(type){
+        box.classList.add(type);
+    }
+
+}
+
+
+function setButtonLoading(
+    button,
+    loading,
+    text
+){
+
+    if(!button){
+        return;
+    }
+
+    button.disabled =
+        loading;
+
+    if(loading){
+
+        button.dataset.originalText =
+            button.textContent;
+
+        button.classList.add(
+            "loading"
+        );
+
+        button.textContent =
+            text || "Loading...";
+
+    }else{
+
+        button.classList.remove(
+            "loading"
+        );
+
+        button.textContent =
+            button.dataset.originalText ||
+            text ||
+            button.textContent;
+    }
+
+}
+
+
+/* =========================================================
+   AUTH MODAL
+========================================================= */
+
+function openAuth(){
+
+    setAuthMessage(
+        "Your account is protected by Supabase Authentication."
+    );
+
+    setModal(
+        $("authModal"),
+        true
+    );
+
+}
+
+
+function closeAuth(){
+
+    setModal(
+        $("authModal"),
+        false
+    );
+
+}
+
+
+function openAccountPanel(){
+
+    if(!currentUser){
+
+        openAuth();
+
+        return;
+    }
+
+
+    $("accountEmail").textContent =
+        currentUser.email ||
+        "GitHub account";
+
+
+    $("accountProviderValue").textContent =
+        getProviderName(
+            currentUser
+        );
+
+
+    $("accountProjects").textContent =
+        $("projectCount").textContent;
+
+
+    setModal(
+        $("accountModal"),
+        true
+    );
+
+}
+
+
+function closeAccountPanel(){
+
+    setModal(
+        $("accountModal"),
+        false
+    );
+
+}
+
+
+function closeOwnerDashboard(){
+
+    setModal(
+        $("ownerModal"),
+        false
+    );
 
 }
 
@@ -2719,235 +3226,355 @@ return document.getElementById(id);
    AUTH BUTTON
 ========================================================= */
 
-window.handleAuthButton =
-function(){
+$("authButton").addEventListener(
+    "click",
+    function(){
 
-if(currentUser){
+        if(currentUser){
 
-openAccountPanel();
+            openAccountPanel();
 
-}else{
+        }else{
 
-openAuth();
+            openAuth();
 
-}
+        }
 
-};
-
-
-/* =========================================================
-   LOGIN MODAL
-========================================================= */
-
-window.openAuth =
-function(){
-
-$("authModal").style.display =
-"flex";
-
-};
-
-
-window.closeAuth =
-function(){
-
-$("authModal").style.display =
-"none";
-
-};
+    }
+);
 
 
 /* =========================================================
-   GITHUB
+   GITHUB LOGIN
 ========================================================= */
 
-window.signInWithGitHub =
-async function(){
+async function signInWithGitHub(){
 
-const message =
-$("authMessage");
+    if(authBusy){
+        return;
+    }
 
-message.textContent =
-"Connecting to GitHub...";
+    authBusy = true;
+
+    const button =
+        $("githubButton");
+
+    setButtonLoading(
+        button,
+        true,
+        "Connecting..."
+    );
+
+    setAuthMessage(
+        "Connecting to GitHub..."
+    );
 
 
-const redirectUrl =
-window.location.origin +
-window.location.pathname;
+    try{
+
+        /*
+         * On GitHub Pages:
+         *
+         * https://sonativaofficial.github.io/-Sonativa/
+         *
+         * Using the current origin + pathname means the
+         * callback remains on the current Sonativa page.
+         */
+
+        const redirectUrl =
+            window.location.origin +
+            window.location.pathname;
 
 
-const {
-error
-} =
-await supabase.auth.signInWithOAuth({
+        const {
+            error
+        } =
+        await supabase.auth.signInWithOAuth({
 
-provider:"github",
+            provider:"github",
 
-options:{
-redirectTo:redirectUrl
+            options:{
+                redirectTo:
+                    redirectUrl
+            }
+
+        });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "GitHub OAuth error:",
+            error
+        );
+
+
+        setAuthMessage(
+            "GitHub login error: " +
+            (
+                error?.message ||
+                "Unknown error"
+            ),
+            "error"
+        );
+
+
+        setButtonLoading(
+            button,
+            false
+        );
+
+    }finally{
+
+        authBusy = false;
+
+    }
+
 }
-
-});
-
-
-if(error){
-
-message.textContent =
-"GitHub login error: " +
-error.message;
-
-}
-
-};
 
 
 /* =========================================================
    SIGN UP
 ========================================================= */
 
-window.signUp =
-async function(){
+async function signUp(){
 
-const email =
-$("email").value.trim();
+    if(authBusy){
+        return;
+    }
 
-const password =
-$("password").value;
+    const email =
+        $("email").value.trim();
 
-const message =
-$("authMessage");
+    const password =
+        $("password").value;
 
 
-if(!email || !password){
+    if(!email || !password){
 
-message.textContent =
-"Enter your email and password.";
+        setAuthMessage(
+            "Enter your email and password.",
+            "error"
+        );
 
-return;
+        return;
+    }
+
+
+    if(password.length < 6){
+
+        setAuthMessage(
+            "Password must contain at least 6 characters.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    authBusy = true;
+
+
+    setButtonLoading(
+        $("signupButton"),
+        true,
+        "Creating..."
+    );
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabase.auth.signUp({
+
+            email,
+            password
+
+        });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        /*
+         * If email confirmation is disabled,
+         * Supabase can return an active session.
+         */
+
+        if(data?.session){
+
+            setAuthMessage(
+                "Account created successfully.",
+                "success"
+            );
+
+            await updateUserInterface();
+
+
+            setTimeout(
+                closeAuth,
+                700
+            );
+
+        }else{
+
+            setAuthMessage(
+                "Account created. Check your email to confirm your account.",
+                "success"
+            );
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Sign up error:",
+            error
+        );
+
+
+        setAuthMessage(
+            error?.message ||
+            "Unable to create account.",
+            "error"
+        );
+
+
+    }finally{
+
+        setButtonLoading(
+            $("signupButton"),
+            false
+        );
+
+        authBusy = false;
+
+    }
 
 }
-
-
-if(password.length < 6){
-
-message.textContent =
-"Password must contain at least 6 characters.";
-
-return;
-
-}
-
-
-message.textContent =
-"Creating your account...";
-
-
-const {
-data,
-error
-} =
-await supabase.auth.signUp({
-
-email,
-password
-
-});
-
-
-if(error){
-
-message.textContent =
-error.message;
-
-return;
-
-}
-
-
-if(data.session){
-
-message.textContent =
-"Account created successfully.";
-
-await updateUserInterface();
-
-setTimeout(
-closeAuth,
-700
-);
-
-}else{
-
-message.textContent =
-"Account created. Check your email if confirmation is enabled.";
-
-}
-
-};
 
 
 /* =========================================================
    LOGIN
 ========================================================= */
 
-window.signIn =
-async function(){
+async function signIn(){
 
-const email =
-$("email").value.trim();
-
-const password =
-$("password").value;
-
-const message =
-$("authMessage");
+    if(authBusy){
+        return;
+    }
 
 
-if(!email || !password){
+    const email =
+        $("email").value.trim();
 
-message.textContent =
-"Enter your email and password.";
+    const password =
+        $("password").value;
 
-return;
+
+    if(!email || !password){
+
+        setAuthMessage(
+            "Enter your email and password.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    authBusy = true;
+
+
+    setButtonLoading(
+        $("signinButton"),
+        true,
+        "Signing in..."
+    );
+
+
+    try{
+
+        const {
+            error
+        } =
+        await supabase.auth.signInWithPassword({
+
+            email,
+            password
+
+        });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        setAuthMessage(
+            "Login successful.",
+            "success"
+        );
+
+
+        await updateUserInterface();
+
+
+        setTimeout(
+            closeAuth,
+            400
+        );
+
+
+        $("dashboard").scrollIntoView({
+            behavior:"smooth"
+        });
+
+
+    }catch(error){
+
+        console.error(
+            "Login error:",
+            error
+        );
+
+
+        setAuthMessage(
+            error?.message ||
+            "Unable to sign in.",
+            "error"
+        );
+
+
+    }finally{
+
+        setButtonLoading(
+            $("signinButton"),
+            false
+        );
+
+        authBusy = false;
+
+    }
 
 }
-
-
-message.textContent =
-"Signing in...";
-
-
-const {
-error
-} =
-await supabase.auth.signInWithPassword({
-
-email,
-password
-
-});
-
-
-if(error){
-
-message.textContent =
-error.message;
-
-return;
-
-}
-
-
-closeAuth();
-
-await updateUserInterface();
-
-
-$("dashboard").scrollIntoView({
-behavior:"smooth"
-});
-
-};
 
 
 /* =========================================================
@@ -2956,36 +3583,36 @@ behavior:"smooth"
 
 function getProviderName(user){
 
-const provider =
-user?.app_metadata?.provider;
+    const provider =
+        user?.app_metadata?.provider;
 
 
-if(provider === "github"){
-return "GitHub";
-}
+    if(provider === "github"){
+        return "GitHub";
+    }
 
 
-if(provider === "email"){
-return "Email";
-}
+    if(provider === "email"){
+        return "Email";
+    }
 
 
-if(provider){
-return provider;
-}
+    if(provider){
+        return provider;
+    }
 
 
-if(
-user?.identities &&
-user.identities.length
-){
+    if(
+        user?.identities &&
+        user.identities.length
+    ){
 
-return user.identities[0].provider;
+        return user.identities[0].provider;
 
-}
+    }
 
 
-return "Sonativa Authentication";
+    return "Sonativa Authentication";
 
 }
 
@@ -2996,51 +3623,83 @@ return "Sonativa Authentication";
 
 async function loadProjects(){
 
-if(!currentUser){
+    if(!currentUser){
 
-$("projectCount").textContent =
-"0";
+        $("projectCount").textContent =
+            "0";
 
-return;
+        projectsLoaded =
+            false;
 
-}
+        return;
 
-
-const {
-data,
-error
-} =
-await supabase
-
-.from("projects")
-
-.select("Id")
-
-.eq(
-"user_id",
-currentUser.id
-);
+    }
 
 
-if(error){
+    try{
 
-console.error(
-"Projects error:",
-error
-);
+        const {
+            data,
+            error
+        } =
+        await supabase
+            .from("projects")
+            .select("id")
+            .eq(
+                "user_id",
+                currentUser.id
+            );
 
-$("projectCount").textContent =
-"0";
 
-return;
+        if(error){
 
-}
+            /*
+             * The UI should not crash if the projects table
+             * or RLS policy is still being configured.
+             */
+
+            console.warn(
+                "Projects query:",
+                error.message
+            );
 
 
-$("projectCount").textContent =
-String(
-data?.length || 0
-);
+            $("projectCount").textContent =
+                "0";
+
+            projectsLoaded =
+                false;
+
+            return;
+
+        }
+
+
+        $("projectCount").textContent =
+            String(
+                data?.length || 0
+            );
+
+
+        projectsLoaded =
+            true;
+
+
+    }catch(error){
+
+        console.error(
+            "Projects error:",
+            error
+        );
+
+
+        $("projectCount").textContent =
+            "0";
+
+        projectsLoaded =
+            false;
+
+    }
 
 }
 
@@ -3051,64 +3710,79 @@ data?.length || 0
 
 async function checkOwner(){
 
-if(!currentUser){
+    if(!currentUser){
 
-currentIsOwner =
-false;
+        currentIsOwner =
+            false;
 
-$("ownerButton").style.display =
-"none";
+        $("ownerButton").style.display =
+            "none";
 
-return false;
+        return false;
 
-}
-
-
-const {
-data,
-error
-} =
-await supabase.rpc(
-"is_owner"
-);
+    }
 
 
-if(error){
+    try{
 
-console.error(
-"Owner RPC error:",
-error
-);
-
-currentIsOwner =
-false;
-
-$("ownerButton").style.display =
-"none";
-
-return false;
-
-}
+        const {
+            data,
+            error
+        } =
+        await supabase.rpc(
+            "is_owner"
+        );
 
 
-currentIsOwner =
-data === true;
+        if(error){
+
+            console.warn(
+                "Owner RPC:",
+                error.message
+            );
 
 
-if(currentIsOwner){
+            currentIsOwner =
+                false;
 
-$("ownerButton").style.display =
-"inline-block";
+            $("ownerButton").style.display =
+                "none";
 
-}else{
+            return false;
 
-$("ownerButton").style.display =
-"none";
-
-}
+        }
 
 
-return currentIsOwner;
+        currentIsOwner =
+            data === true;
+
+
+        $("ownerButton").style.display =
+            currentIsOwner
+                ? "inline-block"
+                : "none";
+
+
+        return currentIsOwner;
+
+
+    }catch(error){
+
+        console.error(
+            "Owner check error:",
+            error
+        );
+
+
+        currentIsOwner =
+            false;
+
+        $("ownerButton").style.display =
+            "none";
+
+        return false;
+
+    }
 
 }
 
@@ -3117,105 +3791,70 @@ return currentIsOwner;
    OWNER DASHBOARD
 ========================================================= */
 
-window.openOwnerDashboard =
-async function(){
+async function openOwnerDashboard(){
 
-if(!currentUser){
+    if(!currentUser){
 
-openAuth();
+        openAuth();
 
-return;
+        return;
 
-}
-
-
-const isOwner =
-await checkOwner();
+    }
 
 
-if(!isOwner){
+    $("ownerStatus").textContent =
+        "Verifying owner access...";
 
-alert(
-"Access denied."
-);
-
-return;
-
-}
+    $("ownerStatus").className =
+        "owner-status";
 
 
-$("ownerStatus").textContent =
-"Owner access verified. Protected by Supabase.";
-
-$("ownerStatus").className =
-"owner-status success";
+    const isOwner =
+        await checkOwner();
 
 
-$("ownerProjectCount").textContent =
-$("projectCount").textContent;
+    if(!isOwner){
+
+        $("ownerStatus").textContent =
+            "Access denied.";
+
+        $("ownerStatus").className =
+            "owner-status error";
+
+        $("ownerDebug").textContent =
+            "Your authenticated account does not have owner permissions.";
+
+        setModal(
+            $("ownerModal"),
+            true
+        );
+
+        return;
+
+    }
 
 
-$("ownerDebug").textContent =
-"Owner access verified successfully.";
+    $("ownerStatus").textContent =
+        "Owner access verified. Protected by Supabase.";
+
+    $("ownerStatus").className =
+        "owner-status success";
 
 
-$("ownerModal").style.display =
-"flex";
-
-};
+    $("ownerProjectCount").textContent =
+        $("projectCount").textContent;
 
 
-window.closeOwnerDashboard =
-function(){
-
-$("ownerModal").style.display =
-"none";
-
-};
+    $("ownerDebug").textContent =
+        "Owner access verified successfully for the current authenticated session.";
 
 
-/* =========================================================
-   ACCOUNT
-========================================================= */
-
-window.openAccountPanel =
-function(){
-
-if(!currentUser){
-
-openAuth();
-
-return;
+    setModal(
+        $("ownerModal"),
+        true
+    );
 
 }
-
-
-$("accountEmail").textContent =
-currentUser.email ||
-"GitHub account";
-
-
-$("accountProviderValue").textContent =
-getProviderName(currentUser);
-
-
-$("accountProjects").textContent =
-$("projectCount").textContent;
-
-
-$("accountModal").style.display =
-"flex";
-
-};
-
-
-window.closeAccountPanel =
-function(){
-
-$("accountModal").style.display =
-"none";
-
-};
 
 
 /* =========================================================
@@ -3224,93 +3863,101 @@ $("accountModal").style.display =
 
 async function updateUserInterface(){
 
-try{
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabase.auth.getUser();
 
 
-const {
-data,
-error
-} =
-await supabase.auth.getUser();
+        if(error){
+
+            console.warn(
+                "Auth user:",
+                error.message
+            );
+
+            currentUser =
+                null;
+
+        }else{
+
+            currentUser =
+                data?.user ||
+                null;
+
+        }
 
 
-if(error){
+        if(currentUser){
 
-console.error(error);
-
-currentUser =
-null;
-
-}else{
-
-currentUser =
-data?.user || null;
-
-}
+            $("authButton").textContent =
+                "Account";
 
 
-if(currentUser){
-
-$("authButton").textContent =
-"Account";
+            $("accountPanel").style.display =
+                "block";
 
 
-$("accountPanel").style.display =
-"block";
+            $("userEmail").textContent =
+                currentUser.email ||
+                "GitHub account";
 
 
-$("userEmail").textContent =
-currentUser.email ||
-"GitHub account";
+            $("accountProvider").textContent =
+                "Signed in with " +
+                getProviderName(
+                    currentUser
+                );
 
 
-$("accountProvider").textContent =
-"Signed in with " +
-getProviderName(currentUser);
+            $("dashboardText").textContent =
+                "Your Sonativa workspace is ready.";
 
 
-await loadProjects();
+            await loadProjects();
 
-await checkOwner();
-
-
-$("dashboardText").textContent =
-"Your Sonativa workspace is ready.";
+            await checkOwner();
 
 
-}else{
+        }else{
+
+            $("authButton").textContent =
+                "Login / Sign Up";
 
 
-$("authButton").textContent =
-"Login / Sign Up";
+            $("accountPanel").style.display =
+                "none";
 
 
-$("accountPanel").style.display =
-"none";
+            $("ownerButton").style.display =
+                "none";
 
 
-$("ownerButton").style.display =
-"none";
+            $("projectCount").textContent =
+                "0";
 
 
-$("projectCount").textContent =
-"0";
+            $("dashboardText").textContent =
+                "Login to manage your Sonativa projects.";
 
 
-$("dashboardText").textContent =
-"Login to manage your Sonativa projects.";
+            currentIsOwner =
+                false;
 
-}
+        }
 
 
-}catch(error){
+    }catch(error){
 
-console.error(
-"Interface error:",
-error
-);
+        console.error(
+            "Interface error:",
+            error
+        );
 
-}
+    }
 
 }
 
@@ -3319,151 +3966,400 @@ error
    LOGOUT
 ========================================================= */
 
-window.logout =
-async function(){
+async function logout(){
 
-await supabase.auth.signOut();
+    try{
 
-closeAccountPanel();
-
-closeOwnerDashboard();
-
-await updateUserInterface();
-
-};
+        const {
+            error
+        } =
+        await supabase.auth.signOut();
 
 
-window.logoutFromAccount =
-async function(){
+        if(error){
 
-await supabase.auth.signOut();
+            console.error(
+                "Logout error:",
+                error
+            );
 
-closeAccountPanel();
+        }
 
-closeOwnerDashboard();
+    }catch(error){
 
-await updateUserInterface();
+        console.error(
+            "Logout exception:",
+            error
+        );
 
-
-$("dashboard").scrollIntoView({
-behavior:"smooth"
-});
-
-};
+    }
 
 
-/* =========================================================
-   AUTH STATE
-========================================================= */
+    currentUser =
+        null;
 
-supabase.auth.onAuthStateChange(
-async function(event){
+    currentIsOwner =
+        false;
 
-if(
-event === "SIGNED_IN" ||
-event === "SIGNED_OUT" ||
-event === "INITIAL_SESSION" ||
-event === "USER_UPDATED"
-){
+    closeAccountPanel();
 
-setTimeout(
-updateUserInterface,
-300
-);
+    closeOwnerDashboard();
+
+    await updateUserInterface();
 
 }
-
-});
 
 
 /* =========================================================
    LANGUAGE
 ========================================================= */
 
-window.changeLanguage =
-function(language){
+function changeLanguage(
+    language
+){
 
-if(language === "ar"){
+    document.documentElement.lang =
+        language;
 
-document.documentElement.lang =
-"ar";
 
-alert(
-"Arabic translation will be enabled in the next Sonativa release."
-);
+    /*
+     * Full translations will be connected
+     * after the language files/pages are finalized.
+     */
+
+    if(language === "ar"){
+
+        console.log(
+            "Arabic selected."
+        );
+
+    }else if(language === "fr"){
+
+        console.log(
+            "French selected."
+        );
+
+    }else{
+
+        console.log(
+            "English selected."
+        );
+
+    }
 
 }
-else if(language === "fr"){
-
-document.documentElement.lang =
-"fr";
-
-alert(
-"French translation will be enabled in the next Sonativa release."
-);
-
-}
-else{
-
-document.documentElement.lang =
-"en";
-
-}
-
-};
 
 
 /* =========================================================
-   CLOSE MODALS
+   MOBILE MENU
+========================================================= */
+
+function toggleMobileMenu(){
+
+    const menu =
+        $("mobileMenu");
+
+    const button =
+        $("menuButton");
+
+
+    const isOpen =
+        menu.classList.toggle(
+            "open"
+        );
+
+
+    button.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+    );
+
+
+    button.textContent =
+        isOpen ? "×" : "☰";
+
+}
+
+
+function closeMobileMenu(){
+
+    $("mobileMenu")
+        .classList.remove(
+            "open"
+        );
+
+    $("menuButton")
+        .setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    $("menuButton")
+        .textContent =
+        "☰";
+
+}
+
+
+/* =========================================================
+   EVENT LISTENERS
+========================================================= */
+
+$("githubButton")
+    .addEventListener(
+        "click",
+        signInWithGitHub
+    );
+
+
+$("signupButton")
+    .addEventListener(
+        "click",
+        signUp
+    );
+
+
+$("signinButton")
+    .addEventListener(
+        "click",
+        signIn
+    );
+
+
+$("accountButton")
+    .addEventListener(
+        "click",
+        openAccountPanel
+    );
+
+
+$("logoutButton")
+    .addEventListener(
+        "click",
+        logout
+    );
+
+
+$("accountLogoutButton")
+    .addEventListener(
+        "click",
+        logout
+    );
+
+
+$("ownerButton")
+    .addEventListener(
+        "click",
+        openOwnerDashboard
+    );
+
+
+$("closeAuth")
+    .addEventListener(
+        "click",
+        closeAuth
+    );
+
+
+$("closeAccount")
+    .addEventListener(
+        "click",
+        closeAccountPanel
+    );
+
+
+$("closeOwner")
+    .addEventListener(
+        "click",
+        closeOwnerDashboard
+    );
+
+
+$("menuButton")
+    .addEventListener(
+        "click",
+        toggleMobileMenu
+    );
+
+
+$("languageSelect")
+    .addEventListener(
+        "change",
+        function(){
+
+            changeLanguage(
+                this.value
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   MOBILE MENU LINKS
+========================================================= */
+
+document
+    .querySelectorAll(
+        "#mobileMenu a"
+    )
+    .forEach(
+        function(link){
+
+            link.addEventListener(
+                "click",
+                closeMobileMenu
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   MODAL OUTSIDE CLICK
 ========================================================= */
 
 $("authModal")
-.addEventListener(
-"click",
-function(event){
+    .addEventListener(
+        "click",
+        function(event){
 
-if(event.target === this){
+            if(
+                event.target === this
+            ){
 
-closeAuth();
+                closeAuth();
 
-}
+            }
 
-});
+        }
+    );
 
 
 $("accountModal")
-.addEventListener(
-"click",
-function(event){
+    .addEventListener(
+        "click",
+        function(event){
 
-if(event.target === this){
+            if(
+                event.target === this
+            ){
 
-closeAccountPanel();
+                closeAccountPanel();
 
-}
+            }
 
-});
+        }
+    );
 
 
 $("ownerModal")
-.addEventListener(
-"click",
-function(event){
+    .addEventListener(
+        "click",
+        function(event){
 
-if(event.target === this){
+            if(
+                event.target === this
+            ){
 
-closeOwnerDashboard();
+                closeOwnerDashboard();
 
-}
+            }
 
-});
+        }
+    );
 
 
 /* =========================================================
-   START
+   ESCAPE KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key !== "Escape"){
+            return;
+        }
+
+
+        closeAuth();
+
+        closeAccountPanel();
+
+        closeOwnerDashboard();
+
+        closeMobileMenu();
+
+    }
+);
+
+
+/* =========================================================
+   ENTER KEY IN LOGIN
+========================================================= */
+
+$("password")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter"
+            ){
+
+                signIn();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   SUPABASE AUTH STATE
+========================================================= */
+
+supabase.auth.onAuthStateChange(
+    function(
+        event,
+        session
+    ){
+
+        console.log(
+            "Supabase auth event:",
+            event
+        );
+
+
+        /*
+         * Don't perform heavy async work directly
+         * inside the auth callback.
+         */
+
+        setTimeout(
+            function(){
+
+                currentUser =
+                    session?.user ||
+                    null;
+
+                updateUserInterface();
+
+            },
+            0
+        );
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL START
 ========================================================= */
 
 updateUserInterface();
+
 
 </script>
 
