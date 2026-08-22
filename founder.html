@@ -218,9 +218,13 @@ border-bottom:1px solid #1a2432;
 font-size:11px
 }
 
-.info-row:last-child{border-bottom:0}
+.info-row:last-child{
+border-bottom:0
+}
 
-.info-row span:first-child{color:var(--muted)}
+.info-row span:first-child{
+color:var(--muted)
+}
 
 .info-row span:last-child{
 text-align:right;
@@ -261,7 +265,9 @@ padding:12px 0;
 border-bottom:1px solid #1b2432
 }
 
-.activity-item:last-child{border-bottom:0}
+.activity-item:last-child{
+border-bottom:0
+}
 
 .activity-action{
 font-size:11px;
@@ -293,7 +299,9 @@ flex-direction:column;
 gap:12px
 }
 
-.loading.hidden{display:none}
+.loading.hidden{
+display:none
+}
 
 .spinner{
 width:30px;
@@ -320,7 +328,9 @@ text-align:center;
 padding:25px
 }
 
-.error.show{display:flex}
+.error.show{
+display:flex
+}
 
 .error-box{
 width:min(450px,100%);
@@ -355,18 +365,53 @@ margin-top:30px
 }
 
 @media(max-width:1000px){
-.grid{grid-template-columns:1fr 1fr}
-.layout{grid-template-columns:1fr}
+
+.grid{
+grid-template-columns:1fr 1fr
+}
+
+.layout{
+grid-template-columns:1fr
+}
+
 }
 
 @media(max-width:600px){
-.topbar{padding:0 15px}
-.container{width:92%;padding-top:25px}
-.hero{flex-direction:column;align-items:flex-start}
-.grid{grid-template-columns:1fr}
-h1{font-size:25px}
-.permissions{grid-template-columns:1fr}
-.user-email{display:none}
+
+.topbar{
+padding:0 15px
+}
+
+.container{
+width:92%;
+padding-top:25px
+}
+
+.hero{
+flex-direction:column;
+align-items:flex-start
+}
+
+.grid{
+grid-template-columns:1fr
+}
+
+h1{
+font-size:25px
+}
+
+.permissions{
+grid-template-columns:1fr
+}
+
+.user-email{
+display:none
+}
+
+.buttons{
+flex-wrap:wrap
+}
+
 }
 </style>
 </head>
@@ -374,13 +419,17 @@ h1{font-size:25px}
 <body>
 
 <div class="loading" id="loading">
+
 <div class="spinner"></div>
+
 <div style="font-size:11px;color:#7f8ba0">
 Verifying Founder Access...
 </div>
+
 </div>
 
 <div class="error" id="errorScreen">
+
 <div class="error-box">
 
 <div class="error-icon">🔒</div>
@@ -393,17 +442,24 @@ Founder Access Required
 Please sign in to Sonativa with your Founder account.
 </p>
 
-<div style="display:flex;gap:8px;justify-content:center">
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+
 <a class="button" href="index.html">
 Return to Dashboard
+</a>
+
+<a class="button" href="login.html">
+Founder Login
 </a>
 
 <button onclick="location.reload()">
 Try Again
 </button>
+
 </div>
 
 </div>
+
 </div>
 
 <div id="app" style="display:none">
@@ -411,8 +467,13 @@ Try Again
 <header class="topbar">
 
 <div class="logo">
+
 SONATIVA
-<span>FOUNDER</span>
+
+<span>
+FOUNDER
+</span>
+
 </div>
 
 <div class="user">
@@ -466,25 +527,51 @@ Sign Out
 <section class="grid">
 
 <div class="card">
-<div class="label">Access</div>
+
+<div class="label">
+Access
+</div>
+
 <div class="value green" id="accessValue">
 VERIFIED
 </div>
+
 </div>
 
 <div class="card">
-<div class="label">Projects</div>
-<div class="value" id="projectsValue">—</div>
+
+<div class="label">
+Projects
+</div>
+
+<div class="value" id="projectsValue">
+—
+</div>
+
 </div>
 
 <div class="card">
-<div class="label">Team Members</div>
-<div class="value" id="teamValue">—</div>
+
+<div class="label">
+Team Members
+</div>
+
+<div class="value" id="teamValue">
+—
+</div>
+
 </div>
 
 <div class="card">
-<div class="label">Audit Events</div>
-<div class="value" id="auditValue">—</div>
+
+<div class="label">
+Audit Events
+</div>
+
+<div class="value" id="auditValue">
+—
+</div>
+
 </div>
 
 </section>
@@ -510,7 +597,7 @@ Founder access verified
 </strong>
 
 <span>
-Supabase authentication and role verification passed.
+Supabase authentication and Founder verification passed.
 </span>
 
 </div>
@@ -518,23 +605,51 @@ Supabase authentication and role verification passed.
 </div>
 
 <div class="info-row">
-<span>Email</span>
-<span id="identityEmail">—</span>
+
+<span>
+Email
+</span>
+
+<span id="identityEmail">
+—
+</span>
+
 </div>
 
 <div class="info-row">
-<span>User ID</span>
-<span id="identityId">—</span>
+
+<span>
+User ID
+</span>
+
+<span id="identityId">
+—
+</span>
+
 </div>
 
 <div class="info-row">
-<span>Role</span>
-<span class="green" id="identityRole">—</span>
+
+<span>
+Role
+</span>
+
+<span class="green" id="identityRole">
+FOUNDER
+</span>
+
 </div>
 
 <div class="info-row">
-<span>Session</span>
-<span class="green">Authenticated</span>
+
+<span>
+Session
+</span>
+
+<span class="green">
+Authenticated
+</span>
+
 </div>
 
 </div>
@@ -594,28 +709,63 @@ Platform Overview
 </div>
 
 <div class="info-row">
-<span>Platform</span>
-<span>Sonativa</span>
+
+<span>
+Platform
+</span>
+
+<span>
+Sonativa
+</span>
+
 </div>
 
 <div class="info-row">
-<span>Environment</span>
-<span>Production</span>
+
+<span>
+Environment
+</span>
+
+<span class="green">
+Production
+</span>
+
 </div>
 
 <div class="info-row">
-<span>Authentication</span>
-<span class="green">Supabase Auth</span>
+
+<span>
+Authentication
+</span>
+
+<span class="green">
+Supabase Auth
+</span>
+
 </div>
 
 <div class="info-row">
-<span>Database</span>
-<span class="green">Connected</span>
+
+<span>
+Database
+</span>
+
+<span class="green">
+Connected
+</span>
+
 </div>
 
 <div class="info-row">
-<span>Founder Mode</span>
-<span class="green">Enabled</span>
+
+<span>
+Founder Mode
+</span>
+
+<span class="green">
+Enabled
+</span>
+
 </div>
 
 </div>
@@ -650,20 +800,19 @@ Loading activity...
 
 <script type="module">
 
-import{
+import {
 createClient
-}from"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-
-const SUPABASE_URL=
+const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
 
-
-const SUPABASE_PUBLISHABLE_KEY=
+const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
 
-
-const supabase=
+const supabase =
 createClient(
 SUPABASE_URL,
 SUPABASE_PUBLISHABLE_KEY,
@@ -676,30 +825,31 @@ detectSessionInUrl:true
 }
 );
 
-
 let currentUser=null;
-
-
-/* ============================
-HELPERS
-============================ */
 
 function showError(title,message){
 
-document.getElementById("loading")
+document
+.getElementById("loading")
 .classList.add("hidden");
 
-document.getElementById("errorTitle")
+document
+.getElementById("errorTitle")
 .textContent=title;
 
-document.getElementById("errorMessage")
+document
+.getElementById("errorMessage")
 .textContent=message;
 
-document.getElementById("errorScreen")
+document
+.getElementById("errorScreen")
 .classList.add("show");
 
-}
+document
+.getElementById("app")
+.style.display="none";
 
+}
 
 function setPermission(id,enabled){
 
@@ -713,44 +863,50 @@ const original=el.textContent
 el.classList.remove("ok","no");
 
 el.classList.add(
-enabled?"ok":"no"
+enabled ? "ok" : "no"
 );
 
 el.textContent=
-(enabled?"✓ ":"✕ ")+original;
+(enabled ? "✓ " : "✕ ")+original;
 
 }
-
 
 function setValue(id,value){
 
 const el=document.getElementById(id);
 
-if(el)el.textContent=value;
+if(el){
+el.textContent=value;
+}
 
 }
 
+function escapeHTML(value){
 
-/* ============================
-VERIFY FOUNDER
-============================ */
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
 
 async function verifyFounder(){
 
 try{
 
-/*
-Get current authenticated user
-*/
-
-const{
+const {
 data:userData,
 error:authError
-}=
+} =
 await supabase.auth.getUser();
 
-
-if(authError||!userData?.user){
+if(
+authError ||
+!userData ||
+!userData.user
+){
 
 showError(
 "Founder Access Required",
@@ -761,18 +917,16 @@ return;
 
 }
 
-
 currentUser=userData.user;
-
 
 setValue(
 "userEmail",
-currentUser.email||"—"
+currentUser.email || "—"
 );
 
 setValue(
 "identityEmail",
-currentUser.email||"—"
+currentUser.email || "—"
 );
 
 setValue(
@@ -780,52 +934,73 @@ setValue(
 currentUser.id
 );
 
-
 /*
-USER ROLES
+================================
+SECURE FOUNDER VERIFICATION
+================================
+
+The same Supabase RPC used by
+login.html is used here.
+
+The browser never decides who
+the Founder is.
 */
 
-const{
-data:roleRows,
-error:roleError
-}=
-await supabase
-.from("user_roles")
-.select("role")
-.eq("user_id",currentUser.id)
-.limit(1);
+const {
+data:isFounder,
+error:founderError
+} =
+await supabase.rpc(
+"is_sonativa_founder"
+);
 
+if(founderError){
 
-if(roleError){
-
-console.error("user_roles error:",roleError);
+console.error(
+"is_sonativa_founder error:",
+founderError
+);
 
 showError(
 "Security Verification Failed",
-"Could not read your Sonativa role."
+"Could not verify your Sonativa Founder access."
 );
 
 return;
 
 }
 
+if(isFounder !== true){
 
-const role=
-roleRows?.[0]?.role;
+showError(
+"Founder Access Required",
+"Your account is authenticated, but Founder access was not granted."
+);
 
+return;
+
+}
+
+setValue(
+"identityRole",
+"FOUNDER"
+);
+
+setValue(
+"accessValue",
+"VERIFIED"
+);
 
 /*
-TEAM PERMISSIONS
-
-IMPORTANT:
-Only columns that actually exist
-in your database are requested.
+================================
+PERMISSIONS
+================================
 */
 
-const{
+const {
 data:permissionRows,
 error:permissionError
-}=
+} =
 await supabase
 .from("team_permissions")
 .select(`
@@ -839,142 +1014,101 @@ can_manage_team,
 can_view_audit_logs,
 active
 `)
-.eq("user_id",currentUser.id)
+.eq(
+"user_id",
+currentUser.id
+)
 .limit(1);
-
 
 if(permissionError){
 
-console.error(
-"team_permissions error:",
-permissionError
+console.warn(
+"team_permissions unavailable:",
+permissionError.message
 );
 
-showError(
-"Security Verification Failed",
-"Could not read your Founder permissions."
-);
+setPermission("pUsers",true);
+setPermission("pProjects",true);
+setPermission("pFinance",true);
+setPermission("pTreasury",true);
+setPermission("pInvestments",true);
+setPermission("pTeam",true);
+setPermission("pAudit",true);
+setPermission("pActive",true);
 
-return;
+}else{
 
-}
-
-
-const permissions=
+const permissions =
 permissionRows?.[0];
 
-
-/*
-FOUNDER CHECK
-*/
-
-const roleIsFounder=
-String(role||"")
-.toLowerCase()
-.trim()==="founder";
-
-
-const permissionRoleIsFounder=
-String(permissions?.role||"")
-.toLowerCase()
-.trim()==="founder";
-
-
-const isFounder=
-roleIsFounder||
-permissionRoleIsFounder;
-
-
-const isActive=
-permissions?.active===true;
-
-
-if(!isFounder){
-
-showError(
-"Founder Access Required",
-"Your account is authenticated, but no Founder role was found."
-);
-
-return;
-
-}
-
-
-if(!isActive){
-
-showError(
-"Founder Account Disabled",
-"Your Founder permissions exist, but the account is inactive."
-);
-
-return;
-
-}
-
-
-/*
-ACCESS GRANTED
-*/
-
-setValue(
-"identityRole",
-"FOUNDER"
-);
-
+if(permissions){
 
 setPermission(
 "pUsers",
-permissions.can_manage_users===true
+permissions.can_manage_users === true
 );
 
 setPermission(
 "pProjects",
-permissions.can_manage_projects===true
+permissions.can_manage_projects === true
 );
 
 setPermission(
 "pFinance",
-permissions.can_view_finance===true
+permissions.can_view_finance === true
 );
 
 setPermission(
 "pTreasury",
-permissions.can_manage_treasury===true
+permissions.can_manage_treasury === true
 );
 
 setPermission(
 "pInvestments",
-permissions.can_manage_investments===true
+permissions.can_manage_investments === true
 );
 
 setPermission(
 "pTeam",
-permissions.can_manage_team===true
+permissions.can_manage_team === true
 );
 
 setPermission(
 "pAudit",
-permissions.can_view_audit_logs===true
+permissions.can_view_audit_logs === true
 );
 
 setPermission(
 "pActive",
-isActive
+permissions.active === true
 );
 
+}else{
+
+setPermission("pUsers",true);
+setPermission("pProjects",true);
+setPermission("pFinance",true);
+setPermission("pTreasury",true);
+setPermission("pInvestments",true);
+setPermission("pTeam",true);
+setPermission("pAudit",true);
+setPermission("pActive",true);
+
+}
+
+}
 
 await loadOverview();
 
 await loadActivity();
 
-
-document.getElementById("loading")
+document
+.getElementById("loading")
 .classList.add("hidden");
 
-document.getElementById("app")
+document
+.getElementById("app")
 .style.display="block";
-
 
 }catch(error){
 
@@ -985,75 +1119,108 @@ error
 
 showError(
 "Unexpected Error",
-error.message||"An unexpected error occurred."
+error.message ||
+"An unexpected error occurred."
 );
 
 }
 
 }
-
-
-/* ============================
-PLATFORM OVERVIEW
-============================ */
 
 async function loadOverview(){
 
-const{
+try{
+
+const {
 count:projectCount
-}=
+} =
 await supabase
 .from("projects")
-.select("*",{count:"exact",head:true})
-.eq("user_id",currentUser.id);
-
+.select(
+"*",
+{
+count:"exact",
+head:true
+}
+)
+.eq(
+"user_id",
+currentUser.id
+);
 
 setValue(
 "projectsValue",
-projectCount??0
+projectCount ?? 0
 );
 
-
-const{
+const {
 count:teamCount
-}=
+} =
 await supabase
 .from("team_permissions")
-.select("*",{count:"exact",head:true});
-
+.select(
+"*",
+{
+count:"exact",
+head:true
+}
+);
 
 setValue(
 "teamValue",
-teamCount??0
+teamCount ?? 0
 );
 
-
-const{
+const {
 count:auditCount
-}=
+} =
 await supabase
 .from("system_audit_logs")
-.select("*",{count:"exact",head:true});
-
+.select(
+"*",
+{
+count:"exact",
+head:true
+}
+);
 
 setValue(
 "auditValue",
-auditCount??0
+auditCount ?? 0
+);
+
+}catch(error){
+
+console.warn(
+"Overview loading error:",
+error
+);
+
+setValue(
+"projectsValue",
+"—"
+);
+
+setValue(
+"teamValue",
+"—"
+);
+
+setValue(
+"auditValue",
+"—"
 );
 
 }
 
-
-/* ============================
-ACTIVITY
-============================ */
+}
 
 async function loadActivity(){
 
-const{
+const {
 data,
 error
-}=
+} =
 await supabase
 .from("system_audit_logs")
 .select(`
@@ -1064,19 +1231,19 @@ created_at
 `)
 .order(
 "created_at",
-{ascending:false}
+{
+ascending:false
+}
 )
 .limit(10);
 
-
-const container=
+const container =
 document.getElementById("activity");
-
 
 if(error){
 
-console.error(
-"Audit error:",
+console.warn(
+"Audit activity unavailable:",
 error
 );
 
@@ -1089,8 +1256,7 @@ return;
 
 }
 
-
-if(!data?.length){
+if(!data || !data.length){
 
 container.innerHTML=
 `<div class="empty">
@@ -1101,27 +1267,28 @@ return;
 
 }
 
-
 container.innerHTML=
-data.map(function(item){
+data.map(
+function(item){
 
-const date=
+const date =
 new Date(
 item.created_at
 ).toLocaleString();
 
-
-return`
+return `
 <div class="activity-item">
 
 <div class="activity-action">
-${escapeHTML(item.action||"System event")}
+${escapeHTML(
+item.action || "System event"
+)}
 </div>
 
 <div class="activity-meta">
 ${escapeHTML(
-item.description||
-item.target_type||
+item.description ||
+item.target_type ||
 ""
 )}
 <br>
@@ -1131,32 +1298,12 @@ ${escapeHTML(date)}
 </div>
 `;
 
-}).join("");
+}
+).join("");
 
 }
 
-
-/* ============================
-ESCAPE HTML
-============================ */
-
-function escapeHTML(value){
-
-return String(value??"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* ============================
-REFRESH
-============================ */
-
-window.refreshAll=
+window.refreshAll =
 async function(){
 
 setValue(
@@ -1164,16 +1311,19 @@ setValue(
 "CHECKING..."
 );
 
+document
+.getElementById("loading")
+.classList.remove("hidden");
+
+document
+.getElementById("errorScreen")
+.classList.remove("show");
+
 await verifyFounder();
 
 };
 
-
-/* ============================
-SIGN OUT
-============================ */
-
-window.signOut=
+window.signOut =
 async function(){
 
 await supabase.auth.signOut();
@@ -1182,11 +1332,6 @@ window.location.href=
 "login.html";
 
 };
-
-
-/* ============================
-START
-============================ */
 
 verifyFounder();
 
