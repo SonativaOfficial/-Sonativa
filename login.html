@@ -20,19 +20,12 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .footer{margin-top:22px;text-align:center;color:#566276;font-size:9px;line-height:1.7}
 </style>
 </head>
-
 <body>
+
 <div class="card">
-
 <div class="logo">SONATIVA</div>
-
-<div class="sub">
-Secure access to your Web3 workspace
-</div>
-
-<div class="badge">
-🔒 Founder Access
-</div>
+<div class="sub">Secure access to your Web3 workspace</div>
+<div class="badge">🔒 Founder Access</div>
 
 <button id="githubBtn">
 Continue with GitHub
@@ -48,17 +41,22 @@ Continue with GitHub
 Your wallet remains under your control.<br>
 Sonativa never asks for private keys or seed phrases.
 </div>
-
 </div>
 
 <script type="module">
 
-import{createClient}
-from"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import{createClient}from"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const supabase=createClient(
 "https://kallobeodjzzhrsaqszw.supabase.co",
-"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX"
+"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX",
+{
+auth:{
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
+}
 );
 
 const button=document.getElementById("githubBtn");
@@ -71,22 +69,34 @@ message.className=type;
 
 async function verifyFounder(){
 
-const{data,error}=await supabase.rpc(
-"is_sonativa_founder"
-);
+show("Verifying Founder access...","success");
 
-if(error){
+const{data:sessionData}=await supabase.auth.getSession();
+const session=sessionData?.session;
 
-console.error("Founder verification error:",error);
-
-show(
-"Security Verification Failed: "+error.message,
-"error"
-);
-
+if(!session){
+show("No active Sonativa session was found. Please sign in with GitHub.","error");
 button.disabled=false;
 button.textContent="Continue with GitHub";
+return;
+}
 
+const{data:userData,error:userError}=await supabase.auth.getUser();
+
+if(userError||!userData?.user){
+show("Your GitHub session could not be verified.","error");
+button.disabled=false;
+button.textContent="Continue with GitHub";
+return;
+}
+
+const{data,error}=await supabase.rpc("is_sonativa_founder");
+
+if(error){
+console.error("Founder RPC error:",error);
+show("Founder verification error: "+error.message,"error");
+button.disabled=false;
+button.textContent="Continue with GitHub";
 return;
 }
 
@@ -97,63 +107,52 @@ show(
 "success"
 );
 
-setTimeout(function(){
+setTimeout(()=>{
 window.location.href="founder.html";
-},800);
+},1000);
 
 return;
 }
 
 show(
-"Security Verification Failed: Sonativa could not verify your founder role from the database.",
+"Founder role was not verified for this signed-in account.",
 "error"
 );
 
 button.disabled=false;
 button.textContent="Continue with GitHub";
-
 }
 
-button.addEventListener(
-"click",
-async function(){
+button.addEventListener("click",async()=>{
 
 button.disabled=true;
 button.textContent="Connecting to GitHub...";
 message.className="";
 
 const{error}=await supabase.auth.signInWithOAuth({
-
 provider:"github",
-
 options:{
-redirectTo:
-"https://sonativaofficial.github.io/-Sonativa/login.html"
+redirectTo:"https://sonativaofficial.github.io/-Sonativa/login.html"
 }
-
 });
 
 if(error){
-
 console.error(error);
-
-show(
-"GitHub sign in failed: "+error.message,
-"error"
-);
-
+show("GitHub sign in failed: "+error.message,"error");
 button.disabled=false;
 button.textContent="Continue with GitHub";
-
 }
 
 });
 
-supabase.auth.onAuthStateChange(
-async function(event,session){
+supabase.auth.onAuthStateChange((event,session)=>{
 
 if(event==="SIGNED_IN"&&session){
-await verifyFounder();
+
+setTimeout(()=>{
+verifyFounder();
+},1500);
+
 }
 
 });
@@ -162,8 +161,12 @@ async function start(){
 
 const{data}=await supabase.auth.getSession();
 
-if(data&&data.session){
-await verifyFounder();
+if(data?.session){
+
+setTimeout(()=>{
+verifyFounder();
+},1000);
+
 }
 
 }
