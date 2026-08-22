@@ -4,22 +4,127 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sonativa — Founder Access</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Arial,sans-serif;background:#04060b;color:#fff}
-.card{width:min(460px,100%);padding:32px;background:#0b111b;border:1px solid #202b3d;border-radius:18px;box-shadow:0 25px 80px #0008}
-.logo{text-align:center;font-size:25px;font-weight:900;letter-spacing:5px}
-.sub{text-align:center;margin-top:9px;color:#8793a6;font-size:12px}
-.badge{text-align:center;margin-top:18px;color:#62e39a;font-size:11px}
-button{width:100%;height:46px;margin-top:28px;border-radius:9px;font-weight:bold;cursor:pointer;background:white;color:#05070c;border:0}
-button:disabled{opacity:.6;cursor:not-allowed}
-#message{display:none;margin-top:15px;padding:13px;border-radius:9px;font-size:11px;line-height:1.7;word-break:break-word}
-.error{display:block!important;color:#ff9b9b;background:#190c0c;border:1px solid #4b2020}
-.success{display:block!important;color:#62e39a;background:#091710;border:1px solid #214b35}
-.info{display:block!important;color:#b8c4d6;background:#0d1521;border:1px solid #26364c}
-.uid{margin-top:10px;padding:10px;background:#060a11;border:1px solid #1c293a;border-radius:8px;font-family:monospace;font-size:10px;color:#9fb0c8}
-.back{display:block;margin-top:18px;text-align:center;color:#78869b;font-size:10px;text-decoration:none}
-.footer{margin-top:22px;text-align:center;color:#566276;font-size:9px;line-height:1.7}
+
+body{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+font-family:Arial,sans-serif;
+background:#04060b;
+color:#fff
+}
+
+.card{
+width:min(460px,100%);
+padding:32px;
+background:#0b111b;
+border:1px solid #202b3d;
+border-radius:18px;
+box-shadow:0 25px 80px #0008
+}
+
+.logo{
+text-align:center;
+font-size:25px;
+font-weight:900;
+letter-spacing:5px
+}
+
+.sub{
+text-align:center;
+margin-top:9px;
+color:#8793a6;
+font-size:12px
+}
+
+.badge{
+text-align:center;
+margin-top:18px;
+color:#62e39a;
+font-size:11px
+}
+
+button{
+width:100%;
+height:46px;
+margin-top:28px;
+border-radius:9px;
+font-weight:bold;
+cursor:pointer;
+background:white;
+color:#05070c;
+border:0
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed
+}
+
+#message{
+display:none;
+margin-top:15px;
+padding:13px;
+border-radius:9px;
+font-size:11px;
+line-height:1.7;
+word-break:break-word
+}
+
+.error{
+display:block!important;
+color:#ff9b9b;
+background:#190c0c;
+border:1px solid #4b2020
+}
+
+.success{
+display:block!important;
+color:#62e39a;
+background:#091710;
+border:1px solid #214b35
+}
+
+.info{
+display:block!important;
+color:#b8c4d6;
+background:#0d1521;
+border:1px solid #26364c
+}
+
+.uid{
+margin-top:10px;
+padding:10px;
+background:#060a11;
+border:1px solid #1c293a;
+border-radius:8px;
+font-family:monospace;
+font-size:10px;
+color:#9fb0c8;
+word-break:break-all
+}
+
+.back{
+display:block;
+margin-top:18px;
+text-align:center;
+color:#78869b;
+font-size:10px;
+text-decoration:none
+}
+
+.footer{
+margin-top:22px;
+text-align:center;
+color:#566276;
+font-size:9px;
+line-height:1.7
+}
 </style>
 </head>
 
@@ -27,7 +132,9 @@ button:disabled{opacity:.6;cursor:not-allowed}
 
 <div class="card">
 
-<div class="logo">SONATIVA</div>
+<div class="logo">
+SONATIVA
+</div>
 
 <div class="sub">
 Secure access to your Web3 workspace
@@ -37,7 +144,7 @@ Secure access to your Web3 workspace
 🔒 Founder Access Verification
 </div>
 
-<button id="githubBtn">
+<button id="githubBtn" type="button">
 Continue with GitHub
 </button>
 
@@ -56,11 +163,28 @@ Sonativa never asks for private keys or seed phrases.
 
 <script type="module">
 
-import{createClient}from"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import {
+createClient
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-const supabase=createClient(
-"https://kallobeodjzzhrsaqszw.supabase.co",
-"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX",
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://kallobeodjzzhrsaqszw.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
+
+const supabase =
+createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY,
 {
 auth:{
 persistSession:true,
@@ -70,180 +194,416 @@ detectSessionInUrl:true
 }
 );
 
-const button=document.getElementById("githubBtn");
-const message=document.getElementById("message");
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const button =
+document.getElementById("githubBtn");
+
+const message =
+document.getElementById("message");
+
+
+/* =========================================
+   UI
+========================================= */
 
 function show(text,type="info"){
 
 message.textContent=text;
+
 message.className=type;
 
 }
 
-async function diagnose(){
+function showUser(user){
 
-show("Checking Sonativa session...","info");
+message.innerHTML="";
 
-const sessionResult=
-await supabase.auth.getSession();
+const title =
+document.createElement("div");
 
-if(sessionResult.error){
+title.textContent =
+"GitHub session detected.";
+
+const box =
+document.createElement("div");
+
+box.className="uid";
+
+box.textContent =
+"UID: "+user.id+
+"\nEmail: "+(user.email || "not available");
+
+message.appendChild(title);
+
+message.appendChild(box);
+
+message.className="info";
+
+}
+
+
+/* =========================================
+   BUTTON STATE
+========================================= */
+
+function enableButton(){
+
+button.disabled=false;
+
+button.textContent=
+"Continue with GitHub";
+
+}
+
+function disableButton(text){
+
+button.disabled=true;
+
+button.textContent=text;
+
+}
+
+
+/* =========================================
+   VERIFY FOUNDER
+========================================= */
+
+async function verifyFounder(user){
+
+if(!user){
 
 show(
-"SESSION ERROR: "+sessionResult.error.message,
+"No active session found. Press Continue with GitHub.",
 "error"
 );
+
+enableButton();
+
+return false;
+
+}
+
+
+/*
+Show authenticated user
+*/
+
+showUser(user);
+
+
+/*
+Secure Founder verification.
+
+The database RPC should check
+auth.uid() against the Founder
+account. The UID must NOT be trusted
+from the browser.
+*/
+
+const {
+data,
+error
+} =
+await supabase.rpc(
+"is_sonativa_founder"
+);
+
+
+if(error){
+
+console.error(
+"Founder RPC error:",
+error
+);
+
+show(
+"FOUNDER VERIFICATION ERROR: "+
+error.message+
+"\nUID: "+user.id,
+"error"
+);
+
+enableButton();
+
+return false;
+
+}
+
+
+if(data === true){
+
+show(
+"Founder access verified. Redirecting...",
+"success"
+);
+
+disableButton(
+"Founder Verified"
+);
+
+setTimeout(
+function(){
+
+window.location.replace(
+"founder.html"
+);
+
+},
+800
+);
+
+return true;
+
+}
+
+
+/*
+Founder verification failed
+*/
+
+show(
+"Access denied. This GitHub account is not registered as the Sonativa Founder.\nUID: "+
+user.id,
+"error"
+);
+
+enableButton();
+
+return false;
+
+}
+
+
+/* =========================================
+   CHECK CURRENT SESSION
+========================================= */
+
+async function checkSession(){
+
+disableButton(
+"Checking Session..."
+);
+
+show(
+"Checking Sonativa session...",
+"info"
+);
+
+
+const {
+data,
+error
+} =
+await supabase.auth.getSession();
+
+
+if(error){
+
+console.error(
+"Session error:",
+error
+);
+
+show(
+"SESSION ERROR: "+
+error.message,
+"error"
+);
+
+enableButton();
 
 return;
 
 }
 
-const session=
-sessionResult.data?.session;
+
+const session =
+data?.session;
+
 
 if(!session){
 
 show(
 "No active GitHub session found. Press Continue with GitHub.",
-"error"
+"info"
 );
 
-button.disabled=false;
-button.textContent="Continue with GitHub";
+enableButton();
 
 return;
 
 }
 
-const user=
-session.user;
 
-message.innerHTML=
-"GitHub session detected.<div class='uid'>UID: "+
-user.id+
-"<br>Email: "+
-(user.email||"not available")+
-"</div>";
-
-message.className="info";
-
-const userResult=
-await supabase.auth.getUser();
-
-if(userResult.error){
-
-show(
-"GET USER ERROR: "+userResult.error.message,
-"error"
+await verifyFounder(
+session.user
 );
-
-return;
 
 }
 
-const rpcResult=
-await supabase.rpc(
-"is_sonativa_founder"
-);
 
-if(rpcResult.error){
+/* =========================================
+   GITHUB LOGIN
+========================================= */
+
+async function loginWithGitHub(){
+
+disableButton(
+"Connecting to GitHub..."
+);
 
 show(
-"RPC ERROR: "+rpcResult.error.message+
-"<div class='uid'>UID: "+user.id+"</div>",
-"error"
+"Connecting to GitHub...",
+"info"
 );
 
-console.error(rpcResult.error);
 
-return;
+try{
 
-}
-
-if(rpcResult.data===true){
-
-show(
-"Founder verification returned TRUE.<div class='uid'>UID: "+
-user.id+
-"</div>Redirecting to Founder Control Center...",
-"success"
-);
-
-setTimeout(function(){
-
-window.location.href="founder.html";
-
-},1500);
-
-return;
-
-}
-
-show(
-"RPC returned FALSE.<div class='uid'>UID seen by website: "+
-user.id+
-"<br>Expected Founder UID: d4f638be-8a5e-43d9-9215-46ecaf806375</div>",
-"error"
-);
-
-button.disabled=false;
-button.textContent="Continue with GitHub";
-
-}
-
-button.addEventListener(
-"click",
-async function(){
-
-button.disabled=true;
-button.textContent="Connecting to GitHub...";
-
-message.className="";
-
-const result=
+const {
+data,
+error
+} =
 await supabase.auth.signInWithOAuth({
 
 provider:"github",
 
 options:{
+
 redirectTo:
-"https://sonativaofficial.github.io/-Sonativa/login.html"
+"https://sonativaofficial.github.io/-Sonativa/login.html",
+
+queryParams:{
+prompt:"login"
+}
+
 }
 
 });
 
-if(result.error){
+
+if(error){
+
+console.error(
+"GitHub login error:",
+error
+);
 
 show(
-"GITHUB ERROR: "+result.error.message,
+"GITHUB ERROR: "+
+error.message,
 "error"
 );
 
-button.disabled=false;
-button.textContent="Continue with GitHub";
+enableButton();
+
+return;
 
 }
 
-});
+
+/*
+OAuth normally redirects immediately.
+If it does not, show a useful message.
+*/
+
+if(
+data &&
+data.url
+){
+
+show(
+"Opening GitHub authentication...",
+"info"
+);
+
+}
+
+}catch(error){
+
+console.error(
+"GitHub exception:",
+error
+);
+
+show(
+"GITHUB ERROR: "+
+(error.message || "Authentication failed."),
+"error"
+);
+
+enableButton();
+
+}
+
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+button.addEventListener(
+"click",
+loginWithGitHub
+);
+
+
+/* =========================================
+   AUTH STATE
+========================================= */
 
 supabase.auth.onAuthStateChange(
 function(event,session){
 
+console.log(
+"Supabase Auth Event:",
+event
+);
+
+
 if(
-event==="SIGNED_IN"&&
+event === "SIGNED_IN" &&
 session
 ){
 
 setTimeout(
-diagnose,
-1000
+function(){
+
+verifyFounder(
+session.user
+);
+
+},
+300
+);
+
+}
+
+
+if(
+event === "TOKEN_REFRESHED" &&
+session
+){
+
+console.log(
+"Session refreshed."
 );
 
 }
 
 });
 
-diagnose();
+
+/* =========================================
+   START
+========================================= */
+
+checkSession();
 
 </script>
 
