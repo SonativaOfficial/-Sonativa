@@ -220,6 +220,12 @@ padding:45px 0;
 color:#697386;
 }
 
+.help{
+margin-top:7px;
+font-size:12px;
+color:#697386;
+}
+
 @media(min-width:700px){
 
 .grid{
@@ -348,12 +354,40 @@ Total Supply
 
 <input
 id="supply"
-type="number"
-min="1"
-placeholder="100000000">
+type="text"
+inputmode="numeric"
+placeholder="1000000000000">
+
+<div class="help">
+Enter any whole-number supply supported by Solana's token amount limit.
+</div>
 
 </div>
 
+</div>
+
+
+<label>
+Decimals
+</label>
+
+<select id="decimals">
+
+<option value="0">0 — No decimals</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6" selected>6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+
+</select>
+
+<div class="help">
+Decimals control how finely the token can be divided. Maximum SPL Token decimals: 9.
 </div>
 
 
@@ -440,6 +474,7 @@ Project Saved Successfully ✅
 <p id="rToken"></p>
 <p id="rSymbol"></p>
 <p id="rSupply"></p>
+<p id="rDecimals"></p>
 <p id="rNetwork"></p>
 
 <br>
@@ -471,6 +506,14 @@ Token Created Successfully 🎉
 
 <p
 id="mintAddress">
+</p>
+
+<p>
+<strong>Transaction:</strong>
+</p>
+
+<p
+id="transactionSignature">
 </p>
 
 <a
@@ -535,7 +578,7 @@ SUPABASE_PUBLISHABLE_KEY
 
 
 /* =========================================
-   SOLANA
+   SOLANA WEB3
 ========================================= */
 
 import {
@@ -548,10 +591,18 @@ Transaction
 from
 "https://esm.sh/@solana/web3.js@1.98.4";
 
+
+/* =========================================
+   SPL TOKEN
+========================================= */
+
 import {
-createMint,
-getOrCreateAssociatedTokenAccount,
-mintTo
+getAssociatedTokenAddress,
+createAssociatedTokenAccountInstruction,
+createInitializeMintInstruction,
+createMintToInstruction,
+TOKEN_PROGRAM_ID,
+ASSOCIATED_TOKEN_PROGRAM_ID
 }
 from
 "https://esm.sh/@solana/spl-token@0.4.14";
@@ -566,6 +617,14 @@ new Connection(
 "https://api.devnet.solana.com",
 "confirmed"
 );
+
+
+/* =========================================
+   CONSTANTS
+========================================= */
+
+const MAX_U64 =
+(BigInt(2) ** BigInt(64)) - BigInt(1);
 
 
 /* =========================================
@@ -746,7 +805,7 @@ console.error(error);
 
 showMessage(
 "Wallet connection failed: " +
-error.message,
+(error?.message || error),
 "error"
 );
 
@@ -797,7 +856,15 @@ document.getElementById(
 const supply =
 document.getElementById(
 "supply"
-).value;
+).value.trim();
+
+
+const decimals =
+Number(
+document.getElementById(
+"decimals"
+).value
+);
 
 
 const network =
@@ -830,11 +897,40 @@ return;
 
 
 if(
-Number(supply) <= 0
+!/^\d+$/.test(supply)
+){
+
+showMessage(
+"Total supply must contain whole numbers only.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+BigInt(supply) <= BigInt(0)
 ){
 
 showMessage(
 "Total supply must be greater than 0.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+decimals < 0 ||
+decimals > 9
+){
+
+showMessage(
+"Decimals must be between 0 and 9.",
 "error"
 );
 
@@ -849,6 +945,32 @@ network === "Solana"
 
 showMessage(
 "Mainnet creation is disabled for now. Use Solana Devnet for testing.",
+"error"
+);
+
+return;
+
+}
+
+
+/* =========================================
+   U64 VALIDATION
+========================================= */
+
+const rawAmount =
+BigInt(supply) *
+(
+BigInt(10) **
+BigInt(decimals)
+);
+
+
+if(
+rawAmount > MAX_U64
+){
+
+showMessage(
+"This supply is too large for the selected decimals. Reduce the supply or reduce decimals.",
 "error"
 );
 
@@ -887,7 +1009,7 @@ token_symbol:
 tokenSymbol,
 
 total_supply:
-Number(supply),
+supply,
 
 network:
 network,
@@ -923,7 +1045,17 @@ return;
 
 
 savedProject =
-data;
+{
+
+...data,
+
+total_supply:
+supply,
+
+decimals:
+decimals
+
+};
 
 
 document.getElementById(
@@ -951,7 +1083,14 @@ document.getElementById(
 "rSupply"
 ).innerHTML =
 "<strong>Total Supply:</strong> " +
-Number(supply).toLocaleString();
+BigInt(supply).toLocaleString();
+
+
+document.getElementById(
+"rDecimals"
+).innerHTML =
+"<strong>Decimals:</strong> " +
+decimals;
 
 
 document.getElementById(
@@ -968,7 +1107,7 @@ document.getElementById(
 
 
 showMessage(
-"Project saved successfully. Now connect Phantom and create the Devnet token.",
+"Project saved successfully. Connect Phantom and create your Devnet token.",
 "success"
 );
 
@@ -1013,7 +1152,7 @@ savedProject.network !==
 ){
 
 showTokenMessage(
-"Only Solana Devnet is enabled in this first version.",
+"Only Solana Devnet is enabled in this version.",
 "error"
 );
 
@@ -1043,6 +1182,10 @@ button.textContent =
 "Connecting Wallet...";
 
 
+/* =========================================
+   CONNECT
+========================================= */
+
 if(!walletPublicKey){
 
 const response =
@@ -1065,7 +1208,7 @@ walletPublicKey
 );
 
 
-if(balance === 0){
+if(balance <= 0){
 
 showTokenMessage(
 "Your Phantom wallet has 0 SOL on Devnet. You need Devnet SOL before creating the token.",
@@ -1083,23 +1226,71 @@ return;
 }
 
 
-showTokenMessage(
-"Creating token mint..."
+/* =========================================
+   VALUES
+========================================= */
+
+const decimals =
+Number(
+savedProject.decimals
 );
 
 
-const decimals = 9;
+const supply =
+BigInt(
+savedProject.total_supply
+);
+
+
+const rawAmount =
+supply *
+(
+BigInt(10) **
+BigInt(decimals)
+);
+
+
+if(
+rawAmount > MAX_U64
+){
+
+throw new Error(
+"Supply is too large for the selected decimals. Please reduce the supply or decimals."
+);
+
+}
+
+
+/* =========================================
+   GENERATE MINT
+========================================= */
+
+showTokenMessage(
+"Generating token mint..."
+);
 
 
 const mint =
 Keypair.generate();
 
 
+/* =========================================
+   RENT
+========================================= */
+
+const mintAccountSize =
+82;
+
+
 const lamports =
 await connection.getMinimumBalanceForRentExemption(
-82
+mintAccountSize
 );
 
+
+/* =========================================
+   INITIALIZE MINT TRANSACTION
+========================================= */
 
 const transaction =
 new Transaction();
@@ -1115,27 +1306,50 @@ walletPublicKey,
 newAccountPubkey:
 mint.publicKey,
 
-space:82,
+space:
+mintAccountSize,
 
 lamports:
-
 lamports,
 
 programId:
-new PublicKey(
-"TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
-)
+TOKEN_PROGRAM_ID
 
 })
 
 );
 
 
+transaction.add(
+
+createInitializeMintInstruction(
+
+mint.publicKey,
+
+decimals,
+
+walletPublicKey,
+
+walletPublicKey,
+
+TOKEN_PROGRAM_ID
+
+)
+
+);
+
+
+/* =========================================
+   BLOCKHASH
+========================================= */
+
 const {
 blockhash,
 lastValidBlockHeight
 } =
-await connection.getLatestBlockhash();
+await connection.getLatestBlockhash(
+"confirmed"
+);
 
 
 transaction.recentBlockhash =
@@ -1145,118 +1359,244 @@ transaction.feePayer =
 walletPublicKey;
 
 
+/* =========================================
+   MINT SIGNS ITS OWN ACCOUNT
+========================================= */
+
 transaction.partialSign(
 mint
 );
 
 
 showTokenMessage(
-"Please approve the transaction in Phantom..."
+"Please approve the mint creation in Phantom..."
 );
 
 
-const signed =
+/* =========================================
+   PHANTOM SIGN
+========================================= */
+
+const signedTransaction =
 await window.solana.signTransaction(
 transaction
 );
 
 
+/* =========================================
+   SEND
+========================================= */
+
 const signature =
 await connection.sendRawTransaction(
-signed.serialize()
+signedTransaction.serialize(),
+{
+skipPreflight:false
+}
 );
 
 
-await connection.confirmTransaction({
+/* =========================================
+   CONFIRM
+========================================= */
 
+await connection.confirmTransaction(
+{
 signature,
-
 blockhash,
-
 lastValidBlockHeight
-
-});
+},
+"confirmed"
+);
 
 
 showTokenMessage(
-"Mint created. Creating token account..."
+"Mint created successfully. Creating token account..."
 );
 
+
+/* =========================================
+   ATA
+========================================= */
 
 const tokenAccount =
-await getOrCreateAssociatedTokenAccount(
-
-connection,
-
-{
-
-publicKey:
-walletPublicKey,
-
-signTransaction:
-async transaction => {
-
-return await window.solana.signTransaction(
-transaction
-);
-
-}
-
-},
+await getAssociatedTokenAddress(
 
 mint.publicKey,
 
-walletPublicKey
+walletPublicKey,
+
+false,
+
+TOKEN_PROGRAM_ID,
+
+ASSOCIATED_TOKEN_PROGRAM_ID
 
 );
+
+
+const accountInfo =
+await connection.getAccountInfo(
+tokenAccount
+);
+
+
+if(!accountInfo){
+
+const ataTransaction =
+new Transaction();
+
+
+ataTransaction.add(
+
+createAssociatedTokenAccountInstruction(
+
+walletPublicKey,
+
+tokenAccount,
+
+walletPublicKey,
+
+mint.publicKey,
+
+TOKEN_PROGRAM_ID,
+
+ASSOCIATED_TOKEN_PROGRAM_ID
+
+)
+
+);
+
+
+const ataBlockhash =
+await connection.getLatestBlockhash(
+"confirmed"
+);
+
+
+ataTransaction.recentBlockhash =
+ataBlockhash.blockhash;
+
+ataTransaction.feePayer =
+walletPublicKey;
+
+
+showTokenMessage(
+"Please approve the token account transaction in Phantom..."
+);
+
+
+const signedAta =
+await window.solana.signTransaction(
+ataTransaction
+);
+
+
+const ataSignature =
+await connection.sendRawTransaction(
+signedAta.serialize(),
+{
+skipPreflight:false
+}
+);
+
+
+await connection.confirmTransaction(
+{
+signature:
+ataSignature,
+
+blockhash:
+ataBlockhash.blockhash,
+
+lastValidBlockHeight:
+ataBlockhash.lastValidBlockHeight
+},
+"confirmed"
+);
+
+}
 
 
 /* =========================================
    MINT SUPPLY
 ========================================= */
 
-const amount =
-BigInt(
-savedProject.total_supply
-) *
-BigInt(
-10 ** decimals
-);
-
-
 showTokenMessage(
 "Minting total supply..."
 );
 
 
-await mintTo(
+const mintTransaction =
+new Transaction();
 
-connection,
 
-{
+mintTransaction.add(
 
-publicKey:
-walletPublicKey,
-
-signTransaction:
-async transaction => {
-
-return await window.solana.signTransaction(
-transaction
-);
-
-}
-
-},
+createMintToInstruction(
 
 mint.publicKey,
 
-tokenAccount.address,
+tokenAccount,
 
 walletPublicKey,
 
-amount
+rawAmount,
 
+[],
+
+TOKEN_PROGRAM_ID
+
+)
+
+);
+
+
+const mintBlockhash =
+await connection.getLatestBlockhash(
+"confirmed"
+);
+
+
+mintTransaction.recentBlockhash =
+mintBlockhash.blockhash;
+
+mintTransaction.feePayer =
+walletPublicKey;
+
+
+showTokenMessage(
+"Please approve the supply transaction in Phantom..."
+);
+
+
+const signedMint =
+await window.solana.signTransaction(
+mintTransaction
+);
+
+
+const mintSignature =
+await connection.sendRawTransaction(
+signedMint.serialize(),
+{
+skipPreflight:false
+}
+);
+
+
+await connection.confirmTransaction(
+{
+signature:
+mintSignature,
+
+blockhash:
+mintBlockhash.blockhash,
+
+lastValidBlockHeight:
+mintBlockhash.lastValidBlockHeight
+},
+"confirmed"
 );
 
 
@@ -1278,6 +1618,12 @@ document.getElementById(
 "mintAddress"
 ).textContent =
 mintAddress;
+
+
+document.getElementById(
+"transactionSignature"
+).textContent =
+mintSignature;
 
 
 document.getElementById(
@@ -1307,7 +1653,7 @@ error
 
 showTokenMessage(
 "Token creation failed: " +
-error.message,
+(error?.message || error),
 "error"
 );
 
