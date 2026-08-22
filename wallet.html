@@ -1,1 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
+<title>Sonativa Wallet — Devnet</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  min-height:100vh;
+  font-family:Inter,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 50% -10%,#172033 0%,#06080d 45%,#040509 100%);
+  color:#fff;
+}
+
+.container{
+  width:92%;
+  max-width:760px;
+  margin:auto;
+}
+
+header{
+  padding:20px 0;
+  border-bottom:1px solid #202735;
+  background:rgba(5,7,12,.9);
+}
+
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:4px;
+}
+
+.network{
+  padding:6px 9px;
+  border-radius:6px;
+  color:#e8bd68;
+  background:#17140c;
+  border:1px solid #5a4b29;
+  font-size:10px;
+  font-weight:bold;
+}
+
+main{
+  padding:45px 0 70px;
+}
+
+.hero{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.hero h1{
+  font-size:34px;
+}
+
+.hero p{
+  margin-top:8px;
+  color:#7f8ba0;
+  font-size:13px;
+}
+
+.card{
+  padding:25px;
+  margin-bottom:18px;
+  background:#0d1119;
+  border:1px solid #242c3b;
+  border-radius:15px;
+}
+
+.card h2{
+  font-size:17px;
+  margin-bottom:8px;
+}
+
+.card-description{
+  color:#7f8ba0;
+  font-size:11px;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+
+button{
+  width:100%;
+  height:46px;
+  border:0;
+  border-radius:9px;
+  background:#fff;
+  color:#05070c;
+  font-weight:800;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+button.secondary{
+  background:#10151e;
+  color:#fff;
+  border:1px solid #303949;
+}
+
+button.danger{
+  background:#190c0c;
+  color:#ff9b9b;
+  border:1px solid #4b2020;
+}
+
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.wallet{
+  display:none;
+}
+
+.balance{
+  text-align:center;
+  padding:25px;
+  background:#080b12;
+  border:1px solid #252d3b;
+  border-radius:12px;
+}
+
+.balance-label{
+  color:#7f8ba0;
+  font-size:11px;
+}
+
+.balance-value{
+  margin-top:8px;
+  font-size:32px;
+  font-weight:900;
+}
+
+.address-box{
+  margin-top:15px;
+  padding:14px;
+  background:#060a11;
+  border:1px solid #1c293a;
+  border-radius:10px;
+}
+
+.address-label{
+  color:#7f8ba0;
+  font-size:10px;
+}
+
+.address{
+  margin-top:7px;
+  color:#8ee6b0;
+  font-family:monospace;
+  font-size:11px;
+  word-break:break-all;
+}
+
+.warning{
+  padding:14px;
+  margin-top:15px;
+  border-radius:10px;
+  color:#e8bd68;
+  background:#17140c;
+  border:1px solid #5a4b29;
+  font-size:11px;
+  line-height:1.7;
+}
+
+.message{
+  display:none;
+  padding:13px;
+  margin-top:15px;
+  border-radius:9px;
+  font-size:11px;
+  line-height:1.7;
+  word-break:break-word;
+}
+
+.message.info{
+  display:block;
+  color:#b8c4d6;
+  background:#0d1521;
+  border:1px solid #26364c;
+}
+
+.message.success{
+  display:block;
+  color:#62e39a;
+  background:#091710;
+  border:1px solid #214b35;
+}
+
+.message.error{
+  display:block;
+  color:#ff9b9b;
+  background:#190c0c;
+  border:1px solid #4b2020;
+}
+
+footer{
+  text-align:center;
+  padding:35px 0;
+  color:#566276;
+  font-size:9px;
+}
+
+.back{
+  display:block;
+  text-align:center;
+  margin-top:20px;
+  color:#78869b;
+  font-size:11px;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="container header-inner">
+
+<div class="logo">
+SONATIVA
+</div>
+
+<div class="network">
+SOLANA DEVNET
+</div>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+<section class="hero">
+
+<h1>
+Sonativa Wallet
+</h1>
+
+<p>
+Your non-custodial Devnet wallet.
+</p>
+
+</section>
+
+
+<!-- CREATE / IMPORT -->
+
+<section class="card" id="setupCard">
+
+<h2>
+Create or Import Wallet
+</h2>
+
+<p class="card-description">
+This first version is for Solana Devnet testing only.
+Your wallet secret is never sent to Sonativa.
+</p>
+
+
+<button id="createButton">
+Create New Wallet
+</button>
+
+
+<button
+class="secondary"
+id="importButton">
+
+Import Existing Wallet
+
+</button>
+
+
+<div
+id="setupMessage"
+class="message">
+</div>
+
+</section>
+
+
+<!-- WALLET -->
+
+<section
+class="card wallet"
+id="walletCard">
+
+<h2>
+Wallet
+</h2>
+
+<div class="balance">
+
+<div class="balance-label">
+Devnet SOL Balance
+</div>
+
+<div
+class="balance-value"
+id="balance">
+
+0 SOL
+
+</div>
+
+</div>
+
+
+<div class="address-box">
+
+<div class="address-label">
+Wallet Address
+</div>
+
+<div
+class="address"
+id="walletAddress">
+
+</div>
+
+</div>
+
+
+<div class="warning">
+
+⚠️ DEVNET ONLY
+
+<br><br>
+
+This wallet is for testing.
+Never send real SOL or valuable assets to this version.
+
+</div>
+
+
+<button id="refreshButton">
+Refresh Balance
+</button>
+
+
+<button
+class="secondary"
+id="lockButton">
+
+Lock Wallet
+
+</button>
+
+
+<button
+class="danger"
+id="clearButton">
+
+Remove Wallet From This Browser
+
+</button>
+
+
+<div
+id="walletMessage"
+class="message">
+</div>
+
+</section>
+
+
+<a
+class="back"
+href="index.html">
+
+← Back to Dashboard
+
+</a>
+
+</main>
+
+
+<footer>
+
+© 2026 Sonativa — Devnet Wallet
+
+</footer>
+
+
+<script type="module">
+
+import {
+Connection,
+Keypair,
+LAMPORTS_PER_SOL
+}
+from
+"https://esm.sh/@solana/web3.js@1.98.4";
+
+
+/* =========================================
+   CONNECTION
+========================================= */
+
+const connection =
+new Connection(
+"https://api.devnet.solana.com",
+"confirmed"
+);
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const setupCard =
+document.getElementById(
+"setupCard"
+);
+
+const walletCard =
+document.getElementById(
+"walletCard"
+);
+
+const createButton =
+document.getElementById(
+"createButton"
+);
+
+const importButton =
+document.getElementById(
+"importButton"
+);
+
+const refreshButton =
+document.getElementById(
+"refreshButton"
+);
+
+const lockButton =
+document.getElementById(
+"lockButton"
+);
+
+const clearButton =
+document.getElementById(
+"clearButton"
+);
+
+const setupMessage =
+document.getElementById(
+"setupMessage"
+);
+
+const walletMessage =
+document.getElementById(
+"walletMessage"
+);
+
+const walletAddress =
+document.getElementById(
+"walletAddress"
+);
+
+const balance =
+document.getElementById(
+"balance"
+);
+
+
+/* =========================================
+   STATE
+========================================= */
+
+let wallet = null;
+
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+function showSetup(
+text,
+type="info"
+){
+
+setupMessage.textContent =
+text;
+
+setupMessage.className =
+"message " + type;
+
+}
+
+function showWallet(
+text,
+type="info"
+){
+
+walletMessage.textContent =
+text;
+
+walletMessage.className =
+"message " + type;
+
+}
+
+
+/* =========================================
+   CREATE WALLET
+========================================= */
+
+createButton.addEventListener(
+"click",
+function(){
+
+try{
+
+wallet =
+Keypair.generate();
+
+
+walletAddress.textContent =
+wallet.publicKey.toString();
+
+
+setupCard.style.display =
+"none";
+
+walletCard.style.display =
+"block";
+
+
+showWallet(
+"Devnet wallet created successfully.",
+"success"
+);
+
+
+refreshBalance();
+
+
+}catch(error){
+
+console.error(error);
+
+showSetup(
+"Could not create wallet.",
+"error"
+);
+
+}
+
+});
+
+
+/* =========================================
+   IMPORT
+========================================= */
+
+importButton.addEventListener(
+"click",
+function(){
+
+const value =
+prompt(
+"Paste your Solana private key as a JSON array of numbers."
+);
+
+
+if(!value){
+
+return;
+
+}
+
+
+try{
+
+const secret =
+JSON.parse(value);
+
+
+if(
+!Array.isArray(secret) ||
+secret.length !== 64
+){
+
+throw new Error(
+"Invalid private key format."
+);
+
+}
+
+
+wallet =
+Keypair.fromSecretKey(
+Uint8Array.from(secret)
+);
+
+
+walletAddress.textContent =
+wallet.publicKey.toString();
+
+
+setupCard.style.display =
+"none";
+
+walletCard.style.display =
+"block";
+
+
+showWallet(
+"Wallet imported successfully.",
+"success"
+);
+
+
+refreshBalance();
+
+
+}catch(error){
+
+console.error(error);
+
+showSetup(
+"Invalid Solana private key.",
+"error"
+);
+
+}
+
+});
+
+
+/* =========================================
+   BALANCE
+========================================= */
+
+async function refreshBalance(){
+
+if(!wallet){
+
+return;
+
+}
+
+
+try{
+
+showWallet(
+"Checking Devnet balance...",
+"info"
+);
+
+
+const lamports =
+await connection.getBalance(
+wallet.publicKey
+);
+
+
+const sol =
+lamports /
+LAMPORTS_PER_SOL;
+
+
+balance.textContent =
+sol.toFixed(6) +
+" SOL";
+
+
+showWallet(
+"Balance updated.",
+"success"
+);
+
+
+}catch(error){
+
+console.error(error);
+
+showWallet(
+"Could not load Devnet balance.",
+"error"
+);
+
+}
+
+}
+
+
+refreshButton.addEventListener(
+"click",
+refreshBalance
+);
+
+
+/* =========================================
+   LOCK
+========================================= */
+
+lockButton.addEventListener(
+"click",
+function(){
+
+wallet = null;
+
+walletCard.style.display =
+"none";
+
+setupCard.style.display =
+"block";
+
+showSetup(
+"Wallet locked.",
+"success"
+);
+
+});
+
+
+/* =========================================
+   REMOVE
+========================================= */
+
+clearButton.addEventListener(
+"click",
+function(){
+
+wallet = null;
+
+walletCard.style.display =
+"none";
+
+setupCard.style.display =
+"block";
+
+showSetup(
+"Wallet removed from this page.",
+"success"
+);
+
+});
+
+
+</script>
+
+</body>
+</html>
