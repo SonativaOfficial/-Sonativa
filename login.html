@@ -7,25 +7,35 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Arial,sans-serif;background:#04060b;color:#fff}
-.card{width:min(430px,100%);padding:32px;background:#0b111b;border:1px solid #202b3d;border-radius:18px;box-shadow:0 25px 80px #0008}
+.card{width:min(460px,100%);padding:32px;background:#0b111b;border:1px solid #202b3d;border-radius:18px;box-shadow:0 25px 80px #0008}
 .logo{text-align:center;font-size:25px;font-weight:900;letter-spacing:5px}
 .sub{text-align:center;margin-top:9px;color:#8793a6;font-size:12px}
 .badge{text-align:center;margin-top:18px;color:#62e39a;font-size:11px}
 button{width:100%;height:46px;margin-top:28px;border-radius:9px;font-weight:bold;cursor:pointer;background:white;color:#05070c;border:0}
 button:disabled{opacity:.6;cursor:not-allowed}
-#message{display:none;margin-top:15px;padding:11px;border-radius:9px;font-size:11px;line-height:1.5}
+#message{display:none;margin-top:15px;padding:13px;border-radius:9px;font-size:11px;line-height:1.7;word-break:break-word}
 .error{display:block!important;color:#ff9b9b;background:#190c0c;border:1px solid #4b2020}
 .success{display:block!important;color:#62e39a;background:#091710;border:1px solid #214b35}
+.info{display:block!important;color:#b8c4d6;background:#0d1521;border:1px solid #26364c}
+.uid{margin-top:10px;padding:10px;background:#060a11;border:1px solid #1c293a;border-radius:8px;font-family:monospace;font-size:10px;color:#9fb0c8}
 .back{display:block;margin-top:18px;text-align:center;color:#78869b;font-size:10px;text-decoration:none}
 .footer{margin-top:22px;text-align:center;color:#566276;font-size:9px;line-height:1.7}
 </style>
 </head>
+
 <body>
 
 <div class="card">
+
 <div class="logo">SONATIVA</div>
-<div class="sub">Secure access to your Web3 workspace</div>
-<div class="badge">🔒 Founder Access</div>
+
+<div class="sub">
+Secure access to your Web3 workspace
+</div>
+
+<div class="badge">
+🔒 Founder Access Verification
+</div>
 
 <button id="githubBtn">
 Continue with GitHub
@@ -41,6 +51,7 @@ Continue with GitHub
 Your wallet remains under your control.<br>
 Sonativa never asks for private keys or seed phrases.
 </div>
+
 </div>
 
 <script type="module">
@@ -62,117 +73,179 @@ detectSessionInUrl:true
 const button=document.getElementById("githubBtn");
 const message=document.getElementById("message");
 
-function show(text,type){
+function show(text,type="info"){
+
 message.textContent=text;
 message.className=type;
+
 }
 
-async function verifyFounder(){
+async function diagnose(){
 
-show("Verifying Founder access...","success");
+show("Checking Sonativa session...","info");
 
-const{data:sessionData}=await supabase.auth.getSession();
-const session=sessionData?.session;
+const sessionResult=
+await supabase.auth.getSession();
 
-if(!session){
-show("No active Sonativa session was found. Please sign in with GitHub.","error");
-button.disabled=false;
-button.textContent="Continue with GitHub";
-return;
-}
-
-const{data:userData,error:userError}=await supabase.auth.getUser();
-
-if(userError||!userData?.user){
-show("Your GitHub session could not be verified.","error");
-button.disabled=false;
-button.textContent="Continue with GitHub";
-return;
-}
-
-const{data,error}=await supabase.rpc("is_sonativa_founder");
-
-if(error){
-console.error("Founder RPC error:",error);
-show("Founder verification error: "+error.message,"error");
-button.disabled=false;
-button.textContent="Continue with GitHub";
-return;
-}
-
-if(data===true){
+if(sessionResult.error){
 
 show(
-"Founder verified. Opening Founder Control Center...",
-"success"
+"SESSION ERROR: "+sessionResult.error.message,
+"error"
 );
 
-setTimeout(()=>{
-window.location.href="founder.html";
-},1000);
-
 return;
+
 }
 
+const session=
+sessionResult.data?.session;
+
+if(!session){
+
 show(
-"Founder role was not verified for this signed-in account.",
+"No active GitHub session found. Press Continue with GitHub.",
 "error"
 );
 
 button.disabled=false;
 button.textContent="Continue with GitHub";
+
+return;
+
 }
 
-button.addEventListener("click",async()=>{
+const user=
+session.user;
+
+message.innerHTML=
+"GitHub session detected.<div class='uid'>UID: "+
+user.id+
+"<br>Email: "+
+(user.email||"not available")+
+"</div>";
+
+message.className="info";
+
+const userResult=
+await supabase.auth.getUser();
+
+if(userResult.error){
+
+show(
+"GET USER ERROR: "+userResult.error.message,
+"error"
+);
+
+return;
+
+}
+
+const rpcResult=
+await supabase.rpc(
+"is_sonativa_founder"
+);
+
+if(rpcResult.error){
+
+show(
+"RPC ERROR: "+rpcResult.error.message+
+"<div class='uid'>UID: "+user.id+"</div>",
+"error"
+);
+
+console.error(rpcResult.error);
+
+return;
+
+}
+
+if(rpcResult.data===true){
+
+show(
+"Founder verification returned TRUE.<div class='uid'>UID: "+
+user.id+
+"</div>Redirecting to Founder Control Center...",
+"success"
+);
+
+setTimeout(function(){
+
+window.location.href="founder.html";
+
+},1500);
+
+return;
+
+}
+
+show(
+"RPC returned FALSE.<div class='uid'>UID seen by website: "+
+user.id+
+"<br>Expected Founder UID: d4f638be-8a5e-43d9-9215-46ecaf806375</div>",
+"error"
+);
+
+button.disabled=false;
+button.textContent="Continue with GitHub";
+
+}
+
+button.addEventListener(
+"click",
+async function(){
 
 button.disabled=true;
 button.textContent="Connecting to GitHub...";
+
 message.className="";
 
-const{error}=await supabase.auth.signInWithOAuth({
+const result=
+await supabase.auth.signInWithOAuth({
+
 provider:"github",
+
 options:{
-redirectTo:"https://sonativaofficial.github.io/-Sonativa/login.html"
+redirectTo:
+"https://sonativaofficial.github.io/-Sonativa/login.html"
 }
+
 });
 
-if(error){
-console.error(error);
-show("GitHub sign in failed: "+error.message,"error");
+if(result.error){
+
+show(
+"GITHUB ERROR: "+result.error.message,
+"error"
+);
+
 button.disabled=false;
 button.textContent="Continue with GitHub";
-}
-
-});
-
-supabase.auth.onAuthStateChange((event,session)=>{
-
-if(event==="SIGNED_IN"&&session){
-
-setTimeout(()=>{
-verifyFounder();
-},1500);
 
 }
 
 });
 
-async function start(){
+supabase.auth.onAuthStateChange(
+function(event,session){
 
-const{data}=await supabase.auth.getSession();
+if(
+event==="SIGNED_IN"&&
+session
+){
 
-if(data?.session){
-
-setTimeout(()=>{
-verifyFounder();
-},1000);
+setTimeout(
+diagnose,
+1000
+);
 
 }
 
-}
+});
 
-start();
+diagnose();
 
 </script>
+
 </body>
 </html>
