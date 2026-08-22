@@ -744,9 +744,7 @@ footer{
 
   <div>
 
-    <h1>
-      Founder Control Center
-    </h1>
+    <h1>Founder Control Center</h1>
 
     <div class="subtitle">
       Full platform administration and operational overview.
@@ -760,11 +758,11 @@ footer{
       ← Dashboard
     </a>
 
-    <button id="refreshButton" onclick="refreshAll()">
+    <button id="refreshButton">
       ↻ Refresh
     </button>
 
-    <button class="danger" onclick="signOut()">
+    <button class="danger" id="signOutButton">
       Sign Out
     </button>
 
@@ -772,70 +770,29 @@ footer{
 
 </section>
 
-
-<!-- =====================================================
-     OVERVIEW CARDS
-===================================================== -->
-
 <section class="grid">
 
   <div class="card">
-
-    <div class="label">
-      Access
-    </div>
-
-    <div class="value green" id="accessValue">
-      VERIFIED
-    </div>
-
+    <div class="label">Access</div>
+    <div class="value green" id="accessValue">VERIFIED</div>
   </div>
 
-
   <div class="card">
-
-    <div class="label">
-      Projects
-    </div>
-
-    <div class="value" id="projectsValue">
-      —
-    </div>
-
+    <div class="label">Projects</div>
+    <div class="value" id="projectsValue">—</div>
   </div>
 
-
   <div class="card">
-
-    <div class="label">
-      Team Members
-    </div>
-
-    <div class="value" id="teamValue">
-      —
-    </div>
-
+    <div class="label">Team Members</div>
+    <div class="value" id="teamValue">—</div>
   </div>
 
-
   <div class="card">
-
-    <div class="label">
-      Audit Events
-    </div>
-
-    <div class="value" id="auditValue">
-      —
-    </div>
-
+    <div class="label">Audit Events</div>
+    <div class="value" id="auditValue">—</div>
   </div>
 
 </section>
-
-
-<!-- =====================================================
-     USERS MANAGEMENT
-===================================================== -->
 
 <section class="card users-card">
 
@@ -863,14 +820,12 @@ footer{
 
   </div>
 
-
   <div
     id="usersStatus"
     style="color:var(--muted);font-size:10px;margin-bottom:12px"
   >
     Loading users...
   </div>
-
 
   <div class="users-table-wrap">
 
@@ -893,15 +848,10 @@ footer{
       <tbody id="usersTableBody">
 
         <tr>
-
-          <td
-            colspan="7"
-            style="padding:25px;text-align:center;color:var(--muted)"
-          >
+          <td colspan="7"
+            style="padding:25px;text-align:center;color:var(--muted)">
             Loading...
-
           </td>
-
         </tr>
 
       </tbody>
@@ -909,9 +859,6 @@ footer{
     </table>
 
   </div>
-
-
-  <!-- USER EDITOR -->
 
   <div class="user-editor" id="userEditor">
 
@@ -935,71 +882,43 @@ footer{
 
     </div>
 
-
-    <input
-      type="hidden"
-      id="editorUserId"
-    >
-
+    <input type="hidden" id="editorUserId">
 
     <div class="editor-grid">
 
       <div class="editor-field">
 
-        <label>
-          Role
-        </label>
+        <label>Role</label>
 
         <select id="editorRole">
 
-          <option value="USER">
-            USER
-          </option>
-
-          <option value="ADMIN">
-            ADMIN
-          </option>
-
-          <option value="MODERATOR">
-            MODERATOR
-          </option>
-
-          <option value="SUPPORT">
-            SUPPORT
-          </option>
+          <option value="USER">USER</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="MODERATOR">MODERATOR</option>
+          <option value="SUPPORT">SUPPORT</option>
 
         </select>
 
       </div>
 
-
       <div class="editor-field">
 
-        <label>
-          Account Status
-        </label>
+        <label>Account Status</label>
 
         <select id="editorActive">
 
-          <option value="true">
-            Active
-          </option>
-
-          <option value="false">
-            Inactive
-          </option>
+          <option value="true">Active</option>
+          <option value="false">Inactive</option>
 
         </select>
 
       </div>
 
     </div>
-
 
     <div style="color:var(--muted);font-size:10px;margin-top:18px;margin-bottom:8px">
       Permissions
     </div>
-
 
     <div class="permission-editor">
 
@@ -1045,21 +964,15 @@ footer{
 
     </div>
 
-
     <div class="editor-message" id="editorMessage"></div>
-
 
     <div class="editor-actions">
 
-      <button onclick="closeUserEditor()">
+      <button id="cancelEditButton">
         Cancel
       </button>
 
-      <button
-        class="save-button"
-        id="saveUserButton"
-        onclick="saveUserPermissions()"
-      >
+      <button class="save-button" id="saveUserButton">
         Save Changes
       </button>
 
@@ -1069,13 +982,7 @@ footer{
 
 </section>
 
-
-<!-- =====================================================
-     MAIN INFORMATION
-===================================================== -->
-
 <section class="layout">
-
 
 <div>
 
@@ -1084,7 +991,6 @@ footer{
     <div class="card-title">
       Founder Identity
     </div>
-
 
     <div class="status-box">
 
@@ -1104,60 +1010,27 @@ footer{
 
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        Email
-      </span>
-
-      <span id="identityEmail">
-        —
-      </span>
-
+      <span>Email</span>
+      <span id="identityEmail">—</span>
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        User ID
-      </span>
-
-      <span id="identityId">
-        —
-      </span>
-
+      <span>User ID</span>
+      <span id="identityId">—</span>
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        Role
-      </span>
-
-      <span class="green" id="identityRole">
-        FOUNDER
-      </span>
-
+      <span>Role</span>
+      <span class="green" id="identityRole">FOUNDER</span>
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        Session
-      </span>
-
-      <span class="green" id="sessionStatus">
-        Authenticated
-      </span>
-
+      <span>Session</span>
+      <span class="green" id="sessionStatus">Authenticated</span>
     </div>
 
   </div>
-
 
   <div class="card">
 
@@ -1165,47 +1038,22 @@ footer{
       Founder Permissions
     </div>
 
-
     <div class="permissions">
 
-      <div class="permission" id="pUsers">
-        Users
-      </div>
-
-      <div class="permission" id="pProjects">
-        Projects
-      </div>
-
-      <div class="permission" id="pFinance">
-        Finance
-      </div>
-
-      <div class="permission" id="pTreasury">
-        Treasury
-      </div>
-
-      <div class="permission" id="pInvestments">
-        Investments
-      </div>
-
-      <div class="permission" id="pTeam">
-        Team
-      </div>
-
-      <div class="permission" id="pAudit">
-        Audit Logs
-      </div>
-
-      <div class="permission" id="pActive">
-        Account Active
-      </div>
+      <div class="permission" id="pUsers">Users</div>
+      <div class="permission" id="pProjects">Projects</div>
+      <div class="permission" id="pFinance">Finance</div>
+      <div class="permission" id="pTreasury">Treasury</div>
+      <div class="permission" id="pInvestments">Investments</div>
+      <div class="permission" id="pTeam">Team</div>
+      <div class="permission" id="pAudit">Audit Logs</div>
+      <div class="permission" id="pActive">Account Active</div>
 
     </div>
 
   </div>
 
 </div>
-
 
 <div>
 
@@ -1215,88 +1063,42 @@ footer{
       Platform Overview
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        Platform
-      </span>
-
-      <span>
-        Sonativa
-      </span>
-
+      <span>Platform</span>
+      <span>Sonativa</span>
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        Environment
-      </span>
-
-      <span class="green">
-        Production
-      </span>
-
+      <span>Environment</span>
+      <span class="green">Production</span>
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        Authentication
-      </span>
-
-      <span class="green">
-        Supabase Auth
-      </span>
-
+      <span>Authentication</span>
+      <span class="green">Supabase Auth</span>
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        Database
-      </span>
-
-      <span class="green" id="databaseStatus">
-        Connected
-      </span>
-
+      <span>Database</span>
+      <span class="green" id="databaseStatus">Connected</span>
     </div>
 
-
     <div class="info-row">
-
-      <span>
-        Founder Mode
-      </span>
-
-      <span class="green">
-        Enabled
-      </span>
-
+      <span>Founder Mode</span>
+      <span class="green">Enabled</span>
     </div>
 
-
-    <div
-      id="connectionWarning"
-      class="connection-warning"
-    >
+    <div id="connectionWarning" class="connection-warning">
       Some overview statistics could not be loaded.
     </div>
 
   </div>
-
 
   <div class="card">
 
     <div class="card-title">
       Recent System Activity
     </div>
-
 
     <div class="activity" id="activity">
 
@@ -1312,7 +1114,6 @@ footer{
 
 </section>
 
-
 <footer>
   © 2026 Sonativa — Founder Control Center
 </footer>
@@ -1320,7 +1121,6 @@ footer{
 </main>
 
 </div>
-
 
 <script type="module">
 
@@ -1330,10 +1130,6 @@ import {
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
   "https://kallobeodjzzhrsaqszw.supabase.co";
@@ -1360,10 +1156,6 @@ let founderUsers = [];
 let editingUser = null;
 
 
-/* =====================================================
-   HELPERS
-===================================================== */
-
 function setValue(id,value){
 
   const element =
@@ -1387,24 +1179,17 @@ function setPermission(id,enabled){
     element.textContent
       .replace(/^[✓✕]\s*/,"");
 
-  element.classList.remove(
-    "ok",
-    "no"
-  );
+  element.classList.remove("ok","no");
 
   if(enabled){
 
     element.classList.add("ok");
-
-    element.textContent =
-      "✓ " + original;
+    element.textContent = "✓ " + original;
 
   }else{
 
     element.classList.add("no");
-
-    element.textContent =
-      "✕ " + original;
+    element.textContent = "✕ " + original;
 
   }
 }
@@ -1421,53 +1206,35 @@ function escapeHTML(value){
 }
 
 
-function showError(title,message){
-
-  document
-    .getElementById("loading")
-    .classList.add("hidden");
-
-  document
-    .getElementById("errorTitle")
-    .textContent =
-      title;
-
-  document
-    .getElementById("errorMessage")
-    .textContent =
-      message;
-
-  document
-    .getElementById("errorScreen")
-    .classList.add("show");
-
-  document
-    .getElementById("app")
-    .style.display =
-      "none";
-}
-
-
 function setLoading(show){
 
   const loading =
     document.getElementById("loading");
 
-  if(show){
-
-    loading.classList.remove("hidden");
-
-  }else{
-
-    loading.classList.add("hidden");
-
-  }
+  loading.classList.toggle(
+    "hidden",
+    !show
+  );
 }
 
 
-/* =====================================================
-   FOUNDER PERMISSIONS
-===================================================== */
+function showError(title,message){
+
+  setLoading(false);
+
+  document.getElementById("errorTitle")
+    .textContent = title;
+
+  document.getElementById("errorMessage")
+    .textContent = message;
+
+  document.getElementById("errorScreen")
+    .classList.add("show");
+
+  document.getElementById("app")
+    .style.display = "none";
+}
+
 
 function enableFounderPermissions(){
 
@@ -1489,14 +1256,13 @@ function enableFounderPermissions(){
 
 async function verifyFounder(){
 
+  setLoading(true);
+
+  document
+    .getElementById("errorScreen")
+    .classList.remove("show");
+
   try{
-
-    setLoading(true);
-
-    document
-      .getElementById("errorScreen")
-      .classList.remove("show");
-
 
     const {
       data:sessionData,
@@ -1509,8 +1275,7 @@ async function verifyFounder(){
 
       showError(
         "Session Error",
-        sessionError.message ||
-        "Unable to read your session."
+        sessionError.message
       );
 
       return;
@@ -1569,8 +1334,6 @@ async function verifyFounder(){
     }
 
 
-    /* Server-side Founder verification */
-
     const {
       data:isFounder,
       error:founderError
@@ -1583,7 +1346,6 @@ async function verifyFounder(){
     if(founderError){
 
       console.error(
-        "Founder verification:",
         founderError
       );
 
@@ -1627,9 +1389,12 @@ async function verifyFounder(){
     enableFounderPermissions();
 
 
-    /* =================================================
-       LOAD EVERYTHING
-    ================================================= */
+    /*
+      IMPORTANT:
+      We use the protected RPC for overview.
+      We do NOT use direct count queries with
+      guessed column names such as id.
+    */
 
     await Promise.allSettled([
 
@@ -1637,17 +1402,14 @@ async function verifyFounder(){
 
       loadActivity(),
 
-      loadUsers(),
-
-      loadFounderPermissions()
+      loadUsers()
 
     ]);
 
 
     document
       .getElementById("app")
-      .style.display =
-        "block";
+      .style.display = "block";
 
 
     setLoading(false);
@@ -1656,7 +1418,7 @@ async function verifyFounder(){
   }catch(error){
 
     console.error(
-      "Founder verification error:",
+      "Founder verification:",
       error
     );
 
@@ -1671,115 +1433,7 @@ async function verifyFounder(){
 
 
 /* =====================================================
-   LOAD FOUNDER PERMISSIONS
-===================================================== */
-
-async function loadFounderPermissions(){
-
-  if(!currentUser){
-
-    enableFounderPermissions();
-
-    return;
-  }
-
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabase
-        .from("team_permissions")
-        .select(`
-          role,
-          can_manage_users,
-          can_manage_projects,
-          can_manage_support,
-          can_view_finance,
-          can_manage_treasury,
-          can_manage_investments,
-          can_manage_team,
-          can_view_audit_logs,
-          active
-        `)
-        .eq(
-          "user_id",
-          currentUser.id
-        )
-        .limit(1);
-
-
-    if(error || !data?.length){
-
-      enableFounderPermissions();
-
-      return;
-    }
-
-
-    const p =
-      data[0];
-
-
-    setPermission(
-      "pUsers",
-      p.can_manage_users === true
-    );
-
-    setPermission(
-      "pProjects",
-      p.can_manage_projects === true
-    );
-
-    setPermission(
-      "pFinance",
-      p.can_view_finance === true
-    );
-
-    setPermission(
-      "pTreasury",
-      p.can_manage_treasury === true
-    );
-
-    setPermission(
-      "pInvestments",
-      p.can_manage_investments === true
-    );
-
-    setPermission(
-      "pTeam",
-      p.can_manage_team === true
-    );
-
-    setPermission(
-      "pAudit",
-      p.can_view_audit_logs === true
-    );
-
-    setPermission(
-      "pActive",
-      p.active === true
-    );
-
-  }catch(error){
-
-    console.warn(
-      "Founder permissions:",
-      error
-    );
-
-    enableFounderPermissions();
-
-  }
-}
-
-
-/* =====================================================
-   LOAD OVERVIEW
-   IMPORTANT:
-   Uses the protected Founder RPC.
+   OVERVIEW
 ===================================================== */
 
 async function loadOverview(){
@@ -1789,12 +1443,25 @@ async function loadOverview(){
       "connectionWarning"
     );
 
-  if(warning){
 
-    warning.style.display =
-      "none";
+  warning.style.display =
+    "none";
 
-  }
+
+  setValue(
+    "projectsValue",
+    "..."
+  );
+
+  setValue(
+    "teamValue",
+    "..."
+  );
+
+  setValue(
+    "auditValue",
+    "..."
+  );
 
 
   try{
@@ -1811,17 +1478,30 @@ async function loadOverview(){
     if(error){
 
       console.error(
-        "Founder overview RPC:",
+        "sonativa_founder_overview:",
         error
       );
 
-      /*
-        Fallback to direct counts.
-        This keeps the dashboard functional
-        if the RPC is unavailable.
-      */
+      setValue(
+        "projectsValue",
+        "—"
+      );
 
-      await loadOverviewFallback();
+      setValue(
+        "teamValue",
+        "—"
+      );
+
+      setValue(
+        "auditValue",
+        "—"
+      );
+
+      warning.style.display =
+        "block";
+
+      warning.textContent =
+        "Founder overview RPC could not load statistics.";
 
       return;
     }
@@ -1834,13 +1514,9 @@ async function loadOverview(){
     setValue(
       "projectsValue",
       Number.isFinite(
-        Number(
-          overview.projects_count
-        )
+        Number(overview.projects_count)
       )
-        ? Number(
-            overview.projects_count
-          )
+        ? Number(overview.projects_count)
         : 0
     );
 
@@ -1848,13 +1524,9 @@ async function loadOverview(){
     setValue(
       "teamValue",
       Number.isFinite(
-        Number(
-          overview.team_count
-        )
+        Number(overview.team_count)
       )
-        ? Number(
-            overview.team_count
-          )
+        ? Number(overview.team_count)
         : 0
     );
 
@@ -1862,13 +1534,9 @@ async function loadOverview(){
     setValue(
       "auditValue",
       Number.isFinite(
-        Number(
-          overview.audit_count
-        )
+        Number(overview.audit_count)
       )
-        ? Number(
-            overview.audit_count
-          )
+        ? Number(overview.audit_count)
         : 0
     );
 
@@ -1880,152 +1548,31 @@ async function loadOverview(){
       error
     );
 
-    await loadOverviewFallback();
+    setValue(
+      "projectsValue",
+      "—"
+    );
+
+    setValue(
+      "teamValue",
+      "—"
+    );
+
+    setValue(
+      "auditValue",
+      "—"
+    );
+
+    warning.style.display =
+      "block";
 
   }
+
 }
 
 
 /* =====================================================
-   OVERVIEW FALLBACK
-===================================================== */
-
-async function loadOverviewFallback(){
-
-  let failed = false;
-
-
-  try{
-
-    const {
-      count,
-      error
-    } =
-      await supabase
-        .from("projects")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        );
-
-
-    if(error){
-
-      failed = true;
-
-    }else{
-
-      setValue(
-        "projectsValue",
-        count ?? 0
-      );
-
-    }
-
-  }catch{
-
-    failed = true;
-
-  }
-
-
-  try{
-
-    const {
-      count,
-      error
-    } =
-      await supabase
-        .from("team_permissions")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        );
-
-
-    if(error){
-
-      failed = true;
-
-    }else{
-
-      setValue(
-        "teamValue",
-        count ?? 0
-      );
-
-    }
-
-  }catch{
-
-    failed = true;
-
-  }
-
-
-  try{
-
-    const {
-      count,
-      error
-    } =
-      await supabase
-        .from("system_audit_logs")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        );
-
-
-    if(error){
-
-      failed = true;
-
-    }else{
-
-      setValue(
-        "auditValue",
-        count ?? 0
-      );
-
-    }
-
-  }catch{
-
-    failed = true;
-
-  }
-
-
-  if(failed){
-
-    const warning =
-      document.getElementById(
-        "connectionWarning"
-      );
-
-    if(warning){
-
-      warning.style.display =
-        "block";
-
-    }
-
-  }
-}
-
-
-/* =====================================================
-   LOAD USERS
+   USERS
 ===================================================== */
 
 async function loadUsers(){
@@ -2039,12 +1586,6 @@ async function loadUsers(){
     document.getElementById(
       "usersTableBody"
     );
-
-
-  if(!status || !tbody){
-
-    return;
-  }
 
 
   status.textContent =
@@ -2069,10 +1610,8 @@ async function loadUsers(){
         error
       );
 
-
       status.textContent =
         "Unable to load users.";
-
 
       tbody.innerHTML = `
         <tr>
@@ -2104,7 +1643,6 @@ async function loadUsers(){
   }catch(error){
 
     console.error(
-      "loadUsers:",
       error
     );
 
@@ -2112,6 +1650,7 @@ async function loadUsers(){
       "Users unavailable.";
 
   }
+
 }
 
 
@@ -2130,9 +1669,6 @@ function renderUsers(users){
     document.getElementById(
       "usersTableBody"
     );
-
-
-  if(!tbody) return;
 
 
   status.textContent =
@@ -2287,20 +1823,14 @@ function renderUsers(users){
 
 
   tbody
-    .querySelectorAll(
-      "[data-user-id]"
-    )
+    .querySelectorAll("[data-user-id]")
     .forEach(button => {
 
       button.addEventListener(
         "click",
-        () => {
-
-          openUserEditor(
-            button.dataset.userId
-          );
-
-        }
+        () => openUserEditor(
+          button.dataset.userId
+        )
       );
 
     });
@@ -2309,7 +1839,7 @@ function renderUsers(users){
 
 
 /* =====================================================
-   GET USER PERMISSIONS
+   USER PERMISSIONS
 ===================================================== */
 
 async function getUserPermissions(userId){
@@ -2340,18 +1870,17 @@ async function getUserPermissions(userId){
 
 
   if(error){
-
     throw error;
-
   }
 
 
   return data?.[0] || null;
+
 }
 
 
 /* =====================================================
-   OPEN USER EDITOR
+   OPEN EDITOR
 ===================================================== */
 
 async function openUserEditor(userId){
@@ -2366,13 +1895,12 @@ async function openUserEditor(userId){
   if(!user) return;
 
 
-  const role =
+  if(
     String(
       user.role || ""
-    ).toLowerCase();
-
-
-  if(role === "founder"){
+    ).toLowerCase()
+    === "founder"
+  ){
 
     alert(
       "Founder account is protected and cannot be modified."
@@ -2409,19 +1937,6 @@ async function openUserEditor(userId){
       user.user_id;
 
 
-  const message =
-    document.getElementById(
-      "editorMessage"
-    );
-
-
-  message.className =
-    "editor-message";
-
-  message.textContent =
-    "";
-
-
   try{
 
     const p =
@@ -2448,52 +1963,37 @@ async function openUserEditor(userId){
         : "true";
 
 
-    document.getElementById(
-      "permUsers"
-    ).checked =
-      p?.can_manage_users === true;
+    document.getElementById("permUsers")
+      .checked =
+        p?.can_manage_users === true;
 
+    document.getElementById("permProjects")
+      .checked =
+        p?.can_manage_projects === true;
 
-    document.getElementById(
-      "permProjects"
-    ).checked =
-      p?.can_manage_projects === true;
+    document.getElementById("permSupport")
+      .checked =
+        p?.can_manage_support === true;
 
+    document.getElementById("permFinance")
+      .checked =
+        p?.can_view_finance === true;
 
-    document.getElementById(
-      "permSupport"
-    ).checked =
-      p?.can_manage_support === true;
+    document.getElementById("permTreasury")
+      .checked =
+        p?.can_manage_treasury === true;
 
+    document.getElementById("permInvestments")
+      .checked =
+        p?.can_manage_investments === true;
 
-    document.getElementById(
-      "permFinance"
-    ).checked =
-      p?.can_view_finance === true;
+    document.getElementById("permTeam")
+      .checked =
+        p?.can_manage_team === true;
 
-
-    document.getElementById(
-      "permTreasury"
-    ).checked =
-      p?.can_manage_treasury === true;
-
-
-    document.getElementById(
-      "permInvestments"
-    ).checked =
-      p?.can_manage_investments === true;
-
-
-    document.getElementById(
-      "permTeam"
-    ).checked =
-      p?.can_manage_team === true;
-
-
-    document.getElementById(
-      "permAudit"
-    ).checked =
-      p?.can_view_audit_logs === true;
+    document.getElementById("permAudit")
+      .checked =
+        p?.can_view_audit_logs === true;
 
 
     document
@@ -2518,12 +2018,9 @@ async function openUserEditor(userId){
     );
 
   }
+
 }
 
-
-/* =====================================================
-   CLOSE EDITOR
-===================================================== */
 
 function closeUserEditor(){
 
@@ -2533,12 +2030,9 @@ function closeUserEditor(){
 
   editingUser =
     null;
+
 }
 
-
-/* =====================================================
-   EDITOR MESSAGE
-===================================================== */
 
 function showEditorMessage(
   message,
@@ -2558,11 +2052,12 @@ function showEditorMessage(
   element.className =
     "editor-message show " +
     type;
+
 }
 
 
 /* =====================================================
-   SAVE USER PERMISSIONS
+   SAVE PERMISSIONS
 ===================================================== */
 
 async function saveUserPermissions(){
@@ -2601,25 +2096,15 @@ async function saveUserPermissions(){
 
   try{
 
-    const role =
-      document.getElementById(
-        "editorRole"
-      ).value;
-
-
-    const active =
-      document.getElementById(
-        "editorActive"
-      ).value === "true";
-
-
     const params = {
 
       target_user_id:
         editingUser.user_id,
 
       new_role:
-        role,
+        document.getElementById(
+          "editorRole"
+        ).value,
 
       new_can_manage_users:
         document.getElementById(
@@ -2662,9 +2147,18 @@ async function saveUserPermissions(){
         ).checked,
 
       new_active:
-        active
+        document.getElementById(
+          "editorActive"
+        ).value === "true"
+
     };
 
+
+    /*
+      IMPORTANT:
+      Use the newer Founder RPC because it supports
+      USER / ADMIN / MODERATOR / SUPPORT.
+    */
 
     const {
       data,
@@ -2711,7 +2205,6 @@ async function saveUserPermissions(){
 
 
     await loadUsers();
-
     await loadActivity();
 
 
@@ -2743,6 +2236,7 @@ async function saveUserPermissions(){
       "Save Changes";
 
   }
+
 }
 
 
@@ -2797,7 +2291,6 @@ document
             )
             .toLowerCase()
             .includes(query)
-
         );
 
 
@@ -2851,14 +2344,21 @@ async function loadActivity(){
         .limit(10);
 
 
-    if(
-      !error &&
-      data?.length
-    ){
+    if(!error && data?.length){
 
       renderActivity(data);
 
       return;
+    }
+
+
+    if(error){
+
+      console.warn(
+        "system_audit_logs:",
+        error
+      );
+
     }
 
   }catch(error){
@@ -2895,10 +2395,7 @@ async function loadActivity(){
         .limit(10);
 
 
-    if(
-      !error &&
-      data?.length
-    ){
+    if(!error && data?.length){
 
       renderActivity(data);
 
@@ -2913,7 +2410,12 @@ async function loadActivity(){
       </div>`;
 
 
-  }catch{
+  }catch(error){
+
+    console.warn(
+      "audit_logs:",
+      error
+    );
 
     container.innerHTML =
       `<div class="empty">
@@ -2921,12 +2423,9 @@ async function loadActivity(){
       </div>`;
 
   }
+
 }
 
-
-/* =====================================================
-   RENDER ACTIVITY
-===================================================== */
 
 function renderActivity(data){
 
@@ -2998,6 +2497,7 @@ function renderActivity(data){
       `;
 
     }).join("");
+
 }
 
 
@@ -3020,12 +2520,6 @@ async function refreshAll(){
     "Checking...";
 
 
-  setValue(
-    "accessValue",
-    "CHECKING..."
-  );
-
-
   try{
 
     await verifyFounder();
@@ -3039,6 +2533,7 @@ async function refreshAll(){
       "↻ Refresh";
 
   }
+
 }
 
 
@@ -3064,7 +2559,44 @@ async function signOut(){
 
   window.location.href =
     "login.html";
+
 }
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+document
+  .getElementById("refreshButton")
+  .addEventListener(
+    "click",
+    refreshAll
+  );
+
+
+document
+  .getElementById("signOutButton")
+  .addEventListener(
+    "click",
+    signOut
+  );
+
+
+document
+  .getElementById("cancelEditButton")
+  .addEventListener(
+    "click",
+    closeUserEditor
+  );
+
+
+document
+  .getElementById("saveUserButton")
+  .addEventListener(
+    "click",
+    saveUserPermissions
+  );
 
 
 /* =====================================================
@@ -3072,7 +2604,7 @@ async function signOut(){
 ===================================================== */
 
 supabase.auth.onAuthStateChange(
-  (event,session) => {
+  (event) => {
 
     if(event === "SIGNED_OUT"){
 
