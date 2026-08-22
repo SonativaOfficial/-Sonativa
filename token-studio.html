@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Token Studio — Sonativa</title>
+
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 }
+
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:
@@ -18,42 +21,51 @@ color:#fff;
 line-height:1.6;
 min-height:100vh;
 }
+
 .container{
 width:92%;
 max-width:950px;
 margin:auto;
 }
+
 header{
 border-bottom:1px solid #202735;
 padding:20px 0;
 background:rgba(5,7,12,.9);
 }
+
 .logo{
 font-size:23px;
 font-weight:800;
 letter-spacing:3px;
 }
+
 .logo a{
 color:#fff;
 text-decoration:none;
 }
+
 .hero{
 text-align:center;
 padding:55px 0 30px;
 }
+
 .hero h1{
 font-size:42px;
 margin-bottom:10px;
 }
+
 .hero p{
 color:#8d96a7;
 }
+
 .steps{
 display:flex;
 gap:8px;
 margin:30px 0;
 overflow:auto;
 }
+
 .step{
 padding:10px 15px;
 border:1px solid #293142;
@@ -61,16 +73,19 @@ border-radius:8px;
 color:#8992a3;
 white-space:nowrap;
 }
+
 .step.active{
 color:#fff;
 background:#151a24;
 border-color:#555f72;
 }
+
 .step.done{
 color:#8ee6b0;
 border-color:#315c45;
 background:#0d1712;
 }
+
 .panel{
 background:#0d1119;
 border:1px solid #242c3b;
@@ -78,15 +93,18 @@ border-radius:16px;
 padding:30px;
 margin-bottom:20px;
 }
+
 .panel h2{
 margin-bottom:20px;
 }
+
 label{
 display:block;
 margin:18px 0 7px;
 font-size:14px;
 color:#b5bdca;
 }
+
 input,
 select,
 textarea{
@@ -99,40 +117,48 @@ color:#fff;
 font-size:16px;
 outline:none;
 }
+
 input:focus,
 select:focus,
 textarea:focus{
 border-color:#697386;
 }
+
 textarea{
 min-height:110px;
 resize:vertical;
 }
+
 .grid{
 display:grid;
 grid-template-columns:1fr;
 gap:15px;
 }
+
 .tokenomics-grid{
 display:grid;
 grid-template-columns:1fr;
 gap:15px;
 }
+
 .tokenomics-card{
 background:#080b12;
 border:1px solid #252d3b;
 border-radius:12px;
 padding:18px;
 }
+
 .tokenomics-card h3{
 font-size:15px;
 margin-bottom:5px;
 }
+
 .tokenomics-card p{
 font-size:12px;
 color:#697386;
 margin-bottom:10px;
 }
+
 .tokenomics-total{
 margin-top:20px;
 padding:16px;
@@ -144,31 +170,38 @@ justify-content:space-between;
 align-items:center;
 gap:15px;
 }
+
 .total-label{
 color:#8d96a7;
 font-size:13px;
 }
+
 .total-value{
 font-size:20px;
 font-weight:bold;
 }
+
 .total-value.valid{
 color:#8ee6b0;
 }
+
 .total-value.invalid{
 color:#ff8f8f;
 }
+
 .help{
 margin-top:7px;
 font-size:12px;
 color:#697386;
 }
+
 .limit{
 margin-top:7px;
 font-size:12px;
 color:#818b9c;
 word-break:break-word;
 }
+
 button,
 .btn{
 display:inline-block;
@@ -183,20 +216,24 @@ font-size:15px;
 cursor:pointer;
 text-decoration:none;
 }
+
 button:disabled{
 opacity:.5;
 cursor:not-allowed;
 }
+
 .secondary{
 background:#10151e;
 color:#fff;
 border:1px solid #303949;
 }
+
 .actions{
 display:flex;
 gap:10px;
 flex-wrap:wrap;
 }
+
 .message{
 display:none;
 margin-top:18px;
@@ -208,21 +245,25 @@ color:#aeb7c6;
 white-space:pre-wrap;
 word-break:break-word;
 }
+
 .message.success{
 display:block;
 color:#8ee6b0;
 border-color:#315c45;
 }
+
 .message.error{
 display:block;
 color:#ff8f8f;
 border-color:#633737;
 }
+
 .message.info{
 display:block;
 color:#aeb7c6;
 border-color:#303949;
 }
+
 .wallet-box{
 display:none;
 margin-top:20px;
@@ -231,6 +272,7 @@ background:#080b12;
 border:1px solid #303949;
 border-radius:12px;
 }
+
 .wallet-address,
 .address{
 font-family:monospace;
@@ -239,6 +281,7 @@ word-break:break-all;
 color:#8ee6b0;
 margin-top:7px;
 }
+
 .review{
 display:none;
 margin-top:20px;
@@ -247,6 +290,7 @@ border:1px solid #303949;
 border-radius:12px;
 padding:20px;
 }
+
 .review-row{
 display:flex;
 justify-content:space-between;
@@ -254,16 +298,35 @@ gap:20px;
 padding:11px 0;
 border-bottom:1px solid #202735;
 }
+
 .review-row:last-child{
 border-bottom:0;
 }
+
 .review-label{
 color:#697386;
 }
+
 .review-value{
 text-align:right;
 word-break:break-word;
 }
+
+.result{
+display:none;
+margin-top:25px;
+padding:20px;
+border:1px solid #303949;
+border-radius:12px;
+background:#080b12;
+}
+
+.result p{
+margin:9px 0;
+color:#aab3c2;
+word-break:break-word;
+}
+
 .token-result{
 display:none;
 margin-top:20px;
@@ -272,56 +335,96 @@ background:#080b12;
 border:1px solid #315c45;
 border-radius:12px;
 }
+
 .token-result p{
 margin:9px 0;
 color:#aab3c2;
 word-break:break-word;
 }
-.address{
-margin-bottom:8px;
+
+.status{
+margin-top:18px;
+padding:14px;
+border-radius:10px;
+background:#080b12;
+border:1px solid #303949;
 }
+
+.status-created{
+color:#8ee6b0;
+}
+
+.status-failed{
+color:#ff8f8f;
+}
+
 .back{
 display:inline-block;
 margin-top:20px;
 color:#8d96a7;
 text-decoration:none;
 }
+
 footer{
 text-align:center;
 padding:45px 0;
 color:#697386;
 }
+
+.mobile-note{
+display:none;
+margin-top:12px;
+padding:12px;
+border-radius:9px;
+background:#10151e;
+border:1px solid #303949;
+font-size:12px;
+color:#9da7b7;
+}
+
 @media(min-width:700px){
+
 .grid{
 grid-template-columns:1fr 1fr;
 }
+
 .tokenomics-grid{
 grid-template-columns:1fr 1fr;
 }
+
 }
+
 @media(max-width:600px){
+
 .hero h1{
 font-size:34px;
 }
+
 .panel{
 padding:22px;
 }
+
 button,
 .btn{
 width:100%;
 text-align:center;
 }
+
 .review-row{
 flex-direction:column;
 gap:4px;
 }
+
 .review-value{
 text-align:left;
 }
+
 }
 </style>
 </head>
+
 <body>
+
 <header>
 <div class="container">
 <div class="logo">
@@ -329,49 +432,74 @@ text-align:left;
 </div>
 </div>
 </header>
+
 <main class="container">
+
 <section class="hero">
 <h1>Token Studio</h1>
 <p>Create and manage your Solana token project.</p>
 </section>
+
 <div class="steps">
-<div class="step active">1 Project</div>
-<div class="step active">2 Token</div>
-<div class="step active">3 Tokenomics</div>
+
+<div class="step active" id="step1">1 Project</div>
+<div class="step active" id="step2">2 Token</div>
+<div class="step active" id="step3">3 Tokenomics</div>
 <div class="step" id="step4">4 Review</div>
 <div class="step" id="step5">5 Create Token</div>
+
 </div>
+
+
+<!-- PROJECT -->
+
 <section class="panel">
+
 <h2>Project & Token</h2>
+
 <div class="grid">
+
 <div>
 <label>Project Name</label>
 <input id="projectName" placeholder="Example: Sonativa">
 </div>
+
 <div>
 <label>Token Name</label>
 <input id="tokenName" placeholder="Example: Sonativa Token">
 </div>
+
 <div>
 <label>Token Symbol</label>
 <input id="tokenSymbol" maxlength="20" placeholder="Example: SONA">
 </div>
+
 <div>
+
 <label>Total Supply</label>
+
 <input
 id="supply"
 type="text"
 inputmode="numeric"
 autocomplete="off"
-placeholder="1000000000">
+placeholder="100000000">
+
 <div class="help">
 Enter any positive whole-number supply.
 </div>
+
 <div id="supplyLimit" class="limit"></div>
+
 </div>
+
 </div>
+
+
 <label>Decimals</label>
+
 <select id="decimals">
+
 <option value="0">0 — No decimals</option>
 <option value="1">1</option>
 <option value="2">2</option>
@@ -382,139 +510,233 @@ Enter any positive whole-number supply.
 <option value="7">7</option>
 <option value="8">8</option>
 <option value="9">9</option>
+
 </select>
+
 <div class="help">
 Decimals control how finely the token can be divided.
 Maximum SPL Token decimals: 9.
 </div>
+
+
 <label>Network</label>
+
 <select id="network">
+
 <option value="Solana Devnet">
 Solana Devnet — TEST
 </option>
+
 <option value="Solana">
 Solana Mainnet
 </option>
+
 </select>
+
 <div class="help">
 Mainnet creation is intentionally disabled while Sonativa is being tested.
 </div>
+
+
 <label>Description</label>
+
 <textarea
 id="description"
 placeholder="Describe your project..."></textarea>
+
+
 <label>Metadata URI</label>
+
 <input
 id="metadataUri"
 type="url"
 placeholder="https://example.com/metadata.json">
+
 <div class="help">
 Optional direct URL to your token metadata JSON.
 </div>
+
 </section>
+
+
+<!-- TOKENOMICS -->
+
 <section class="panel">
+
 <h2>Tokenomics</h2>
+
 <p class="help">
 Tokenomics are optional. You can create a token without defining a distribution.
 If you use Tokenomics, the percentages must equal exactly 100%.
 </p>
+
 <div class="tokenomics-grid">
+
 <div class="tokenomics-card">
 <h3>Team</h3>
 <p>Team allocation</p>
 <input id="team" type="number" min="0" max="100" step="0.01" value="0">
 </div>
+
 <div class="tokenomics-card">
 <h3>Treasury</h3>
 <p>Project treasury</p>
 <input id="treasury" type="number" min="0" max="100" step="0.01" value="0">
 </div>
+
 <div class="tokenomics-card">
 <h3>Community</h3>
 <p>Community rewards and ecosystem</p>
 <input id="community" type="number" min="0" max="100" step="0.01" value="0">
 </div>
+
 <div class="tokenomics-card">
 <h3>Public Sale</h3>
 <p>Public distribution</p>
 <input id="publicSale" type="number" min="0" max="100" step="0.01" value="0">
 </div>
+
 <div class="tokenomics-card">
 <h3>Liquidity</h3>
 <p>DEX and market liquidity</p>
 <input id="liquidity" type="number" min="0" max="100" step="0.01" value="0">
 </div>
+
 <div class="tokenomics-card">
 <h3>Burn Reserve</h3>
 <p>Reserved for future burns</p>
 <input id="burnReserve" type="number" min="0" max="100" step="0.01" value="0">
 </div>
+
 </div>
+
+
 <div class="tokenomics-total">
-<span class="total-label">Total Allocation</span>
-<span id="tokenomicsTotal" class="total-value valid">0.00%</span>
+
+<span class="total-label">
+Total Allocation
+</span>
+
+<span id="tokenomicsTotal" class="total-value valid">
+0.00%
+</span>
+
 </div>
+
+
 <div id="tokenomicsMessage" class="message info">
 Tokenomics are optional. You can continue with 0%.
 </div>
+
 </section>
+
+
+<!-- ACTIONS -->
+
 <section class="panel">
+
 <div class="actions">
+
 <button id="saveButton" type="button">
 Save Project
 </button>
+
 <button class="secondary" id="walletButton" type="button">
 Connect Phantom
 </button>
+
 </div>
+
+
+<div id="mobileNote" class="mobile-note">
+If Phantom is not detected, this page will open inside Phantom.
+Your private key and seed phrase are never requested.
+</div>
+
+
 <div id="walletBox" class="wallet-box">
+
 <strong>Connected Wallet</strong>
+
 <div id="walletAddress" class="wallet-address"></div>
+
 </div>
+
+
 <div id="message" class="message"></div>
+
+
+<!-- REVIEW -->
+
 <div id="review" class="review">
+
 <h2>Review</h2>
+
 <p class="help">
 Review all project, token and Tokenomics information before continuing.
 </p>
+
+
 <div class="review-row">
 <span class="review-label">Project</span>
 <span id="reviewProject" class="review-value"></span>
 </div>
+
 <div class="review-row">
 <span class="review-label">Token</span>
 <span id="reviewToken" class="review-value"></span>
 </div>
+
 <div class="review-row">
 <span class="review-label">Symbol</span>
 <span id="reviewSymbol" class="review-value"></span>
 </div>
+
 <div class="review-row">
 <span class="review-label">Total Supply</span>
 <span id="reviewSupply" class="review-value"></span>
 </div>
+
 <div class="review-row">
 <span class="review-label">Decimals</span>
 <span id="reviewDecimals" class="review-value"></span>
 </div>
+
 <div class="review-row">
 <span class="review-label">Network</span>
 <span id="reviewNetwork" class="review-value"></span>
 </div>
+
 <div class="review-row">
 <span class="review-label">Tokenomics</span>
 <span id="reviewTokenomics" class="review-value"></span>
 </div>
+
+
 <button id="createTokenButton" type="button">
 Create Token on Solana Devnet
 </button>
+
+
 <div id="tokenMessage" class="message"></div>
+
+
 <div id="tokenResult" class="token-result">
+
 <h3>Token Created Successfully 🎉</h3>
-<p><strong>Mint Address:</strong></p>
+
+<p>
+<strong>Mint Address:</strong>
+</p>
+
 <div id="mintAddress" class="address"></div>
-<p><strong>Creation Transaction:</strong></p>
+
+<p style="margin-top:15px;">
+<strong>Creation Transaction:</strong>
+</p>
+
 <div id="transactionSignature" class="address"></div>
+
 <a
 id="explorerLink"
 class="btn secondary"
@@ -522,37 +744,58 @@ target="_blank"
 rel="noopener noreferrer">
 View on Solana Explorer
 </a>
+
 </div>
+
 </div>
+
+
 <a class="back" href="projects.html">
 ← My Projects
 </a>
+
 </section>
+
 </main>
+
+
 <footer>
 © 2026 Sonativa
 </footer>
+
+
 <script type="module">
+
 /* =====================================================
 SUPABASE
 ===================================================== */
+
 import {
 createClient
 }
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
+
+
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
+
 const supabase =
 createClient(
 SUPABASE_URL,
 SUPABASE_PUBLISHABLE_KEY
 );
+
+
 /* =====================================================
 SOLANA
 ===================================================== */
+
 import {
 Connection,
 Keypair,
@@ -561,6 +804,8 @@ Transaction
 }
 from
 "https://esm.sh/@solana/web3.js@1.98.4";
+
+
 import {
 getAssociatedTokenAddress,
 createAssociatedTokenAccountInstruction,
@@ -571,612 +816,1387 @@ ASSOCIATED_TOKEN_PROGRAM_ID
 }
 from
 "https://esm.sh/@solana/spl-token@0.4.14";
+
+
 const connection =
 new Connection(
 "https://api.devnet.solana.com",
 "confirmed"
 );
+
+
 const MAX_U64 =
-(2n ** 64n) - 1n;
+(BigInt(2) ** BigInt(64)) - BigInt(1);
+
+
 /* =====================================================
-STATE
+SONATIVA / PHANTOM
 ===================================================== */
+
+const SONATIVA_TOKEN_STUDIO_URL =
+"https://sonativaofficial.github.io/-Sonativa/token-studio.html";
+
+
 let currentUser = null;
+
 let savedProject = null;
+
 let walletPublicKey = null;
-let phantomProvider = null;
+
+
 /* =====================================================
 ELEMENTS
 ===================================================== */
+
 const saveButton =
 document.getElementById("saveButton");
+
+
 const walletButton =
 document.getElementById("walletButton");
+
+
 const createTokenButton =
 document.getElementById("createTokenButton");
+
+
 /* =====================================================
 MESSAGES
 ===================================================== */
-function showMessage(text,type="info"){
+
+function showMessage(
+text,
+type="info"
+){
+
 const element =
 document.getElementById("message");
-element.textContent = text;
+
+element.textContent =
+text;
+
 element.className =
 "message " + type;
+
 }
-function showTokenMessage(text,type="info"){
+
+
+function showTokenMessage(
+text,
+type="info"
+){
+
 const element =
 document.getElementById("tokenMessage");
-element.textContent = text;
+
+element.textContent =
+text;
+
 element.className =
 "message " + type;
+
 }
-/* =====================================================
-PHANTOM DETECTION
-===================================================== */
-function getPhantom(){
-/*
-IMPORTANT:
-Phantom may expose its provider through different
-paths depending on whether Sonativa is opened:
-- inside Phantom Mobile
-- inside a desktop browser
-- through the Phantom extension
-*/
-if(
-window.phantom &&
-window.phantom.solana &&
-window.phantom.solana.isPhantom
-){
-return window.phantom.solana;
-}
-if(
-window.solana &&
-window.solana.isPhantom
-){
-return window.solana;
-}
-return null;
-}
-/* =====================================================
-DISPLAY WALLET
-===================================================== */
-function setWalletConnected(publicKey){
-if(!publicKey){
-return;
-}
-walletPublicKey = publicKey;
-const address =
-publicKey.toString();
-localStorage.setItem(
-"sonativa_phantom_wallet",
-address
-);
-document.getElementById(
-"walletBox"
-).style.display =
-"block";
-document.getElementById(
-"walletAddress"
-).textContent =
-address;
-walletButton.textContent =
-"Phantom Connected ✓";
-showMessage(
-"Phantom wallet connected successfully.",
-"success"
-);
-}
-/* =====================================================
-CLEAR WALLET UI
-===================================================== */
-function clearWallet(){
-walletPublicKey = null;
-localStorage.removeItem(
-"sonativa_phantom_wallet"
-);
-document.getElementById(
-"walletBox"
-).style.display =
-"none";
-document.getElementById(
-"walletAddress"
-).textContent =
-"";
-walletButton.textContent =
-"Connect Phantom";
-}
-/* =====================================================
-PHANTOM EVENTS
-===================================================== */
-function attachPhantomEvents(provider){
-if(!provider){
-return;
-}
-phantomProvider = provider;
-try{
-provider.on(
-"connect",
-function(publicKey){
-if(publicKey){
-setWalletConnected(publicKey);
-}
-}
-);
-provider.on(
-"disconnect",
-function(){
-clearWallet();
-}
-);
-provider.on(
-"accountChanged",
-function(publicKey){
-if(publicKey){
-setWalletConnected(publicKey);
-}else{
-clearWallet();
-}
-}
-);
-}catch(error){
-console.warn(
-"Phantom event listener warning:",
-error
-);
-}
-}
-/* =====================================================
-RESTORE PHANTOM CONNECTION
-===================================================== */
-async function restorePhantomConnection(){
-const provider =
-getPhantom();
-if(!provider){
-return false;
-}
-attachPhantomEvents(provider);
-try{
-/*
-This is the important part.
-onlyIfTrusted=true means:
-"If the user already approved Sonativa,
-restore the connection without showing
-the Phantom approval screen again."
-*/
-const response =
-await provider.connect({
-onlyIfTrusted:true
-});
-if(
-response &&
-response.publicKey
-){
-setWalletConnected(
-response.publicKey
-);
-return true;
-}
-}catch(error){
-/*
-This is NOT necessarily an error.
-If Phantom has never trusted Sonativa,
-onlyIfTrusted can fail.
-The normal Connect button will then be used.
-*/
-console.log(
-"Automatic Phantom restore:",
-error?.message || error
-);
-}
-return false;
-}
-/* =====================================================
-NORMAL PHANTOM CONNECTION
-===================================================== */
-async function connectWallet(){
-try{
-const provider =
-getPhantom();
-if(!provider){
-showMessage(
-"Phantom Wallet was not detected. Open Sonativa inside Phantom or use a browser with Phantom installed.",
-"error"
-);
-return;
-}
-attachPhantomEvents(provider);
-showMessage(
-"Connecting Phantom...",
-"info"
-);
-const response =
-await provider.connect();
-if(
-!response ||
-!response.publicKey
-){
-throw new Error(
-"Phantom did not return a wallet address."
-);
-}
-setWalletConnected(
-response.publicKey
-);
-}catch(error){
-console.error(
-"Wallet connection error:",
-error
-);
-showMessage(
-"Wallet connection failed:\n" +
-(error?.message || error),
-"error"
-);
-}
-}
+
+
 /* =====================================================
 SUPPLY
 ===================================================== */
+
 function getSupplyBigInt(){
+
 const value =
-document.getElementById("supply")
+document
+.getElementById("supply")
 .value
 .trim();
-if(!/^\d+$/.test(value)){
+
+
+if(
+! /^\d+$/.test(value)
+){
+
 return null;
+
 }
+
+
 try{
+
 return BigInt(value);
+
 }catch{
+
 return null;
+
 }
+
 }
-function getMaximumSupply(decimals){
+
+
+function getMaximumSupply(
+decimals
+){
+
 return MAX_U64 /
 (
-10n ** BigInt(decimals)
+BigInt(10) **
+BigInt(decimals)
 );
+
 }
+
+
 function updateSupplyLimit(){
+
 const decimals =
 Number(
-document.getElementById("decimals").value
+document
+.getElementById("decimals")
+.value
 );
+
+
 const maximum =
-getMaximumSupply(decimals);
-document.getElementById(
-"supplyLimit"
-).textContent =
+getMaximumSupply(
+decimals
+);
+
+
+document
+.getElementById("supplyLimit")
+.textContent =
 "Maximum whole-token supply with " +
 decimals +
 " decimals: " +
 maximum.toLocaleString();
+
 }
+
+
 /* =====================================================
 TOKENOMICS
 ===================================================== */
+
 const tokenomicsIds = [
+
 "team",
 "treasury",
 "community",
 "publicSale",
 "liquidity",
 "burnReserve"
+
 ];
+
+
 function getNumber(id){
+
 const value =
 Number(
-document.getElementById(id).value
+document
+.getElementById(id)
+.value
 );
+
+
 if(
 !Number.isFinite(value) ||
 value < 0
 ){
+
 return 0;
+
 }
+
+
 return value;
+
 }
+
+
 function getTokenomics(){
+
 return {
-team:getNumber("team"),
-treasury:getNumber("treasury"),
-community:getNumber("community"),
-public_sale:getNumber("publicSale"),
-liquidity:getNumber("liquidity"),
-burn_reserve:getNumber("burnReserve")
+
+team:
+getNumber("team"),
+
+treasury:
+getNumber("treasury"),
+
+community:
+getNumber("community"),
+
+public_sale:
+getNumber("publicSale"),
+
+liquidity:
+getNumber("liquidity"),
+
+burn_reserve:
+getNumber("burnReserve")
+
 };
+
 }
+
+
 function getTokenomicsTotal(){
+
 const t =
 getTokenomics();
+
+
 return (
+
 t.team +
 t.treasury +
 t.community +
 t.public_sale +
 t.liquidity +
 t.burn_reserve
+
 );
+
 }
+
+
 function hasTokenomics(){
-return getTokenomicsTotal() > 0.000001;
+
+return (
+getTokenomicsTotal()
+>
+0.000001
+);
+
 }
+
+
 function updateTokenomicsTotal(){
+
 const total =
 getTokenomicsTotal();
+
+
 const element =
-document.getElementById(
+document
+.getElementById(
 "tokenomicsTotal"
 );
+
+
 element.textContent =
-total.toFixed(2) + "%";
+total.toFixed(2) +
+"%";
+
+
 element.classList.remove(
 "valid",
 "invalid"
 );
+
+
 const message =
-document.getElementById(
+document
+.getElementById(
 "tokenomicsMessage"
 );
+
+
 if(total === 0){
-element.classList.add("valid");
+
+element.classList.add(
+"valid"
+);
+
 message.textContent =
 "Tokenomics are optional. You can continue with 0%.";
+
 message.className =
 "message info";
+
 return;
+
 }
+
+
 if(
-Math.abs(total - 100) < 0.001
+Math.abs(total - 100)
+<
+0.001
 ){
-element.classList.add("valid");
+
+element.classList.add(
+"valid"
+);
+
 message.textContent =
 "Tokenomics allocation is valid.";
+
 message.className =
 "message success";
+
 }else{
-element.classList.add("invalid");
+
+element.classList.add(
+"invalid"
+);
+
 message.textContent =
 "Tokenomics must equal exactly 100%. Current total: " +
 total.toFixed(2) +
 "%";
+
 message.className =
 "message error";
+
 }
+
 }
+
+
 tokenomicsIds.forEach(
-id => {
-document.getElementById(id)
+function(id){
+
+document
+.getElementById(id)
 .addEventListener(
 "input",
 updateTokenomicsTotal
 );
+
 }
 );
+
+
 /* =====================================================
 INPUTS
 ===================================================== */
-document.getElementById("supply")
+
+document
+.getElementById("supply")
 .addEventListener(
 "input",
 function(){
+
 this.value =
-this.value.replace(/[^\d]/g,"");
+this.value.replace(
+/[^\d]/g,
+""
+);
+
 }
 );
-document.getElementById("decimals")
+
+
+document
+.getElementById("decimals")
 .addEventListener(
 "change",
 updateSupplyLimit
 );
+
+
+/* =====================================================
+PHANTOM PROVIDER DETECTION
+===================================================== */
+
+function getPhantom(){
+
+/*
+ * Phantom Browser / injected provider
+ */
+
+if(
+window.phantom &&
+window.phantom.solana &&
+window.phantom.solana.isPhantom
+){
+
+return window.phantom.solana;
+
+}
+
+
+/*
+ * Standard injected provider
+ */
+
+if(
+window.solana &&
+window.solana.isPhantom
+){
+
+return window.solana;
+
+}
+
+
+/*
+ * Fallback
+ */
+
+if(
+window.phantom &&
+window.phantom.solana
+){
+
+return window.phantom.solana;
+
+}
+
+
+return null;
+
+}
+
+
+/* =====================================================
+PHANTOM WALLET STORAGE
+===================================================== */
+
+function saveWalletAddress(
+address
+){
+
+if(!address){
+return;
+}
+
+try{
+
+localStorage.setItem(
+"sonativa_wallet_address",
+address
+);
+
+}catch(error){
+
+console.log(
+"Could not save wallet address",
+error
+);
+
+}
+
+}
+
+
+function getStoredWalletAddress(){
+
+try{
+
+return localStorage.getItem(
+"sonativa_wallet_address"
+);
+
+}catch{
+
+return null;
+
+}
+
+}
+
+
+/* =====================================================
+SHOW CONNECTED WALLET
+===================================================== */
+
+function showConnectedWallet(
+address
+){
+
+if(!address){
+return;
+}
+
+
+walletPublicKey =
+address;
+
+
+document
+.getElementById("walletBox")
+.style.display =
+"block";
+
+
+document
+.getElementById("walletAddress")
+.textContent =
+address;
+
+
+walletButton.textContent =
+"Phantom Connected ✓";
+
+}
+
+
+/* =====================================================
+OPEN INSIDE PHANTOM
+===================================================== */
+
+function openInsidePhantom(){
+
+const target =
+encodeURIComponent(
+SONATIVA_TOKEN_STUDIO_URL
+);
+
+
+const ref =
+encodeURIComponent(
+window.location.href
+);
+
+
+/*
+ * Phantom mobile universal link.
+ *
+ * This opens the requested Sonativa page
+ * inside Phantom's browser.
+ */
+
+const phantomUrl =
+"https://phantom.app/ul/browse/" +
+target +
+"?ref=" +
+ref;
+
+
+showMessage(
+"Opening Sonativa inside Phantom...",
+"info"
+);
+
+
+setTimeout(
+function(){
+
+window.location.href =
+phantomUrl;
+
+},
+500
+);
+
+}
+
+
+/* =====================================================
+AUTOMATIC PHANTOM RECONNECT
+===================================================== */
+
+async function restorePhantomConnection(){
+
+const provider =
+getPhantom();
+
+
+/*
+ * No provider means we are probably
+ * in Safari / Chrome instead of Phantom.
+ */
+
+if(!provider){
+
+const stored =
+getStoredWalletAddress();
+
+
+if(stored){
+
+showConnectedWallet(
+stored
+);
+
+}
+
+
+return false;
+
+}
+
+
+try{
+
+/*
+ * onlyIfTrusted prevents Phantom
+ * from repeatedly asking the user
+ * to approve the connection.
+ */
+
+const response =
+await provider.connect({
+onlyIfTrusted:true
+});
+
+
+if(
+response &&
+response.publicKey
+){
+
+const publicKey =
+response.publicKey;
+
+
+const address =
+publicKey.toString();
+
+
+walletPublicKey =
+publicKey;
+
+
+saveWalletAddress(
+address
+);
+
+
+showConnectedWallet(
+address
+);
+
+
+return true;
+
+}
+
+}catch(error){
+
+console.log(
+"Phantom trusted reconnect not available:",
+error
+);
+
+}
+
+
+return false;
+
+}
+
+
+/* =====================================================
+CONNECT PHANTOM
+===================================================== */
+
+async function connectWallet(){
+
+try{
+
+let provider =
+getPhantom();
+
+
+/*
+ * If Phantom provider does not exist,
+ * automatically open this page inside Phantom.
+ */
+
+if(!provider){
+
+showMessage(
+"Phantom is not available in this browser. Opening Sonativa inside Phantom...",
+"info"
+);
+
+
+openInsidePhantom();
+
+return;
+
+}
+
+
+showMessage(
+"Connecting Phantom...",
+"info"
+);
+
+
+const response =
+await provider.connect();
+
+
+if(
+!response ||
+!response.publicKey
+){
+
+throw new Error(
+"Phantom did not return a wallet address."
+);
+
+}
+
+
+const publicKey =
+response.publicKey;
+
+
+const address =
+publicKey.toString();
+
+
+walletPublicKey =
+publicKey;
+
+
+saveWalletAddress(
+address
+);
+
+
+showConnectedWallet(
+address
+);
+
+
+showMessage(
+"Phantom wallet connected successfully.",
+"success"
+);
+
+
+setupPhantomListeners();
+
+
+}catch(error){
+
+console.error(
+"Phantom connection error:",
+error
+);
+
+
+showMessage(
+"Wallet connection failed:\n" +
+(error?.message || error),
+"error"
+);
+
+}
+
+}
+
+
+/* =====================================================
+PHANTOM EVENT LISTENERS
+===================================================== */
+
+function setupPhantomListeners(){
+
+const provider =
+getPhantom();
+
+
+if(!provider){
+return;
+}
+
+
+if(
+typeof provider.on !== "function"
+){
+return;
+}
+
+
+provider.on(
+"connect",
+function(publicKey){
+
+if(!publicKey){
+return;
+}
+
+
+const address =
+publicKey.toString();
+
+
+walletPublicKey =
+publicKey;
+
+
+saveWalletAddress(
+address
+);
+
+
+showConnectedWallet(
+address
+);
+
+}
+);
+
+
+provider.on(
+"accountChanged",
+function(publicKey){
+
+if(!publicKey){
+
+walletPublicKey =
+null;
+
+
+try{
+
+localStorage.removeItem(
+"sonativa_wallet_address"
+);
+
+}catch{}
+
+
+walletButton.textContent =
+"Connect Phantom";
+
+
+document
+.getElementById("walletBox")
+.style.display =
+"none";
+
+
+showMessage(
+"Phantom wallet disconnected.",
+"info"
+);
+
+
+return;
+
+}
+
+
+const address =
+publicKey.toString();
+
+
+walletPublicKey =
+publicKey;
+
+
+saveWalletAddress(
+address
+);
+
+
+showConnectedWallet(
+address
+);
+
+}
+);
+
+
+provider.on(
+"disconnect",
+function(){
+
+walletPublicKey =
+null;
+
+
+walletButton.textContent =
+"Connect Phantom";
+
+
+showMessage(
+"Phantom wallet disconnected.",
+"info"
+);
+
+}
+);
+
+}
+
+
+/* =====================================================
+WHEN RETURNING FROM PHANTOM
+===================================================== */
+
+document.addEventListener(
+"visibilitychange",
+async function(){
+
+if(
+document.visibilityState ===
+"visible"
+){
+
+console.log(
+"Sonativa is visible again."
+);
+
+
+await restorePhantomConnection();
+
+
+setupPhantomListeners();
+
+}
+
+}
+);
+
+
+/* =====================================================
+WINDOW FOCUS
+===================================================== */
+
+window.addEventListener(
+"focus",
+async function(){
+
+await restorePhantomConnection();
+
+setupPhantomListeners();
+
+}
+);
+
+
+/* =====================================================
+PAGE SHOW
+===================================================== */
+
+window.addEventListener(
+"pageshow",
+async function(){
+
+await restorePhantomConnection();
+
+setupPhantomListeners();
+
+}
+);
+
+
 /* =====================================================
 LOGIN
 ===================================================== */
+
 async function checkLogin(){
+
 try{
+
 const {
 data,
 error
 } =
 await supabase.auth.getUser();
+
+
 if(error){
 throw error;
 }
+
+
 currentUser =
-data?.user || null;
+data?.user ||
+null;
+
+
 if(!currentUser){
-saveButton.disabled = true;
+
+saveButton.disabled =
+true;
+
+
 showMessage(
 "You must login to create a Sonativa project.",
 "error"
 );
+
+
 return false;
+
 }
-saveButton.disabled = false;
+
+
+saveButton.disabled =
+false;
+
+
 return true;
+
+
 }catch(error){
-console.error(error);
-saveButton.disabled = true;
+
+console.error(
+error
+);
+
+
+saveButton.disabled =
+true;
+
+
 showMessage(
 "Could not verify your Sonativa login:\n" +
 (error?.message || error),
 "error"
 );
+
+
 return false;
+
 }
+
 }
+
+
 /* =====================================================
 TOKENOMICS TEXT
 ===================================================== */
+
 function tokenomicsText(){
-if(!hasTokenomics()){
+
+if(
+!hasTokenomics()
+){
+
 return "Not defined";
+
 }
+
+
 const t =
 getTokenomics();
+
+
 return [
-"Team " + t.team + "%",
-"Treasury " + t.treasury + "%",
-"Community " + t.community + "%",
-"Public Sale " + t.public_sale + "%",
-"Liquidity " + t.liquidity + "%",
-"Burn Reserve " + t.burn_reserve + "%"
+
+"Team " +
+t.team +
+"%",
+
+"Treasury " +
+t.treasury +
+"%",
+
+"Community " +
+t.community +
+"%",
+
+"Public Sale " +
+t.public_sale +
+"%",
+
+"Liquidity " +
+t.liquidity +
+"%",
+
+"Burn Reserve " +
+t.burn_reserve +
+"%"
+
 ].join(" • ");
+
 }
+
+
 /* =====================================================
 DESCRIPTION
 ===================================================== */
+
 function buildDescription(){
+
 const description =
-document.getElementById(
+document
+.getElementById(
 "description"
-).value.trim();
+)
+.value
+.trim();
+
+
 const metadataUri =
-document.getElementById(
+document
+.getElementById(
 "metadataUri"
-).value.trim();
+)
+.value
+.trim();
+
+
 let result =
 description;
+
+
 if(metadataUri){
+
 result +=
 (result ? "\n\n" : "") +
 "Metadata URI: " +
 metadataUri;
+
 }
-if(hasTokenomics()){
+
+
+if(
+hasTokenomics()
+){
+
 const t =
 getTokenomics();
+
+
 result +=
 (result ? "\n\n" : "") +
 "--- SONATIVA TOKENOMICS ---\n" +
-"Team: " + t.team + "%\n" +
-"Treasury: " + t.treasury + "%\n" +
-"Community: " + t.community + "%\n" +
-"Public Sale: " + t.public_sale + "%\n" +
-"Liquidity: " + t.liquidity + "%\n" +
-"Burn Reserve: " + t.burn_reserve + "%";
+"Team: " +
+t.team +
+"%\n" +
+"Treasury: " +
+t.treasury +
+"%\n" +
+"Community: " +
+t.community +
+"%\n" +
+"Public Sale: " +
+t.public_sale +
+"%\n" +
+"Liquidity: " +
+t.liquidity +
+"%\n" +
+"Burn Reserve: " +
+t.burn_reserve +
+"%";
+
 }
+
+
 return result;
+
 }
+
+
 /* =====================================================
 SAVE PROJECT
 ===================================================== */
+
 async function saveProject(){
+
 const loggedIn =
 await checkLogin();
+
+
 if(!loggedIn){
 return;
 }
+
+
 const projectName =
-document.getElementById(
+document
+.getElementById(
 "projectName"
-).value.trim();
+)
+.value
+.trim();
+
+
 const tokenName =
-document.getElementById(
+document
+.getElementById(
 "tokenName"
-).value.trim();
+)
+.value
+.trim();
+
+
 const tokenSymbol =
-document.getElementById(
+document
+.getElementById(
 "tokenSymbol"
-).value.trim().toUpperCase();
+)
+.value
+.trim()
+.toUpperCase();
+
+
 const supply =
-document.getElementById(
+document
+.getElementById(
 "supply"
-).value.trim();
+)
+.value
+.trim();
+
+
 const decimals =
 Number(
-document.getElementById(
+document
+.getElementById(
 "decimals"
-).value
+)
+.value
 );
+
+
 const network =
-document.getElementById(
+document
+.getElementById(
 "network"
-).value;
+)
+.value;
+
+
 if(
 !projectName ||
 !tokenName ||
 !tokenSymbol ||
 !supply
 ){
+
 showMessage(
 "Please complete Project Name, Token Name, Token Symbol and Total Supply.",
 "error"
 );
+
 return;
+
 }
+
+
 if(
-!/^[A-Z0-9_]+$/i.test(tokenSymbol)
+!/^[A-Z0-9_]+$/i.test(
+tokenSymbol
+)
 ){
+
 showMessage(
 "Token Symbol can contain only letters, numbers and underscore.",
 "error"
 );
+
 return;
+
 }
+
+
 const supplyNumber =
 getSupplyBigInt();
+
+
 if(
 supplyNumber === null ||
 supplyNumber <= 0n
 ){
+
 showMessage(
 "Total supply must be a positive whole number.",
 "error"
 );
+
 return;
+
 }
+
+
 if(
 decimals < 0 ||
 decimals > 9
 ){
+
 showMessage(
 "Decimals must be between 0 and 9.",
 "error"
 );
+
 return;
+
 }
-if(network !== "Solana Devnet"){
+
+
+if(
+network !==
+"Solana Devnet"
+){
+
 showMessage(
 "Mainnet creation is intentionally disabled while Sonativa is being tested.",
 "error"
 );
+
 return;
+
 }
+
+
 const rawAmount =
 supplyNumber *
 (
-10n ** BigInt(decimals)
+10n **
+BigInt(decimals)
 );
-if(rawAmount > MAX_U64){
+
+
+if(
+rawAmount > MAX_U64
+){
+
 showMessage(
 "Supply is too large for the selected decimals.\nMaximum: " +
-getMaximumSupply(decimals).toLocaleString(),
+getMaximumSupply(
+decimals
+)
+.toLocaleString(),
 "error"
 );
+
 return;
+
 }
+
+
+/* TOKENOMICS */
+
 const total =
 getTokenomicsTotal();
+
+
 if(
 hasTokenomics() &&
 Math.abs(total - 100) > 0.001
 ){
+
 showMessage(
 "Tokenomics are enabled, but they do not equal 100%.\nCurrent total: " +
 total.toFixed(2) +
 "%",
 "error"
 );
+
 return;
+
 }
-saveButton.disabled = true;
+
+
+/* SAVE */
+
+saveButton.disabled =
+true;
+
 saveButton.textContent =
 "Saving Project...";
+
+
 try{
+
 const finalDescription =
 buildDescription();
+
+
 const {
 data,
 error
@@ -1184,272 +2204,455 @@ error
 await supabase
 .from("projects")
 .insert({
+
 user_id:
 currentUser.id,
+
 project_name:
 projectName,
+
 token_name:
 tokenName,
+
 token_symbol:
 tokenSymbol,
+
 total_supply:
 supply,
+
 network:
 network,
+
 description:
 finalDescription,
+
 decimals:
 decimals,
+
 token_status:
 "draft"
+
 })
 .select()
 .single();
+
+
 if(error){
 throw error;
 }
-savedProject = data;
-document.getElementById(
+
+
+savedProject =
+data;
+
+
+/* REVIEW */
+
+document
+.getElementById(
 "reviewProject"
-).textContent =
+)
+.textContent =
 projectName;
-document.getElementById(
+
+
+document
+.getElementById(
 "reviewToken"
-).textContent =
+)
+.textContent =
 tokenName;
-document.getElementById(
+
+
+document
+.getElementById(
 "reviewSymbol"
-).textContent =
+)
+.textContent =
 tokenSymbol;
-document.getElementById(
+
+
+document
+.getElementById(
 "reviewSupply"
-).textContent =
+)
+.textContent =
 supplyNumber.toLocaleString();
-document.getElementById(
+
+
+document
+.getElementById(
 "reviewDecimals"
-).textContent =
+)
+.textContent =
 decimals;
-document.getElementById(
+
+
+document
+.getElementById(
 "reviewNetwork"
-).textContent =
+)
+.textContent =
 network;
-document.getElementById(
+
+
+document
+.getElementById(
 "reviewTokenomics"
-).textContent =
+)
+.textContent =
 tokenomicsText();
-document.getElementById(
+
+
+document
+.getElementById(
 "review"
-).style.display =
+)
+.style.display =
 "block";
-document.getElementById(
+
+
+document
+.getElementById(
 "step4"
-).classList.add("done");
+)
+.classList.add(
+"done"
+);
+
+
 showMessage(
 "Project saved successfully. Review the data below before creating the token.",
 "success"
 );
+
+
 saveButton.textContent =
 "Project Saved ✓";
+
+
 }catch(error){
+
 console.error(
 "Save project error:",
 error
 );
+
+
 showMessage(
 "Could not save project:\n" +
 (error?.message || error),
 "error"
 );
-saveButton.disabled = false;
+
+
+saveButton.disabled =
+false;
+
+
 saveButton.textContent =
 "Save Project";
+
 }
+
 }
+
+
 /* =====================================================
 CREATE TOKEN
 ===================================================== */
+
 async function createToken(){
+
 if(!savedProject){
+
 showTokenMessage(
 "Save the project first.",
 "error"
 );
+
 return;
+
 }
+
+
 if(
 savedProject.network !==
 "Solana Devnet"
 ){
+
 showTokenMessage(
 "Only Solana Devnet is enabled.",
 "error"
 );
+
 return;
+
 }
+
+
 /*
-Always check the current Phantom provider again.
-This is important after returning from Phantom.
-*/
-const provider =
+ * Always obtain the current provider again.
+ * This is important when returning from Phantom.
+ */
+
+let provider =
 getPhantom();
+
+
 if(!provider){
+
+const restored =
+await restorePhantomConnection();
+
+
+provider =
+getPhantom();
+
+
+if(!restored || !provider){
+
 showTokenMessage(
-"Phantom Wallet was not detected. Please open Sonativa inside Phantom and try again.",
+"Phantom is not available on this page. Please open Sonativa inside Phantom and try again.",
 "error"
 );
+
 return;
+
 }
-attachPhantomEvents(provider);
+
+}
+
+
 try{
-createTokenButton.disabled = true;
+
+createTokenButton.disabled =
+true;
+
 createTokenButton.textContent =
-"Checking Wallet...";
-/* =================================================
-RESTORE / CONNECT
-================================================= */
+"Connecting Wallet...";
+
+
+/* CONNECT */
+
 if(!walletPublicKey){
-try{
-const trusted =
-await provider.connect({
-onlyIfTrusted:true
-});
-if(
-trusted &&
-trusted.publicKey
-){
-setWalletConnected(
-trusted.publicKey
-);
-}
-}catch{
+
 const response =
 await provider.connect();
+
+
 if(
 !response ||
 !response.publicKey
 ){
+
 throw new Error(
 "Phantom did not return a wallet address."
 );
+
 }
-setWalletConnected(
-response.publicKey
+
+
+walletPublicKey =
+response.publicKey;
+
+
+saveWalletAddress(
+walletPublicKey.toString()
 );
+
+
+showConnectedWallet(
+walletPublicKey.toString()
+);
+
 }
-}
-/* =================================================
-BALANCE
-================================================= */
-createTokenButton.textContent =
-"Checking Devnet SOL...";
+
+
+/* BALANCE */
+
 showTokenMessage(
 "Checking Devnet wallet...",
 "info"
 );
+
+
 const balance =
 await connection.getBalance(
 walletPublicKey
 );
-if(balance <= 0){
+
+
+if(
+balance <= 0
+){
+
 throw new Error(
 "Your Phantom wallet has 0 SOL on Devnet. Get Devnet SOL before creating the token."
 );
+
 }
-/* =================================================
-VALUES
-================================================= */
+
+
+/* VALUES */
+
 const decimals =
-Number(savedProject.decimals);
+Number(
+savedProject.decimals
+);
+
+
 const supply =
 BigInt(
-String(savedProject.total_supply)
+String(
+savedProject.total_supply
+)
 );
+
+
 const rawAmount =
 supply *
 (
-10n ** BigInt(decimals)
+10n **
+BigInt(decimals)
 );
-if(rawAmount > MAX_U64){
+
+
+if(
+rawAmount > MAX_U64
+){
+
 throw new Error(
 "Supply is too large for the selected decimals."
 );
+
 }
-/* =================================================
-DATABASE STATUS
-================================================= */
+
+
+/* STATUS */
+
 await supabase
 .from("projects")
 .update({
-token_status:"creating"
+
+token_status:
+"creating"
+
 })
-.eq("Id",savedProject.Id)
-.eq("user_id",currentUser.id);
-/* =================================================
-CREATE MINT
-================================================= */
+.eq(
+"Id",
+savedProject.Id
+)
+.eq(
+"user_id",
+currentUser.id
+);
+
+
+/* MINT */
+
 showTokenMessage(
 "Generating token mint...",
 "info"
 );
+
+
 const mint =
 Keypair.generate();
+
+
 const mintAccountSize =
 82;
+
+
 const lamports =
 await connection
 .getMinimumBalanceForRentExemption(
 mintAccountSize
 );
+
+
 const transaction =
 new Transaction();
+
+
 transaction.add(
 SystemProgram.createAccount({
+
 fromPubkey:
 walletPublicKey,
+
 newAccountPubkey:
 mint.publicKey,
+
 space:
 mintAccountSize,
+
 lamports:
 lamports,
+
 programId:
 TOKEN_PROGRAM_ID
+
 })
 );
+
+
 transaction.add(
 createInitializeMintInstruction(
+
 mint.publicKey,
+
 decimals,
+
 walletPublicKey,
+
 walletPublicKey,
+
 TOKEN_PROGRAM_ID
+
 )
 );
+
+
 const latestBlockhash =
 await connection
 .getLatestBlockhash(
 "confirmed"
 );
+
+
 transaction.recentBlockhash =
 latestBlockhash.blockhash;
+
+
 transaction.feePayer =
 walletPublicKey;
+
+
+/*
+ * The mint keypair signs locally.
+ * The wallet still signs the transaction
+ * through Phantom.
+ */
+
 transaction.partialSign(
 mint
 );
+
+
 showTokenMessage(
-"Approve mint creation in Phantom. After approval, return to Sonativa.",
+"Approve mint creation in Phantom...",
 "info"
 );
-/*
-PHANTOM SIGNATURE
-The page remains capable of restoring the
-connection when Phantom returns to Sonativa.
-*/
+
+
 const signedTransaction =
 await provider.signTransaction(
 transaction
 );
+
+
 const signature =
 await connection.sendRawTransaction(
 signedTransaction.serialize(),
@@ -1457,65 +2660,107 @@ signedTransaction.serialize(),
 skipPreflight:false
 }
 );
+
+
 await connection.confirmTransaction(
 {
-signature:signature,
+
+signature:
+signature,
+
 blockhash:
 latestBlockhash.blockhash,
+
 lastValidBlockHeight:
 latestBlockhash.lastValidBlockHeight
+
 },
 "confirmed"
 );
-/* =================================================
-ATA
-================================================= */
+
+
+/* ATA */
+
 showTokenMessage(
 "Mint created. Creating token account...",
 "info"
 );
+
+
 const tokenAccount =
 await getAssociatedTokenAddress(
+
 mint.publicKey,
+
 walletPublicKey,
+
 false,
+
 TOKEN_PROGRAM_ID,
+
 ASSOCIATED_TOKEN_PROGRAM_ID
+
 );
+
+
 const accountInfo =
 await connection.getAccountInfo(
 tokenAccount
 );
+
+
 if(!accountInfo){
+
 const ataTransaction =
 new Transaction();
+
+
 ataTransaction.add(
 createAssociatedTokenAccountInstruction(
+
 walletPublicKey,
+
 tokenAccount,
+
 walletPublicKey,
+
 mint.publicKey,
+
 TOKEN_PROGRAM_ID,
+
 ASSOCIATED_TOKEN_PROGRAM_ID
+
 )
 );
+
+
 const ataBlockhash =
 await connection
 .getLatestBlockhash(
 "confirmed"
 );
+
+
 ataTransaction.recentBlockhash =
 ataBlockhash.blockhash;
+
+
 ataTransaction.feePayer =
 walletPublicKey;
+
+
 showTokenMessage(
-"Approve token account creation in Phantom. Return to Sonativa afterwards.",
+"Approve token account creation in Phantom...",
 "info"
 );
+
+
 const signedAta =
 await provider.signTransaction(
 ataTransaction
 );
+
+
 const ataSignature =
 await connection.sendRawTransaction(
 signedAta.serialize(),
@@ -1523,54 +2768,85 @@ signedAta.serialize(),
 skipPreflight:false
 }
 );
+
+
 await connection.confirmTransaction(
 {
+
 signature:
 ataSignature,
+
 blockhash:
 ataBlockhash.blockhash,
+
 lastValidBlockHeight:
 ataBlockhash.lastValidBlockHeight
+
 },
 "confirmed"
 );
+
 }
-/* =================================================
-MINT SUPPLY
-================================================= */
+
+
+/* MINT SUPPLY */
+
 showTokenMessage(
 "Minting total supply...",
 "info"
 );
+
+
 const mintTransaction =
 new Transaction();
+
+
 mintTransaction.add(
 createMintToInstruction(
+
 mint.publicKey,
+
 tokenAccount,
+
 walletPublicKey,
+
 rawAmount,
+
 [],
+
 TOKEN_PROGRAM_ID
+
 )
 );
+
+
 const mintBlockhash =
 await connection
 .getLatestBlockhash(
 "confirmed"
 );
+
+
 mintTransaction.recentBlockhash =
 mintBlockhash.blockhash;
+
+
 mintTransaction.feePayer =
 walletPublicKey;
+
+
 showTokenMessage(
-"Approve the total supply transaction in Phantom. Return to Sonativa afterwards.",
+"Approve the total supply transaction in Phantom...",
 "info"
 );
+
+
 const signedMint =
 await provider.signTransaction(
 mintTransaction
 );
+
+
 const mintSignature =
 await connection.sendRawTransaction(
 signedMint.serialize(),
@@ -1578,34 +2854,47 @@ signedMint.serialize(),
 skipPreflight:false
 }
 );
+
+
 await connection.confirmTransaction(
 {
+
 signature:
 mintSignature,
+
 blockhash:
 mintBlockhash.blockhash,
+
 lastValidBlockHeight:
 mintBlockhash.lastValidBlockHeight
+
 },
 "confirmed"
 );
-/* =================================================
-DATABASE
-================================================= */
+
+
+/* DATABASE */
+
 const mintAddress =
 mint.publicKey.toString();
+
+
 const {
 error:updateError
 } =
 await supabase
 .from("projects")
 .update({
+
 mint_address:
 mintAddress,
+
 creation_signature:
 mintSignature,
+
 token_status:
 "created"
+
 })
 .eq(
 "Id",
@@ -1615,53 +2904,92 @@ savedProject.Id
 "user_id",
 currentUser.id
 );
+
+
 if(updateError){
+
 console.error(
 "Database update error:",
 updateError
 );
+
 }
-/* =================================================
-RESULT
-================================================= */
-document.getElementById(
+
+
+/* RESULT */
+
+document
+.getElementById(
 "tokenResult"
-).style.display =
+)
+.style.display =
 "block";
-document.getElementById(
+
+
+document
+.getElementById(
 "mintAddress"
-).textContent =
+)
+.textContent =
 mintAddress;
-document.getElementById(
+
+
+document
+.getElementById(
 "transactionSignature"
-).textContent =
+)
+.textContent =
 mintSignature;
-document.getElementById(
+
+
+document
+.getElementById(
 "explorerLink"
-).href =
+)
+.href =
 "https://explorer.solana.com/address/" +
-encodeURIComponent(mintAddress) +
+encodeURIComponent(
+mintAddress
+) +
 "?cluster=devnet";
-document.getElementById(
+
+
+document
+.getElementById(
 "step5"
-).classList.add("done");
+)
+.classList.add(
+"done"
+);
+
+
 showTokenMessage(
 "Your Devnet token was created successfully! 🎉",
 "success"
 );
+
+
 createTokenButton.textContent =
 "Token Created ✓";
+
+
 }catch(error){
+
 console.error(
 "Token creation error:",
 error
 );
+
+
 try{
-if(savedProject){
+
 await supabase
 .from("projects")
 .update({
-token_status:"failed"
+
+token_status:
+"failed"
+
 })
 .eq(
 "Id",
@@ -1671,136 +2999,130 @@ savedProject.Id
 "user_id",
 currentUser.id
 );
-}
+
 }catch(updateError){
+
 console.error(
 updateError
 );
+
 }
+
+
 showTokenMessage(
 "Token creation failed:\n" +
 (error?.message || error),
 "error"
 );
-createTokenButton.disabled = false;
+
+
+createTokenButton.disabled =
+false;
+
+
 createTokenButton.textContent =
 "Try Again";
+
 }
+
 }
-/* =====================================================
-PHANTOM RETURN / PAGE VISIBILITY
-===================================================== */
-/*
-When Phantom opens over Sonativa and then returns,
-the browser can fire visibilitychange, pageshow or focus.
-We use all three because mobile browsers behave differently.
-*/
-async function restoreAfterReturn(){
-const provider =
-getPhantom();
-if(!provider){
-return;
-}
-attachPhantomEvents(provider);
-if(
-provider.isConnected &&
-provider.publicKey
-){
-setWalletConnected(
-provider.publicKey
-);
-return;
-}
-/*
-Try silent restoration.
-No approval popup should appear when trusted.
-*/
-await restorePhantomConnection();
-}
-/* visibilitychange */
-document.addEventListener(
-"visibilitychange",
-function(){
-if(
-document.visibilityState === "visible"
-){
-setTimeout(
-restoreAfterReturn,
-300
-);
-}
-}
-);
-/* pageshow */
-window.addEventListener(
-"pageshow",
-function(){
-setTimeout(
-restoreAfterReturn,
-300
-);
-}
-);
-/* focus */
-window.addEventListener(
-"focus",
-function(){
-setTimeout(
-restoreAfterReturn,
-300
-);
-}
-);
+
+
 /* =====================================================
 EVENTS
 ===================================================== */
+
 saveButton.addEventListener(
 "click",
 saveProject
 );
+
+
 walletButton.addEventListener(
 "click",
 connectWallet
 );
+
+
 createTokenButton.addEventListener(
 "click",
 createToken
 );
+
+
 /* =====================================================
-AUTH
+AUTH STATE
 ===================================================== */
+
 supabase.auth.onAuthStateChange(
-function(event,session){
+function(
+event,
+session
+){
+
 if(
 session &&
 session.user
 ){
+
 currentUser =
 session.user;
+
+
 saveButton.disabled =
 false;
+
 }
+
+
 if(
-event === "SIGNED_OUT"
+event ===
+"SIGNED_OUT"
 ){
-currentUser = null;
+
+currentUser =
+null;
+
+
 saveButton.disabled =
 true;
-clearWallet();
+
 }
+
 }
 );
+
+
 /* =====================================================
-START
+STARTUP
 ===================================================== */
+
+document
+.getElementById(
+"mobileNote"
+)
+.style.display =
+"block";
+
+
 updateSupplyLimit();
+
 updateTokenomicsTotal();
+
+
 await checkLogin();
+
+
 /*
-Immediately try to restore a previously
-approved Phantom connection.
-*/
+ * Try restoring Phantom immediately.
+ */
+
 await restorePhantomConnection();
+
+
+setupPhantomListeners();
+
 </script>
+
 </body>
 </html>
