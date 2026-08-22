@@ -13,6 +13,10 @@ content="Sonativa — Build, launch and grow in Web3.">
 
 <style>
 
+/* =========================================================
+   SONATIVA — GLOBAL
+========================================================= */
+
 *{
 box-sizing:border-box;
 margin:0;
@@ -26,10 +30,11 @@ scroll-behavior:smooth;
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:
-radial-gradient(circle at 50% -10%,#172033 0%,#06080d 42%,#040509 100%);
+radial-gradient(circle at 50% -15%,#1b2942 0%,#080b12 38%,#040509 75%);
 color:#fff;
 line-height:1.6;
 min-height:100vh;
+overflow-x:hidden;
 }
 
 body::before{
@@ -37,11 +42,66 @@ content:"";
 position:fixed;
 inset:0;
 pointer-events:none;
+z-index:-2;
+
 background:
-linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+linear-gradient(
+rgba(255,255,255,.018) 1px,
+transparent 1px
+),
+linear-gradient(
+90deg,
+rgba(255,255,255,.018) 1px,
+transparent 1px
+);
+
 background-size:50px 50px;
-mask-image:linear-gradient(to bottom,black,transparent 80%);
+
+mask-image:
+linear-gradient(
+to bottom,
+black,
+transparent 85%
+);
+}
+
+body::after{
+content:"";
+position:fixed;
+width:600px;
+height:600px;
+top:-300px;
+left:50%;
+transform:translateX(-50%);
+border-radius:50%;
+
+background:
+radial-gradient(
+circle,
+rgba(120,150,210,.13),
+transparent 65%
+);
+
+filter:blur(20px);
+pointer-events:none;
+z-index:-1;
+
+animation:
+heroGlow 7s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow{
+
+from{
+opacity:.5;
+transform:translateX(-50%) scale(.9);
+}
+
+to{
+opacity:1;
+transform:translateX(-50%) scale(1.15);
+}
+
 }
 
 a{
@@ -49,7 +109,9 @@ text-decoration:none;
 color:inherit;
 }
 
-button,input,select{
+button,
+input,
+select{
 font:inherit;
 }
 
@@ -63,44 +125,162 @@ max-width:1200px;
 margin:auto;
 }
 
-/* ================= HEADER ================= */
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 header{
 position:sticky;
 top:0;
 z-index:1000;
-background:rgba(5,7,12,.82);
-backdrop-filter:blur(20px);
-border-bottom:1px solid #202633;
+
+background:
+rgba(5,7,12,.72);
+
+backdrop-filter:blur(22px);
+
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .nav{
-height:72px;
+height:76px;
+
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:15px;
+
+gap:20px;
 }
 
-.logo{
-font-size:24px;
+
+/* =========================================================
+   SONATIVA LOGO
+========================================================= */
+
+.logo-link{
+display:flex;
+align-items:center;
+gap:11px;
+}
+
+.logo-mark{
+width:38px;
+height:38px;
+
+position:relative;
+
+border-radius:12px;
+
+background:
+linear-gradient(
+145deg,
+#ffffff,
+#9aa6b9
+);
+
+box-shadow:
+0 0 25px rgba(255,255,255,.13),
+inset 0 0 15px rgba(0,0,0,.12);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+overflow:hidden;
+}
+
+.logo-mark::before{
+content:"";
+
+position:absolute;
+
+width:21px;
+height:21px;
+
+border:3px solid #080b11;
+
+border-radius:50%;
+
+opacity:.95;
+}
+
+.logo-mark::after{
+content:"";
+
+position:absolute;
+
+width:7px;
+height:7px;
+
+background:#080b11;
+
+border-radius:50%;
+}
+
+.logo-text{
+font-size:22px;
 font-weight:900;
 letter-spacing:3px;
+
+background:
+linear-gradient(
+90deg,
+#fff,
+#9ca8ba
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
+
+.logo-link:hover .logo-mark{
+transform:rotate(-8deg) scale(1.05);
+}
+
+.logo-mark{
+transition:.3s ease;
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
 
 .nav-links{
 display:none;
-gap:25px;
+gap:28px;
 color:#8e98aa;
 font-size:14px;
 }
 
 .nav-links a{
-transition:.2s;
+transition:.25s;
+position:relative;
+}
+
+.nav-links a::after{
+content:"";
+
+position:absolute;
+
+left:0;
+bottom:-8px;
+
+width:0;
+height:1px;
+
+background:#fff;
+
+transition:.25s;
 }
 
 .nav-links a:hover{
 color:#fff;
+}
+
+.nav-links a:hover::after{
+width:100%;
 }
 
 .nav-actions{
@@ -113,22 +293,37 @@ align-items:center;
 background:#0c1119;
 border:1px solid #293140;
 color:#fff;
-padding:9px;
+
+padding:9px 10px;
+
 border-radius:8px;
 outline:none;
 }
 
 .btn{
 display:inline-block;
+
 padding:13px 20px;
+
 border-radius:10px;
+
 font-weight:bold;
+
 border:1px solid #303847;
-transition:.2s;
+
+transition:
+transform .25s,
+border-color .25s,
+box-shadow .25s;
 }
 
 .btn:hover{
-transform:translateY(-2px);
+transform:translateY(-3px);
+
+border-color:#667287;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.25);
 }
 
 .primary{
@@ -144,154 +339,382 @@ color:#fff;
 .wallet{
 background:#fff;
 color:#07090f;
+
 border:0;
+
 padding:10px 15px;
+
 border-radius:9px;
+
 font-weight:bold;
+
+transition:.25s;
+}
+
+.wallet:hover{
+transform:translateY(-2px);
+box-shadow:
+0 8px 25px rgba(255,255,255,.12);
 }
 
 .owner-button{
 display:none;
-background:linear-gradient(135deg,#fff,#d9dee8);
+
+background:
+linear-gradient(
+135deg,
+#fff,
+#d9dee8
+);
+
 color:#06080d;
+
 border:0;
+
 padding:10px 15px;
+
 border-radius:9px;
+
 font-weight:bold;
-box-shadow:0 0 25px rgba(255,255,255,.08);
+
+box-shadow:
+0 0 25px rgba(255,255,255,.08);
+
 }
 
 .menu{
 font-size:25px;
 }
 
-/* ================= HERO ================= */
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero{
 text-align:center;
-padding:120px 0 80px;
+
+padding:125px 0 85px;
+
+position:relative;
 }
 
 .badge{
-display:inline-block;
+display:inline-flex;
+
+align-items:center;
+gap:8px;
+
 border:1px solid #293140;
-background:rgba(13,18,27,.8);
+
+background:
+rgba(13,18,27,.72);
+
 color:#aab3c2;
-padding:8px 14px;
+
+padding:8px 15px;
+
 border-radius:50px;
+
 font-size:13px;
-margin-bottom:25px;
+
+margin-bottom:28px;
+
+box-shadow:
+0 0 30px rgba(255,255,255,.025);
+
+animation:
+fadeUp .8s ease both;
+}
+
+.badge::before{
+content:"";
+
+width:7px;
+height:7px;
+
+border-radius:50%;
+
+background:#8ee6b0;
+
+box-shadow:
+0 0 12px rgba(142,230,176,.7);
+
+animation:
+pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+0%,100%{
+opacity:1;
+transform:scale(1);
+}
+
+50%{
+opacity:.5;
+transform:scale(.7);
+}
+
 }
 
 .hero h1{
-font-size:clamp(45px,9vw,85px);
-line-height:1;
-letter-spacing:-4px;
-margin-bottom:25px;
+font-size:clamp(48px,9vw,88px);
+
+line-height:.98;
+
+letter-spacing:-5px;
+
+margin-bottom:27px;
+
+animation:
+fadeUp .9s ease .1s both;
 }
 
 .hero h1 span{
-color:#9fa8b8;
+background:
+linear-gradient(
+90deg,
+#fff,
+#8895a9
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .hero p{
 max-width:720px;
+
 margin:auto;
+
 color:#8b95a6;
+
 font-size:18px;
+
+animation:
+fadeUp .9s ease .2s both;
 }
 
 .hero-buttons{
 display:flex;
+
 justify-content:center;
+
 gap:12px;
+
 flex-wrap:wrap;
-margin-top:35px;
+
+margin-top:36px;
+
+animation:
+fadeUp .9s ease .3s both;
 }
 
 .metrics{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+
+grid-template-columns:
+repeat(3,1fr);
+
 gap:10px;
+
 max-width:700px;
-margin:55px auto 0;
+
+margin:58px auto 0;
+
+animation:
+fadeUp .9s ease .4s both;
 }
 
 .metric{
 padding:20px 10px;
+
 border:1px solid #202733;
+
 border-radius:12px;
-background:rgba(12,16,23,.82);
+
+background:
+rgba(12,16,23,.72);
+
+transition:.3s;
+}
+
+.metric:hover{
+transform:translateY(-5px);
+
+border-color:#3d4759;
+
+background:
+rgba(20,25,35,.85);
 }
 
 .metric strong{
 display:block;
+
 font-size:23px;
 }
 
 .metric span{
 font-size:12px;
+
 color:#707b8e;
 }
 
-/* ================= SECTIONS ================= */
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(25px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
 
 section{
-padding:85px 0;
+padding:90px 0;
 }
 
 .section-head{
 text-align:center;
+
 margin-bottom:45px;
 }
 
 .section-head h2{
 font-size:38px;
+
 margin-bottom:10px;
+
+letter-spacing:-1px;
 }
 
 .section-head p{
 color:#808a9b;
 }
 
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
 .products{
 display:grid;
+
 grid-template-columns:1fr;
+
 gap:16px;
 }
 
 .card{
-padding:26px;
-background:rgba(12,16,23,.86);
+padding:27px;
+
+background:
+linear-gradient(
+145deg,
+rgba(15,20,29,.92),
+rgba(9,12,18,.92)
+);
+
 border:1px solid #222a38;
+
 border-radius:16px;
-transition:.25s;
+
+transition:
+transform .3s,
+border-color .3s,
+box-shadow .3s;
+
+position:relative;
+
+overflow:hidden;
+}
+
+.card::before{
+content:"";
+
+position:absolute;
+
+top:-100%;
+left:-100%;
+
+width:200%;
+height:200%;
+
+background:
+radial-gradient(
+circle,
+rgba(255,255,255,.06),
+transparent 35%
+);
+
+opacity:0;
+
+transition:.4s;
+}
+
+.card:hover::before{
+opacity:1;
 }
 
 .card:hover{
-transform:translateY(-4px);
-border-color:#394354;
+transform:translateY(-7px);
+
+border-color:#414c60;
+
+box-shadow:
+0 18px 45px rgba(0,0,0,.25);
 }
 
 .icon{
 font-size:31px;
+
 margin-bottom:15px;
+
+position:relative;
+
+transition:.3s;
+}
+
+.card:hover .icon{
+transform:
+translateY(-4px)
+scale(1.08);
 }
 
 .card h3{
 font-size:20px;
+
 margin-bottom:7px;
 }
 
 .card p{
 color:#818b9c;
+
 font-size:14px;
 }
 
 .card-link{
 display:inline-block;
+
 margin-top:18px;
+
 font-size:13px;
+
 font-weight:bold;
 }
 
@@ -299,161 +722,301 @@ font-weight:bold;
 color:#687385;
 }
 
-/* ================= DASHBOARD ================= */
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
 .dashboard{
 display:grid;
+
 grid-template-columns:1fr;
+
 gap:15px;
 }
 
 .dashboard-card{
-background:rgba(12,16,23,.86);
+background:
+rgba(12,16,23,.86);
+
 border:1px solid #222a38;
+
 border-radius:15px;
+
 padding:24px;
+
+transition:.3s;
 }
 
 .dashboard-card:hover{
 border-color:#394354;
-transform:translateY(-2px);
+
+transform:translateY(-4px);
+
+box-shadow:
+0 15px 35px rgba(0,0,0,.2);
 }
 
 .dashboard-card span{
 color:#707b8e;
+
 font-size:13px;
 }
 
 .dashboard-card strong{
 display:block;
+
 font-size:28px;
+
 margin-top:5px;
 }
 
 .projects-link{
 display:block;
+
 cursor:pointer;
 }
 
-.projects-link:hover{
-text-decoration:none;
-}
 
-/* ================= ACCOUNT ================= */
+/* =========================================================
+   ACCOUNT
+========================================================= */
 
 .account-panel{
 display:none;
+
 margin-top:25px;
-background:rgba(12,16,23,.9);
+
+background:
+rgba(12,16,23,.9);
+
 border:1px solid #222a38;
+
 border-radius:15px;
+
 padding:25px;
 }
 
 .account-row{
 display:flex;
+
 justify-content:space-between;
+
 align-items:center;
+
 gap:15px;
+
 flex-wrap:wrap;
 }
 
 .user-email{
 color:#9ca6b7;
+
 font-size:14px;
+
 margin-top:4px;
 }
 
 .account-provider{
 color:#707b8e;
+
 font-size:12px;
+
 margin-top:4px;
 }
 
 .account-actions{
 display:flex;
+
 gap:10px;
+
 flex-wrap:wrap;
 }
 
-/* ================= CTA ================= */
+
+/* =========================================================
+   CTA
+========================================================= */
 
 .cta{
 text-align:center;
-background:rgba(12,16,23,.88);
+
+background:
+radial-gradient(
+circle at 50% 0%,
+rgba(80,100,135,.12),
+transparent 60%
+),
+rgba(12,16,23,.88);
+
 border:1px solid #252d3b;
-border-radius:20px;
-padding:65px 25px;
+
+border-radius:22px;
+
+padding:70px 25px;
+
+position:relative;
+
+overflow:hidden;
+}
+
+.cta::after{
+content:"";
+
+position:absolute;
+
+width:300px;
+height:300px;
+
+left:50%;
+top:50%;
+
+transform:translate(-50%,-50%);
+
+background:
+radial-gradient(
+circle,
+rgba(255,255,255,.04),
+transparent 70%
+);
+
+pointer-events:none;
 }
 
 .cta h2{
 font-size:40px;
+
 margin-bottom:12px;
 }
 
 .cta p{
 max-width:650px;
+
 margin:auto;
+
 color:#818b9c;
 }
 
-/* ================= FOOTER ================= */
+
+/* =========================================================
+   FOOTER
+========================================================= */
 
 footer{
 border-top:1px solid #202633;
+
 padding:45px 0;
+
 color:#687385;
+
 font-size:13px;
+
 background:#05070b;
 }
 
 .footer-grid{
 display:grid;
-grid-template-columns:1fr 1fr;
+
+grid-template-columns:
+1fr 1fr;
+
 gap:25px;
 }
 
 .footer-title{
 color:#fff;
+
 font-weight:bold;
+
 margin-bottom:12px;
 }
 
 .footer-links a{
 display:block;
+
 margin:7px 0;
+
+transition:.2s;
 }
 
-/* ================= MODALS ================= */
+.footer-links a:hover{
+color:#fff;
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
 
 .modal,
 .account-modal,
 .owner-modal{
 display:none;
+
 position:fixed;
+
 inset:0;
-background:rgba(0,0,0,.84);
+
+background:
+rgba(0,0,0,.84);
+
 z-index:2000;
+
 align-items:center;
+
 justify-content:center;
+
 padding:20px;
+
+backdrop-filter:blur(8px);
 }
 
 .owner-modal{
 z-index:3000;
-background:rgba(0,0,0,.91);
+
+background:
+rgba(0,0,0,.91);
 }
 
 .modal-box,
 .account-box,
 .owner-modal-box{
 width:100%;
+
 max-width:450px;
-background:#0d121a;
+
+background:
+linear-gradient(
+145deg,
+#101620,
+#0b0f16
+);
+
 border:1px solid #303847;
+
 border-radius:18px;
+
 padding:30px;
-box-shadow:0 25px 80px rgba(0,0,0,.5);
+
+box-shadow:
+0 25px 80px rgba(0,0,0,.5);
+
+animation:
+modalIn .25s ease;
+}
+
+@keyframes modalIn{
+
+from{
+opacity:0;
+transform:scale(.95) translateY(10px);
+}
+
+to{
+opacity:1;
+transform:scale(1) translateY(0);
+}
+
 }
 
 .modal-box h2,
@@ -463,109 +1026,164 @@ margin-bottom:8px;
 
 .modal-box p{
 color:#818b9c;
+
 font-size:14px;
+
 margin-bottom:20px;
 }
 
 .modal-box input{
 width:100%;
+
 padding:14px;
+
 background:#080b11;
+
 border:1px solid #303847;
+
 border-radius:9px;
+
 color:#fff;
+
 margin-bottom:12px;
+
 outline:none;
 }
 
 .modal-box input:focus{
 border-color:#687385;
+
+box-shadow:
+0 0 0 3px rgba(255,255,255,.04);
 }
 
 .close{
 float:right;
+
 cursor:pointer;
+
 font-size:22px;
+
 color:#8d97a8;
+
+transition:.2s;
 }
 
 .close:hover{
 color:#fff;
+
+transform:rotate(90deg);
 }
 
 .auth-message{
 margin-top:15px;
+
 padding:12px;
+
 background:#10151e;
+
 border:1px solid #293140;
+
 border-radius:8px;
+
 color:#9ca6b7;
+
 font-size:13px;
+
 word-break:break-word;
 }
 
 .github-button{
 width:100%;
+
 margin-top:10px;
+
 background:#fff;
+
 color:#06080d;
+
 border:1px solid #fff;
 }
 
 .divider{
 display:flex;
+
 align-items:center;
+
 gap:10px;
+
 margin:16px 0;
+
 color:#687385;
+
 font-size:12px;
 }
 
 .divider::before,
 .divider::after{
 content:"";
+
 height:1px;
+
 background:#293140;
+
 flex:1;
 }
 
 .account-info{
 background:#080b11;
+
 border:1px solid #293140;
+
 border-radius:10px;
+
 padding:16px;
+
 margin-bottom:15px;
 }
 
 .account-label{
 font-size:12px;
+
 color:#707b8e;
+
 margin-bottom:4px;
 }
 
 .account-value{
 font-size:15px;
+
 word-break:break-word;
 }
 
 .logout-button{
 width:100%;
+
 margin-top:10px;
 }
 
-/* ================= OWNER ================= */
+
+/* =========================================================
+   OWNER
+========================================================= */
 
 .owner-modal-box{
 max-width:950px;
+
 max-height:90vh;
+
 overflow:auto;
 }
 
 .owner-modal-header{
 display:flex;
+
 justify-content:space-between;
+
 align-items:flex-start;
+
 gap:15px;
+
 margin-bottom:25px;
 }
 
@@ -575,7 +1193,9 @@ font-size:30px;
 
 .owner-status{
 color:#818b9c;
+
 font-size:13px;
+
 margin-top:5px;
 }
 
@@ -589,70 +1209,106 @@ color:#ff8f8f;
 
 .owner-grid{
 display:grid;
+
 grid-template-columns:1fr;
+
 gap:15px;
 }
 
 .owner-card{
 background:#080b11;
+
 border:1px solid #252d3b;
+
 border-radius:14px;
+
 padding:20px;
+
+transition:.25s;
+}
+
+.owner-card:hover{
+transform:translateY(-3px);
+
+border-color:#414c60;
 }
 
 .owner-card span{
 color:#707b8e;
+
 font-size:12px;
 }
 
 .owner-card strong{
 display:block;
+
 font-size:25px;
+
 margin-top:5px;
 }
 
 .owner-tools{
 display:grid;
+
 grid-template-columns:1fr;
+
 gap:12px;
+
 margin-top:20px;
 }
 
 .owner-tool{
 background:#10151e;
+
 border:1px solid #293140;
+
 border-radius:12px;
+
 padding:18px;
+
 transition:.2s;
 }
 
 .owner-tool:hover{
 border-color:#424c5e;
+
 transform:translateY(-2px);
 }
 
 .owner-tool strong{
 display:block;
+
 margin-bottom:4px;
 }
 
 .owner-tool span{
 color:#818b9c;
+
 font-size:13px;
 }
 
 .owner-debug{
 margin-top:20px;
+
 padding:15px;
+
 border-radius:10px;
+
 background:#070a0f;
+
 border:1px solid #252d3b;
+
 font-size:12px;
+
 color:#727d8f;
+
 word-break:break-all;
 }
 
-/* ================= RESPONSIVE ================= */
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media(min-width:750px){
 
@@ -665,27 +1321,81 @@ display:none;
 }
 
 .products{
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:
+repeat(3,1fr);
 }
 
 .dashboard{
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:
+repeat(4,1fr);
 }
 
 .owner-grid{
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:
+repeat(4,1fr);
 }
 
 .owner-tools{
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:
+repeat(3,1fr);
 }
 
 .footer-grid{
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:
+repeat(4,1fr);
 }
 
 .hero{
-padding-top:140px;
+padding-top:145px;
+}
+
+}
+
+@media(max-width:600px){
+
+.logo-text{
+font-size:18px;
+
+letter-spacing:2px;
+}
+
+.logo-mark{
+width:34px;
+height:34px;
+}
+
+.hero h1{
+font-size:48px;
+
+letter-spacing:-3px;
+}
+
+.section-head h2{
+font-size:31px;
+}
+
+.metrics{
+gap:6px;
+}
+
+.metric{
+padding:16px 5px;
+}
+
+.metric strong{
+font-size:19px;
+}
+
+.metric span{
+font-size:10px;
+}
+
+.wallet{
+padding:9px 11px;
+}
+
+.lang{
+display:none;
 }
 
 }
@@ -696,33 +1406,67 @@ padding-top:140px;
 
 <body>
 
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
 <header>
 
 <div class="container nav">
 
-<div class="logo">
+
+<a
+href="index.html"
+class="logo-link">
+
+<div class="logo-mark"></div>
+
+<div class="logo-text">
 SONATIVA
 </div>
 
+</a>
+
+
 <nav class="nav-links">
 
-<a href="#platform">Platform</a>
-<a href="#dashboard">Dashboard</a>
-<a href="#about">About</a>
+<a href="#platform">
+Platform
+</a>
+
+<a href="#dashboard">
+Dashboard
+</a>
+
+<a href="#about">
+About
+</a>
 
 </nav>
 
+
 <div class="nav-actions">
+
 
 <select
 class="lang"
 onchange="changeLanguage(this.value)">
 
-<option value="en">EN</option>
-<option value="fr">FR</option>
-<option value="ar">AR</option>
+<option value="en">
+EN
+</option>
+
+<option value="fr">
+FR
+</option>
+
+<option value="ar">
+AR
+</option>
 
 </select>
+
 
 <button
 class="owner-button"
@@ -733,6 +1477,7 @@ onclick="openOwnerDashboard()">
 
 </button>
 
+
 <button
 class="wallet"
 id="authButton"
@@ -742,7 +1487,9 @@ Login / Sign Up
 
 </button>
 
+
 </div>
+
 
 <div class="menu">
 ☰
@@ -752,53 +1499,104 @@ Login / Sign Up
 
 </header>
 
+
 <main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
 
 <section class="hero">
 
 <div class="container">
 
+
 <div class="badge">
-The Web3 Platform for Everyone
+Sonativa Web3 Infrastructure
 </div>
 
+
 <h1>
-Build the <span>Web3 Future.</span>
+
+Build the
+<span>
+Web3 Future.
+</span>
+
 </h1>
 
+
 <p>
-Sonativa is building powerful and simple tools
-for creators, developers, businesses and communities
-to build, launch and grow in Web3.
+
+Powerful and simple Web3 tools for creators,
+developers, businesses and communities.
+Build, launch and grow your next digital product
+with Sonativa.
+
 </p>
+
 
 <div class="hero-buttons">
 
-<a class="btn primary" href="#platform">
+<a
+class="btn primary"
+href="#platform">
+
 Explore Platform
+
 </a>
 
-<a class="btn secondary" href="#dashboard">
-Dashboard
+
+<a
+class="btn secondary"
+href="#dashboard">
+
+Open Dashboard
+
 </a>
 
 </div>
+
 
 <div class="metrics">
 
 <div class="metric">
-<strong>∞</strong>
-<span>Possibilities</span>
+
+<strong>
+∞
+</strong>
+
+<span>
+Possibilities
+</span>
+
 </div>
 
-<div class="metric">
-<strong>24/7</strong>
-<span>Web3 Tools</span>
-</div>
 
 <div class="metric">
-<strong>Global</strong>
-<span>Community</span>
+
+<strong>
+24/7
+</strong>
+
+<span>
+Web3 Tools
+</span>
+
+</div>
+
+
+<div class="metric">
+
+<strong>
+Global
+</strong>
+
+<span>
+Community
+</span>
+
 </div>
 
 </div>
@@ -807,9 +1605,15 @@ Dashboard
 
 </section>
 
+
+<!-- =========================================================
+     PLATFORM
+========================================================= -->
+
 <section id="platform">
 
 <div class="container">
+
 
 <div class="section-head">
 
@@ -823,72 +1627,211 @@ Everything you need to build your Web3 project.
 
 </div>
 
+
 <div class="products">
 
+
 <div class="card">
-<div class="icon">🪙</div>
-<h3>Token Studio</h3>
-<p>Design and plan your token project step by step.</p>
-<a class="card-link" href="token-studio.html">
+
+<div class="icon">
+🪙
+</div>
+
+<h3>
+Token Studio
+</h3>
+
+<p>
+Create and manage Solana token projects
+with a simple step-by-step workflow.
+</p>
+
+<a
+class="card-link"
+href="token-studio.html">
+
 Open Studio →
+
 </a>
+
 </div>
 
-<div class="card">
-<div class="icon">📊</div>
-<h3>Tokenomics Studio</h3>
-<p>Design supply, allocations, vesting and distribution.</p>
-<span class="card-link soon">Coming Soon →</span>
-</div>
 
 <div class="card">
-<div class="icon">🔍</div>
-<h3>Security Scanner</h3>
-<p>Analyze contracts, holders, liquidity and risks.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<div class="icon">
+📊
 </div>
 
-<div class="card">
-<div class="icon">👛</div>
-<h3>Wallet Analyzer</h3>
-<p>Analyze wallet activity, holdings and transactions.</p>
-<span class="card-link soon">Coming Soon →</span>
+<h3>
+Tokenomics Studio
+</h3>
+
+<p>
+Design supply, allocations, vesting
+and token distribution.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
-<div class="card">
-<div class="icon">🐋</div>
-<h3>Whale Tracker</h3>
-<p>Track important wallets, smart money and movements.</p>
-<span class="card-link soon">Coming Soon →</span>
-</div>
 
 <div class="card">
-<div class="icon">🤖</div>
-<h3>Sonativa AI</h3>
-<p>Your intelligent assistant for building Web3 products.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<div class="icon">
+🔍
 </div>
 
-<div class="card">
-<div class="icon">🌐</div>
-<h3>Website Builder</h3>
-<p>Create a professional Web3 website without coding.</p>
-<span class="card-link soon">Coming Soon →</span>
+<h3>
+Security Scanner
+</h3>
+
+<p>
+Analyze contracts, holders,
+liquidity and project risks.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
 </div>
 
-<div class="card">
-<div class="icon">📱</div>
-<h3>App Builder</h3>
-<p>Turn your Web3 idea into a modern mobile application.</p>
-<span class="card-link soon">Coming Soon →</span>
-</div>
 
 <div class="card">
-<div class="icon">🔗</div>
-<h3>API & Developer Tools</h3>
-<p>Build applications using Sonativa infrastructure.</p>
-<span class="card-link soon">Coming Soon →</span>
+
+<div class="icon">
+👛
 </div>
+
+<h3>
+Wallet Analyzer
+</h3>
+
+<p>
+Analyze wallet activity,
+holdings and transactions.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🐋
+</div>
+
+<h3>
+Whale Tracker
+</h3>
+
+<p>
+Track important wallets,
+smart money and movements.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🤖
+</div>
+
+<h3>
+Sonativa AI
+</h3>
+
+<p>
+Your intelligent assistant
+for building Web3 products.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🌐
+</div>
+
+<h3>
+Website Builder
+</h3>
+
+<p>
+Create professional Web3 websites
+without complicated coding.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+📱
+</div>
+
+<h3>
+App Builder
+</h3>
+
+<p>
+Turn your Web3 idea into
+a modern mobile application.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🔗
+</div>
+
+<h3>
+API & Developer Tools
+</h3>
+
+<p>
+Build applications using
+Sonativa infrastructure.
+</p>
+
+<span class="card-link soon">
+Coming Soon →
+</span>
+
+</div>
+
 
 </div>
 
@@ -896,9 +1839,15 @@ Open Studio →
 
 </section>
 
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
 <section id="dashboard">
 
 <div class="container">
+
 
 <div class="section-head">
 
@@ -912,14 +1861,13 @@ Login to manage your Sonativa projects.
 
 </div>
 
+
 <div class="dashboard">
 
-<!-- PROJECTS: NOW CLICKABLE -->
 
 <a
 href="projects.html"
-class="dashboard-card projects-link"
->
+class="dashboard-card projects-link">
 
 <span>
 Projects
@@ -972,11 +1920,13 @@ Alerts
 
 </div>
 
+
 <div
 class="account-panel"
 id="accountPanel">
 
 <div class="account-row">
+
 
 <div>
 
@@ -996,7 +1946,9 @@ id="accountProvider">
 
 </div>
 
+
 <div class="account-actions">
+
 
 <button
 class="btn secondary"
@@ -1006,6 +1958,7 @@ Account
 
 </button>
 
+
 <button
 class="btn secondary"
 onclick="logout()">
@@ -1013,6 +1966,7 @@ onclick="logout()">
 Logout
 
 </button>
+
 
 </div>
 
@@ -1024,9 +1978,15 @@ Logout
 
 </section>
 
+
+<!-- =========================================================
+     FEATURES
+========================================================= -->
+
 <section>
 
 <div class="container">
+
 
 <div class="section-head">
 
@@ -1040,43 +2000,117 @@ Powerful infrastructure without unnecessary complexity.
 
 </div>
 
+
 <div class="products">
 
-<div class="card">
-<div class="icon">🌍</div>
-<h3>Global</h3>
-<p>Designed for users around the world with multilingual support.</p>
-</div>
 
 <div class="card">
-<div class="icon">🔐</div>
-<h3>Security First</h3>
-<p>Security and user-controlled wallets are fundamental to the platform.</p>
+
+<div class="icon">
+🌍
 </div>
 
-<div class="card">
-<div class="icon">⚡</div>
-<h3>Simple</h3>
-<p>Complex Web3 workflows transformed into simple user experiences.</p>
+<h3>
+Global
+</h3>
+
+<p>
+Designed for users around the world
+with multilingual support.
+</p>
+
 </div>
 
-<div class="card">
-<div class="icon">📈</div>
-<h3>Built to Scale</h3>
-<p>Designed to evolve into complete Web3 infrastructure.</p>
-</div>
 
 <div class="card">
-<div class="icon">🤖</div>
-<h3>AI Powered</h3>
-<p>Intelligent assistance for research, creation and development.</p>
+
+<div class="icon">
+🔐
 </div>
 
-<div class="card">
-<div class="icon">📱</div>
-<h3>Mobile Ready</h3>
-<p>Designed from the beginning for desktop, mobile and future apps.</p>
+<h3>
+Security First
+</h3>
+
+<p>
+Security and user-controlled wallets
+are fundamental to the platform.
+</p>
+
 </div>
+
+
+<div class="card">
+
+<div class="icon">
+⚡
+</div>
+
+<h3>
+Simple
+</h3>
+
+<p>
+Complex Web3 workflows transformed
+into simple user experiences.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+📈
+</div>
+
+<h3>
+Built to Scale
+</h3>
+
+<p>
+Designed to evolve into complete
+Web3 infrastructure.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🤖
+</div>
+
+<h3>
+AI Powered
+</h3>
+
+<p>
+Intelligent assistance for research,
+creation and development.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+📱
+</div>
+
+<h3>
+Mobile Ready
+</h3>
+
+<p>
+Designed for desktop, mobile
+and future applications.
+</p>
+
+</div>
+
 
 </div>
 
@@ -1084,9 +2118,15 @@ Powerful infrastructure without unnecessary complexity.
 
 </section>
 
+
+<!-- =========================================================
+     ABOUT / CTA
+========================================================= -->
+
 <section id="about">
 
 <div class="container">
+
 
 <div class="cta">
 
@@ -1095,16 +2135,19 @@ Build something bigger.
 </h2>
 
 <p>
+
 Sonativa's mission is to make Web3 accessible
 to everyone and provide the tools and infrastructure
 needed for the next generation of digital products.
+
 </p>
+
 
 <div class="hero-buttons">
 
 <a
 class="btn primary"
-href="#platform">
+href="token-studio.html">
 
 Start Building
 
@@ -1120,11 +2163,18 @@ Start Building
 
 </main>
 
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <footer>
 
 <div class="container">
 
+
 <div class="footer-grid">
+
 
 <div>
 
@@ -1138,6 +2188,7 @@ Build. Launch. Grow.
 
 </div>
 
+
 <div>
 
 <div class="footer-title">
@@ -1146,14 +2197,26 @@ Platform
 
 <div class="footer-links">
 
-<a href="#platform">Token Studio</a>
-<a href="#platform">Security</a>
-<a href="#platform">Wallets</a>
-<a href="#platform">AI</a>
+<a href="token-studio.html">
+Token Studio
+</a>
+
+<a href="#platform">
+Security
+</a>
+
+<a href="#platform">
+Wallets
+</a>
+
+<a href="#platform">
+AI
+</a>
 
 </div>
 
 </div>
+
 
 <div>
 
@@ -1163,14 +2226,26 @@ Company
 
 <div class="footer-links">
 
-<a href="#about">About</a>
-<a href="#">Documentation</a>
-<a href="#">Blog</a>
-<a href="#">Contact</a>
+<a href="#about">
+About
+</a>
+
+<a href="#">
+Documentation
+</a>
+
+<a href="#">
+Blog
+</a>
+
+<a href="#">
+Contact
+</a>
 
 </div>
 
 </div>
+
 
 <div>
 
@@ -1180,25 +2255,40 @@ Legal
 
 <div class="footer-links">
 
-<a href="#">Privacy</a>
-<a href="#">Terms</a>
-<a href="#">Security</a>
+<a href="#">
+Privacy
+</a>
+
+<a href="#">
+Terms
+</a>
+
+<a href="#">
+Security
+</a>
 
 </div>
 
 </div>
 
+
 </div>
+
 
 <br><br>
 
+
 © 2026 Sonativa. All rights reserved.
+
 
 </div>
 
 </footer>
 
-<!-- ================= LOGIN MODAL ================= -->
+
+<!-- =========================================================
+     LOGIN MODAL
+========================================================= -->
 
 <div
 class="modal"
@@ -1206,19 +2296,25 @@ id="authModal">
 
 <div class="modal-box">
 
+
 <span
 class="close"
-onclick="closeAuth">
+onclick="closeAuth()">
+
 ×
+
 </span>
+
 
 <h2>
 Sign in to Sonativa
 </h2>
 
+
 <p>
 Use your email or continue with GitHub.
 </p>
+
 
 <button
 class="btn github-button"
@@ -1228,9 +2324,11 @@ Continue with GitHub
 
 </button>
 
+
 <div class="divider">
 OR
 </div>
+
 
 <input
 id="email"
@@ -1238,11 +2336,13 @@ type="email"
 placeholder="Email address"
 autocomplete="email">
 
+
 <input
 id="password"
 type="password"
 placeholder="Password"
 autocomplete="current-password">
+
 
 <button
 class="btn primary"
@@ -1253,6 +2353,7 @@ Create Account
 
 </button>
 
+
 <button
 class="btn secondary"
 style="width:100%"
@@ -1262,6 +2363,7 @@ Login
 
 </button>
 
+
 <div
 class="auth-message"
 id="authMessage">
@@ -1270,11 +2372,15 @@ Your account is protected by Supabase Authentication.
 
 </div>
 
-</div>
 
 </div>
 
-<!-- ================= ACCOUNT MODAL ================= -->
+</div>
+
+
+<!-- =========================================================
+     ACCOUNT MODAL
+========================================================= -->
 
 <div
 class="account-modal"
@@ -1282,15 +2388,20 @@ id="accountModal">
 
 <div class="account-box">
 
+
 <span
 class="close"
 onclick="closeAccountPanel()">
+
 ×
+
 </span>
+
 
 <h2>
 Your Sonativa Account
 </h2>
+
 
 <div class="account-info">
 
@@ -1301,10 +2412,13 @@ EMAIL
 <div
 class="account-value"
 id="accountEmail">
+
 -
+
 </div>
 
 </div>
+
 
 <div class="account-info">
 
@@ -1315,10 +2429,13 @@ SIGN-IN METHOD
 <div
 class="account-value"
 id="accountProviderValue">
+
 -
+
 </div>
 
 </div>
+
 
 <div class="account-info">
 
@@ -1329,10 +2446,13 @@ PROJECTS
 <div
 class="account-value"
 id="accountProjects">
+
 0
+
 </div>
 
 </div>
+
 
 <button
 class="btn secondary logout-button"
@@ -1342,17 +2462,22 @@ Logout
 
 </button>
 
-</div>
 
 </div>
 
-<!-- ================= OWNER MODAL ================= -->
+</div>
+
+
+<!-- =========================================================
+     OWNER MODAL
+========================================================= -->
 
 <div
 class="owner-modal"
 id="ownerModal">
 
 <div class="owner-modal-box">
+
 
 <div class="owner-modal-header">
 
@@ -1372,71 +2497,159 @@ Verifying owner access...
 
 </div>
 
+
 <span
 class="close"
 onclick="closeOwnerDashboard()">
+
 ×
+
 </span>
 
 </div>
 
+
 <div class="owner-grid">
 
-<div class="owner-card">
-<span>OWNER</span>
-<strong>Active</strong>
-</div>
 
 <div class="owner-card">
-<span>YOUR PROJECTS</span>
-<strong id="ownerProjectCount">0</strong>
+
+<span>
+OWNER
+</span>
+
+<strong>
+Active
+</strong>
+
 </div>
+
 
 <div class="owner-card">
-<span>USERS</span>
-<strong>Protected</strong>
+
+<span>
+YOUR PROJECTS
+</span>
+
+<strong id="ownerProjectCount">
+0
+</strong>
+
 </div>
+
 
 <div class="owner-card">
-<span>SECURITY</span>
-<strong>RLS</strong>
-</div>
+
+<span>
+USERS
+</span>
+
+<strong>
+Protected
+</strong>
 
 </div>
+
+
+<div class="owner-card">
+
+<span>
+SECURITY
+</span>
+
+<strong>
+RLS
+</strong>
+
+</div>
+
+
+</div>
+
 
 <div class="owner-tools">
 
-<div class="owner-tool">
-<strong>👥 User Management</strong>
-<span>Manage platform users and roles.</span>
-</div>
 
 <div class="owner-tool">
-<strong>📁 Project Management</strong>
-<span>Manage Sonativa projects and platform resources.</span>
+
+<strong>
+👥 User Management
+</strong>
+
+<span>
+Manage platform users and roles.
+</span>
+
 </div>
+
 
 <div class="owner-tool">
-<strong>💰 Revenue</strong>
-<span>Platform revenue and financial controls.</span>
+
+<strong>
+📁 Project Management
+</strong>
+
+<span>
+Manage Sonativa projects and resources.
+</span>
+
 </div>
+
 
 <div class="owner-tool">
-<strong>🔐 Security</strong>
-<span>Security, access control and audit systems.</span>
+
+<strong>
+💰 Revenue
+</strong>
+
+<span>
+Platform revenue and financial controls.
+</span>
+
 </div>
+
 
 <div class="owner-tool">
-<strong>📊 Analytics</strong>
-<span>Platform statistics and activity.</span>
+
+<strong>
+🔐 Security
+</strong>
+
+<span>
+Security, access control and audit systems.
+</span>
+
 </div>
+
 
 <div class="owner-tool">
-<strong>⚙️ Platform Settings</strong>
-<span>Core Sonativa configuration.</span>
-</div>
+
+<strong>
+📊 Analytics
+</strong>
+
+<span>
+Platform statistics and activity.
+</span>
 
 </div>
+
+
+<div class="owner-tool">
+
+<strong>
+⚙️ Platform Settings
+</strong>
+
+<span>
+Core Sonativa configuration.
+</span>
+
+</div>
+
+
+</div>
+
 
 <div
 class="owner-debug"
@@ -1446,11 +2659,18 @@ Owner verification will appear here.
 
 </div>
 
+
 </div>
 
 </div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
 
 <script type="module">
+
 
 import {
 createClient
@@ -1459,9 +2679,9 @@ from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* ================================
+/* =========================================================
    SUPABASE
-================================ */
+========================================================= */
 
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
@@ -1476,46 +2696,48 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-/* ================================
-   SONATIVA OWNER
-================================ */
-
-const OWNER_ID =
-"d4f638be-8a5e-43d9-9215-46ecaf806375";
-
+/* =========================================================
+   STATE
+========================================================= */
 
 let currentUser = null;
 let currentIsOwner = false;
 
 
-/* ================================
-   ELEMENT HELPER
-================================ */
+/* =========================================================
+   HELPER
+========================================================= */
 
 function $(id){
+
 return document.getElementById(id);
+
 }
 
 
-/* ================================
+/* =========================================================
    AUTH BUTTON
-================================ */
+========================================================= */
 
 window.handleAuthButton =
 function(){
 
 if(currentUser){
+
 openAccountPanel();
+
 }else{
+
 openAuth();
+
 }
 
 };
 
 
-/* ================================
+/* =========================================================
    LOGIN MODAL
-================================ */
+========================================================= */
 
 window.openAuth =
 function(){
@@ -1535,9 +2757,9 @@ $("authModal").style.display =
 };
 
 
-/* ================================
-   GITHUB LOGIN
-================================ */
+/* =========================================================
+   GITHUB
+========================================================= */
 
 window.signInWithGitHub =
 async function(){
@@ -1548,9 +2770,11 @@ $("authMessage");
 message.textContent =
 "Connecting to GitHub...";
 
+
 const redirectUrl =
 window.location.origin +
 window.location.pathname;
+
 
 const {
 error
@@ -1565,6 +2789,7 @@ redirectTo:redirectUrl
 
 });
 
+
 if(error){
 
 message.textContent =
@@ -1576,9 +2801,9 @@ error.message;
 };
 
 
-/* ================================
+/* =========================================================
    SIGN UP
-================================ */
+========================================================= */
 
 window.signUp =
 async function(){
@@ -1592,6 +2817,7 @@ $("password").value;
 const message =
 $("authMessage");
 
+
 if(!email || !password){
 
 message.textContent =
@@ -1600,6 +2826,7 @@ message.textContent =
 return;
 
 }
+
 
 if(password.length < 6){
 
@@ -1610,8 +2837,10 @@ return;
 
 }
 
+
 message.textContent =
 "Creating your account...";
+
 
 const {
 data,
@@ -1624,6 +2853,7 @@ password
 
 });
 
+
 if(error){
 
 message.textContent =
@@ -1633,10 +2863,11 @@ return;
 
 }
 
+
 if(data.session){
 
 message.textContent =
-"Account created and signed in successfully.";
+"Account created successfully.";
 
 await updateUserInterface();
 
@@ -1655,9 +2886,9 @@ message.textContent =
 };
 
 
-/* ================================
+/* =========================================================
    LOGIN
-================================ */
+========================================================= */
 
 window.signIn =
 async function(){
@@ -1671,6 +2902,7 @@ $("password").value;
 const message =
 $("authMessage");
 
+
 if(!email || !password){
 
 message.textContent =
@@ -1680,11 +2912,12 @@ return;
 
 }
 
+
 message.textContent =
 "Signing in...";
 
+
 const {
-data,
 error
 } =
 await supabase.auth.signInWithPassword({
@@ -1693,6 +2926,7 @@ email,
 password
 
 });
+
 
 if(error){
 
@@ -1703,9 +2937,11 @@ return;
 
 }
 
+
 closeAuth();
 
 await updateUserInterface();
+
 
 $("dashboard").scrollIntoView({
 behavior:"smooth"
@@ -1714,280 +2950,49 @@ behavior:"smooth"
 };
 
 
-/* ================================
-   OWNER CHECK
-================================ */
-
-async function checkOwner(){
-
-const button =
-$("ownerButton");
-
-const status =
-$("ownerStatus");
-
-const debug =
-$("ownerDebug");
-
-
-if(!currentUser){
-
-currentIsOwner = false;
-
-button.style.display =
-"none";
-
-return false;
-
-}
-
-
-const sameOwnerId =
-currentUser.id === OWNER_ID;
-
-
-const {
-data,
-error
-} =
-await supabase.rpc("is_owner");
-
-
-if(error){
-
-console.error(
-"Owner RPC error:",
-error
-);
-
-currentIsOwner = false;
-
-button.style.display =
-"none";
-
-if(status){
-
-status.textContent =
-"Owner verification failed.";
-
-status.className =
-"owner-status error";
-
-}
-
-if(debug){
-
-debug.textContent =
-"RPC error: " +
-error.message +
-" | Current user: " +
-currentUser.id;
-
-}
-
-return false;
-
-}
-
-
-currentIsOwner =
-data === true;
-
-
-if(currentIsOwner){
-
-button.style.display =
-"inline-block";
-
-if(status){
-
-status.textContent =
-"Owner access verified. Protected by Supabase.";
-
-status.className =
-"owner-status success";
-
-}
-
-if(debug){
-
-debug.textContent =
-"Owner verified successfully. " +
-"User ID: " +
-currentUser.id +
-" | Profile ID match: " +
-sameOwnerId;
-
-}
-
-}else{
-
-button.style.display =
-"none";
-
-if(debug){
-
-debug.textContent =
-"Supabase returned is_owner = false. " +
-"Current user ID: " +
-currentUser.id +
-" | Expected owner ID: " +
-OWNER_ID;
-
-}
-
-}
-
-return currentIsOwner;
-
-}
-
-
-/* ================================
-   OPEN OWNER DASHBOARD
-================================ */
-
-window.openOwnerDashboard =
-async function(){
-
-if(!currentUser){
-
-openAuth();
-
-return;
-
-}
-
-const isOwner =
-await checkOwner();
-
-if(!isOwner){
-
-alert(
-"Access denied. This account is not recognized as the Sonativa owner."
-);
-
-return;
-
-}
-
-$("ownerStatus").textContent =
-"Owner access verified. Protected by Supabase.";
-
-$("ownerStatus").className =
-"owner-status success";
-
-$("ownerProjectCount").textContent =
-$("projectCount").textContent;
-
-$("ownerModal").style.display =
-"flex";
-
-};
-
-
-/* ================================
-   CLOSE OWNER
-================================ */
-
-window.closeOwnerDashboard =
-function(){
-
-$("ownerModal").style.display =
-"none";
-
-};
-
-
-/* ================================
-   ACCOUNT
-================================ */
-
-window.openAccountPanel =
-function(){
-
-if(!currentUser){
-
-openAuth();
-
-return;
-
-}
-
-$("accountEmail").textContent =
-currentUser.email ||
-"GitHub account";
-
-$("accountProviderValue").textContent =
-getProviderName(currentUser);
-
-$("accountProjects").textContent =
-$("projectCount").textContent;
-
-$("accountModal").style.display =
-"flex";
-
-};
-
-
-window.closeAccountPanel =
-function(){
-
-$("accountModal").style.display =
-"none";
-
-};
-
-
-/* ================================
+/* =========================================================
    PROVIDER
-================================ */
+========================================================= */
 
 function getProviderName(user){
 
 const provider =
 user?.app_metadata?.provider;
 
+
 if(provider === "github"){
 return "GitHub";
 }
+
 
 if(provider === "email"){
 return "Email";
 }
 
+
 if(provider){
 return provider;
 }
 
+
 if(
 user?.identities &&
-user.identities.length > 0
+user.identities.length
 ){
 
-const identity =
-user.identities[0];
-
-if(identity.provider === "github"){
-return "GitHub";
-}
-
-if(identity.provider === "email"){
-return "Email";
-}
-
-return identity.provider;
+return user.identities[0].provider;
 
 }
+
 
 return "Sonativa Authentication";
 
 }
 
 
-/* ================================
+/* =========================================================
    LOAD PROJECTS
-================================ */
+========================================================= */
 
 async function loadProjects(){
 
@@ -2001,27 +3006,19 @@ return;
 }
 
 
-/*
-DATABASE COLUMN:
-Id
-*/
-
 const {
 data,
 error
 } =
 await supabase
+
 .from("projects")
+
 .select("Id")
+
 .eq(
 "user_id",
 currentUser.id
-)
-.order(
-"created_at",
-{
-ascending:false
-}
 );
 
 
@@ -2048,13 +3045,187 @@ data?.length || 0
 }
 
 
-/* ================================
+/* =========================================================
+   OWNER CHECK
+========================================================= */
+
+async function checkOwner(){
+
+if(!currentUser){
+
+currentIsOwner =
+false;
+
+$("ownerButton").style.display =
+"none";
+
+return false;
+
+}
+
+
+const {
+data,
+error
+} =
+await supabase.rpc(
+"is_owner"
+);
+
+
+if(error){
+
+console.error(
+"Owner RPC error:",
+error
+);
+
+currentIsOwner =
+false;
+
+$("ownerButton").style.display =
+"none";
+
+return false;
+
+}
+
+
+currentIsOwner =
+data === true;
+
+
+if(currentIsOwner){
+
+$("ownerButton").style.display =
+"inline-block";
+
+}else{
+
+$("ownerButton").style.display =
+"none";
+
+}
+
+
+return currentIsOwner;
+
+}
+
+
+/* =========================================================
+   OWNER DASHBOARD
+========================================================= */
+
+window.openOwnerDashboard =
+async function(){
+
+if(!currentUser){
+
+openAuth();
+
+return;
+
+}
+
+
+const isOwner =
+await checkOwner();
+
+
+if(!isOwner){
+
+alert(
+"Access denied."
+);
+
+return;
+
+}
+
+
+$("ownerStatus").textContent =
+"Owner access verified. Protected by Supabase.";
+
+$("ownerStatus").className =
+"owner-status success";
+
+
+$("ownerProjectCount").textContent =
+$("projectCount").textContent;
+
+
+$("ownerDebug").textContent =
+"Owner access verified successfully.";
+
+
+$("ownerModal").style.display =
+"flex";
+
+};
+
+
+window.closeOwnerDashboard =
+function(){
+
+$("ownerModal").style.display =
+"none";
+
+};
+
+
+/* =========================================================
+   ACCOUNT
+========================================================= */
+
+window.openAccountPanel =
+function(){
+
+if(!currentUser){
+
+openAuth();
+
+return;
+
+}
+
+
+$("accountEmail").textContent =
+currentUser.email ||
+"GitHub account";
+
+
+$("accountProviderValue").textContent =
+getProviderName(currentUser);
+
+
+$("accountProjects").textContent =
+$("projectCount").textContent;
+
+
+$("accountModal").style.display =
+"flex";
+
+};
+
+
+window.closeAccountPanel =
+function(){
+
+$("accountModal").style.display =
+"none";
+
+};
+
+
+/* =========================================================
    UPDATE UI
-================================ */
+========================================================= */
 
 async function updateUserInterface(){
 
 try{
+
 
 const {
 data,
@@ -2065,12 +3236,10 @@ await supabase.auth.getUser();
 
 if(error){
 
-console.error(
-"getUser error:",
-error
-);
+console.error(error);
 
-currentUser = null;
+currentUser =
+null;
 
 }else{
 
@@ -2080,24 +3249,20 @@ data?.user || null;
 }
 
 
-const button =
-$("authButton");
-
-const panel =
-$("accountPanel");
-
-
 if(currentUser){
 
-button.textContent =
+$("authButton").textContent =
 "Account";
 
-panel.style.display =
+
+$("accountPanel").style.display =
 "block";
+
 
 $("userEmail").textContent =
 currentUser.email ||
 "GitHub account";
+
 
 $("accountProvider").textContent =
 "Signed in with " +
@@ -2112,33 +3277,31 @@ await checkOwner();
 $("dashboardText").textContent =
 "Your Sonativa workspace is ready.";
 
-console.log(
-"CURRENT USER:",
-currentUser.id
-);
-
 
 }else{
 
-button.textContent =
+
+$("authButton").textContent =
 "Login / Sign Up";
 
-panel.style.display =
+
+$("accountPanel").style.display =
 "none";
 
-currentIsOwner =
-false;
 
 $("ownerButton").style.display =
 "none";
 
+
 $("projectCount").textContent =
 "0";
+
 
 $("dashboardText").textContent =
 "Login to manage your Sonativa projects.";
 
 }
+
 
 }catch(error){
 
@@ -2152,9 +3315,9 @@ error
 }
 
 
-/* ================================
+/* =========================================================
    LOGOUT
-================================ */
+========================================================= */
 
 window.logout =
 async function(){
@@ -2181,6 +3344,7 @@ closeOwnerDashboard();
 
 await updateUserInterface();
 
+
 $("dashboard").scrollIntoView({
 behavior:"smooth"
 });
@@ -2188,18 +3352,12 @@ behavior:"smooth"
 };
 
 
-/* ================================
+/* =========================================================
    AUTH STATE
-================================ */
+========================================================= */
 
 supabase.auth.onAuthStateChange(
-async function(event,session){
-
-console.log(
-"AUTH EVENT:",
-event,
-session?.user?.id
-);
+async function(event){
 
 if(
 event === "SIGNED_IN" ||
@@ -2209,11 +3367,7 @@ event === "USER_UPDATED"
 ){
 
 setTimeout(
-async function(){
-
-await updateUserInterface();
-
-},
+updateUserInterface,
 300
 );
 
@@ -2222,16 +3376,9 @@ await updateUserInterface();
 });
 
 
-/* ================================
-   INITIAL
-================================ */
-
-updateUserInterface();
-
-
-/* ================================
+/* =========================================================
    LANGUAGE
-================================ */
+========================================================= */
 
 window.changeLanguage =
 function(language){
@@ -2242,7 +3389,7 @@ document.documentElement.lang =
 "ar";
 
 alert(
-"العربية سيتم تفعيلها بالكامل في نظام الترجمة القادم."
+"Arabic translation will be enabled in the next Sonativa release."
 );
 
 }
@@ -2252,7 +3399,7 @@ document.documentElement.lang =
 "fr";
 
 alert(
-"Le système français sera activé dans la prochaine version."
+"French translation will be enabled in the next Sonativa release."
 );
 
 }
@@ -2261,18 +3408,14 @@ else{
 document.documentElement.lang =
 "en";
 
-alert(
-"English selected."
-);
-
 }
 
 };
 
 
-/* ================================
+/* =========================================================
    CLOSE MODALS
-================================ */
+========================================================= */
 
 $("authModal")
 .addEventListener(
@@ -2314,6 +3457,13 @@ closeOwnerDashboard();
 }
 
 });
+
+
+/* =========================================================
+   START
+========================================================= */
+
+updateUserInterface();
 
 </script>
 
