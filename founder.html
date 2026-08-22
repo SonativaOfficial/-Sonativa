@@ -534,6 +534,125 @@ footer{
   margin-top:30px;
 }
 
+
+/* =========================================
+   USERS MANAGEMENT
+========================================= */
+
+.users-card{
+  margin-bottom:18px;
+}
+
+.users-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+
+.users-description{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.user-search{
+  width:min(300px,100%);
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid var(--border2);
+  background:#080d15;
+  color:white;
+  outline:none;
+  font-size:11px;
+}
+
+.user-search:focus{
+  border-color:#52627c;
+  box-shadow:0 0 0 2px rgba(82,98,124,.12);
+}
+
+.users-status{
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:12px;
+}
+
+.users-table-wrap{
+  overflow-x:auto;
+}
+
+.users-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:760px;
+  font-size:10px;
+}
+
+.users-table th{
+  padding:10px;
+  border-bottom:1px solid var(--border2);
+  color:var(--muted);
+  text-align:left;
+  font-weight:700;
+}
+
+.users-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #1a2432;
+}
+
+.user-email-cell{
+  font-weight:700;
+  color:white;
+}
+
+.user-muted{
+  color:var(--muted);
+}
+
+.role-badge{
+  display:inline-block;
+  padding:4px 7px;
+  border-radius:5px;
+  font-size:9px;
+  font-weight:800;
+}
+
+.role-founder{
+  border:1px solid #5a4b29;
+  background:#17140c;
+  color:#e8bd68;
+}
+
+.role-user{
+  border:1px solid #273444;
+  background:#101722;
+  color:#9ba8bb;
+}
+
+.user-active{
+  color:var(--green);
+  font-weight:800;
+}
+
+.user-inactive{
+  color:var(--red);
+  font-weight:800;
+}
+
+.user-empty{
+  padding:25px !important;
+  text-align:center;
+  color:var(--muted);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
 @media(max-width:1000px){
 
   .grid{
@@ -586,6 +705,15 @@ footer{
   button{
     flex:1;
     text-align:center;
+  }
+
+  .users-header{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .user-search{
+    width:100%;
   }
 
 }
@@ -843,6 +971,104 @@ footer{
 
   </div>
 
+
+</section>
+
+
+<!-- =========================================
+     USERS MANAGEMENT
+========================================= -->
+
+<section class="card users-card">
+
+  <div class="users-header">
+
+    <div>
+
+      <div
+        class="card-title"
+        style="margin-bottom:5px;"
+      >
+        Users Management
+      </div>
+
+      <div class="users-description">
+        Founder-only platform user overview.
+      </div>
+
+    </div>
+
+
+    <input
+      id="userSearch"
+      class="user-search"
+      type="search"
+      placeholder="Search users..."
+      autocomplete="off"
+    >
+
+  </div>
+
+
+  <div
+    id="usersStatus"
+    class="users-status"
+  >
+    Loading users...
+  </div>
+
+
+  <div class="users-table-wrap">
+
+    <table class="users-table">
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Email
+          </th>
+
+          <th>
+            Role
+          </th>
+
+          <th>
+            Created
+          </th>
+
+          <th>
+            Last Sign In
+          </th>
+
+          <th>
+            Status
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody id="usersTableBody">
+
+        <tr>
+
+          <td
+            colspan="5"
+            class="user-empty"
+          >
+            Loading...
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
 
 </section>
 
@@ -1205,6 +1431,8 @@ createClient(
 
 let currentUser = null;
 
+let founderUsers = [];
+
 
 /* =========================================
    HELPERS
@@ -1326,44 +1554,401 @@ function showError(
 
 function enableFounderPermissions(){
 
-  setPermission(
-    "pUsers",
-    true
-  );
+  setPermission("pUsers",true);
 
-  setPermission(
-    "pProjects",
-    true
-  );
+  setPermission("pProjects",true);
 
-  setPermission(
-    "pFinance",
-    true
-  );
+  setPermission("pFinance",true);
 
-  setPermission(
-    "pTreasury",
-    true
-  );
+  setPermission("pTreasury",true);
 
-  setPermission(
-    "pInvestments",
-    true
-  );
+  setPermission("pInvestments",true);
 
-  setPermission(
-    "pTeam",
-    true
-  );
+  setPermission("pTeam",true);
 
-  setPermission(
-    "pAudit",
-    true
-  );
+  setPermission("pAudit",true);
 
-  setPermission(
-    "pActive",
-    true
+  setPermission("pActive",true);
+
+}
+
+
+/* =========================================
+   LOAD USERS
+========================================= */
+
+async function loadUsers(){
+
+  const status =
+    document.getElementById(
+      "usersStatus"
+    );
+
+  const tbody =
+    document.getElementById(
+      "usersTableBody"
+    );
+
+
+  if(!status || !tbody){
+    return;
+  }
+
+
+  status.textContent =
+    "Loading users...";
+
+
+  tbody.innerHTML = `
+    <tr>
+      <td
+        colspan="5"
+        class="user-empty"
+      >
+        Loading...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase.rpc(
+        "sonativa_founder_users"
+      );
+
+
+    if(error){
+
+      console.error(
+        "Founder users RPC:",
+        error
+      );
+
+
+      status.textContent =
+        "Unable to load users.";
+
+
+      tbody.innerHTML = `
+        <tr>
+          <td
+            colspan="5"
+            class="user-empty"
+            style="color:var(--red);"
+          >
+            ${escapeHTML(
+              error.message ||
+              "Access denied"
+            )}
+          </td>
+        </tr>
+      `;
+
+
+      return;
+
+    }
+
+
+    founderUsers =
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    renderUsers(
+      founderUsers
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "loadUsers:",
+      error
+    );
+
+
+    status.textContent =
+      "Users unavailable.";
+
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="5"
+          class="user-empty"
+          style="color:var(--red);"
+        >
+          Users are currently unavailable.
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   RENDER USERS
+========================================= */
+
+function renderUsers(
+  users
+){
+
+  const status =
+    document.getElementById(
+      "usersStatus"
+    );
+
+  const tbody =
+    document.getElementById(
+      "usersTableBody"
+    );
+
+
+  if(!tbody){
+    return;
+  }
+
+
+  const safeUsers =
+    Array.isArray(users)
+      ? users
+      : [];
+
+
+  if(status){
+
+    status.textContent =
+      `${safeUsers.length} user${
+        safeUsers.length === 1
+          ? ""
+          : "s"
+      }`;
+
+  }
+
+
+  if(!safeUsers.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="5"
+          class="user-empty"
+        >
+          No users found.
+        </td>
+      </tr>
+    `;
+
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    safeUsers
+      .map(function(user){
+
+        const created =
+          user.created_at
+            ? new Date(
+                user.created_at
+              ).toLocaleString()
+            : "—";
+
+
+        const lastSignIn =
+          user.last_sign_in_at
+            ? new Date(
+                user.last_sign_in_at
+              ).toLocaleString()
+            : "Never";
+
+
+        const active =
+          user.is_active === true;
+
+
+        const role =
+          String(
+            user.role ||
+            "USER"
+          );
+
+
+        const isFounder =
+          role.toLowerCase()
+            === "founder";
+
+
+        return `
+
+          <tr>
+
+            <td
+              class="user-email-cell"
+            >
+              ${escapeHTML(
+                user.email ||
+                "No email"
+              )}
+            </td>
+
+
+            <td>
+
+              <span
+                class="role-badge ${
+                  isFounder
+                    ? "role-founder"
+                    : "role-user"
+                }"
+              >
+                ${escapeHTML(
+                  role.toUpperCase()
+                )}
+              </span>
+
+            </td>
+
+
+            <td
+              class="user-muted"
+            >
+              ${escapeHTML(
+                created
+              )}
+            </td>
+
+
+            <td
+              class="user-muted"
+            >
+              ${escapeHTML(
+                lastSignIn
+              )}
+            </td>
+
+
+            <td>
+
+              <span
+                class="${
+                  active
+                    ? "user-active"
+                    : "user-inactive"
+                }"
+              >
+                ${
+                  active
+                    ? "● Active"
+                    : "● Inactive"
+                }
+              </span>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
+
+}
+
+
+/* =========================================
+   USER SEARCH
+========================================= */
+
+function setupUserSearch(){
+
+  const userSearch =
+    document.getElementById(
+      "userSearch"
+    );
+
+
+  if(!userSearch){
+    return;
+  }
+
+
+  userSearch.addEventListener(
+    "input",
+    function(){
+
+      const query =
+        this.value
+          .trim()
+          .toLowerCase();
+
+
+      if(!query){
+
+        renderUsers(
+          founderUsers
+        );
+
+        return;
+
+      }
+
+
+      const filtered =
+        founderUsers.filter(
+          function(user){
+
+            return (
+
+              String(
+                user.email ||
+                ""
+              )
+              .toLowerCase()
+              .includes(query)
+
+              ||
+
+              String(
+                user.role ||
+                ""
+              )
+              .toLowerCase()
+              .includes(query)
+
+              ||
+
+              String(
+                user.user_id ||
+                ""
+              )
+              .toLowerCase()
+              .includes(query)
+
+            );
+
+          }
+        );
+
+
+      renderUsers(
+        filtered
+      );
+
+    }
   );
 
 }
@@ -1376,7 +1961,6 @@ function enableFounderPermissions(){
 async function verifyFounder(){
 
   try{
-
 
     document
       .getElementById("errorScreen")
@@ -1439,11 +2023,13 @@ async function verifyFounder(){
         "avatar"
       );
 
+
     if(avatar){
 
       const email =
         currentUser.email ||
         "F";
+
 
       avatar.textContent =
         email
@@ -1557,12 +2143,6 @@ async function verifyFounder(){
       );
 
 
-      /*
-        Founder RPC already passed.
-        Therefore show Founder access
-        without blocking the dashboard.
-      */
-
       enableFounderPermissions();
 
     }else{
@@ -1637,6 +2217,8 @@ async function verifyFounder(){
 
     await loadActivity();
 
+    await loadUsers();
+
 
     /* =====================================
        SHOW APP
@@ -1709,6 +2291,7 @@ async function loadOverview(){
         error
       );
 
+
       setValue(
         "projectsValue",
         "—"
@@ -1729,6 +2312,7 @@ async function loadOverview(){
       "Projects:",
       error
     );
+
 
     setValue(
       "projectsValue",
@@ -1764,6 +2348,7 @@ async function loadOverview(){
         error
       );
 
+
       setValue(
         "teamValue",
         "—"
@@ -1784,6 +2369,7 @@ async function loadOverview(){
       "Team:",
       error
     );
+
 
     setValue(
       "teamValue",
@@ -1819,8 +2405,6 @@ async function loadOverview(){
         error
       );
 
-
-      /* Try audit_logs */
 
       const fallback =
         await supabase
@@ -1868,6 +2452,7 @@ async function loadOverview(){
       error
     );
 
+
     setValue(
       "auditValue",
       "—"
@@ -1900,11 +2485,6 @@ async function loadActivity(){
       Loading activity...
     </div>`;
 
-
-  /*
-    First source:
-    system_audit_logs
-  */
 
   try{
 
@@ -1944,12 +2524,6 @@ async function loadActivity(){
 
     }
 
-
-    /*
-      If system_audit_logs is empty,
-      try audit_logs.
-    */
-
   }catch(error){
 
     console.warn(
@@ -1959,11 +2533,6 @@ async function loadActivity(){
 
   }
 
-
-  /*
-    SECOND SOURCE:
-    audit_logs
-  */
 
   try{
 
@@ -2003,10 +2572,6 @@ async function loadActivity(){
 
     }
 
-
-    /*
-      No activity yet.
-    */
 
     container.innerHTML =
       `<div class="empty">
@@ -2246,6 +2811,8 @@ supabase.auth.onAuthStateChange(
 /* =========================================
    START
 ========================================= */
+
+setupUserSearch();
 
 verifyFounder();
 
