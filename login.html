@@ -189,7 +189,8 @@ SUPABASE_PUBLISHABLE_KEY,
 auth:{
 persistSession:true,
 autoRefreshToken:true,
-detectSessionInUrl:true
+detectSessionInUrl:true,
+flowType:"pkce"
 }
 }
 );
@@ -212,15 +213,17 @@ document.getElementById("message");
 
 function show(text,type="info"){
 
-message.textContent=text;
+message.textContent =
+text;
 
-message.className=type;
+message.className =
+type;
 
 }
 
 function showUser(user){
 
-message.innerHTML="";
+message.innerHTML = "";
 
 const title =
 document.createElement("div");
@@ -231,17 +234,21 @@ title.textContent =
 const box =
 document.createElement("div");
 
-box.className="uid";
+box.className =
+"uid";
 
 box.textContent =
-"UID: "+user.id+
-"\nEmail: "+(user.email || "not available");
+"UID: " +
+user.id +
+"\nEmail: " +
+(user.email || "not available");
 
 message.appendChild(title);
 
 message.appendChild(box);
 
-message.className="info";
+message.className =
+"info";
 
 }
 
@@ -252,18 +259,49 @@ message.className="info";
 
 function enableButton(){
 
-button.disabled=false;
+button.disabled =
+false;
 
-button.textContent=
+button.textContent =
 "Continue with GitHub";
 
 }
 
 function disableButton(text){
 
-button.disabled=true;
+button.disabled =
+true;
 
-button.textContent=text;
+button.textContent =
+text;
+
+}
+
+
+/* =========================================
+   SAVE SESSION
+========================================= */
+
+async function ensureSession(){
+
+const {
+data,
+error
+} =
+await supabase.auth.getSession();
+
+if(error){
+
+console.error(
+"Session error:",
+error
+);
+
+throw error;
+
+}
+
+return data?.session || null;
 
 }
 
@@ -277,7 +315,7 @@ async function verifyFounder(user){
 if(!user){
 
 show(
-"No active session found. Press Continue with GitHub.",
+"No active session found. Please sign in with GitHub.",
 "error"
 );
 
@@ -287,22 +325,10 @@ return false;
 
 }
 
-
-/*
-Show authenticated user
-*/
-
 showUser(user);
 
 
-/*
-Secure Founder verification.
-
-The database RPC should check
-auth.uid() against the Founder
-account. The UID must NOT be trusted
-from the browser.
-*/
+try{
 
 const {
 data,
@@ -321,9 +347,10 @@ error
 );
 
 show(
-"FOUNDER VERIFICATION ERROR: "+
-error.message+
-"\nUID: "+user.id,
+"FOUNDER VERIFICATION ERROR:\n" +
+error.message +
+"\n\nUID: " +
+user.id,
 "error"
 );
 
@@ -337,19 +364,27 @@ return false;
 if(data === true){
 
 show(
-"Founder access verified. Redirecting...",
+"Founder access verified.\nOpening Token Studio...",
 "success"
 );
 
 disableButton(
-"Founder Verified"
+"Founder Verified ✓"
 );
+
+
+/*
+IMPORTANT:
+The user must continue in the same
+browser context where Supabase created
+the session.
+*/
 
 setTimeout(
 function(){
 
 window.location.replace(
-"founder.html"
+"token-studio.html"
 );
 
 },
@@ -366,7 +401,7 @@ Founder verification failed
 */
 
 show(
-"Access denied. This GitHub account is not registered as the Sonativa Founder.\nUID: "+
+"Access denied. This GitHub account is not registered as the Sonativa Founder.\n\nUID: " +
 user.id,
 "error"
 );
@@ -394,41 +429,16 @@ show(
 );
 
 
-const {
-data,
-error
-} =
-await supabase.auth.getSession();
-
-
-if(error){
-
-console.error(
-"Session error:",
-error
-);
-
-show(
-"SESSION ERROR: "+
-error.message,
-"error"
-);
-
-enableButton();
-
-return;
-
-}
-
+try{
 
 const session =
-data?.session;
+await ensureSession();
 
 
 if(!session){
 
 show(
-"No active GitHub session found. Press Continue with GitHub.",
+"No active GitHub session found.\n\nPress Continue with GitHub to sign in.",
 "info"
 );
 
@@ -442,6 +452,24 @@ return;
 await verifyFounder(
 session.user
 );
+
+
+}catch(error){
+
+console.error(
+"Session check failed:",
+error
+);
+
+show(
+"SESSION ERROR:\n" +
+(error?.message || error),
+"error"
+);
+
+enableButton();
+
+}
 
 }
 
@@ -464,21 +492,28 @@ show(
 
 try{
 
+const redirectUrl =
+window.location.origin +
+window.location.pathname;
+
+
 const {
 data,
 error
 } =
 await supabase.auth.signInWithOAuth({
 
-provider:"github",
+provider:
+"github",
 
 options:{
 
 redirectTo:
-"https://sonativaofficial.github.io/-Sonativa/login.html",
+redirectUrl,
 
 queryParams:{
-prompt:"login"
+prompt:
+"login"
 }
 
 }
@@ -494,7 +529,7 @@ error
 );
 
 show(
-"GITHUB ERROR: "+
+"GITHUB ERROR:\n" +
 error.message,
 "error"
 );
@@ -506,11 +541,6 @@ return;
 }
 
 
-/*
-OAuth normally redirects immediately.
-If it does not, show a useful message.
-*/
-
 if(
 data &&
 data.url
@@ -521,7 +551,18 @@ show(
 "info"
 );
 
+return;
+
 }
+
+
+show(
+"GitHub authentication did not return a login URL.",
+"error"
+);
+
+enableButton();
+
 
 }catch(error){
 
@@ -531,8 +572,9 @@ error
 );
 
 show(
-"GITHUB ERROR: "+
-(error.message || "Authentication failed."),
+"GITHUB ERROR:\n" +
+(error?.message ||
+"Authentication failed."),
 "error"
 );
 
@@ -591,8 +633,17 @@ session
 ){
 
 console.log(
-"Session refreshed."
+"Session refreshed successfully."
 );
+
+}
+
+
+if(
+event === "SIGNED_OUT"
+){
+
+enableButton();
 
 }
 
