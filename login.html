@@ -4,152 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sonativa — Sign In</title>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  font-family:Arial,sans-serif;
-  background:#04060b;
-  color:#fff
-}
-
-.card{
-  width:min(430px,100%);
-  padding:32px;
-  background:#0b111b;
-  border:1px solid #202b3d;
-  border-radius:18px;
-  box-shadow:0 25px 80px #0008
-}
-
-.logo{
-  text-align:center;
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:5px
-}
-
-.sub{
-  text-align:center;
-  margin-top:9px;
-  color:#8793a6;
-  font-size:12px
-}
-
-form{margin-top:28px}
-
-label{
-  display:block;
-  margin:0 0 7px;
-  color:#aeb8c8;
-  font-size:11px;
-  font-weight:bold
-}
-
-input{
-  width:100%;
-  height:46px;
-  padding:0 13px;
-  margin-bottom:16px;
-  background:#090e17;
-  color:white;
-  border:1px solid #202b3d;
-  border-radius:9px;
-  outline:none
-}
-
-input:focus{
-  border-color:#4a5870
-}
-
-button{
-  width:100%;
-  height:46px;
-  border-radius:9px;
-  font-weight:bold;
-  cursor:pointer
-}
-
-button:disabled{
-  opacity:.55;
-  cursor:not-allowed
-}
-
-.email{
-  background:white;
-  color:#05070c;
-  border:0
-}
-
-.github{
-  margin-top:10px;
-  background:#151b25;
-  color:white;
-  border:1px solid #303b4d
-}
-
-.divider{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:20px 0;
-  color:#566276;
-  font-size:10px
-}
-
-.divider:before,
-.divider:after{
-  content:"";
-  height:1px;
-  flex:1;
-  background:#202b3d
-}
-
-#message{
-  display:none;
-  margin-top:15px;
-  padding:11px;
-  border-radius:9px;
-  font-size:11px;
-  line-height:1.5
-}
-
-.error{
-  display:block!important;
-  color:#ff9b9b;
-  background:#190c0c;
-  border:1px solid #4b2020
-}
-
-.success{
-  display:block!important;
-  color:#62e39a;
-  background:#091710;
-  border:1px solid #214b35
-}
-
-.back{
-  display:block;
-  margin-top:18px;
-  text-align:center;
-  color:#78869b;
-  font-size:10px;
-  text-decoration:none
-}
-
-.footer{
-  margin-top:22px;
-  text-align:center;
-  color:#566276;
-  font-size:9px;
-  line-height:1.7
-}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Arial,sans-serif;background:#04060b;color:#fff}
+.card{width:min(430px,100%);padding:32px;background:#0b111b;border:1px solid #202b3d;border-radius:18px;box-shadow:0 25px 80px #0008}
+.logo{text-align:center;font-size:25px;font-weight:900;letter-spacing:5px}
+.sub{text-align:center;margin-top:9px;color:#8793a6;font-size:12px}
+button{width:100%;height:46px;border-radius:9px;font-weight:bold;cursor:pointer}
+.github{margin-top:28px;background:white;color:#05070c;border:0}
+#message{display:none;margin-top:15px;padding:11px;border-radius:9px;font-size:11px;line-height:1.5}
+.error{display:block!important;color:#ff9b9b;background:#190c0c;border:1px solid #4b2020}
+.success{display:block!important;color:#62e39a;background:#091710;border:1px solid #214b35}
+.back{display:block;margin-top:18px;text-align:center;color:#78869b;font-size:10px;text-decoration:none}
+.footer{margin-top:22px;text-align:center;color:#566276;font-size:9px;line-height:1.7}
 </style>
 </head>
 
@@ -157,115 +24,42 @@ button:disabled{
 
 <div class="card">
 
-  <div class="logo">SONATIVA</div>
+<div class="logo">SONATIVA</div>
 
-  <div class="sub">
-    Secure access to your Web3 workspace
-  </div>
-
-  <form id="form">
-
-    <label for="email">Email</label>
-
-    <input
-      id="email"
-      type="email"
-      autocomplete="email"
-      placeholder="you@example.com"
-      required
-    >
-
-    <label for="password">Password</label>
-
-    <input
-      id="password"
-      type="password"
-      autocomplete="current-password"
-      placeholder="Your password"
-      required
-    >
-
-    <button
-      class="email"
-      id="emailBtn"
-      type="submit">
-      Sign In with Email
-    </button>
-
-  </form>
-
-  <div class="divider">OR</div>
-
-  <button
-    class="github"
-    id="githubBtn"
-    type="button">
-    Continue with GitHub
-  </button>
-
-  <div id="message"></div>
-
-  <a
-    class="back"
-    href="index.html">
-    ← Back to Sonativa
-  </a>
-
-  <div class="footer">
-    Your wallet remains under your control.<br>
-    Sonativa never asks for private keys or seed phrases.
-  </div>
-
+<div class="sub">
+Secure access to your Web3 workspace
 </div>
 
+<button class="github" id="githubBtn">
+Continue with GitHub
+</button>
+
+<div id="message"></div>
+
+<a class="back" href="index.html">
+← Back to Sonativa
+</a>
+
+<div class="footer">
+Your wallet remains under your control.<br>
+Sonativa never asks for private keys or seed phrases.
+</div>
+
+</div>
 
 <script type="module">
 
 import {
-  createClient
-} from
+createClient
+}
+from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-
-/* =========================================
-   SUPABASE
-========================================= */
-
-const SUPABASE_URL =
-"https://kallobeodjzzhrsaqszw.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
 
 const supabase =
 createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY,
-  {
-    auth:{
-      persistSession:true,
-      autoRefreshToken:true,
-      detectSessionInUrl:true
-    }
-  }
+"https://kallobeodjzzhrsaqszw.supabase.co",
+"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX"
 );
-
-
-/* =========================================
-   ELEMENTS
-========================================= */
-
-const form =
-document.getElementById("form");
-
-const email =
-document.getElementById("email");
-
-const password =
-document.getElementById("password");
-
-const emailBtn =
-document.getElementById("emailBtn");
 
 const githubBtn =
 document.getElementById("githubBtn");
@@ -273,357 +67,157 @@ document.getElementById("githubBtn");
 const message =
 document.getElementById("message");
 
+function showMessage(text,type){
 
-/* =========================================
-   MESSAGE
-========================================= */
-
-function showMessage(
-  text,
-  type="error"
-){
-
-  message.textContent = text;
-
-  message.className = type;
+message.textContent=text;
+message.className=type;
 
 }
 
+async function checkFounder(user){
 
-/* =========================================
-   FOUNDER CHECK
-========================================= */
+if(!user){
 
-async function checkFounder(
-  user
-){
+showMessage(
+"Please sign in with your GitHub account.",
+"error"
+);
 
-  if(!user){
-
-    showMessage(
-      "No active Sonativa session was found."
-    );
-
-    return false;
-
-  }
-
-
-  /*
-    IMPORTANT:
-    Founder authorization is checked
-    from the database using the
-    authenticated user's UUID.
-  */
-
-  const {
-    data,
-    error
-  } =
-  await supabase
-
-  .from("user_roles")
-
-  .select("user_id,role")
-
-  .eq(
-    "user_id",
-    user.id
-  )
-
-  .maybeSingle();
-
-
-  if(error){
-
-    console.error(
-      "Founder role error:",
-      error
-    );
-
-    showMessage(
-      "Your account is signed in, but Sonativa could not verify your Founder permissions."
-    );
-
-    return false;
-
-  }
-
-
-  if(
-    !data ||
-    String(data.role).toLowerCase() !== "founder"
-  ){
-
-    showMessage(
-      "Access denied. This account is not a Sonativa Founder account."
-    );
-
-    return false;
-
-  }
-
-
-  return true;
+return;
 
 }
 
+const {
+data,
+error
+} =
+await supabase
+.from("user_roles")
+.select("role")
+.eq("user_id",user.id)
+.maybeSingle();
 
-/* =========================================
-   OPEN FOUNDER CENTER
-========================================= */
+if(error){
 
-async function openFounderCenter(
-  user
-){
+console.error(error);
 
-  const founder =
-  await checkFounder(user);
+showMessage(
+"Could not verify your Sonativa role.",
+"error"
+);
 
-
-  if(!founder){
-
-    return;
-
-  }
-
-
-  showMessage(
-    "Founder verified. Opening Founder Control Center...",
-    "success"
-  );
-
-
-  setTimeout(
-    function(){
-
-      window.location.replace(
-        "founder.html"
-      );
-
-    },
-    500
-  );
+return;
 
 }
 
+if(
+data &&
+data.role === "founder"
+){
 
-/* =========================================
-   EMAIL LOGIN
-========================================= */
+showMessage(
+"Founder verified. Opening Founder Control Center...",
+"success"
+);
 
-form.addEventListener(
-"submit",
-async function(event){
+setTimeout(
+function(){
+window.location.href="founder.html";
+},
+500
+);
 
-  event.preventDefault();
+return;
 
+}
 
-  message.className = "";
+showMessage(
+"Your account does not have Founder access.",
+"error"
+);
 
-
-  emailBtn.disabled = true;
-
-  emailBtn.textContent =
-  "Signing in...";
-
-
-  const {
-    data,
-    error
-  } =
-  await supabase.auth.signInWithPassword({
-
-    email:
-    email.value.trim(),
-
-    password:
-    password.value
-
-  });
-
-
-  if(error){
-
-    console.error(
-      "Email login error:",
-      error
-    );
-
-    showMessage(
-      "Sign in failed: " +
-      error.message
-    );
-
-    emailBtn.disabled = false;
-
-    emailBtn.textContent =
-    "Sign In with Email";
-
-    return;
-
-  }
-
-
-  await openFounderCenter(
-    data.user
-  );
-
-
-  emailBtn.disabled = false;
-
-  emailBtn.textContent =
-  "Sign In with Email";
-
-});
-
-
-/* =========================================
-   GITHUB LOGIN
-========================================= */
+}
 
 githubBtn.addEventListener(
 "click",
 async function(){
 
-  message.className = "";
+githubBtn.disabled=true;
 
-  githubBtn.disabled = true;
+githubBtn.textContent=
+"Connecting to GitHub...";
 
-  githubBtn.textContent =
-  "Connecting to GitHub...";
+message.className="";
 
+const {
+error
+} =
+await supabase.auth.signInWithOAuth({
 
-  const redirectUrl =
-    window.location.origin +
-    window.location.pathname;
+provider:"github",
 
-
-  const {
-    error
-  } =
-  await supabase.auth.signInWithOAuth({
-
-    provider:"github",
-
-    options:{
-
-      redirectTo:
-      redirectUrl
-
-    }
-
-  });
-
-
-  if(error){
-
-    console.error(
-      "GitHub login error:",
-      error
-    );
-
-    showMessage(
-      "GitHub sign in failed: " +
-      error.message
-    );
-
-    githubBtn.disabled = false;
-
-    githubBtn.textContent =
-    "Continue with GitHub";
-
-  }
+options:{
+redirectTo:
+"https://sonativaofficial.github.io/-Sonativa/login.html"
+}
 
 });
 
+if(error){
 
-/* =========================================
-   HANDLE OAUTH RETURN
-========================================= */
+console.error(error);
 
-async function handleOAuthReturn(){
+showMessage(
+"GitHub sign in failed: "+error.message,
+"error"
+);
 
-  /*
-    Supabase automatically reads the
-    authentication information from
-    the URL when detectSessionInUrl
-    is enabled.
-  */
+githubBtn.disabled=false;
 
-  const {
-    data,
-    error
-  } =
-  await supabase.auth.getSession();
-
-
-  if(error){
-
-    console.error(
-      "Session error:",
-      error
-    );
-
-    return;
-
-  }
-
-
-  if(
-    data &&
-    data.session &&
-    data.session.user
-  ){
-
-    await openFounderCenter(
-      data.session.user
-    );
-
-  }
+githubBtn.textContent=
+"Continue with GitHub";
 
 }
 
-
-/* =========================================
-   AUTH STATE LISTENER
-========================================= */
+});
 
 supabase.auth.onAuthStateChange(
-async function(
-  event,
-  session
+async function(event,session){
+
+if(
+event === "SIGNED_IN" &&
+session
 ){
 
-  console.log(
-    "Sonativa Auth:",
-    event
-  );
+await checkFounder(
+session.user
+);
 
-
-  if(
-    session &&
-    session.user &&
-    (
-      event === "SIGNED_IN" ||
-      event === "INITIAL_SESSION"
-    )
-  ){
-
-    await openFounderCenter(
-      session.user
-    );
-
-  }
+}
 
 });
 
+async function start(){
 
-/* =========================================
-   START
-========================================= */
+const {
+data
+} =
+await supabase.auth.getSession();
 
-handleOAuthReturn();
+if(
+data &&
+data.session
+){
+
+await checkFounder(
+data.session.user
+);
+
+}
+
+}
+
+start();
 
 </script>
 
