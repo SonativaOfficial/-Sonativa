@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Sonativa — Web3 Platform</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -48,15 +50,12 @@ body{
   overflow-x:hidden;
 }
 
-/* ==============================
-   DIGITAL BACKGROUND
-============================== */
-
 .background{
   position:fixed;
   inset:0;
   z-index:-10;
   overflow:hidden;
+
   background:
     radial-gradient(
       circle at 65% -10%,
@@ -113,17 +112,9 @@ body{
     0 0 0 160px rgba(255,255,255,.01);
 }
 
-/* ==============================
-   APP
-============================== */
-
 .app{
   min-height:100vh;
 }
-
-/* ==============================
-   SIDEBAR
-============================== */
 
 .sidebar{
   position:fixed;
@@ -289,6 +280,10 @@ body{
 .account-name{
   font-size:12px;
   font-weight:700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  max-width:160px;
 }
 
 .account-status{
@@ -298,18 +293,10 @@ body{
   font-size:10px;
 }
 
-/* ==============================
-   MAIN
-============================== */
-
 .main{
   margin-left:var(--sidebar);
   min-height:100vh;
 }
-
-/* ==============================
-   TOPBAR
-============================== */
 
 .topbar{
   height:76px;
@@ -385,19 +372,38 @@ body{
   outline:none;
 }
 
-/* ==============================
-   CONTENT
-============================== */
+.founder-button{
+  height:38px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:0 12px;
+
+  border-radius:9px;
+
+  background:#17140c;
+  border:1px solid #5a4b29;
+
+  color:#e8bd68;
+
+  font-size:11px;
+  font-weight:800;
+
+  text-decoration:none;
+}
+
+.founder-button:hover{
+  background:#211d11;
+  border-color:#806a35;
+}
 
 .content{
   width:min(1400px,94%);
   margin:auto;
   padding:35px 0 70px;
 }
-
-/* ==============================
-   WELCOME
-============================== */
 
 .welcome{
   display:flex;
@@ -446,30 +452,6 @@ body{
   background:#e9edf3;
 }
 
-.secondary-button{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:11px 15px;
-
-  border-radius:9px;
-
-  background:#101722;
-  color:white;
-
-  border:1px solid var(--border2);
-
-  font-size:12px;
-  font-weight:700;
-
-  text-decoration:none;
-}
-
-/* ==============================
-   STATS
-============================== */
-
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -506,10 +488,6 @@ body{
   color:#68758a;
   font-size:10px;
 }
-
-/* ==============================
-   GRID
-============================== */
 
 .dashboard-grid{
   display:grid;
@@ -552,10 +530,6 @@ body{
 .card-link:hover{
   color:white;
 }
-
-/* ==============================
-   QUICK TOOLS
-============================== */
 
 .tools{
   display:grid;
@@ -613,10 +587,6 @@ body{
   font-size:10px;
 }
 
-/* ==============================
-   ACTIVITY
-============================== */
-
 .activity{
   display:flex;
   flex-direction:column;
@@ -658,10 +628,6 @@ body{
   color:#5f6c80;
   font-size:9px;
 }
-
-/* ==============================
-   PROJECTS
-============================== */
 
 .project-list{
   display:flex;
@@ -734,10 +700,6 @@ body{
   background:#0b1711;
 }
 
-/* ==============================
-   SECURITY
-============================== */
-
 .security{
   display:flex;
   align-items:center;
@@ -773,10 +735,6 @@ body{
   line-height:1.6;
 }
 
-/* ==============================
-   FOOTER
-============================== */
-
 footer{
   padding:35px 0;
 
@@ -787,17 +745,9 @@ footer{
   font-size:10px;
 }
 
-/* ==============================
-   MOBILE MENU
-============================== */
-
 .menu-button{
   display:none;
 }
-
-/* ==============================
-   MOBILE
-============================== */
 
 @media(max-width:1050px){
 
@@ -885,7 +835,13 @@ footer{
   padding:17px;
 }
 
+.founder-button{
+  padding:0 9px;
+  font-size:10px;
 }
+
+}
+
 </style>
 </head>
 
@@ -894,10 +850,6 @@ footer{
 <div class="background"></div>
 
 <div class="app">
-
-<!-- =========================================
-     SIDEBAR
-========================================= -->
 
 <aside class="sidebar" id="sidebar">
 
@@ -1001,10 +953,6 @@ Sonativa User
 </aside>
 
 
-<!-- =========================================
-     MAIN
-========================================= -->
-
 <main class="main">
 
 <header class="topbar">
@@ -1033,7 +981,7 @@ Your Sonativa workspace
 </div>
 
 
-<div class="top-actions">
+<div class="top-actions" id="topActions">
 
 <select
 class="lang"
@@ -1073,11 +1021,6 @@ title="Account">
 
 <section class="content">
 
-
-<!-- =========================================
-     WELCOME
-========================================= -->
-
 <div class="welcome">
 
 <div>
@@ -1103,10 +1046,6 @@ class="primary-button">
 </div>
 
 
-<!-- =========================================
-     STATS
-========================================= -->
-
 <div class="stats">
 
 <div class="stat-card">
@@ -1118,7 +1057,8 @@ Projects
 <div
 class="stat-value"
 id="projectsCount">
-—</div>
+—
+</div>
 
 <div class="stat-small">
 Your projects
@@ -1136,7 +1076,8 @@ Tokens Created
 <div
 class="stat-value"
 id="tokensCount">
-—</div>
+—
+</div>
 
 <div class="stat-small">
 On Solana
@@ -1154,7 +1095,8 @@ Wallet
 <div
 class="stat-value"
 id="walletStatus">
-—</div>
+—
+</div>
 
 <div class="stat-small">
 Connection status
@@ -1182,14 +1124,8 @@ Sonativa workspace
 </div>
 
 
-<!-- =========================================
-     DASHBOARD GRID
-========================================= -->
-
 <div class="dashboard-grid">
 
-
-<!-- QUICK TOOLS -->
 
 <div class="card">
 
@@ -1306,8 +1242,6 @@ Analyze Web3 contracts
 </div>
 
 
-<!-- ACTIVITY -->
-
 <div class="card">
 
 <div class="card-header">
@@ -1384,8 +1318,6 @@ Token Studio is ready.
 </div>
 
 
-<!-- PROJECTS -->
-
 <div class="card">
 
 <div class="card-header">
@@ -1435,8 +1367,6 @@ Ready
 
 </div>
 
-
-<!-- SECURITY -->
 
 <div class="card">
 
@@ -1495,24 +1425,18 @@ Wallet actions require your own wallet authorization.
 
 <script type="module">
 
-/* =========================================
-   SUPABASE
-========================================= */
-
 import {
   createClient
 }
 from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
 
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
 
-
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
-
 
 const supabase =
 createClient(
@@ -1522,7 +1446,7 @@ createClient(
 
 
 /* =========================================
-   MOBILE SIDEBAR
+   ELEMENTS
 ========================================= */
 
 const sidebar =
@@ -1531,6 +1455,18 @@ document.getElementById("sidebar");
 const menuButton =
 document.getElementById("menuButton");
 
+const languageSelect =
+document.getElementById("languageSelect");
+
+const topActions =
+document.getElementById("topActions");
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+if(menuButton){
 
 menuButton.addEventListener(
 "click",
@@ -1541,10 +1477,8 @@ sidebar.classList.toggle("open");
 }
 );
 
+}
 
-/* =========================================
-   CLOSE SIDEBAR AFTER LINK
-========================================= */
 
 document
 .querySelectorAll(".nav-item")
@@ -1554,9 +1488,7 @@ item.addEventListener(
 "click",
 function(){
 
-if(
-window.innerWidth <= 760
-){
+if(window.innerWidth <= 760){
 
 sidebar.classList.remove("open");
 
@@ -1569,6 +1501,193 @@ sidebar.classList.remove("open");
 
 
 /* =========================================
+   SECURITY
+========================================= */
+
+function escapeHTML(value){
+
+return String(
+value ?? ""
+)
+
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function getInitial(value){
+
+return String(
+value || "S"
+)
+.charAt(0)
+.toUpperCase();
+
+}
+
+
+/* =========================================
+   FOUNDER ROLE CHECK
+========================================= */
+
+async function checkFounder(user){
+
+if(!user){
+
+return false;
+
+}
+
+
+const {
+data,
+error
+} =
+await supabase
+
+.from("user_roles")
+
+.select("role")
+
+.eq(
+"user_id",
+user.id
+)
+
+.maybeSingle();
+
+
+if(error){
+
+console.warn(
+"Founder role check failed:",
+error.message
+);
+
+return false;
+
+}
+
+
+return (
+data &&
+data.role === "founder"
+);
+
+}
+
+
+/* =========================================
+   FOUNDER ACCESS
+========================================= */
+
+function addFounderAccess(){
+
+if(
+document.getElementById(
+"founderControlLink"
+)
+){
+
+return;
+
+}
+
+
+/* Sidebar */
+
+const nav =
+document.querySelector(".nav");
+
+if(nav){
+
+const section =
+document.createElement("div");
+
+section.className =
+"nav-section";
+
+section.textContent =
+"Founder";
+
+
+const link =
+document.createElement("a");
+
+link.id =
+"founderControlLink";
+
+link.className =
+"nav-item";
+
+link.href =
+"founder.html";
+
+
+link.innerHTML = `
+
+<span class="nav-icon">
+◆
+</span>
+
+<span>
+Founder Control Center
+</span>
+
+<span
+class="nav-badge"
+style="
+color:#e8bd68;
+border:1px solid #5a4b29;
+background:#17140c;
+">
+
+FOUNDER
+
+</span>
+
+`;
+
+nav.appendChild(section);
+nav.appendChild(link);
+
+}
+
+
+/* Topbar */
+
+if(topActions){
+
+const button =
+document.createElement("a");
+
+button.id =
+"founderTopButton";
+
+button.className =
+"founder-button";
+
+button.href =
+"founder.html";
+
+button.textContent =
+"Founder";
+
+topActions.insertBefore(
+button,
+topActions.firstChild
+);
+
+}
+
+}
+
+
+/* =========================================
    LOAD USER
 ========================================= */
 
@@ -1577,12 +1696,13 @@ async function loadUser(){
 const {
 data:{
 user
-}
+},
+error
 } =
 await supabase.auth.getUser();
 
 
-if(!user){
+if(error || !user){
 
 document.getElementById(
 "accountName"
@@ -1604,7 +1724,7 @@ return;
 }
 
 
-/* USER NAME */
+/* User name */
 
 const name =
 user.user_metadata?.full_name ||
@@ -1622,9 +1742,7 @@ name;
 document.getElementById(
 "avatar"
 ).textContent =
-name
-.charAt(0)
-.toUpperCase();
+getInitial(name);
 
 
 document.getElementById(
@@ -1633,18 +1751,33 @@ document.getElementById(
 "Ready";
 
 
-await loadProjects(user.id);
+/* Founder */
+
+const isFounder =
+await checkFounder(user);
+
+
+if(isFounder){
+
+addFounderAccess();
+
+}
+
+
+/* Projects */
+
+await loadProjects(
+user.id
+);
 
 }
 
 
 /* =========================================
-   LOAD PROJECTS
+   PROJECTS
 ========================================= */
 
-async function loadProjects(
-userId
-){
+async function loadProjects(userId){
 
 const {
 data,
@@ -1655,7 +1788,7 @@ await supabase
 .from("projects")
 
 .select(`
-Id,
+id,
 project_name,
 token_name,
 token_symbol,
@@ -1700,7 +1833,8 @@ projects.length;
 
 
 const tokenCount =
-projects.filter(function(project){
+projects.filter(
+function(project){
 
 return (
 project.mint_address ||
@@ -1708,7 +1842,8 @@ project.token_status === "created" ||
 project.token_status === "minted"
 );
 
-}).length;
+}
+).length;
 
 
 document.getElementById(
@@ -1717,7 +1852,9 @@ document.getElementById(
 tokenCount;
 
 
-renderProjects(projects);
+renderProjects(
+projects
+);
 
 }
 
@@ -1726,14 +1863,19 @@ renderProjects(projects);
    RENDER PROJECTS
 ========================================= */
 
-function renderProjects(
-projects
-){
+function renderProjects(projects){
 
 const list =
 document.getElementById(
 "projectList"
 );
+
+
+if(!list){
+
+return;
+
+}
 
 
 if(!projects.length){
@@ -1778,7 +1920,8 @@ return;
 list.innerHTML =
 projects
 .slice(0,5)
-.map(function(project){
+.map(
+function(project){
 
 const name =
 project.project_name ||
@@ -1788,12 +1931,17 @@ project.project_name ||
 const token =
 project.token_symbol
 ?
-project.token_name +
+(
+(project.token_name || "Token")
++
 " • $" +
 project.token_symbol
+)
 :
+(
 project.token_name ||
-"Token";
+"Token"
+);
 
 
 const status =
@@ -1817,8 +1965,7 @@ return `
 <div class="project-icon">
 
 ${escapeHTML(
-name.charAt(0)
-.toUpperCase()
+name.charAt(0).toUpperCase()
 )}
 
 </div>
@@ -1852,29 +1999,9 @@ ${created ? "Created" : "Draft"}
 
 `;
 
-})
-.join("");
-
 }
-
-
-/* =========================================
-   ESCAPE HTML
-========================================= */
-
-function escapeHTML(
-value
-){
-
-return String(
-value ?? ""
 )
-
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+.join("");
 
 }
 
@@ -1883,11 +2010,7 @@ value ?? ""
    LANGUAGE
 ========================================= */
 
-const languageSelect =
-document.getElementById(
-"languageSelect"
-);
-
+if(languageSelect){
 
 languageSelect.addEventListener(
 "change",
@@ -1896,18 +2019,10 @@ function(){
 const language =
 this.value;
 
-
 localStorage.setItem(
 "sonativa_language",
 language
 );
-
-
-/*
-  Full translation system
-  will be connected to all
-  Sonativa pages later.
-*/
 
 if(language === "ar"){
 
@@ -1927,12 +2042,9 @@ document.documentElement.dir =
 
 }
 
-});
+}
+);
 
-
-/* =========================================
-   INITIAL LANGUAGE
-========================================= */
 
 const savedLanguage =
 localStorage.getItem(
@@ -1945,6 +2057,7 @@ if(savedLanguage){
 languageSelect.value =
 savedLanguage;
 
+
 if(savedLanguage === "ar"){
 
 document.documentElement.lang =
@@ -1952,6 +2065,8 @@ document.documentElement.lang =
 
 document.documentElement.dir =
 "rtl";
+
+}
 
 }
 
