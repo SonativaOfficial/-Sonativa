@@ -126,7 +126,9 @@ button,.button{
   font-weight:700;
 }
 
-button:hover,.button:hover{background:#182131}
+button:hover,.button:hover{
+  background:#182131;
+}
 
 button:disabled{
   opacity:.6;
@@ -223,9 +225,13 @@ button:disabled{
   font-size:11px;
 }
 
-.info-row:last-child{border-bottom:0}
+.info-row:last-child{
+  border-bottom:0;
+}
 
-.info-row span:first-child{color:var(--muted)}
+.info-row span:first-child{
+  color:var(--muted);
+}
 
 .info-row span:last-child{
   text-align:right;
@@ -268,7 +274,9 @@ button:disabled{
   border-bottom:1px solid #1b2432;
 }
 
-.activity-item:last-child{border-bottom:0}
+.activity-item:last-child{
+  border-bottom:0;
+}
 
 .activity-action{
   font-size:11px;
@@ -302,7 +310,9 @@ button:disabled{
   gap:12px;
 }
 
-.loading.hidden{display:none}
+.loading.hidden{
+  display:none;
+}
 
 .spinner{
   width:30px;
@@ -329,7 +339,9 @@ button:disabled{
   padding:25px;
 }
 
-.error.show{display:flex}
+.error.show{
+  display:flex;
+}
 
 .error-box{
   width:min(450px,100%);
@@ -356,7 +368,9 @@ button:disabled{
   margin-bottom:20px;
 }
 
-.users-card{margin-bottom:18px}
+.users-card{
+  margin-bottom:18px;
+}
 
 .users-header{
   display:flex;
@@ -378,9 +392,13 @@ button:disabled{
   font-size:11px;
 }
 
-.users-search:focus{border-color:#52627b}
+.users-search:focus{
+  border-color:#52627b;
+}
 
-.users-table-wrap{overflow-x:auto}
+.users-table-wrap{
+  overflow-x:auto;
+}
 
 .users-table{
   width:100%;
@@ -449,7 +467,9 @@ button:disabled{
   border-radius:12px;
 }
 
-.user-editor.show{display:block}
+.user-editor.show{
+  display:block;
+}
 
 .editor-header{
   display:flex;
@@ -521,9 +541,13 @@ button:disabled{
   cursor:pointer;
 }
 
-.permission-toggle:hover{background:#101722}
+.permission-toggle:hover{
+  background:#101722;
+}
 
-.permission-toggle input{accent-color:#62e39a}
+.permission-toggle input{
+  accent-color:#62e39a;
+}
 
 .editor-actions{
   display:flex;
@@ -547,7 +571,9 @@ button:disabled{
   font-size:10px;
 }
 
-.editor-message.show{display:block}
+.editor-message.show{
+  display:block;
+}
 
 .editor-message.success{
   border:1px solid #28543d;
@@ -567,6 +593,18 @@ button:disabled{
   font-weight:800;
 }
 
+.connection-warning{
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #5b4a27;
+  background:#151108;
+  color:var(--yellow);
+  font-size:9px;
+  line-height:1.6;
+  display:none;
+}
+
 footer{
   text-align:center;
   color:#4e5a6d;
@@ -575,22 +613,63 @@ footer{
 }
 
 @media(max-width:1000px){
-  .grid{grid-template-columns:1fr 1fr}
-  .layout{grid-template-columns:1fr}
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .layout{
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:600px){
-  .topbar{padding:0 15px}
-  .container{width:92%;padding-top:25px}
-  .hero{flex-direction:column;align-items:flex-start}
-  .grid{grid-template-columns:1fr}
-  h1{font-size:25px}
-  .permissions{grid-template-columns:1fr}
-  .permission-editor{grid-template-columns:1fr}
-  .editor-grid{grid-template-columns:1fr}
-  .user-email{display:none}
-  .buttons{width:100%}
-  .button,button{flex:1;text-align:center}
+  .topbar{
+    padding:0 15px;
+  }
+
+  .container{
+    width:92%;
+    padding-top:25px;
+  }
+
+  .hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  h1{
+    font-size:25px;
+  }
+
+  .permissions{
+    grid-template-columns:1fr;
+  }
+
+  .permission-editor{
+    grid-template-columns:1fr;
+  }
+
+  .editor-grid{
+    grid-template-columns:1fr;
+  }
+
+  .user-email{
+    display:none;
+  }
+
+  .buttons{
+    width:100%;
+  }
+
+  .button,
+  button{
+    flex:1;
+    text-align:center;
+  }
 }
 </style>
 </head>
@@ -606,9 +685,12 @@ footer{
 
 <div class="error" id="errorScreen">
   <div class="error-box">
+
     <div class="error-icon">🔒</div>
 
-    <h2 id="errorTitle">Founder Access Required</h2>
+    <h2 id="errorTitle">
+      Founder Access Required
+    </h2>
 
     <p id="errorMessage">
       Please sign in to Sonativa with your Founder account.
@@ -624,11 +706,12 @@ footer{
         Founder Login
       </a>
 
-      <button id="tryAgainButton">
+      <button onclick="location.reload()">
         Try Again
       </button>
 
     </div>
+
   </div>
 </div>
 
@@ -642,8 +725,15 @@ footer{
   </div>
 
   <div class="user">
-    <span class="user-email" id="userEmail">—</span>
-    <div class="avatar" id="avatar">F</div>
+
+    <span class="user-email" id="userEmail">
+      —
+    </span>
+
+    <div class="avatar" id="avatar">
+      F
+    </div>
+
   </div>
 
 </header>
@@ -653,11 +743,15 @@ footer{
 <section class="hero">
 
   <div>
-    <h1>Founder Control Center</h1>
+
+    <h1>
+      Founder Control Center
+    </h1>
 
     <div class="subtitle">
       Full platform administration and operational overview.
     </div>
+
   </div>
 
   <div class="buttons">
@@ -666,11 +760,11 @@ footer{
       ← Dashboard
     </a>
 
-    <button id="refreshButton">
+    <button id="refreshButton" onclick="refreshAll()">
       ↻ Refresh
     </button>
 
-    <button class="danger" id="signOutButton">
+    <button class="danger" onclick="signOut()">
       Sign Out
     </button>
 
@@ -678,35 +772,77 @@ footer{
 
 </section>
 
+
+<!-- =====================================================
+     OVERVIEW CARDS
+===================================================== -->
+
 <section class="grid">
 
   <div class="card">
-    <div class="label">Access</div>
-    <div class="value green" id="accessValue">CHECKING</div>
+
+    <div class="label">
+      Access
+    </div>
+
+    <div class="value green" id="accessValue">
+      VERIFIED
+    </div>
+
   </div>
 
-  <div class="card">
-    <div class="label">Projects</div>
-    <div class="value" id="projectsValue">—</div>
-  </div>
 
   <div class="card">
-    <div class="label">Team Members</div>
-    <div class="value" id="teamValue">—</div>
+
+    <div class="label">
+      Projects
+    </div>
+
+    <div class="value" id="projectsValue">
+      —
+    </div>
+
   </div>
 
+
   <div class="card">
-    <div class="label">Audit Events</div>
-    <div class="value" id="auditValue">—</div>
+
+    <div class="label">
+      Team Members
+    </div>
+
+    <div class="value" id="teamValue">
+      —
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="label">
+      Audit Events
+    </div>
+
+    <div class="value" id="auditValue">
+      —
+    </div>
+
   </div>
 
 </section>
+
+
+<!-- =====================================================
+     USERS MANAGEMENT
+===================================================== -->
 
 <section class="card users-card">
 
   <div class="users-header">
 
     <div>
+
       <div class="card-title" style="margin-bottom:5px">
         Users Management
       </div>
@@ -714,6 +850,7 @@ footer{
       <div style="color:var(--muted);font-size:10px">
         Founder-only platform user overview and permissions.
       </div>
+
     </div>
 
     <input
@@ -726,18 +863,21 @@ footer{
 
   </div>
 
+
   <div
     id="usersStatus"
     style="color:var(--muted);font-size:10px;margin-bottom:12px"
   >
-    Waiting for Founder verification...
+    Loading users...
   </div>
+
 
   <div class="users-table-wrap">
 
     <table class="users-table">
 
       <thead>
+
         <tr>
           <th>Email</th>
           <th>Role</th>
@@ -747,26 +887,38 @@ footer{
           <th>Access</th>
           <th>Action</th>
         </tr>
+
       </thead>
 
       <tbody id="usersTableBody">
+
         <tr>
-          <td colspan="7"
-              style="padding:25px;text-align:center;color:var(--muted)">
-            Waiting...
+
+          <td
+            colspan="7"
+            style="padding:25px;text-align:center;color:var(--muted)"
+          >
+            Loading...
+
           </td>
+
         </tr>
+
       </tbody>
 
     </table>
 
   </div>
 
+
+  <!-- USER EDITOR -->
+
   <div class="user-editor" id="userEditor">
 
     <div class="editor-header">
 
       <div>
+
         <div class="editor-title">
           Edit User Permissions
         </div>
@@ -774,6 +926,7 @@ footer{
         <div class="editor-subtitle" id="editorUserEmail">
           —
         </div>
+
       </div>
 
       <div class="protected" id="editorProtection">
@@ -782,39 +935,71 @@ footer{
 
     </div>
 
-    <input type="hidden" id="editorUserId">
+
+    <input
+      type="hidden"
+      id="editorUserId"
+    >
+
 
     <div class="editor-grid">
 
       <div class="editor-field">
 
-        <label>Role</label>
+        <label>
+          Role
+        </label>
 
         <select id="editorRole">
-          <option value="USER">USER</option>
-          <option value="ADMIN">ADMIN</option>
-          <option value="MODERATOR">MODERATOR</option>
-          <option value="SUPPORT">SUPPORT</option>
+
+          <option value="USER">
+            USER
+          </option>
+
+          <option value="ADMIN">
+            ADMIN
+          </option>
+
+          <option value="MODERATOR">
+            MODERATOR
+          </option>
+
+          <option value="SUPPORT">
+            SUPPORT
+          </option>
+
         </select>
 
       </div>
 
+
       <div class="editor-field">
 
-        <label>Account Status</label>
+        <label>
+          Account Status
+        </label>
 
         <select id="editorActive">
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
+
+          <option value="true">
+            Active
+          </option>
+
+          <option value="false">
+            Inactive
+          </option>
+
         </select>
 
       </div>
 
     </div>
+
 
     <div style="color:var(--muted);font-size:10px;margin-top:18px;margin-bottom:8px">
       Permissions
     </div>
+
 
     <div class="permission-editor">
 
@@ -860,17 +1045,20 @@ footer{
 
     </div>
 
+
     <div class="editor-message" id="editorMessage"></div>
+
 
     <div class="editor-actions">
 
-      <button id="cancelEditButton">
+      <button onclick="closeUserEditor()">
         Cancel
       </button>
 
       <button
         class="save-button"
         id="saveUserButton"
+        onclick="saveUserPermissions()"
       >
         Save Changes
       </button>
@@ -881,148 +1069,266 @@ footer{
 
 </section>
 
+
+<!-- =====================================================
+     MAIN INFORMATION
+===================================================== -->
+
 <section class="layout">
+
 
 <div>
 
-<div class="card" style="margin-bottom:18px">
+  <div class="card" style="margin-bottom:18px">
 
-  <div class="card-title">
-    Founder Identity
-  </div>
+    <div class="card-title">
+      Founder Identity
+    </div>
 
-  <div class="status-box">
 
-    <div class="status-dot"></div>
+    <div class="status-box">
 
-    <div class="status-text">
+      <div class="status-dot"></div>
 
-      <strong>
-        Founder access verified
-      </strong>
+      <div class="status-text">
+
+        <strong>
+          Founder access verified
+        </strong>
+
+        <span>
+          Supabase authentication and Founder verification passed.
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="info-row">
 
       <span>
-        Supabase authentication and Founder verification passed.
+        Email
+      </span>
+
+      <span id="identityEmail">
+        —
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        User ID
+      </span>
+
+      <span id="identityId">
+        —
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        Role
+      </span>
+
+      <span class="green" id="identityRole">
+        FOUNDER
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        Session
+      </span>
+
+      <span class="green" id="sessionStatus">
+        Authenticated
       </span>
 
     </div>
 
   </div>
 
-  <div class="info-row">
-    <span>Email</span>
-    <span id="identityEmail">—</span>
-  </div>
 
-  <div class="info-row">
-    <span>User ID</span>
-    <span id="identityId">—</span>
-  </div>
+  <div class="card">
 
-  <div class="info-row">
-    <span>Role</span>
-    <span class="green" id="identityRole">FOUNDER</span>
-  </div>
+    <div class="card-title">
+      Founder Permissions
+    </div>
 
-  <div class="info-row">
-    <span>Session</span>
-    <span class="green" id="sessionStatus">Authenticated</span>
-  </div>
 
-</div>
+    <div class="permissions">
 
-<div class="card">
+      <div class="permission" id="pUsers">
+        Users
+      </div>
 
-  <div class="card-title">
-    Founder Permissions
-  </div>
+      <div class="permission" id="pProjects">
+        Projects
+      </div>
 
-  <div class="permissions">
+      <div class="permission" id="pFinance">
+        Finance
+      </div>
 
-    <div class="permission" id="pUsers">Users</div>
-    <div class="permission" id="pProjects">Projects</div>
-    <div class="permission" id="pFinance">Finance</div>
-    <div class="permission" id="pTreasury">Treasury</div>
-    <div class="permission" id="pInvestments">Investments</div>
-    <div class="permission" id="pTeam">Team</div>
-    <div class="permission" id="pAudit">Audit Logs</div>
-    <div class="permission" id="pActive">Account Active</div>
+      <div class="permission" id="pTreasury">
+        Treasury
+      </div>
 
-  </div>
+      <div class="permission" id="pInvestments">
+        Investments
+      </div>
 
-</div>
+      <div class="permission" id="pTeam">
+        Team
+      </div>
 
-</div>
+      <div class="permission" id="pAudit">
+        Audit Logs
+      </div>
 
-<div>
+      <div class="permission" id="pActive">
+        Account Active
+      </div>
 
-<div class="card" style="margin-bottom:18px">
-
-  <div class="card-title">
-    Platform Overview
-  </div>
-
-  <div class="info-row">
-    <span>Platform</span>
-    <span>Sonativa</span>
-  </div>
-
-  <div class="info-row">
-    <span>Environment</span>
-    <span class="green">Production</span>
-  </div>
-
-  <div class="info-row">
-    <span>Authentication</span>
-    <span class="green">Supabase Auth</span>
-  </div>
-
-  <div class="info-row">
-    <span>Database</span>
-    <span class="green" id="databaseStatus">
-      Connected
-    </span>
-  </div>
-
-  <div class="info-row">
-    <span>Founder Mode</span>
-    <span class="green">Enabled</span>
-  </div>
-
-</div>
-
-<div class="card">
-
-  <div class="card-title">
-    Recent System Activity
-  </div>
-
-  <div class="activity" id="activity">
-
-    <div class="empty">
-      Waiting for Founder verification...
     </div>
 
   </div>
 
 </div>
 
+
+<div>
+
+  <div class="card" style="margin-bottom:18px">
+
+    <div class="card-title">
+      Platform Overview
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        Platform
+      </span>
+
+      <span>
+        Sonativa
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        Environment
+      </span>
+
+      <span class="green">
+        Production
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        Authentication
+      </span>
+
+      <span class="green">
+        Supabase Auth
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        Database
+      </span>
+
+      <span class="green" id="databaseStatus">
+        Connected
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        Founder Mode
+      </span>
+
+      <span class="green">
+        Enabled
+      </span>
+
+    </div>
+
+
+    <div
+      id="connectionWarning"
+      class="connection-warning"
+    >
+      Some overview statistics could not be loaded.
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      Recent System Activity
+    </div>
+
+
+    <div class="activity" id="activity">
+
+      <div class="empty">
+        Loading activity...
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
 </section>
+
 
 <footer>
   © 2026 Sonativa — Founder Control Center
 </footer>
 
 </main>
+
 </div>
+
 
 <script type="module">
 
 import {
   createClient
-} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+}
+from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
 /* =====================================================
@@ -1052,14 +1358,13 @@ const supabase =
 let currentUser = null;
 let founderUsers = [];
 let editingUser = null;
-let verificationInProgress = false;
 
 
 /* =====================================================
    HELPERS
 ===================================================== */
 
-function setText(id,value){
+function setValue(id,value){
 
   const element =
     document.getElementById(id);
@@ -1067,11 +1372,7 @@ function setText(id,value){
   if(!element) return;
 
   element.textContent =
-    value === null ||
-    value === undefined ||
-    value === ""
-      ? "—"
-      : String(value);
+    value ?? "—";
 }
 
 
@@ -1091,13 +1392,21 @@ function setPermission(id,enabled){
     "no"
   );
 
-  element.classList.add(
-    enabled ? "ok" : "no"
-  );
+  if(enabled){
 
-  element.textContent =
-    (enabled ? "✓ " : "✕ ") +
-    original;
+    element.classList.add("ok");
+
+    element.textContent =
+      "✓ " + original;
+
+  }else{
+
+    element.classList.add("no");
+
+    element.textContent =
+      "✕ " + original;
+
+  }
 }
 
 
@@ -1139,25 +1448,25 @@ function showError(title,message){
 }
 
 
-function showApp(){
+function setLoading(show){
 
-  document
-    .getElementById("loading")
-    .classList.add("hidden");
+  const loading =
+    document.getElementById("loading");
 
-  document
-    .getElementById("errorScreen")
-    .classList.remove("show");
+  if(show){
 
-  document
-    .getElementById("app")
-    .style.display =
-      "block";
+    loading.classList.remove("hidden");
+
+  }else{
+
+    loading.classList.add("hidden");
+
+  }
 }
 
 
 /* =====================================================
-   DEFAULT FOUNDER PERMISSIONS
+   FOUNDER PERMISSIONS
 ===================================================== */
 
 function enableFounderPermissions(){
@@ -1180,29 +1489,28 @@ function enableFounderPermissions(){
 
 async function verifyFounder(){
 
-  if(verificationInProgress) return;
-
-  verificationInProgress = true;
-
-  document
-    .getElementById("loading")
-    .classList.remove("hidden");
-
   try{
 
+    setLoading(true);
+
+    document
+      .getElementById("errorScreen")
+      .classList.remove("show");
+
+
     const {
-      data,
-      error
+      data:sessionData,
+      error:sessionError
     } =
       await supabase.auth.getSession();
 
 
-    if(error){
+    if(sessionError){
 
       showError(
-        "Authentication Error",
-        error.message ||
-        "Unable to read the current session."
+        "Session Error",
+        sessionError.message ||
+        "Unable to read your session."
       );
 
       return;
@@ -1210,7 +1518,7 @@ async function verifyFounder(){
 
 
     const session =
-      data?.session;
+      sessionData?.session;
 
 
     if(!session?.user){
@@ -1228,17 +1536,17 @@ async function verifyFounder(){
       session.user;
 
 
-    setText(
+    setValue(
       "userEmail",
       currentUser.email
     );
 
-    setText(
+    setValue(
       "identityEmail",
       currentUser.email
     );
 
-    setText(
+    setValue(
       "identityId",
       currentUser.id
     );
@@ -1261,11 +1569,7 @@ async function verifyFounder(){
     }
 
 
-    /*
-      IMPORTANT:
-      Founder verification happens through
-      the authenticated Supabase session.
-    */
+    /* Server-side Founder verification */
 
     const {
       data:isFounder,
@@ -1279,14 +1583,14 @@ async function verifyFounder(){
     if(founderError){
 
       console.error(
-        "is_sonativa_founder:",
+        "Founder verification:",
         founderError
       );
 
       showError(
-        "Founder Verification Failed",
+        "Security Verification Failed",
         founderError.message ||
-        "The Founder verification function could not be executed."
+        "Could not verify Founder access."
       );
 
       return;
@@ -1297,24 +1601,24 @@ async function verifyFounder(){
 
       showError(
         "Founder Access Required",
-        "This account is authenticated, but it is not registered as a Sonativa Founder."
+        "Your account is authenticated, but Founder access was not granted."
       );
 
       return;
     }
 
 
-    setText(
+    setValue(
       "identityRole",
       "FOUNDER"
     );
 
-    setText(
+    setValue(
       "accessValue",
       "VERIFIED"
     );
 
-    setText(
+    setValue(
       "sessionStatus",
       "Authenticated"
     );
@@ -1323,31 +1627,36 @@ async function verifyFounder(){
     enableFounderPermissions();
 
 
-    showApp();
-
-
-    /*
-      These operations use the authenticated
-      Founder session.
-    */
+    /* =================================================
+       LOAD EVERYTHING
+    ================================================= */
 
     await Promise.allSettled([
-
-      loadFounderPermissions(),
 
       loadOverview(),
 
       loadActivity(),
 
-      loadUsers()
+      loadUsers(),
+
+      loadFounderPermissions()
 
     ]);
+
+
+    document
+      .getElementById("app")
+      .style.display =
+        "block";
+
+
+    setLoading(false);
 
 
   }catch(error){
 
     console.error(
-      "Founder verification:",
+      "Founder verification error:",
       error
     );
 
@@ -1357,16 +1666,12 @@ async function verifyFounder(){
       "An unexpected error occurred."
     );
 
-  }finally{
-
-    verificationInProgress = false;
-
   }
 }
 
 
 /* =====================================================
-   FOUNDER PERMISSIONS
+   LOAD FOUNDER PERMISSIONS
 ===================================================== */
 
 async function loadFounderPermissions(){
@@ -1374,6 +1679,7 @@ async function loadFounderPermissions(){
   if(!currentUser){
 
     enableFounderPermissions();
+
     return;
   }
 
@@ -1405,21 +1711,10 @@ async function loadFounderPermissions(){
         .limit(1);
 
 
-    if(error){
-
-      console.warn(
-        "Founder permissions:",
-        error
-      );
+    if(error || !data?.length){
 
       enableFounderPermissions();
-      return;
-    }
 
-
-    if(!data?.length){
-
-      enableFounderPermissions();
       return;
     }
 
@@ -1471,14 +1766,261 @@ async function loadFounderPermissions(){
   }catch(error){
 
     console.warn(
-      "loadFounderPermissions:",
+      "Founder permissions:",
       error
     );
 
     enableFounderPermissions();
 
   }
+}
 
+
+/* =====================================================
+   LOAD OVERVIEW
+   IMPORTANT:
+   Uses the protected Founder RPC.
+===================================================== */
+
+async function loadOverview(){
+
+  const warning =
+    document.getElementById(
+      "connectionWarning"
+    );
+
+  if(warning){
+
+    warning.style.display =
+      "none";
+
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase.rpc(
+        "sonativa_founder_overview"
+      );
+
+
+    if(error){
+
+      console.error(
+        "Founder overview RPC:",
+        error
+      );
+
+      /*
+        Fallback to direct counts.
+        This keeps the dashboard functional
+        if the RPC is unavailable.
+      */
+
+      await loadOverviewFallback();
+
+      return;
+    }
+
+
+    const overview =
+      data || {};
+
+
+    setValue(
+      "projectsValue",
+      Number.isFinite(
+        Number(
+          overview.projects_count
+        )
+      )
+        ? Number(
+            overview.projects_count
+          )
+        : 0
+    );
+
+
+    setValue(
+      "teamValue",
+      Number.isFinite(
+        Number(
+          overview.team_count
+        )
+      )
+        ? Number(
+            overview.team_count
+          )
+        : 0
+    );
+
+
+    setValue(
+      "auditValue",
+      Number.isFinite(
+        Number(
+          overview.audit_count
+        )
+      )
+        ? Number(
+            overview.audit_count
+          )
+        : 0
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Overview:",
+      error
+    );
+
+    await loadOverviewFallback();
+
+  }
+}
+
+
+/* =====================================================
+   OVERVIEW FALLBACK
+===================================================== */
+
+async function loadOverviewFallback(){
+
+  let failed = false;
+
+
+  try{
+
+    const {
+      count,
+      error
+    } =
+      await supabase
+        .from("projects")
+        .select(
+          "id",
+          {
+            count:"exact",
+            head:true
+          }
+        );
+
+
+    if(error){
+
+      failed = true;
+
+    }else{
+
+      setValue(
+        "projectsValue",
+        count ?? 0
+      );
+
+    }
+
+  }catch{
+
+    failed = true;
+
+  }
+
+
+  try{
+
+    const {
+      count,
+      error
+    } =
+      await supabase
+        .from("team_permissions")
+        .select(
+          "id",
+          {
+            count:"exact",
+            head:true
+          }
+        );
+
+
+    if(error){
+
+      failed = true;
+
+    }else{
+
+      setValue(
+        "teamValue",
+        count ?? 0
+      );
+
+    }
+
+  }catch{
+
+    failed = true;
+
+  }
+
+
+  try{
+
+    const {
+      count,
+      error
+    } =
+      await supabase
+        .from("system_audit_logs")
+        .select(
+          "id",
+          {
+            count:"exact",
+            head:true
+          }
+        );
+
+
+    if(error){
+
+      failed = true;
+
+    }else{
+
+      setValue(
+        "auditValue",
+        count ?? 0
+      );
+
+    }
+
+  }catch{
+
+    failed = true;
+
+  }
+
+
+  if(failed){
+
+    const warning =
+      document.getElementById(
+        "connectionWarning"
+      );
+
+    if(warning){
+
+      warning.style.display =
+        "block";
+
+    }
+
+  }
 }
 
 
@@ -1499,7 +2041,10 @@ async function loadUsers(){
     );
 
 
-  if(!status || !tbody) return;
+  if(!status || !tbody){
+
+    return;
+  }
 
 
   status.textContent =
@@ -1507,12 +2052,6 @@ async function loadUsers(){
 
 
   try{
-
-    /*
-      This RPC must be SECURITY DEFINER
-      and must verify is_sonativa_founder()
-      on the server.
-    */
 
     const {
       data,
@@ -1526,20 +2065,22 @@ async function loadUsers(){
     if(error){
 
       console.error(
-        "sonativa_founder_users:",
+        "Founder users:",
         error
       );
 
+
       status.textContent =
-        "Users could not be loaded.";
+        "Unable to load users.";
+
 
       tbody.innerHTML = `
         <tr>
           <td colspan="7"
-              style="padding:25px;text-align:center;color:var(--red)">
+            style="padding:25px;text-align:center;color:var(--red)">
             ${escapeHTML(
               error.message ||
-              "Founder users function unavailable."
+              "Access denied"
             )}
           </td>
         </tr>
@@ -1571,7 +2112,6 @@ async function loadUsers(){
       "Users unavailable.";
 
   }
-
 }
 
 
@@ -1595,24 +2135,18 @@ function renderUsers(users){
   if(!tbody) return;
 
 
-  const list =
-    Array.isArray(users)
-      ? users
-      : [];
-
-
   status.textContent =
-    `${list.length} user${
-      list.length === 1 ? "" : "s"
+    `${users.length} user${
+      users.length === 1 ? "" : "s"
     }`;
 
 
-  if(!list.length){
+  if(!users.length){
 
     tbody.innerHTML = `
       <tr>
         <td colspan="7"
-            style="padding:25px;text-align:center;color:var(--muted)">
+          style="padding:25px;text-align:center;color:var(--muted)">
           No users found.
         </td>
       </tr>
@@ -1623,7 +2157,7 @@ function renderUsers(users){
 
 
   tbody.innerHTML =
-    list.map(user => {
+    users.map(user => {
 
       const created =
         user.created_at
@@ -1666,11 +2200,15 @@ function renderUsers(users){
           </td>
 
           <td>
+
             <span class="user-role ${
               isFounder ? "founder" : ""
             }">
+
               ${escapeHTML(role)}
+
             </span>
+
           </td>
 
           <td style="color:var(--muted)">
@@ -1682,20 +2220,25 @@ function renderUsers(users){
           </td>
 
           <td>
+
             <span class="${
               active
                 ? "status-active"
                 : "status-inactive"
             }">
+
               ${
                 active
                   ? "● Active"
                   : "● Inactive"
               }
+
             </span>
+
           </td>
 
           <td>
+
             ${
               isFounder
                 ? `
@@ -1709,9 +2252,11 @@ function renderUsers(users){
                   </span>
                 `
             }
+
           </td>
 
           <td>
+
             ${
               isFounder
                 ? `
@@ -1725,14 +2270,13 @@ function renderUsers(users){
                 : `
                   <button
                     class="edit-button"
-                    data-user-id="${escapeHTML(
-                      user.user_id
-                    )}"
+                    data-user-id="${escapeHTML(user.user_id)}"
                   >
                     Manage
                   </button>
                 `
             }
+
           </td>
 
         </tr>
@@ -1795,15 +2339,19 @@ async function getUserPermissions(userId){
       .limit(1);
 
 
-  if(error) throw error;
+  if(error){
+
+    throw error;
+
+  }
+
 
   return data?.[0] || null;
-
 }
 
 
 /* =====================================================
-   OPEN EDITOR
+   OPEN USER EDITOR
 ===================================================== */
 
 async function openUserEditor(userId){
@@ -1826,9 +2374,8 @@ async function openUserEditor(userId){
 
   if(role === "founder"){
 
-    showEditorMessage(
-      "Founder account is protected and cannot be modified.",
-      "error"
+    alert(
+      "Founder account is protected and cannot be modified."
     );
 
     return;
@@ -1844,13 +2391,13 @@ async function openUserEditor(userId){
     .classList.add("show");
 
 
-  setText(
+  setValue(
     "editorUserEmail",
     user.email || "—"
   );
 
 
-  setText(
+  setValue(
     "editorProtection",
     "Editable user"
   );
@@ -1860,6 +2407,19 @@ async function openUserEditor(userId){
     .getElementById("editorUserId")
     .value =
       user.user_id;
+
+
+  const message =
+    document.getElementById(
+      "editorMessage"
+    );
+
+
+  message.className =
+    "editor-message";
+
+  message.textContent =
+    "";
 
 
   try{
@@ -1958,7 +2518,6 @@ async function openUserEditor(userId){
     );
 
   }
-
 }
 
 
@@ -1974,9 +2533,12 @@ function closeUserEditor(){
 
   editingUser =
     null;
-
 }
 
+
+/* =====================================================
+   EDITOR MESSAGE
+===================================================== */
 
 function showEditorMessage(
   message,
@@ -1988,13 +2550,14 @@ function showEditorMessage(
       "editorMessage"
     );
 
+
   element.textContent =
     message;
+
 
   element.className =
     "editor-message show " +
     type;
-
 }
 
 
@@ -2038,15 +2601,25 @@ async function saveUserPermissions(){
 
   try{
 
+    const role =
+      document.getElementById(
+        "editorRole"
+      ).value;
+
+
+    const active =
+      document.getElementById(
+        "editorActive"
+      ).value === "true";
+
+
     const params = {
 
       target_user_id:
         editingUser.user_id,
 
       new_role:
-        document.getElementById(
-          "editorRole"
-        ).value,
+        role,
 
       new_can_manage_users:
         document.getElementById(
@@ -2089,14 +2662,12 @@ async function saveUserPermissions(){
         ).checked,
 
       new_active:
-        document.getElementById(
-          "editorActive"
-        ).value === "true"
-
+        active
     };
 
 
     const {
+      data,
       error
     } =
       await supabase.rpc(
@@ -2122,6 +2693,17 @@ async function saveUserPermissions(){
     }
 
 
+    if(data !== true){
+
+      showEditorMessage(
+        "The server did not confirm the update.",
+        "error"
+      );
+
+      return;
+    }
+
+
     showEditorMessage(
       "Permissions saved successfully.",
       "success"
@@ -2129,6 +2711,8 @@ async function saveUserPermissions(){
 
 
     await loadUsers();
+
+    await loadActivity();
 
 
     setTimeout(
@@ -2140,7 +2724,7 @@ async function saveUserPermissions(){
   }catch(error){
 
     console.error(
-      "saveUserPermissions:",
+      "Save permissions:",
       error
     );
 
@@ -2159,7 +2743,6 @@ async function saveUserPermissions(){
       "Save Changes";
 
   }
-
 }
 
 
@@ -2227,155 +2810,6 @@ document
 
 
 /* =====================================================
-   LOAD OVERVIEW
-===================================================== */
-
-async function loadOverview(){
-
-  try{
-
-    const {
-      count,
-      error
-    } =
-      await supabase
-        .from("projects")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        );
-
-
-    setText(
-      "projectsValue",
-      error
-        ? "—"
-        : count ?? 0
-    );
-
-  }catch(error){
-
-    console.warn(
-      "Projects:",
-      error
-    );
-
-    setText(
-      "projectsValue",
-      "—"
-    );
-
-  }
-
-
-  try{
-
-    const {
-      count,
-      error
-    } =
-      await supabase
-        .from("team_permissions")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        );
-
-
-    setText(
-      "teamValue",
-      error
-        ? "—"
-        : count ?? 0
-    );
-
-  }catch(error){
-
-    console.warn(
-      "Team:",
-      error
-    );
-
-    setText(
-      "teamValue",
-      "—"
-    );
-
-  }
-
-
-  try{
-
-    const {
-      count,
-      error
-    } =
-      await supabase
-        .from("system_audit_logs")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        );
-
-
-    if(!error){
-
-      setText(
-        "auditValue",
-        count ?? 0
-      );
-
-      return;
-    }
-
-
-    const fallback =
-      await supabase
-        .from("audit_logs")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        );
-
-
-    setText(
-      "auditValue",
-      fallback.error
-        ? "—"
-        : fallback.count ?? 0
-    );
-
-
-  }catch(error){
-
-    console.warn(
-      "Audit:",
-      error
-    );
-
-    setText(
-      "auditValue",
-      "—"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
    ACTIVITY
 ===================================================== */
 
@@ -2385,9 +2819,6 @@ async function loadActivity(){
     document.getElementById(
       "activity"
     );
-
-
-  if(!container) return;
 
 
   container.innerHTML =
@@ -2426,6 +2857,7 @@ async function loadActivity(){
     ){
 
       renderActivity(data);
+
       return;
     }
 
@@ -2469,6 +2901,7 @@ async function loadActivity(){
     ){
 
       renderActivity(data);
+
       return;
     }
 
@@ -2480,12 +2913,7 @@ async function loadActivity(){
       </div>`;
 
 
-  }catch(error){
-
-    console.warn(
-      "audit_logs:",
-      error
-    );
+  }catch{
 
     container.innerHTML =
       `<div class="empty">
@@ -2493,7 +2921,6 @@ async function loadActivity(){
       </div>`;
 
   }
-
 }
 
 
@@ -2571,7 +2998,6 @@ function renderActivity(data){
       `;
 
     }).join("");
-
 }
 
 
@@ -2594,6 +3020,12 @@ async function refreshAll(){
     "Checking...";
 
 
+  setValue(
+    "accessValue",
+    "CHECKING..."
+  );
+
+
   try{
 
     await verifyFounder();
@@ -2607,7 +3039,6 @@ async function refreshAll(){
       "↻ Refresh";
 
   }
-
 }
 
 
@@ -2633,52 +3064,7 @@ async function signOut(){
 
   window.location.href =
     "login.html";
-
 }
-
-
-/* =====================================================
-   BUTTON EVENTS
-===================================================== */
-
-document
-  .getElementById("refreshButton")
-  ?.addEventListener(
-    "click",
-    refreshAll
-  );
-
-
-document
-  .getElementById("signOutButton")
-  ?.addEventListener(
-    "click",
-    signOut
-  );
-
-
-document
-  .getElementById("tryAgainButton")
-  ?.addEventListener(
-    "click",
-    verifyFounder
-  );
-
-
-document
-  .getElementById("cancelEditButton")
-  ?.addEventListener(
-    "click",
-    closeUserEditor
-  );
-
-
-document
-  .getElementById("saveUserButton")
-  ?.addEventListener(
-    "click",
-    saveUserPermissions
-  );
 
 
 /* =====================================================
@@ -2692,18 +3078,6 @@ supabase.auth.onAuthStateChange(
 
       window.location.href =
         "login.html";
-
-      return;
-    }
-
-
-    if(
-      event === "TOKEN_REFRESHED" &&
-      session?.user
-    ){
-
-      currentUser =
-        session.user;
 
     }
 
