@@ -19,6 +19,7 @@
   --green:#62e39a;
   --red:#ff7373;
   --yellow:#f5c86b;
+  --blue:#72a7ff;
 }
 
 body{
@@ -85,7 +86,7 @@ a{text-decoration:none;color:inherit}
 }
 
 .container{
-  width:min(1400px,94%);
+  width:min(1450px,94%);
   margin:auto;
   padding:35px 0 70px;
 }
@@ -171,6 +172,7 @@ button:disabled{
 .green{color:var(--green)}
 .red{color:var(--red)}
 .yellow{color:var(--yellow)}
+.blue{color:var(--blue)}
 
 .layout{
   display:grid;
@@ -225,13 +227,9 @@ button:disabled{
   font-size:11px;
 }
 
-.info-row:last-child{
-  border-bottom:0;
-}
+.info-row:last-child{border-bottom:0}
 
-.info-row span:first-child{
-  color:var(--muted);
-}
+.info-row span:first-child{color:var(--muted)}
 
 .info-row span:last-child{
   text-align:right;
@@ -274,9 +272,7 @@ button:disabled{
   border-bottom:1px solid #1b2432;
 }
 
-.activity-item:last-child{
-  border-bottom:0;
-}
+.activity-item:last-child{border-bottom:0}
 
 .activity-action{
   font-size:11px;
@@ -310,9 +306,7 @@ button:disabled{
   gap:12px;
 }
 
-.loading.hidden{
-  display:none;
-}
+.loading.hidden{display:none}
 
 .spinner{
   width:30px;
@@ -323,9 +317,7 @@ button:disabled{
   animation:spin .8s linear infinite;
 }
 
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 .error{
   position:fixed;
@@ -339,9 +331,7 @@ button:disabled{
   padding:25px;
 }
 
-.error.show{
-  display:flex;
-}
+.error.show{display:flex}
 
 .error-box{
   width:min(450px,100%);
@@ -368,11 +358,13 @@ button:disabled{
   margin-bottom:20px;
 }
 
-.users-card{
+.users-card,
+.projects-card{
   margin-bottom:18px;
 }
 
-.users-header{
+.users-header,
+.projects-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -381,7 +373,8 @@ button:disabled{
   flex-wrap:wrap;
 }
 
-.users-search{
+.users-search,
+.projects-search{
   width:min(300px,100%);
   padding:10px 12px;
   border-radius:8px;
@@ -392,22 +385,30 @@ button:disabled{
   font-size:11px;
 }
 
-.users-search:focus{
+.users-search:focus,
+.projects-search:focus{
   border-color:#52627b;
 }
 
-.users-table-wrap{
+.users-table-wrap,
+.projects-table-wrap{
   overflow-x:auto;
 }
 
-.users-table{
+.users-table,
+.projects-table{
   width:100%;
   border-collapse:collapse;
   min-width:950px;
   font-size:10px;
 }
 
-.users-table th{
+.projects-table{
+  min-width:1250px;
+}
+
+.users-table th,
+.projects-table th{
   padding:10px;
   border-bottom:1px solid var(--border2);
   color:var(--muted);
@@ -415,18 +416,22 @@ button:disabled{
   font-weight:700;
 }
 
-.users-table td{
+.users-table td,
+.projects-table td{
   padding:12px 10px;
   border-bottom:1px solid #1a2432;
   vertical-align:middle;
 }
 
-.user-email-cell{
+.user-email-cell,
+.project-name-cell{
   font-weight:700;
   color:white;
 }
 
-.user-role{
+.user-role,
+.project-status,
+.network-badge{
   display:inline-block;
   padding:4px 7px;
   border-radius:5px;
@@ -443,6 +448,30 @@ button:disabled{
   color:#e8bd68;
 }
 
+.project-status.draft{
+  color:var(--yellow);
+  border-color:#5b4a27;
+  background:#151108;
+}
+
+.project-status.live{
+  color:var(--green);
+  border-color:#28543d;
+  background:#09150f;
+}
+
+.project-status.failed{
+  color:var(--red);
+  border-color:#4b2028;
+  background:#130b0d;
+}
+
+.network-badge{
+  color:var(--blue);
+  border-color:#30486c;
+  background:#0b1220;
+}
+
 .status-active{
   color:var(--green);
   font-weight:800;
@@ -453,9 +482,22 @@ button:disabled{
   font-weight:800;
 }
 
-.edit-button{
-  padding:7px 10px;
+.protected{
+  color:var(--yellow);
   font-size:9px;
+  font-weight:800;
+}
+
+.connection-warning{
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #5b4a27;
+  background:#151108;
+  color:var(--yellow);
+  font-size:9px;
+  line-height:1.6;
+  display:none;
 }
 
 .user-editor{
@@ -467,9 +509,7 @@ button:disabled{
   border-radius:12px;
 }
 
-.user-editor.show{
-  display:block;
-}
+.user-editor.show{display:block}
 
 .editor-header{
   display:flex;
@@ -541,13 +581,9 @@ button:disabled{
   cursor:pointer;
 }
 
-.permission-toggle:hover{
-  background:#101722;
-}
+.permission-toggle:hover{background:#101722}
 
-.permission-toggle input{
-  accent-color:#62e39a;
-}
+.permission-toggle input{accent-color:#62e39a}
 
 .editor-actions{
   display:flex;
@@ -571,9 +607,7 @@ button:disabled{
   font-size:10px;
 }
 
-.editor-message.show{
-  display:block;
-}
+.editor-message.show{display:block}
 
 .editor-message.success{
   border:1px solid #28543d;
@@ -587,24 +621,6 @@ button:disabled{
   color:var(--red);
 }
 
-.protected{
-  color:var(--yellow);
-  font-size:9px;
-  font-weight:800;
-}
-
-.connection-warning{
-  margin-top:10px;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #5b4a27;
-  background:#151108;
-  color:var(--yellow);
-  font-size:9px;
-  line-height:1.6;
-  display:none;
-}
-
 footer{
   text-align:center;
   color:#4e5a6d;
@@ -613,63 +629,22 @@ footer{
 }
 
 @media(max-width:1000px){
-  .grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .layout{
-    grid-template-columns:1fr;
-  }
+  .grid{grid-template-columns:1fr 1fr}
+  .layout{grid-template-columns:1fr}
 }
 
 @media(max-width:600px){
-  .topbar{
-    padding:0 15px;
-  }
-
-  .container{
-    width:92%;
-    padding-top:25px;
-  }
-
-  .hero{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  h1{
-    font-size:25px;
-  }
-
-  .permissions{
-    grid-template-columns:1fr;
-  }
-
-  .permission-editor{
-    grid-template-columns:1fr;
-  }
-
-  .editor-grid{
-    grid-template-columns:1fr;
-  }
-
-  .user-email{
-    display:none;
-  }
-
-  .buttons{
-    width:100%;
-  }
-
-  .button,
-  button{
-    flex:1;
-    text-align:center;
-  }
+  .topbar{padding:0 15px}
+  .container{width:92%;padding-top:25px}
+  .hero{flex-direction:column;align-items:flex-start}
+  .grid{grid-template-columns:1fr}
+  h1{font-size:25px}
+  .permissions{grid-template-columns:1fr}
+  .permission-editor{grid-template-columns:1fr}
+  .editor-grid{grid-template-columns:1fr}
+  .user-email{display:none}
+  .buttons{width:100%}
+  .button,button{flex:1;text-align:center}
 }
 </style>
 </head>
@@ -685,7 +660,6 @@ footer{
 
 <div class="error" id="errorScreen">
   <div class="error-box">
-
     <div class="error-icon">🔒</div>
 
     <h2 id="errorTitle">
@@ -697,7 +671,6 @@ footer{
     </p>
 
     <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-
       <a class="button" href="index.html">
         Return to Dashboard
       </a>
@@ -709,9 +682,7 @@ footer{
       <button onclick="location.reload()">
         Try Again
       </button>
-
     </div>
-
   </div>
 </div>
 
@@ -725,15 +696,8 @@ footer{
   </div>
 
   <div class="user">
-
-    <span class="user-email" id="userEmail">
-      —
-    </span>
-
-    <div class="avatar" id="avatar">
-      F
-    </div>
-
+    <span class="user-email" id="userEmail">—</span>
+    <div class="avatar" id="avatar">F</div>
   </div>
 
 </header>
@@ -743,13 +707,11 @@ footer{
 <section class="hero">
 
   <div>
-
     <h1>Founder Control Center</h1>
 
     <div class="subtitle">
       Full platform administration and operational overview.
     </div>
-
   </div>
 
   <div class="buttons">
@@ -758,11 +720,11 @@ footer{
       ← Dashboard
     </a>
 
-    <button id="refreshButton">
+    <button id="refreshButton" onclick="refreshAll()">
       ↻ Refresh
     </button>
 
-    <button class="danger" id="signOutButton">
+    <button class="danger" onclick="signOut()">
       Sign Out
     </button>
 
@@ -774,7 +736,9 @@ footer{
 
   <div class="card">
     <div class="label">Access</div>
-    <div class="value green" id="accessValue">VERIFIED</div>
+    <div class="value green" id="accessValue">
+      VERIFIED
+    </div>
   </div>
 
   <div class="card">
@@ -793,6 +757,82 @@ footer{
   </div>
 
 </section>
+
+<!-- =====================================================
+     PROJECT MANAGEMENT
+===================================================== -->
+
+<section class="card projects-card">
+
+  <div class="projects-header">
+
+    <div>
+      <div class="card-title" style="margin-bottom:5px">
+        Projects Management
+      </div>
+
+      <div style="color:var(--muted);font-size:10px">
+        Founder-only overview of all Sonativa projects.
+      </div>
+    </div>
+
+    <input
+      id="projectSearch"
+      class="projects-search"
+      type="search"
+      placeholder="Search projects..."
+      autocomplete="off"
+    >
+
+  </div>
+
+  <div
+    id="projectsStatus"
+    style="color:var(--muted);font-size:10px;margin-bottom:12px"
+  >
+    Loading projects...
+  </div>
+
+  <div class="projects-table-wrap">
+
+    <table class="projects-table">
+
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Token</th>
+          <th>Symbol</th>
+          <th>Supply</th>
+          <th>Network</th>
+          <th>Decimals</th>
+          <th>Status</th>
+          <th>Mint Address</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+
+      <tbody id="projectsTableBody">
+
+        <tr>
+          <td
+            colspan="9"
+            style="padding:25px;text-align:center;color:var(--muted)"
+          >
+            Loading...
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+<!-- =====================================================
+     USERS MANAGEMENT
+===================================================== -->
 
 <section class="card users-card">
 
@@ -832,7 +872,6 @@ footer{
     <table class="users-table">
 
       <thead>
-
         <tr>
           <th>Email</th>
           <th>Role</th>
@@ -842,14 +881,15 @@ footer{
           <th>Access</th>
           <th>Action</th>
         </tr>
-
       </thead>
 
       <tbody id="usersTableBody">
 
         <tr>
-          <td colspan="7"
-            style="padding:25px;text-align:center;color:var(--muted)">
+          <td
+            colspan="7"
+            style="padding:25px;text-align:center;color:var(--muted)"
+          >
             Loading...
           </td>
         </tr>
@@ -968,11 +1008,15 @@ footer{
 
     <div class="editor-actions">
 
-      <button id="cancelEditButton">
+      <button onclick="closeUserEditor()">
         Cancel
       </button>
 
-      <button class="save-button" id="saveUserButton">
+      <button
+        class="save-button"
+        id="saveUserButton"
+        onclick="saveUserPermissions()"
+      >
         Save Changes
       </button>
 
@@ -1126,9 +1170,7 @@ footer{
 
 import {
   createClient
-}
-from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
 const SUPABASE_URL =
@@ -1153,6 +1195,7 @@ const supabase =
 
 let currentUser = null;
 let founderUsers = [];
+let founderProjects = [];
 let editingUser = null;
 
 
@@ -1184,12 +1227,14 @@ function setPermission(id,enabled){
   if(enabled){
 
     element.classList.add("ok");
-    element.textContent = "✓ " + original;
+    element.textContent =
+      "✓ " + original;
 
   }else{
 
     element.classList.add("no");
-    element.textContent = "✕ " + original;
+    element.textContent =
+      "✕ " + original;
 
   }
 }
@@ -1206,33 +1251,39 @@ function escapeHTML(value){
 }
 
 
+function showError(title,message){
+
+  document
+    .getElementById("loading")
+    .classList.add("hidden");
+
+  document
+    .getElementById("errorTitle")
+    .textContent = title;
+
+  document
+    .getElementById("errorMessage")
+    .textContent = message;
+
+  document
+    .getElementById("errorScreen")
+    .classList.add("show");
+
+  document
+    .getElementById("app")
+    .style.display = "none";
+}
+
+
 function setLoading(show){
 
   const loading =
     document.getElementById("loading");
 
-  loading.classList.toggle(
-    "hidden",
-    !show
-  );
-}
-
-
-function showError(title,message){
-
-  setLoading(false);
-
-  document.getElementById("errorTitle")
-    .textContent = title;
-
-  document.getElementById("errorMessage")
-    .textContent = message;
-
-  document.getElementById("errorScreen")
-    .classList.add("show");
-
-  document.getElementById("app")
-    .style.display = "none";
+  if(show)
+    loading.classList.remove("hidden");
+  else
+    loading.classList.add("hidden");
 }
 
 
@@ -1256,13 +1307,14 @@ function enableFounderPermissions(){
 
 async function verifyFounder(){
 
-  setLoading(true);
-
-  document
-    .getElementById("errorScreen")
-    .classList.remove("show");
-
   try{
+
+    setLoading(true);
+
+    document
+      .getElementById("errorScreen")
+      .classList.remove("show");
+
 
     const {
       data:sessionData,
@@ -1275,7 +1327,8 @@ async function verifyFounder(){
 
       showError(
         "Session Error",
-        sessionError.message
+        sessionError.message ||
+        "Unable to read your session."
       );
 
       return;
@@ -1345,10 +1398,6 @@ async function verifyFounder(){
 
     if(founderError){
 
-      console.error(
-        founderError
-      );
-
       showError(
         "Security Verification Failed",
         founderError.message ||
@@ -1389,20 +1438,13 @@ async function verifyFounder(){
     enableFounderPermissions();
 
 
-    /*
-      IMPORTANT:
-      We use the protected RPC for overview.
-      We do NOT use direct count queries with
-      guessed column names such as id.
-    */
-
     await Promise.allSettled([
 
       loadOverview(),
-
       loadActivity(),
-
-      loadUsers()
+      loadUsers(),
+      loadProjects(),
+      loadFounderPermissions()
 
     ]);
 
@@ -1418,7 +1460,7 @@ async function verifyFounder(){
   }catch(error){
 
     console.error(
-      "Founder verification:",
+      "Founder verification error:",
       error
     );
 
@@ -1433,36 +1475,109 @@ async function verifyFounder(){
 
 
 /* =====================================================
+   FOUNDER PERMISSIONS
+===================================================== */
+
+async function loadFounderPermissions(){
+
+  if(!currentUser){
+
+    enableFounderPermissions();
+    return;
+
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("team_permissions")
+        .select(`
+          role,
+          can_manage_users,
+          can_manage_projects,
+          can_manage_support,
+          can_view_finance,
+          can_manage_treasury,
+          can_manage_investments,
+          can_manage_team,
+          can_view_audit_logs,
+          active
+        `)
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .limit(1);
+
+
+    if(error || !data?.length){
+
+      enableFounderPermissions();
+      return;
+
+    }
+
+
+    const p = data[0];
+
+    setPermission(
+      "pUsers",
+      p.can_manage_users === true
+    );
+
+    setPermission(
+      "pProjects",
+      p.can_manage_projects === true
+    );
+
+    setPermission(
+      "pFinance",
+      p.can_view_finance === true
+    );
+
+    setPermission(
+      "pTreasury",
+      p.can_manage_treasury === true
+    );
+
+    setPermission(
+      "pInvestments",
+      p.can_manage_investments === true
+    );
+
+    setPermission(
+      "pTeam",
+      p.can_manage_team === true
+    );
+
+    setPermission(
+      "pAudit",
+      p.can_view_audit_logs === true
+    );
+
+    setPermission(
+      "pActive",
+      p.active === true
+    );
+
+  }catch{
+
+    enableFounderPermissions();
+
+  }
+}
+
+
+/* =====================================================
    OVERVIEW
 ===================================================== */
 
 async function loadOverview(){
-
-  const warning =
-    document.getElementById(
-      "connectionWarning"
-    );
-
-
-  warning.style.display =
-    "none";
-
-
-  setValue(
-    "projectsValue",
-    "..."
-  );
-
-  setValue(
-    "teamValue",
-    "..."
-  );
-
-  setValue(
-    "auditValue",
-    "..."
-  );
-
 
   try{
 
@@ -1477,33 +1592,9 @@ async function loadOverview(){
 
     if(error){
 
-      console.error(
-        "sonativa_founder_overview:",
-        error
-      );
-
-      setValue(
-        "projectsValue",
-        "—"
-      );
-
-      setValue(
-        "teamValue",
-        "—"
-      );
-
-      setValue(
-        "auditValue",
-        "—"
-      );
-
-      warning.style.display =
-        "block";
-
-      warning.textContent =
-        "Founder overview RPC could not load statistics.";
-
+      await loadOverviewFallback();
       return;
+
     }
 
 
@@ -1513,62 +1604,480 @@ async function loadOverview(){
 
     setValue(
       "projectsValue",
-      Number.isFinite(
-        Number(overview.projects_count)
-      )
-        ? Number(overview.projects_count)
-        : 0
+      Number(overview.projects_count) || 0
     );
-
 
     setValue(
       "teamValue",
-      Number.isFinite(
-        Number(overview.team_count)
-      )
-        ? Number(overview.team_count)
-        : 0
+      Number(overview.team_count) || 0
     );
-
 
     setValue(
       "auditValue",
-      Number.isFinite(
-        Number(overview.audit_count)
-      )
-        ? Number(overview.audit_count)
-        : 0
+      Number(overview.audit_count) || 0
+    );
+
+  }catch{
+
+    await loadOverviewFallback();
+
+  }
+}
+
+
+/* =====================================================
+   OVERVIEW FALLBACK
+===================================================== */
+
+async function loadOverviewFallback(){
+
+  let failed = false;
+
+
+  try{
+
+    const {
+      count,
+      error
+    } =
+      await supabase
+        .from("projects")
+        .select(
+          "Id",
+          {
+            count:"exact",
+            head:true
+          }
+        );
+
+    if(error)
+      failed = true;
+    else
+      setValue("projectsValue",count ?? 0);
+
+  }catch{
+
+    failed = true;
+
+  }
+
+
+  try{
+
+    const {
+      count,
+      error
+    } =
+      await supabase
+        .from("team_permissions")
+        .select(
+          "user_id",
+          {
+            count:"exact",
+            head:true
+          }
+        );
+
+    if(error)
+      failed = true;
+    else
+      setValue("teamValue",count ?? 0);
+
+  }catch{
+
+    failed = true;
+
+  }
+
+
+  try{
+
+    const {
+      count,
+      error
+    } =
+      await supabase
+        .from("system_audit_logs")
+        .select(
+          "created_at",
+          {
+            count:"exact",
+            head:true
+          }
+        );
+
+    if(error)
+      failed = true;
+    else
+      setValue("auditValue",count ?? 0);
+
+  }catch{
+
+    failed = true;
+
+  }
+
+
+  const warning =
+    document.getElementById(
+      "connectionWarning"
+    );
+
+  if(warning)
+    warning.style.display =
+      failed ? "block" : "none";
+
+}
+
+
+/* =====================================================
+   PROJECTS
+===================================================== */
+
+async function loadProjects(){
+
+  const status =
+    document.getElementById(
+      "projectsStatus"
+    );
+
+  const tbody =
+    document.getElementById(
+      "projectsTableBody"
+    );
+
+
+  if(!status || !tbody)
+    return;
+
+
+  status.textContent =
+    "Loading projects...";
+
+
+  tbody.innerHTML =
+    `<tr>
+      <td colspan="9"
+        style="padding:25px;text-align:center;color:var(--muted)">
+        Loading...
+      </td>
+    </tr>`;
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase.rpc(
+        "sonativa_founder_projects"
+      );
+
+
+    if(error){
+
+      console.error(
+        "Founder projects:",
+        error
+      );
+
+      status.textContent =
+        "Unable to load projects.";
+
+      tbody.innerHTML =
+        `<tr>
+          <td colspan="9"
+            style="padding:25px;text-align:center;color:var(--red)">
+            ${escapeHTML(
+              error.message ||
+              "Access denied"
+            )}
+          </td>
+        </tr>`;
+
+      return;
+    }
+
+
+    founderProjects =
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    renderProjects(
+      founderProjects
     );
 
 
   }catch(error){
 
     console.error(
-      "Overview:",
+      "loadProjects:",
       error
     );
 
-    setValue(
-      "projectsValue",
-      "—"
-    );
-
-    setValue(
-      "teamValue",
-      "—"
-    );
-
-    setValue(
-      "auditValue",
-      "—"
-    );
-
-    warning.style.display =
-      "block";
+    status.textContent =
+      "Projects unavailable.";
 
   }
+}
+
+
+function formatSupply(value){
+
+  if(value === null || value === undefined)
+    return "—";
+
+
+  const n =
+    Number(value);
+
+
+  if(!Number.isFinite(n))
+    return String(value);
+
+
+  return new Intl.NumberFormat(
+    "en-US",
+    {
+      maximumFractionDigits:20
+    }
+  ).format(n);
 
 }
+
+
+function renderProjects(projects){
+
+  const status =
+    document.getElementById(
+      "projectsStatus"
+    );
+
+  const tbody =
+    document.getElementById(
+      "projectsTableBody"
+    );
+
+
+  if(!tbody)
+    return;
+
+
+  status.textContent =
+    `${projects.length} project${
+      projects.length === 1 ? "" : "s"
+    }`;
+
+
+  if(!projects.length){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="9">
+          <div class="empty">
+            No projects found yet.<br><br>
+            Projects created through Sonativa will appear here automatically.
+          </div>
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+
+  tbody.innerHTML =
+    projects.map(project => {
+
+      const created =
+        project.created_at
+          ? new Date(
+              project.created_at
+            ).toLocaleString()
+          : "—";
+
+
+      const statusValue =
+        String(
+          project.token_status ||
+          "draft"
+        ).toLowerCase();
+
+
+      let statusClass =
+        "draft";
+
+
+      if(
+        statusValue === "live" ||
+        statusValue === "deployed" ||
+        statusValue === "active"
+      ){
+
+        statusClass = "live";
+
+      }else if(
+        statusValue === "failed" ||
+        statusValue === "error"
+      ){
+
+        statusClass = "failed";
+
+      }
+
+
+      return `
+        <tr>
+
+          <td class="project-name-cell">
+            ${escapeHTML(
+              project.project_name
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              project.token_name
+            )}
+          </td>
+
+          <td class="green">
+            ${escapeHTML(
+              project.token_symbol
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              formatSupply(
+                project.total_supply
+              )
+            )}
+          </td>
+
+          <td>
+            <span class="network-badge">
+              ${escapeHTML(
+                project.network
+              )}
+            </span>
+          </td>
+
+          <td>
+            ${escapeHTML(
+              project.decimals
+            )}
+          </td>
+
+          <td>
+            <span class="project-status ${statusClass}">
+              ${escapeHTML(
+                statusValue.toUpperCase()
+              )}
+            </span>
+          </td>
+
+          <td
+            style="max-width:220px;color:var(--muted);word-break:break-all"
+          >
+            ${escapeHTML(
+              project.mint_address ||
+              "Not deployed"
+            )}
+          </td>
+
+          <td style="color:var(--muted)">
+            ${escapeHTML(created)}
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   PROJECT SEARCH
+===================================================== */
+
+document
+  .getElementById("projectSearch")
+  ?.addEventListener(
+    "input",
+    function(){
+
+      const query =
+        this.value
+          .trim()
+          .toLowerCase();
+
+
+      if(!query){
+
+        renderProjects(
+          founderProjects
+        );
+
+        return;
+
+      }
+
+
+      const filtered =
+        founderProjects.filter(
+          project =>
+
+            String(
+              project.project_name || ""
+            )
+            .toLowerCase()
+            .includes(query)
+
+            ||
+
+            String(
+              project.token_name || ""
+            )
+            .toLowerCase()
+            .includes(query)
+
+            ||
+
+            String(
+              project.token_symbol || ""
+            )
+            .toLowerCase()
+            .includes(query)
+
+            ||
+
+            String(
+              project.network || ""
+            )
+            .toLowerCase()
+            .includes(query)
+
+            ||
+
+            String(
+              project.token_status || ""
+            )
+            .toLowerCase()
+            .includes(query)
+
+        );
+
+
+      renderProjects(
+        filtered
+      );
+
+    }
+  );
 
 
 /* =====================================================
@@ -1605,16 +2114,11 @@ async function loadUsers(){
 
     if(error){
 
-      console.error(
-        "Founder users:",
-        error
-      );
-
       status.textContent =
         "Unable to load users.";
 
-      tbody.innerHTML = `
-        <tr>
+      tbody.innerHTML =
+        `<tr>
           <td colspan="7"
             style="padding:25px;text-align:center;color:var(--red)">
             ${escapeHTML(
@@ -1622,10 +2126,10 @@ async function loadUsers(){
               "Access denied"
             )}
           </td>
-        </tr>
-      `;
+        </tr>`;
 
       return;
+
     }
 
 
@@ -1642,21 +2146,12 @@ async function loadUsers(){
 
   }catch(error){
 
-    console.error(
-      error
-    );
-
     status.textContent =
       "Users unavailable.";
 
   }
-
 }
 
-
-/* =====================================================
-   RENDER USERS
-===================================================== */
 
 function renderUsers(users){
 
@@ -1679,14 +2174,13 @@ function renderUsers(users){
 
   if(!users.length){
 
-    tbody.innerHTML = `
-      <tr>
+    tbody.innerHTML =
+      `<tr>
         <td colspan="7"
           style="padding:25px;text-align:center;color:var(--muted)">
           No users found.
         </td>
-      </tr>
-    `;
+      </tr>`;
 
     return;
   }
@@ -1726,7 +2220,6 @@ function renderUsers(users){
 
 
       return `
-
         <tr>
 
           <td class="user-email-cell">
@@ -1736,15 +2229,11 @@ function renderUsers(users){
           </td>
 
           <td>
-
             <span class="user-role ${
               isFounder ? "founder" : ""
             }">
-
               ${escapeHTML(role)}
-
             </span>
-
           </td>
 
           <td style="color:var(--muted)">
@@ -1756,81 +2245,66 @@ function renderUsers(users){
           </td>
 
           <td>
-
             <span class="${
               active
                 ? "status-active"
                 : "status-inactive"
             }">
-
               ${
                 active
                   ? "● Active"
                   : "● Inactive"
               }
-
             </span>
-
           </td>
 
           <td>
-
             ${
               isFounder
-                ? `
-                  <span class="protected">
+                ? `<span class="protected">
                     🔐 Protected
-                  </span>
-                `
-                : `
-                  <span style="color:var(--muted)">
+                  </span>`
+                : `<span style="color:var(--muted)">
                     Editable
-                  </span>
-                `
+                  </span>`
             }
-
           </td>
 
           <td>
-
             ${
               isFounder
-                ? `
-                  <button
+                ? `<button
                     class="edit-button"
-                    disabled
-                  >
+                    disabled>
                     Protected
-                  </button>
-                `
-                : `
-                  <button
+                  </button>`
+                : `<button
                     class="edit-button"
-                    data-user-id="${escapeHTML(user.user_id)}"
-                  >
+                    data-user-id="${escapeHTML(user.user_id)}">
                     Manage
-                  </button>
-                `
+                  </button>`
             }
-
           </td>
 
         </tr>
-
       `;
 
     }).join("");
 
 
   tbody
-    .querySelectorAll("[data-user-id]")
+    .querySelectorAll(
+      "[data-user-id]"
+    )
     .forEach(button => {
 
       button.addEventListener(
         "click",
-        () => openUserEditor(
-          button.dataset.userId
-        )
+        () => {
+          openUserEditor(
+            button.dataset.userId
+          );
+        }
       );
 
     });
@@ -1869,19 +2343,14 @@ async function getUserPermissions(userId){
       .limit(1);
 
 
-  if(error){
+  if(error)
     throw error;
-  }
 
 
   return data?.[0] || null;
 
 }
 
-
-/* =====================================================
-   OPEN EDITOR
-===================================================== */
 
 async function openUserEditor(userId){
 
@@ -1892,21 +2361,24 @@ async function openUserEditor(userId){
     );
 
 
-  if(!user) return;
+  if(!user)
+    return;
 
 
-  if(
+  const role =
     String(
       user.role || ""
-    ).toLowerCase()
-    === "founder"
-  ){
+    ).toLowerCase();
+
+
+  if(role === "founder"){
 
     alert(
       "Founder account is protected and cannot be modified."
     );
 
     return;
+
   }
 
 
@@ -1937,6 +2409,18 @@ async function openUserEditor(userId){
       user.user_id;
 
 
+  const message =
+    document.getElementById(
+      "editorMessage"
+    );
+
+
+  message.className =
+    "editor-message";
+
+  message.textContent = "";
+
+
   try{
 
     const p =
@@ -1963,37 +2447,29 @@ async function openUserEditor(userId){
         : "true";
 
 
-    document.getElementById("permUsers")
-      .checked =
-        p?.can_manage_users === true;
+    document.getElementById("permUsers").checked =
+      p?.can_manage_users === true;
 
-    document.getElementById("permProjects")
-      .checked =
-        p?.can_manage_projects === true;
+    document.getElementById("permProjects").checked =
+      p?.can_manage_projects === true;
 
-    document.getElementById("permSupport")
-      .checked =
-        p?.can_manage_support === true;
+    document.getElementById("permSupport").checked =
+      p?.can_manage_support === true;
 
-    document.getElementById("permFinance")
-      .checked =
-        p?.can_view_finance === true;
+    document.getElementById("permFinance").checked =
+      p?.can_view_finance === true;
 
-    document.getElementById("permTreasury")
-      .checked =
-        p?.can_manage_treasury === true;
+    document.getElementById("permTreasury").checked =
+      p?.can_manage_treasury === true;
 
-    document.getElementById("permInvestments")
-      .checked =
-        p?.can_manage_investments === true;
+    document.getElementById("permInvestments").checked =
+      p?.can_manage_investments === true;
 
-    document.getElementById("permTeam")
-      .checked =
-        p?.can_manage_team === true;
+    document.getElementById("permTeam").checked =
+      p?.can_manage_team === true;
 
-    document.getElementById("permAudit")
-      .checked =
-        p?.can_view_audit_logs === true;
+    document.getElementById("permAudit").checked =
+      p?.can_view_audit_logs === true;
 
 
     document
@@ -2005,11 +2481,6 @@ async function openUserEditor(userId){
 
 
   }catch(error){
-
-    console.error(
-      "Load permissions:",
-      error
-    );
 
     showEditorMessage(
       error.message ||
@@ -2028,8 +2499,7 @@ function closeUserEditor(){
     .getElementById("userEditor")
     .classList.remove("show");
 
-  editingUser =
-    null;
+  editingUser = null;
 
 }
 
@@ -2048,7 +2518,6 @@ function showEditorMessage(
   element.textContent =
     message;
 
-
   element.className =
     "editor-message show " +
     type;
@@ -2056,13 +2525,10 @@ function showEditorMessage(
 }
 
 
-/* =====================================================
-   SAVE PERMISSIONS
-===================================================== */
-
 async function saveUserPermissions(){
 
-  if(!editingUser) return;
+  if(!editingUser)
+    return;
 
 
   if(
@@ -2078,6 +2544,7 @@ async function saveUserPermissions(){
     );
 
     return;
+
   }
 
 
@@ -2087,11 +2554,8 @@ async function saveUserPermissions(){
     );
 
 
-  button.disabled =
-    true;
-
-  button.textContent =
-    "Saving...";
+  button.disabled = true;
+  button.textContent = "Saving...";
 
 
   try{
@@ -2154,12 +2618,6 @@ async function saveUserPermissions(){
     };
 
 
-    /*
-      IMPORTANT:
-      Use the newer Founder RPC because it supports
-      USER / ADMIN / MODERATOR / SUPPORT.
-    */
-
     const {
       data,
       error
@@ -2172,11 +2630,6 @@ async function saveUserPermissions(){
 
     if(error){
 
-      console.error(
-        "Save permissions:",
-        error
-      );
-
       showEditorMessage(
         error.message ||
         "Unable to save permissions.",
@@ -2184,6 +2637,7 @@ async function saveUserPermissions(){
       );
 
       return;
+
     }
 
 
@@ -2195,6 +2649,7 @@ async function saveUserPermissions(){
       );
 
       return;
+
     }
 
 
@@ -2216,11 +2671,6 @@ async function saveUserPermissions(){
 
   }catch(error){
 
-    console.error(
-      "Save permissions:",
-      error
-    );
-
     showEditorMessage(
       error?.message ||
       "Unexpected error while saving.",
@@ -2229,11 +2679,8 @@ async function saveUserPermissions(){
 
   }finally{
 
-    button.disabled =
-      false;
-
-    button.textContent =
-      "Save Changes";
+    button.disabled = false;
+    button.textContent = "Save Changes";
 
   }
 
@@ -2241,7 +2688,7 @@ async function saveUserPermissions(){
 
 
 /* =====================================================
-   SEARCH
+   USER SEARCH
 ===================================================== */
 
 document
@@ -2263,6 +2710,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -2291,6 +2739,7 @@ document
             )
             .toLowerCase()
             .includes(query)
+
         );
 
 
@@ -2347,17 +2796,7 @@ async function loadActivity(){
     if(!error && data?.length){
 
       renderActivity(data);
-
       return;
-    }
-
-
-    if(error){
-
-      console.warn(
-        "system_audit_logs:",
-        error
-      );
 
     }
 
@@ -2398,8 +2837,8 @@ async function loadActivity(){
     if(!error && data?.length){
 
       renderActivity(data);
-
       return;
+
     }
 
 
@@ -2410,12 +2849,7 @@ async function loadActivity(){
       </div>`;
 
 
-  }catch(error){
-
-    console.warn(
-      "audit_logs:",
-      error
-    );
+  }catch{
 
     container.innerHTML =
       `<div class="empty">
@@ -2443,6 +2877,7 @@ function renderActivity(data){
       </div>`;
 
     return;
+
   }
 
 
@@ -2513,11 +2948,13 @@ async function refreshAll(){
     );
 
 
-  button.disabled =
-    true;
+  button.disabled = true;
+  button.textContent = "Checking...";
 
-  button.textContent =
-    "Checking...";
+  setValue(
+    "accessValue",
+    "CHECKING..."
+  );
 
 
   try{
@@ -2526,11 +2963,8 @@ async function refreshAll(){
 
   }finally{
 
-    button.disabled =
-      false;
-
-    button.textContent =
-      "↻ Refresh";
+    button.disabled = false;
+    button.textContent = "↻ Refresh";
 
   }
 
@@ -2544,59 +2978,13 @@ async function refreshAll(){
 async function signOut(){
 
   try{
-
     await supabase.auth.signOut();
-
-  }catch(error){
-
-    console.warn(
-      "Sign out:",
-      error
-    );
-
-  }
-
+  }catch{}
 
   window.location.href =
     "login.html";
 
 }
-
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-
-document
-  .getElementById("refreshButton")
-  .addEventListener(
-    "click",
-    refreshAll
-  );
-
-
-document
-  .getElementById("signOutButton")
-  .addEventListener(
-    "click",
-    signOut
-  );
-
-
-document
-  .getElementById("cancelEditButton")
-  .addEventListener(
-    "click",
-    closeUserEditor
-  );
-
-
-document
-  .getElementById("saveUserButton")
-  .addEventListener(
-    "click",
-    saveUserPermissions
-  );
 
 
 /* =====================================================
