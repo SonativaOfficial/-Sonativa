@@ -144,6 +144,37 @@ white-space:pre-wrap;
 word-break:break-word;
 }
 
+.tokenomics{
+grid-column:1/-1;
+}
+
+.tokenomics-grid{
+display:grid;
+grid-template-columns:repeat(
+auto-fit,
+minmax(220px,1fr)
+);
+gap:12px;
+}
+
+.tokenomics-item{
+padding:16px;
+background:#080b12;
+border:1px solid #252d3b;
+border-radius:10px;
+}
+
+.tokenomics-item span{
+display:block;
+color:#707b8e;
+font-size:12px;
+margin-bottom:6px;
+}
+
+.tokenomics-item strong{
+font-size:18px;
+}
+
 .loading,
 .error{
 text-align:center;
@@ -193,6 +224,10 @@ font-size:32px;
 
 .row{
 align-items:flex-start;
+}
+
+.value{
+max-width:60%;
 }
 
 }
@@ -269,6 +304,10 @@ Loading your project...
 
 <script type="module">
 
+/* =========================================
+   SUPABASE
+========================================= */
+
 import {
 createClient
 }
@@ -279,8 +318,10 @@ from
 const SUPABASE_URL =
 "https://kallobeodjzzhrsaqszw.supabase.co";
 
+
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+
 
 const supabase =
 createClient(
@@ -289,49 +330,67 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-/* =========================
+/* =========================================
    HELPERS
-========================= */
+========================================= */
 
 function escapeHtml(value){
 
 return String(value ?? "")
 
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-function formatSupply(value){
+/* =========================================
+   BIG NUMBER FORMAT
+========================================= */
+
+function formatBigNumber(value){
 
 if(
 value === null ||
 value === undefined ||
 value === ""
 ){
+
 return "-";
+
 }
+
+try{
 
 const number =
-Number(value);
+BigInt(String(value));
 
-if(Number.isNaN(number)){
+return number.toLocaleString(
+"en-US"
+);
+
+}catch{
+
 return escapeHtml(value);
-}
-
-return number.toLocaleString();
 
 }
 
+}
+
+
+/* =========================================
+   DATE
+========================================= */
 
 function formatDate(value){
 
 if(!value){
+
 return "-";
+
 }
 
 const date =
@@ -342,7 +401,9 @@ Number.isNaN(
 date.getTime()
 )
 ){
+
 return "-";
+
 }
 
 return date.toLocaleString();
@@ -350,9 +411,80 @@ return date.toLocaleString();
 }
 
 
-/* =========================
+/* =========================================
+   TOKENOMICS PARSER
+========================================= */
+
+function parseTokenomics(description){
+
+if(!description){
+
+return null;
+
+}
+
+const marker =
+"--- SONATIVA TOKENOMICS ---";
+
+if(
+!description.includes(marker)
+){
+
+return null;
+
+}
+
+const section =
+description
+.split(marker)[1]
+.trim();
+
+
+const result = {};
+
+
+const lines =
+section.split(/\r?\n/);
+
+
+lines.forEach(
+function(line){
+
+const match =
+line.match(
+/^([^:]+):\s*([\d.]+)%$/
+);
+
+if(!match){
+
+return;
+
+}
+
+const key =
+match[1]
+.trim()
+.toLowerCase()
+.replace(/\s+/g,"_");
+
+
+const value =
+match[2];
+
+
+result[key] =
+value + "%";
+
+});
+
+return result;
+
+}
+
+
+/* =========================================
    GET PROJECT ID
-========================= */
+========================================= */
 
 const params =
 new URLSearchParams(
@@ -363,9 +495,9 @@ const projectId =
 params.get("id");
 
 
-/* =========================
+/* =========================================
    LOAD PROJECT
-========================= */
+========================================= */
 
 async function loadProject(){
 
@@ -375,7 +507,9 @@ document.getElementById(
 );
 
 
-/* NO ID */
+/* =========================================
+   NO ID
+========================================= */
 
 if(!projectId){
 
@@ -406,9 +540,9 @@ return;
 }
 
 
-/* =========================
+/* =========================================
    USER
-========================= */
+========================================= */
 
 const {
 data:{
@@ -473,23 +607,9 @@ return;
 }
 
 
-/* =========================
+/* =========================================
    GET PROJECT
-========================= */
-
-/*
-IMPORTANT:
-
-Supabase column name is:
-
-Id
-
-Capital I
-
-NOT:
-
-id
-*/
+========================================= */
 
 const {
 data:project,
@@ -524,9 +644,9 @@ user.id
 .single();
 
 
-/* =========================
-   ERROR
-========================= */
+/* =========================================
+   DATABASE ERROR
+========================================= */
 
 if(error){
 
@@ -568,9 +688,9 @@ return;
 }
 
 
-/* =========================
+/* =========================================
    HEADER
-========================= */
+========================================= */
 
 document.getElementById(
 "projectTitle"
@@ -592,9 +712,101 @@ document.getElementById(
 "Project Saved";
 
 
-/* =========================
+/* =========================================
+   TOKENOMICS
+========================================= */
+
+const tokenomics =
+parseTokenomics(
+project.description
+);
+
+
+/* =========================================
+   TOKENOMICS HTML
+========================================= */
+
+let tokenomicsHTML = "";
+
+
+if(tokenomics){
+
+tokenomicsHTML = `
+
+<div class="card tokenomics">
+
+<h2>
+Tokenomics
+</h2>
+
+<div class="tokenomics-grid">
+
+<div class="tokenomics-item">
+<span>TEAM</span>
+<strong>
+${escapeHtml(
+tokenomics.team || "0%"
+)}
+</strong>
+</div>
+
+<div class="tokenomics-item">
+<span>TREASURY</span>
+<strong>
+${escapeHtml(
+tokenomics.treasury || "0%"
+)}
+</strong>
+</div>
+
+<div class="tokenomics-item">
+<span>COMMUNITY</span>
+<strong>
+${escapeHtml(
+tokenomics.community || "0%"
+)}
+</strong>
+</div>
+
+<div class="tokenomics-item">
+<span>PUBLIC SALE</span>
+<strong>
+${escapeHtml(
+tokenomics.public_sale || "0%"
+)}
+</strong>
+</div>
+
+<div class="tokenomics-item">
+<span>LIQUIDITY</span>
+<strong>
+${escapeHtml(
+tokenomics.liquidity || "0%"
+)}
+</strong>
+</div>
+
+<div class="tokenomics-item">
+<span>BURN RESERVE</span>
+<strong>
+${escapeHtml(
+tokenomics.burn_reserve || "0%"
+)}
+</strong>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================
    DISPLAY PROJECT
-========================= */
+========================================= */
 
 content.innerHTML = `
 
@@ -615,12 +827,10 @@ Project Name
 </span>
 
 <span class="value">
-
 ${escapeHtml(
 project.project_name ||
 "-"
 )}
-
 </span>
 
 </div>
@@ -633,12 +843,10 @@ Network
 </span>
 
 <span class="value">
-
 ${escapeHtml(
 project.network ||
 "-"
 )}
-
 </span>
 
 </div>
@@ -651,11 +859,9 @@ Created
 </span>
 
 <span class="value">
-
 ${formatDate(
 project.created_at
 )}
-
 </span>
 
 </div>
@@ -677,12 +883,10 @@ Token Name
 </span>
 
 <span class="value">
-
 ${escapeHtml(
 project.token_name ||
 "-"
 )}
-
 </span>
 
 </div>
@@ -695,12 +899,10 @@ Token Symbol
 </span>
 
 <span class="value">
-
 ${escapeHtml(
 project.token_symbol ||
 "-"
 )}
-
 </span>
 
 </div>
@@ -713,16 +915,17 @@ Total Supply
 </span>
 
 <span class="value">
-
-${formatSupply(
+${formatBigNumber(
 project.total_supply
 )}
-
 </span>
 
 </div>
 
 </div>
+
+
+${tokenomicsHTML}
 
 
 <div class="card description">
@@ -732,12 +935,10 @@ Project Description
 </h2>
 
 <div class="description-text">
-
 ${escapeHtml(
 project.description ||
 "No description provided."
 )}
-
 </div>
 
 </div>
@@ -765,6 +966,15 @@ Create Another Project
 
 </a>
 
+
+<a
+class="button"
+href="tokenomics-studio.html?id=${encodeURIComponent(project.Id)}">
+
+Edit Tokenomics
+
+</a>
+
 </div>
 
 `;
@@ -772,9 +982,9 @@ Create Another Project
 }
 
 
-/* =========================
+/* =========================================
    START
-========================= */
+========================================= */
 
 loadProject();
 
