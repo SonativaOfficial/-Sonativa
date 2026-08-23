@@ -1,1 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa News — curated technology, Web3, AI and market intelligence.">
+<title>Sonativa — News</title>
+<link rel="stylesheet" href="assets/css/sonativa.css">
 
+<style>
+.news-page{
+  width:min(1400px,94%);
+  margin:auto;
+  padding:32px 0 70px;
+}
+
+.news-hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:25px;
+  padding:25px;
+  margin-bottom:18px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(120,140,170,.12),transparent 42%),
+    var(--panel);
+}
+
+.eyebrow{
+  color:#78869a;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.6px;
+}
+
+.news-hero h1{
+  margin-top:9px;
+  font-size:30px;
+  letter-spacing:-.8px;
+}
+
+.news-hero p{
+  max-width:700px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+}
+
+.live-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 11px;
+  border:1px solid #28543d;
+  border-radius:8px;
+  background:#0b1711;
+  color:#8de8b2;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.live-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#8de8b2;
+  box-shadow:0 0 0 4px rgba(141,232,178,.08);
+}
+
+.news-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.categories{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.category{
+  border:1px solid #253143;
+  border-radius:7px;
+  padding:7px 10px;
+  background:#0c121c;
+  color:#7d899b;
+  font-size:8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.category.active,
+.category:hover{
+  color:#e3e8ef;
+  border-color:#4b586b;
+  background:#141c28;
+}
+
+.search{
+  width:220px;
+  min-height:34px;
+  padding:0 11px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  outline:none;
+  background:#090e17;
+  color:#dce4ef;
+  font-size:9px;
+}
+
+.search::placeholder{
+  color:#586578;
+}
+
+.news-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 320px;
+  gap:18px;
+}
+
+.featured{
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--panel);
+}
+
+.featured-cover{
+  min-height:210px;
+  display:flex;
+  align-items:flex-end;
+  padding:22px;
+  background:
+    linear-gradient(180deg,transparent 20%,rgba(0,0,0,.78)),
+    radial-gradient(circle at 75% 20%,rgba(150,170,200,.2),transparent 35%),
+    #0a1019;
+}
+
+.featured-label{
+  display:inline-flex;
+  padding:5px 7px;
+  border:1px solid #354257;
+  border-radius:5px;
+  background:#0d141e;
+  color:#9eabbd;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.8px;
+}
+
+.featured h2{
+  max-width:760px;
+  margin-top:10px;
+  color:#f0f3f7;
+  font-size:22px;
+  line-height:1.25;
+}
+
+.featured-content{
+  padding:18px 21px 21px;
+}
+
+.meta{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  color:#68758a;
+  font-size:8px;
+}
+
+.featured-content p{
+  margin-top:12px;
+  color:#8995a6;
+  font-size:10px;
+  line-height:1.7;
+}
+
+.news-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:14px;
+}
+
+.news-card{
+  display:flex;
+  flex-direction:column;
+  min-height:220px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:var(--panel);
+}
+
+.news-card:hover{
+  border-color:#3b485c;
+}
+
+.news-type{
+  width:max-content;
+  padding:4px 6px;
+  border-radius:4px;
+  border:1px solid #283447;
+  color:#7f8da1;
+  background:#0b111a;
+  font-size:7px;
+  font-weight:900;
+}
+
+.news-card h3{
+  margin-top:13px;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.news-card p{
+  margin-top:8px;
+  color:#6f7c90;
+  font-size:9px;
+  line-height:1.6;
+}
+
+.news-card .meta{
+  margin-top:auto;
+  padding-top:15px;
+}
+
+.side-card{
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel);
+}
+
+.side-card + .side-card{
+  margin-top:14px;
+}
+
+.side-title{
+  font-size:12px;
+  font-weight:900;
+}
+
+.side-sub{
+  margin-top:4px;
+  color:#667388;
+  font-size:8px;
+}
+
+.market-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:14px;
+}
+
+.market-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px;
+  border:1px solid #1d2737;
+  border-radius:8px;
+  background:#090e17;
+}
+
+.market-name{
+  color:#dbe2eb;
+  font-size:9px;
+  font-weight:800;
+}
+
+.market-price{
+  margin-top:3px;
+  color:#68758a;
+  font-size:8px;
+}
+
+.market-change{
+  font-size:8px;
+  font-weight:900;
+}
+
+.up{
+  color:#8de8b2;
+}
+
+.down{
+  color:#e99090;
+}
+
+.sources{
+  margin-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.source{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px;
+  border:1px solid #1d2737;
+  border-radius:8px;
+  background:#090e17;
+}
+
+.source span{
+  color:#dbe2eb;
+  font-size:9px;
+  font-weight:800;
+}
+
+.source small{
+  color:#68758a;
+  font-size:7px;
+}
+
+.notice{
+  margin-top:14px;
+  padding:12px;
+  border:1px solid #202b3d;
+  border-radius:9px;
+  background:#080d15;
+  color:#68758a;
+  font-size:8px;
+  line-height:1.65;
+}
+
+.empty{
+  display:none;
+  padding:25px;
+  text-align:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:#68758a;
+  font-size:9px;
+}
+
+@media(max-width:1050px){
+  .news-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .news-hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .news-toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .news-grid{
+    grid-template-columns:1fr;
+  }
+
+  .featured h2{
+    font-size:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-logo">SONATIVA</div>
+<div class="brand-version">BETA</div>
+</div>
+
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+<span class="nav-icon">⌂</span>
+<span>Dashboard</span>
+</a>
+
+<a class="nav-item" href="projects.html">
+<span class="nav-icon">▣</span>
+<span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+<span class="nav-icon">◇</span>
+<span>Token Studio</span>
+</a>
+
+<a class="nav-item" href="tokenomics.html">
+<span class="nav-icon">◈</span>
+<span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+<span class="nav-icon">◆</span>
+<span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+<span class="nav-icon">⌁</span>
+<span>Advanced Analysis</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="ai.html">
+<span class="nav-icon">✦</span>
+<span>Sonativa AI</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="security.html">
+<span class="nav-icon">◇</span>
+<span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item active" href="news.html">
+<span class="nav-icon">▤</span>
+<span>World News</span>
+</a>
+
+<a class="nav-item" href="books.html">
+<span class="nav-icon">▥</span>
+<span>Books</span>
+</a>
+
+<a class="nav-item" href="live.html">
+<span class="nav-icon">●</span>
+<span>Live</span>
+</a>
+
+<a class="nav-item" href="reels.html">
+<span class="nav-icon">▶</span>
+<span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+<span class="nav-icon">◉</span>
+<span>Wallet</span>
+</a>
+
+<a class="nav-item" href="pricing.html">
+<span class="nav-icon">◇</span>
+<span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+<span class="nav-icon">⚙</span>
+<span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="account">
+
+<div class="avatar" id="avatar">G</div>
+
+<div class="account-info">
+
+<div class="account-name" id="accountName">Guest</div>
+
+<div class="account-status">● Workspace</div>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+World News
+</div>
+
+<div class="page-subtitle">
+Technology, Web3, AI and market intelligence
+</div>
+
+</div>
+
+</div>
+
+<div class="top-actions">
+
+<select class="lang" id="languageSelect">
+
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+
+</select>
+
+<a class="icon-button" href="settings.html">
+⚙
+</a>
+
+</div>
+
+</header>
+
+
+<section class="news-page">
+
+
+<div class="news-hero">
+
+<div>
+
+<div class="eyebrow">
+SONATIVA INTELLIGENCE
+</div>
+
+<h1>
+World News
+</h1>
+
+<p>
+A structured news workspace for discovering important developments
+across Web3, artificial intelligence, technology and financial markets.
+</p>
+
+</div>
+
+<div class="live-status">
+<div class="live-dot"></div>
+CURATION ONLINE
+</div>
+
+</div>
+
+
+<div class="news-toolbar">
+
+<div class="categories">
+
+<button class="category active" data-category="all">
+All
+</button>
+
+<button class="category" data-category="web3">
+Web3
+</button>
+
+<button class="category" data-category="ai">
+AI
+</button>
+
+<button class="category" data-category="markets">
+Markets
+</button>
+
+<button class="category" data-category="technology">
+Technology
+</button>
+
+</div>
+
+<input
+class="search"
+id="searchInput"
+type="search"
+placeholder="Search news..."
+autocomplete="off">
+
+</div>
+
+
+<div class="news-layout">
+
+
+<div>
+
+
+<article class="featured">
+
+<div class="featured-cover">
+
+<div>
+
+<span class="featured-label">
+SONATIVA BRIEF
+</span>
+
+<h2>
+Build reliable intelligence before acting on information.
+</h2>
+
+</div>
+
+</div>
+
+<div class="featured-content">
+
+<div class="meta">
+
+<span>Sonativa Editorial</span>
+<span>•</span>
+<span>Analysis</span>
+<span>•</span>
+<span>Updated continuously</span>
+
+</div>
+
+<p>
+The Sonativa news experience is designed to separate information
+discovery from financial decision-making. Headlines should be
+verified, sources should be visible and market information should
+always be treated as time-sensitive.
+</p>
+
+</div>
+
+</article>
+
+
+<div class="news-grid" id="newsGrid">
+
+
+<article
+class="news-card"
+data-category="web3"
+data-title="Blockchain infrastructure continues to evolve">
+
+<span class="news-type">
+WEB3
+</span>
+
+<h3>
+Blockchain infrastructure continues to evolve
+</h3>
+
+<p>
+New infrastructure continues to focus on scalability, interoperability,
+security and easier developer experiences.
+</p>
+
+<div class="meta">
+<span>Web3 Desk</span>
+<span>•</span>
+<span>Brief</span>
+</div>
+
+</article>
+
+
+<article
+class="news-card"
+data-category="ai"
+data-title="AI agents move toward practical workflows">
+
+<span class="news-type">
+AI
+</span>
+
+<h3>
+AI agents move toward practical workflows
+</h3>
+
+<p>
+The next generation of AI products is increasingly focused on
+automating useful multi-step tasks instead of simple conversations.
+</p>
+
+<div class="meta">
+<span>AI Desk</span>
+<span>•</span>
+<span>Brief</span>
+</div>
+
+</article>
+
+
+<article
+class="news-card"
+data-category="markets"
+data-title="Liquidity remains a central market signal">
+
+<span class="news-type">
+MARKETS
+</span>
+
+<h3>
+Liquidity remains a central market signal
+</h3>
+
+<p>
+Market participants continue to monitor liquidity, volatility,
+macro data and positioning when evaluating risk.
+</p>
+
+<div class="meta">
+<span>Markets Desk</span>
+<span>•</span>
+<span>Brief</span>
+</div>
+
+</article>
+
+
+<article
+class="news-card"
+data-category="technology"
+data-title="Developer platforms become more integrated">
+
+<span class="news-type">
+TECH
+</span>
+
+<h3>
+Developer platforms become more integrated
+</h3>
+
+<p>
+Modern platforms increasingly combine deployment, analytics,
+authentication and AI-assisted development in a single workflow.
+</p>
+
+<div class="meta">
+<span>Technology Desk</span>
+<span>•</span>
+<span>Brief</span>
+</div>
+
+</article>
+
+
+<article
+class="news-card"
+data-category="web3"
+data-title="Wallet security remains a critical priority">
+
+<span class="news-type">
+WEB3
+</span>
+
+<h3>
+Wallet security remains a critical priority
+</h3>
+
+<p>
+Users should verify signing requests, permissions, networks and
+contract destinations before approving blockchain transactions.
+</p>
+
+<div class="meta">
+<span>Security Desk</span>
+<span>•</span>
+<span>Brief</span>
+</div>
+
+</article>
+
+
+<article
+class="news-card"
+data-category="ai"
+data-title="AI infrastructure becomes a major technology layer">
+
+<span class="news-type">
+AI
+</span>
+
+<h3>
+AI infrastructure becomes a major technology layer
+</h3>
+
+<p>
+Models, data pipelines, inference systems and specialized hardware
+continue to reshape the modern software stack.
+</p>
+
+<div class="meta">
+<span>AI Desk</span>
+<span>•</span>
+<span>Brief</span>
+</div>
+
+</article>
+
+
+</div>
+
+
+<div class="empty" id="emptyState">
+No matching stories found.
+</div>
+
+
+</div>
+
+
+<aside>
+
+
+<section class="side-card">
+
+<div class="side-title">
+Market Snapshot
+</div>
+
+<div class="side-sub">
+Demo workspace indicators — connect a live market API for production data.
+</div>
+
+
+<div class="market-list">
+
+<div class="market-row">
+
+<div>
+
+<div class="market-name">
+BTC
+</div>
+
+<div class="market-price">
+Live API required
+</div>
+
+</div>
+
+<div class="market-change up">
+—
+</div>
+
+</div>
+
+
+<div class="market-row">
+
+<div>
+
+<div class="market-name">
+ETH
+</div>
+
+<div class="market-price">
+Live API required
+</div>
+
+</div>
+
+<div class="market-change up">
+—
+</div>
+
+</div>
+
+
+<div class="market-row">
+
+<div>
+
+<div class="market-name">
+SOL
+</div>
+
+<div class="market-price">
+Live API required
+</div>
+
+</div>
+
+<div class="market-change down">
+—
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="side-title">
+Source Strategy
+</div>
+
+<div class="side-sub">
+Production news should display source and timestamp.
+</div>
+
+
+<div class="sources">
+
+<div class="source">
+
+<div>
+<span>Primary sources</span>
+<small>Official announcements</small>
+</div>
+
+<strong>01</strong>
+
+</div>
+
+
+<div class="source">
+
+<div>
+<span>Trusted media</span>
+<small>Independent reporting</small>
+</div>
+
+<strong>02</strong>
+
+</div>
+
+
+<div class="source">
+
+<div>
+<span>Market data</span>
+<small>Verified APIs</small>
+</div>
+
+<strong>03</strong>
+
+</div>
+
+</div>
+
+
+<div class="notice">
+Sonativa editorial content is informational only and is not financial,
+investment or trading advice.
+</div>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="side-title">
+Explore Sonativa
+</div>
+
+<div class="side-sub">
+Move from information to analysis.
+</div>
+
+<div class="actions" style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
+
+<a class="btn" href="analysis.html">
+Advanced Analysis
+</a>
+
+<a class="btn" href="ai.html">
+Sonativa AI
+</a>
+
+<a class="btn primary" href="projects.html">
+My Projects
+</a>
+
+</div>
+
+</section>
+
+
+</aside>
+
+
+</div>
+
+
+<footer>
+© 2026 Sonativa — Web3 tools, intelligence and education.
+</footer>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script type="module">
+
+import {
+getUser
+} from "./assets/js/supabase.js";
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const sidebar =
+document.getElementById("sidebar");
+
+const menuButton =
+document.getElementById("menuButton");
+
+menuButton?.addEventListener(
+"click",
+()=>{
+sidebar.classList.toggle("open");
+}
+);
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+const languageSelect =
+document.getElementById("languageSelect");
+
+const savedLanguage =
+localStorage.getItem("sonativa_language");
+
+if(savedLanguage){
+
+languageSelect.value =
+savedLanguage;
+
+document.documentElement.lang =
+savedLanguage;
+
+document.documentElement.dir =
+savedLanguage === "ar"
+? "rtl"
+: "ltr";
+
+}
+
+languageSelect?.addEventListener(
+"change",
+()=>{
+
+const language =
+languageSelect.value;
+
+localStorage.setItem(
+"sonativa_language",
+language
+);
+
+document.documentElement.lang =
+language;
+
+document.documentElement.dir =
+language === "ar"
+? "rtl"
+: "ltr";
+
+}
+);
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+async function loadUser(){
+
+try{
+
+const user =
+await getUser();
+
+if(!user)return;
+
+const name =
+user.user_metadata?.full_name ||
+user.user_metadata?.name ||
+user.email?.split("@")[0] ||
+"Sonativa User";
+
+document.getElementById(
+"accountName"
+).textContent =
+name;
+
+document.getElementById(
+"avatar"
+).textContent =
+name.charAt(0).toUpperCase();
+
+}catch(error){
+
+console.error(
+"[News User]",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   NEWS FILTER
+========================================================= */
+
+const buttons =
+document.querySelectorAll(
+".category"
+);
+
+const cards =
+document.querySelectorAll(
+".news-card"
+);
+
+const searchInput =
+document.getElementById(
+"searchInput"
+);
+
+const emptyState =
+document.getElementById(
+"emptyState"
+);
+
+let currentCategory =
+"all";
+
+
+function renderNews(){
+
+const search =
+searchInput.value
+.trim()
+.toLowerCase();
+
+let visible =
+0;
+
+cards.forEach(
+card=>{
+
+const category =
+card.dataset.category || "";
+
+const title =
+(card.dataset.title || "")
+.toLowerCase();
+
+const body =
+card.textContent.toLowerCase();
+
+const categoryMatch =
+currentCategory === "all" ||
+category === currentCategory;
+
+const searchMatch =
+!search ||
+title.includes(search) ||
+body.includes(search);
+
+const show =
+categoryMatch &&
+searchMatch;
+
+card.style.display =
+show
+? "flex"
+: "none";
+
+if(show)visible++;
+
+}
+);
+
+emptyState.style.display =
+visible
+? "none"
+: "block";
+
+}
+
+
+buttons.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+buttons.forEach(
+item =>
+item.classList.remove("active")
+);
+
+button.classList.add("active");
+
+currentCategory =
+button.dataset.category;
+
+renderNews();
+
+}
+);
+
+}
+);
+
+
+searchInput.addEventListener(
+"input",
+renderNews
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadUser();
+
+</script>
+
+</body>
+</html>
