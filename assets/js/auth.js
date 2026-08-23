@@ -1,10 +1,15 @@
 /* =========================================================
-   SONATIVA — AUTH SYSTEM
+   SONATIVA — AUTHENTICATION SYSTEM
    File: assets/js/auth.js
+   Version: 2026
    ========================================================= */
 
 import {
-  supabase
+  supabase,
+  getUser,
+  getSession,
+  signOut,
+  onAuthStateChange
 } from "./supabase.js";
 
 
@@ -12,102 +17,312 @@ import {
    CONFIG
 ========================================================= */
 
-const LOGIN_PAGE =
-  "login.html";
-
-const HOME_PAGE =
-  "index.html";
+const AUTH_CONFIG = {
+  loginPage: "login.html",
+  homePage: "index.html",
+  redirectParameter: "redirect"
+};
 
 
 /* =========================================================
-   USER
+   HELPERS
 ========================================================= */
 
-export async function getUser() {
+const $ = (
+  selector,
+  parent = document
+) =>
+  parent.querySelector(selector);
 
-  const {
-    data,
-    error
-  } =
-    await supabase.auth.getUser();
 
-  if (error) {
+const $$ = (
+  selector,
+  parent = document
+) =>
+  [...parent.querySelectorAll(selector)];
 
-    console.warn(
-      "Sonativa auth:",
-      error.message
+
+function getRedirect() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
-    return null;
+  const redirect =
+    params.get(
+      AUTH_CONFIG.redirectParameter
+    );
+
+  if (
+    !redirect ||
+    redirect.startsWith("http") ||
+    redirect.startsWith("//")
+  ) {
+
+    return AUTH_CONFIG.homePage;
+
   }
 
-  return data?.user || null;
+  return redirect;
+
+}
+
+
+function setLoading(
+  button,
+  loading,
+  text = "Please wait..."
+) {
+
+  if (!button) {
+    return;
+  }
+
+  if (loading) {
+
+    button.dataset.originalText =
+      button.textContent;
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      text;
+
+  } else {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      button.dataset.originalText ||
+      "Continue";
+
+  }
 
 }
 
 
 /* =========================================================
-   SESSION
+   MESSAGE SYSTEM
 ========================================================= */
 
-export async function getSession() {
+function showMessage(
+  message,
+  type = "info"
+) {
 
-  const {
-    data,
-    error
-  } =
-    await supabase.auth.getSession();
+  let box =
+    $("#authMessage");
 
-  if (error) {
 
-    console.warn(
-      "Sonativa session:",
-      error.message
+  if (!box) {
+
+    box =
+      document.createElement(
+        "div"
+      );
+
+    box.id =
+      "authMessage";
+
+
+    Object.assign(
+      box.style,
+      {
+        marginTop: "14px",
+        padding: "12px 14px",
+        borderRadius: "9px",
+        fontSize: "12px",
+        lineHeight: "1.5",
+        border: "1px solid rgba(255,255,255,.12)"
+      }
     );
 
-    return null;
+
+    const form =
+      $("form") ||
+      document.body;
+
+
+    form.appendChild(
+      box
+    );
+
   }
 
-  return data?.session || null;
+
+  box.textContent =
+    message;
+
+
+  if (type === "error") {
+
+    box.style.color =
+      "#ffaaaa";
+
+    box.style.background =
+      "#190d0d";
+
+  } else if (
+    type === "success"
+  ) {
+
+    box.style.color =
+      "#8ff0b7";
+
+    box.style.background =
+      "#0c1912";
+
+  } else {
+
+    box.style.color =
+      "#c7d1df";
+
+    box.style.background =
+      "#0d141e";
+
+  }
+
+
+  box.hidden =
+    false;
+
+}
+
+
+function clearMessage() {
+
+  const box =
+    $("#authMessage");
+
+  if (box) {
+
+    box.hidden =
+      true;
+
+    box.textContent =
+      "";
+
+  }
 
 }
 
 
 /* =========================================================
-   LOGIN — EMAIL
+   EMAIL VALIDATION
 ========================================================= */
 
-export async function loginWithEmail(
+function isValidEmail(
+  email
+) {
+
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    .test(
+      String(email)
+        .trim()
+        .toLowerCase()
+    );
+
+}
+
+
+/* =========================================================
+   PASSWORD VALIDATION
+========================================================= */
+
+function validatePassword(
+  password
+) {
+
+  if (
+    typeof password !==
+    "string"
+  ) {
+
+    return {
+      valid: false,
+      message:
+        "Password is required."
+    };
+
+  }
+
+
+  if (
+    password.length < 8
+  ) {
+
+    return {
+      valid: false,
+      message:
+        "Password must contain at least 8 characters."
+    };
+
+  }
+
+
+  return {
+    valid: true,
+    message: ""
+  };
+
+}
+
+
+/* =========================================================
+   EMAIL / PASSWORD LOGIN
+========================================================= */
+
+async function login(
   email,
   password
 ) {
 
-  if (!email || !password) {
+  clearMessage();
+
+
+  email =
+    String(email || "")
+      .trim()
+      .toLowerCase();
+
+
+  if (
+    !isValidEmail(email)
+  ) {
 
     throw new Error(
-      "Email and password are required."
+      "Enter a valid email address."
     );
 
   }
+
+
+  if (!password) {
+
+    throw new Error(
+      "Enter your password."
+    );
+
+  }
+
 
   const {
     data,
     error
   } =
-    await supabase.auth.signInWithPassword({
-
-      email:
-        email.trim(),
-
-      password
-
-    });
+    await supabase.auth.signInWithPassword(
+      {
+        email,
+        password
+      }
+    );
 
 
   if (error) {
-
     throw error;
-
   }
 
 
@@ -117,28 +332,47 @@ export async function loginWithEmail(
 
 
 /* =========================================================
-   SIGN UP
+   EMAIL / PASSWORD SIGNUP
 ========================================================= */
 
-export async function signUp(
+async function register(
   email,
   password,
   metadata = {}
 ) {
 
-  if (!email || !password) {
+  clearMessage();
+
+
+  email =
+    String(email || "")
+      .trim()
+      .toLowerCase();
+
+
+  if (
+    !isValidEmail(email)
+  ) {
 
     throw new Error(
-      "Email and password are required."
+      "Enter a valid email address."
     );
 
   }
 
 
-  if (password.length < 8) {
+  const passwordCheck =
+    validatePassword(
+      password
+    );
+
+
+  if (
+    !passwordCheck.valid
+  ) {
 
     throw new Error(
-      "Password must contain at least 8 characters."
+      passwordCheck.message
     );
 
   }
@@ -148,28 +382,22 @@ export async function signUp(
     data,
     error
   } =
-    await supabase.auth.signUp({
-
-      email:
-        email.trim(),
-
+  await supabase.auth.signUp(
+    {
+      email,
       password,
 
       options: {
-
         data: {
           ...metadata
         }
-
       }
-
-    });
+    }
+  );
 
 
   if (error) {
-
     throw error;
-
   }
 
 
@@ -179,17 +407,77 @@ export async function signUp(
 
 
 /* =========================================================
-   MAGIC LINK
+   PASSWORD RESET
 ========================================================= */
 
-export async function sendMagicLink(
+async function resetPassword(
   email
 ) {
 
-  if (!email) {
+  clearMessage();
+
+
+  email =
+    String(email || "")
+      .trim()
+      .toLowerCase();
+
+
+  if (
+    !isValidEmail(email)
+  ) {
 
     throw new Error(
-      "Email is required."
+      "Enter a valid email address."
+    );
+
+  }
+
+
+  const redirect =
+    `${window.location.origin}/login.html`;
+
+
+  const {
+    error
+  } =
+    await supabase.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo:
+          redirect
+      }
+    );
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+   UPDATE PASSWORD
+========================================================= */
+
+async function updatePassword(
+  newPassword
+) {
+
+  const check =
+    validatePassword(
+      newPassword
+    );
+
+
+  if (!check.valid) {
+
+    throw new Error(
+      check.message
     );
 
   }
@@ -199,26 +487,16 @@ export async function sendMagicLink(
     data,
     error
   } =
-    await supabase.auth.signInWithOtp({
-
-      email:
-        email.trim(),
-
-      options: {
-
-        emailRedirectTo:
-          window.location.origin +
-          "/index.html"
-
+    await supabase.auth.updateUser(
+      {
+        password:
+          newPassword
       }
-
-    });
+    );
 
 
   if (error) {
-
     throw error;
-
   }
 
 
@@ -231,32 +509,72 @@ export async function sendMagicLink(
    GOOGLE LOGIN
 ========================================================= */
 
-export async function loginWithGoogle() {
+async function loginWithGoogle() {
+
+  clearMessage();
+
+
+  const redirect =
+    getRedirect();
+
 
   const {
     data,
     error
   } =
-  await supabase.auth.signInWithOAuth({
+  await supabase.auth.signInWithOAuth(
+    {
+      provider: "google",
 
-    provider:
-      "google",
-
-    options: {
-
-      redirectTo:
-        window.location.origin +
-        "/index.html"
-
+      options: {
+        redirectTo:
+          `${window.location.origin}/${redirect}`
+      }
     }
-
-  });
+  );
 
 
   if (error) {
-
     throw error;
+  }
 
+
+  return data;
+
+}
+
+
+/* =========================================================
+   GITHUB LOGIN
+========================================================= */
+
+async function loginWithGitHub() {
+
+  clearMessage();
+
+
+  const redirect =
+    getRedirect();
+
+
+  const {
+    data,
+    error
+  } =
+  await supabase.auth.signInWithOAuth(
+    {
+      provider: "github",
+
+      options: {
+        redirectTo:
+          `${window.location.origin}/${redirect}`
+      }
+    }
+  );
+
+
+  if (error) {
+    throw error;
   }
 
 
@@ -269,403 +587,28 @@ export async function loginWithGoogle() {
    LOGOUT
 ========================================================= */
 
-export async function logout() {
+async function logout() {
 
-  const {
-    error
-  } =
-    await supabase.auth.signOut();
+  const result =
+    await signOut();
 
-  if (error) {
 
-    throw error;
+  if (
+    !result.success
+  ) {
+
+    throw (
+      result.error ||
+      new Error(
+        "Unable to sign out."
+      )
+    );
 
   }
 
 
   window.location.href =
-    LOGIN_PAGE;
-
-}
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-export function onAuthChange(
-  callback
-) {
-
-  return supabase.auth.onAuthStateChange(
-    (
-      event,
-      session
-    ) => {
-
-      if (
-        typeof callback ===
-        "function"
-      ) {
-
-        callback(
-          event,
-          session
-        );
-
-      }
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   REQUIRE LOGIN
-========================================================= */
-
-export async function requireAuth(
-  redirect = LOGIN_PAGE
-) {
-
-  const session =
-    await getSession();
-
-
-  if (!session) {
-
-    const current =
-      window.location.href;
-
-    const separator =
-      redirect.includes("?")
-        ? "&"
-        : "?";
-
-
-    window.location.href =
-      redirect +
-      separator +
-      "redirect=" +
-      encodeURIComponent(
-        current
-      );
-
-
-    return null;
-
-  }
-
-
-  return session;
-
-}
-
-
-/* =========================================================
-   REQUIRE GUEST
-========================================================= */
-
-export async function requireGuest(
-  redirect = HOME_PAGE
-) {
-
-  const session =
-    await getSession();
-
-
-  if (session) {
-
-    window.location.href =
-      redirect;
-
-    return false;
-
-  }
-
-
-  return true;
-
-}
-
-
-/* =========================================================
-   USER PROFILE
-========================================================= */
-
-export async function updateProfile(
-  updates = {}
-) {
-
-  const {
-    data,
-    error
-  } =
-    await supabase.auth.updateUser({
-
-      data: {
-        ...updates
-      }
-
-    });
-
-
-  if (error) {
-
-    throw error;
-
-  }
-
-
-  return data?.user || null;
-
-}
-
-
-/* =========================================================
-   CHANGE PASSWORD
-========================================================= */
-
-export async function changePassword(
-  newPassword
-) {
-
-  if (!newPassword) {
-
-    throw new Error(
-      "New password is required."
-    );
-
-  }
-
-
-  if (newPassword.length < 8) {
-
-    throw new Error(
-      "Password must contain at least 8 characters."
-    );
-
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await supabase.auth.updateUser({
-
-      password:
-        newPassword
-
-    });
-
-
-  if (error) {
-
-    throw error;
-
-  }
-
-
-  return data?.user || null;
-
-}
-
-
-/* =========================================================
-   PASSWORD RESET
-========================================================= */
-
-export async function resetPassword(
-  email
-) {
-
-  if (!email) {
-
-    throw new Error(
-      "Email is required."
-    );
-
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await supabase.auth.resetPasswordForEmail(
-
-      email.trim(),
-
-      {
-        redirectTo:
-          window.location.origin +
-          "/login.html"
-      }
-
-    );
-
-
-  if (error) {
-
-    throw error;
-
-  }
-
-
-  return data;
-
-}
-
-
-/* =========================================================
-   AUTH ERROR MESSAGE
-========================================================= */
-
-export function getAuthErrorMessage(
-  error
-) {
-
-  const message =
-    String(
-      error?.message ||
-      error ||
-      ""
-    ).toLowerCase();
-
-
-  if (
-    message.includes(
-      "invalid login credentials"
-    )
-  ) {
-
-    return "Email or password is incorrect.";
-
-  }
-
-
-  if (
-    message.includes(
-      "email not confirmed"
-    )
-  ) {
-
-    return "Please confirm your email first.";
-
-  }
-
-
-  if (
-    message.includes(
-      "user already registered"
-    )
-  ) {
-
-    return "This email is already registered.";
-
-  }
-
-
-  if (
-    message.includes(
-      "password"
-    ) &&
-    message.includes(
-      "characters"
-    )
-  ) {
-
-    return "Password is too short.";
-
-  }
-
-
-  if (
-    message.includes(
-      "rate limit"
-    )
-  ) {
-
-    return "Too many attempts. Please try again later.";
-
-  }
-
-
-  if (
-    message.includes(
-      "network"
-    )
-  ) {
-
-    return "Network error. Check your internet connection.";
-
-  }
-
-
-  return (
-    error?.message ||
-    "Authentication failed. Please try again."
-  );
-
-}
-
-
-/* =========================================================
-   REDIRECT AFTER LOGIN
-========================================================= */
-
-export function getRedirectTarget() {
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  const redirect =
-    params.get(
-      "redirect"
-    );
-
-
-  if (!redirect) {
-
-    return HOME_PAGE;
-
-  }
-
-
-  try {
-
-    const url =
-      new URL(
-        redirect,
-        window.location.origin
-      );
-
-
-    if (
-      url.origin !==
-      window.location.origin
-    ) {
-
-      return HOME_PAGE;
-
-    }
-
-
-    return (
-      url.pathname +
-      url.search +
-      url.hash
-    );
-
-  } catch {
-
-    return HOME_PAGE;
-
-  }
+    AUTH_CONFIG.loginPage;
 
 }
 
@@ -674,12 +617,10 @@ export function getRedirectTarget() {
    LOGIN FORM
 ========================================================= */
 
-function setupLoginForm() {
+function initLoginForm() {
 
   const form =
-    document.querySelector(
-      "[data-sonativa-login]"
-    );
+    $("#loginForm");
 
 
   if (!form) {
@@ -687,79 +628,77 @@ function setupLoginForm() {
   }
 
 
+  const emailInput =
+    form.querySelector(
+      'input[type="email"], #email'
+    );
+
+
+  const passwordInput =
+    form.querySelector(
+      'input[type="password"], #password'
+    );
+
+
+  const submitButton =
+    form.querySelector(
+      'button[type="submit"]'
+    );
+
+
   form.addEventListener(
     "submit",
-    async event => {
+    async (event) => {
 
       event.preventDefault();
 
-
-      const email =
-        form.querySelector(
-          "[name='email']"
-        )?.value;
-
-
-      const password =
-        form.querySelector(
-          "[name='password']"
-        )?.value;
-
-
-      const button =
-        form.querySelector(
-          "button[type='submit']"
-        );
+      clearMessage();
 
 
       try {
 
-        if (button) {
-
-          button.disabled =
-            true;
-
-          button.dataset.originalText =
-            button.textContent;
-
-          button.textContent =
-            "Signing in...";
-
-        }
+        setLoading(
+          submitButton,
+          true,
+          "Signing in..."
+        );
 
 
-        await loginWithEmail(
-          email,
-          password
+        await login(
+          emailInput?.value,
+          passwordInput?.value
+        );
+
+
+        showMessage(
+          "Login successful. Redirecting...",
+          "success"
         );
 
 
         window.location.href =
-          getRedirectTarget();
+          getRedirect();
 
 
       } catch (error) {
 
-        showAuthMessage(
-          form,
-          getAuthErrorMessage(
-            error
-          )
+        console.error(
+          "[Sonativa Auth] Login:",
+          error
         );
 
 
-      } finally {
+        showMessage(
+          error.message ||
+          "Unable to sign in.",
+          "error"
+        );
 
-        if (button) {
 
-          button.disabled =
-            false;
-
-          button.textContent =
-            button.dataset.originalText ||
-            "Sign in";
-
-        }
+        setLoading(
+          submitButton,
+          false
+        );
 
       }
 
@@ -770,15 +709,14 @@ function setupLoginForm() {
 
 
 /* =========================================================
-   SIGNUP FORM
+   REGISTER FORM
 ========================================================= */
 
-function setupSignupForm() {
+function initRegisterForm() {
 
   const form =
-    document.querySelector(
-      "[data-sonativa-signup]"
-    );
+    $("#registerForm") ||
+    $("#signupForm");
 
 
   if (!form) {
@@ -786,52 +724,432 @@ function setupSignupForm() {
   }
 
 
+  const emailInput =
+    form.querySelector(
+      'input[type="email"], #email'
+    );
+
+
+  const passwordInput =
+    form.querySelector(
+      'input[type="password"], #password'
+    );
+
+
+  const confirmInput =
+    form.querySelector(
+      "#confirmPassword, #passwordConfirm"
+    );
+
+
+  const nameInput =
+    form.querySelector(
+      "#name, #fullName, input[name='name']"
+    );
+
+
+  const submitButton =
+    form.querySelector(
+      'button[type="submit"]'
+    );
+
+
   form.addEventListener(
     "submit",
-    async event => {
+    async (event) => {
 
       event.preventDefault();
 
-
-      const email =
-        form.querySelector(
-          "[name='email']"
-        )?.value;
+      clearMessage();
 
 
-      const password =
-        form.querySelector(
-          "[name='password']"
-        )?.value;
+      if (
+        confirmInput &&
+        passwordInput.value !==
+        confirmInput.value
+      ) {
+
+        showMessage(
+          "Passwords do not match.",
+          "error"
+        );
+
+        return;
+
+      }
 
 
       try {
 
-        await signUp(
-          email,
-          password
+        setLoading(
+          submitButton,
+          true,
+          "Creating account..."
         );
 
 
-        showAuthMessage(
-          form,
-          "Account created. Check your email to confirm your account."
-        );
+        const metadata = {};
+
+
+        if (
+          nameInput?.value.trim()
+        ) {
+
+          metadata.full_name =
+            nameInput.value.trim();
+
+        }
+
+
+        const data =
+          await register(
+            emailInput?.value,
+            passwordInput?.value,
+            metadata
+          );
+
+
+        if (
+          data?.user &&
+          !data?.session
+        ) {
+
+          showMessage(
+            "Account created. Check your email to confirm your account.",
+            "success"
+          );
+
+        } else {
+
+          showMessage(
+            "Account created successfully.",
+            "success"
+          );
+
+
+          setTimeout(
+            () => {
+
+              window.location.href =
+                getRedirect();
+
+            },
+            700
+          );
+
+        }
 
 
       } catch (error) {
 
-        showAuthMessage(
-          form,
-          getAuthErrorMessage(
-            error
-          )
+        console.error(
+          "[Sonativa Auth] Register:",
+          error
+        );
+
+
+        showMessage(
+          error.message ||
+          "Unable to create account.",
+          "error"
+        );
+
+
+        setLoading(
+          submitButton,
+          false
         );
 
       }
 
     }
   );
+
+}
+
+
+/* =========================================================
+   PASSWORD RESET FORM
+========================================================= */
+
+function initResetForm() {
+
+  const form =
+    $("#resetPasswordForm") ||
+    $("#forgotPasswordForm");
+
+
+  if (!form) {
+    return;
+  }
+
+
+  const emailInput =
+    form.querySelector(
+      'input[type="email"], #email'
+    );
+
+
+  const submitButton =
+    form.querySelector(
+      'button[type="submit"]'
+    );
+
+
+  form.addEventListener(
+    "submit",
+    async (event) => {
+
+      event.preventDefault();
+
+      clearMessage();
+
+
+      try {
+
+        setLoading(
+          submitButton,
+          true,
+          "Sending..."
+        );
+
+
+        await resetPassword(
+          emailInput?.value
+        );
+
+
+        showMessage(
+          "Password reset instructions have been sent to your email.",
+          "success"
+        );
+
+
+        setLoading(
+          submitButton,
+          false
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "[Sonativa Auth] Reset:",
+          error
+        );
+
+
+        showMessage(
+          error.message ||
+          "Unable to send reset email.",
+          "error"
+        );
+
+
+        setLoading(
+          submitButton,
+          false
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   NEW PASSWORD FORM
+========================================================= */
+
+function initNewPasswordForm() {
+
+  const form =
+    $("#newPasswordForm");
+
+
+  if (!form) {
+    return;
+  }
+
+
+  const passwordInput =
+    form.querySelector(
+      "#password, input[type='password']"
+    );
+
+
+  const confirmInput =
+    form.querySelector(
+      "#confirmPassword, #passwordConfirm"
+    );
+
+
+  const submitButton =
+    form.querySelector(
+      'button[type="submit"]'
+    );
+
+
+  form.addEventListener(
+    "submit",
+    async (event) => {
+
+      event.preventDefault();
+
+      clearMessage();
+
+
+      if (
+        confirmInput &&
+        passwordInput.value !==
+        confirmInput.value
+      ) {
+
+        showMessage(
+          "Passwords do not match.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        setLoading(
+          submitButton,
+          true,
+          "Updating..."
+        );
+
+
+        await updatePassword(
+          passwordInput.value
+        );
+
+
+        showMessage(
+          "Password updated successfully.",
+          "success"
+        );
+
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              AUTH_CONFIG.homePage;
+
+          },
+          800
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "[Sonativa Auth] Password update:",
+          error
+        );
+
+
+        showMessage(
+          error.message ||
+          "Unable to update password.",
+          "error"
+        );
+
+
+        setLoading(
+          submitButton,
+          false
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   SOCIAL LOGIN BUTTONS
+========================================================= */
+
+function initSocialLogin() {
+
+  $$("[data-auth-provider]")
+    .forEach((button) => {
+
+      button.addEventListener(
+        "click",
+        async () => {
+
+          const provider =
+            button.dataset.authProvider;
+
+
+          try {
+
+            setLoading(
+              button,
+              true,
+              "Connecting..."
+            );
+
+
+            if (
+              provider ===
+              "google"
+            ) {
+
+              await loginWithGoogle();
+
+            } else if (
+              provider ===
+              "github"
+            ) {
+
+              await loginWithGitHub();
+
+            } else {
+
+              throw new Error(
+                "Unsupported authentication provider."
+              );
+
+            }
+
+          } catch (error) {
+
+            console.error(
+              "[Sonativa Auth] Social login:",
+              error
+            );
+
+
+            showMessage(
+              error.message ||
+              "Unable to continue.",
+              "error"
+            );
+
+
+            setLoading(
+              button,
+              false
+            );
+
+          }
+
+        }
+      );
+
+    });
 
 }
 
@@ -840,167 +1158,83 @@ function setupSignupForm() {
    LOGOUT BUTTONS
 ========================================================= */
 
-function setupLogoutButtons() {
+function initLogoutButtons() {
 
-  document
-    .querySelectorAll(
-      "[data-sonativa-logout]"
-    )
-    .forEach(
-      button => {
+  $$(
+    "[data-auth-logout], [data-sonativa-logout]"
+  )
+    .forEach((button) => {
 
-        button.addEventListener(
-          "click",
-          async event => {
+      button.addEventListener(
+        "click",
+        async (event) => {
 
-            event.preventDefault();
+          event.preventDefault();
 
-            try {
 
-              button.disabled =
-                true;
+          try {
 
-              await logout();
+            setLoading(
+              button,
+              true,
+              "Signing out..."
+            );
 
-            } catch (error) {
 
-              button.disabled =
-                false;
+            await logout();
 
-              showAuthMessage(
-                document,
-                getAuthErrorMessage(
-                  error
-                )
-              );
+          } catch (error) {
 
-            }
+            console.error(
+              "[Sonativa Auth] Logout:",
+              error
+            );
+
+
+            showMessage(
+              error.message ||
+              "Unable to sign out.",
+              "error"
+            );
+
+
+            setLoading(
+              button,
+              false
+            );
 
           }
-        );
 
-      }
-    );
-
-}
-
-
-/* =========================================================
-   AUTH MESSAGE
-========================================================= */
-
-function showAuthMessage(
-  container,
-  message
-) {
-
-  let element =
-    container.querySelector(
-      "[data-auth-message]"
-    );
-
-
-  if (!element) {
-
-    element =
-      document.createElement(
-        "div"
+        }
       );
 
-    element.dataset.authMessage =
-      "true";
-
-    element.setAttribute(
-      "role",
-      "alert"
-    );
-
-    container.prepend(
-      element
-    );
-
-  }
-
-
-  element.textContent =
-    message;
+    });
 
 }
 
 
 /* =========================================================
-   GLOBAL API
+   AUTH STATE
 ========================================================= */
 
-window.SonativaAuth = {
+function initAuthState() {
 
-  getUser,
-
-  getSession,
-
-  loginWithEmail,
-
-  signUp,
-
-  sendMagicLink,
-
-  loginWithGoogle,
-
-  logout,
-
-  onAuthChange,
-
-  requireAuth,
-
-  requireGuest,
-
-  updateProfile,
-
-  changePassword,
-
-  resetPassword,
-
-  getAuthErrorMessage,
-
-  getRedirectTarget
-
-};
-
-
-/* =========================================================
-   AUTO SETUP
-========================================================= */
-
-function initAuth() {
-
-  setupLoginForm();
-
-  setupSignupForm();
-
-  setupLogoutButtons();
-
-
-  onAuthChange(
+  onAuthStateChange(
     (
       event,
       session
     ) => {
 
-      document
-        .documentElement
-        .dataset.authenticated =
-        session
-          ? "true"
-          : "false";
-
-
       window.dispatchEvent(
         new CustomEvent(
-          "sonativa:auth",
+          "sonativa:auth-change",
           {
             detail: {
               event,
-              session
+              session,
+              user:
+                session?.user ||
+                null
             }
           }
         )
@@ -1012,6 +1246,66 @@ function initAuth() {
 }
 
 
+/* =========================================================
+   PUBLIC API
+========================================================= */
+
+export const SonativaAuth = {
+
+  login,
+
+  register,
+
+  logout,
+
+  resetPassword,
+
+  updatePassword,
+
+  loginWithGoogle,
+
+  loginWithGitHub,
+
+  getUser,
+
+  getSession,
+
+  isAuthenticated:
+    async () =>
+      Boolean(
+        await getSession()
+      )
+
+};
+
+
+window.SonativaAuth =
+  SonativaAuth;
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+function initAuth() {
+
+  initLoginForm();
+
+  initRegisterForm();
+
+  initResetForm();
+
+  initNewPasswordForm();
+
+  initSocialLogin();
+
+  initLogoutButtons();
+
+  initAuthState();
+
+}
+
+
 if (
   document.readyState ===
   "loading"
@@ -1019,7 +1313,10 @@ if (
 
   document.addEventListener(
     "DOMContentLoaded",
-    initAuth
+    initAuth,
+    {
+      once: true
+    }
   );
 
 } else {
