@@ -9,10 +9,6 @@
   <link rel="stylesheet" href="assets/css/sonativa.css">
 
   <style>
-    /* =========================================================
-       SONATIVA TOKEN STUDIO — PAGE EXPERIENCE
-    ========================================================= */
-
     .ts-page{
       position:relative;
       min-height:calc(100vh - var(--sn-topbar));
@@ -772,16 +768,9 @@
   </style>
 </head>
 
-<body
-  data-auth-required="true"
-  class="sn-app"
->
+<body data-auth-required="true" class="sn-app">
 
   <div class="sn-background"></div>
-
-  <!-- =====================================================
-       SIDEBAR
-  ====================================================== -->
 
   <aside id="sidebar" class="sn-sidebar">
 
@@ -888,11 +877,6 @@
 
   </aside>
 
-
-  <!-- =====================================================
-       MAIN
-  ====================================================== -->
-
   <main class="sn-main">
 
     <header class="sn-topbar">
@@ -920,10 +904,7 @@
 
       </div>
 
-      <div
-        id="topActions"
-        class="sn-top-right"
-      >
+      <div id="topActions" class="sn-top-right">
 
         <select
           id="languageSelect"
@@ -958,12 +939,7 @@
 
     </header>
 
-
     <section class="sn-content ts-page">
-
-      <!-- =================================================
-           HERO
-      ================================================== -->
 
       <section class="ts-hero">
 
@@ -1029,19 +1005,9 @@
 
       </section>
 
-
-      <!-- =================================================
-           MAIN BUILDER
-      ================================================== -->
-
       <div class="ts-layout">
 
-        <!-- BUILDER -->
-
-        <section
-          id="builder"
-          class="ts-panel"
-        >
+        <section id="builder" class="ts-panel">
 
           <div class="ts-panel-head">
 
@@ -1065,9 +1031,6 @@
             </span>
 
           </div>
-
-
-          <!-- STEP 1 -->
 
           <div class="ts-step">
 
@@ -1104,10 +1067,7 @@
                     autocomplete="off"
                   >
 
-                  <span
-                    id="projectNameCount"
-                    class="ts-input-counter"
-                  >
+                  <span id="projectNameCount" class="ts-input-counter">
                     0/60
                   </span>
 
@@ -1118,7 +1078,6 @@
                 </div>
 
               </div>
-
 
               <div class="sn-field">
 
@@ -1143,7 +1102,6 @@
 
               </div>
 
-
               <div class="sn-field">
 
                 <label class="sn-label">
@@ -1162,10 +1120,7 @@
                     autocomplete="off"
                   >
 
-                  <span
-                    id="symbolCount"
-                    class="ts-input-counter"
-                  >
+                  <span id="symbolCount" class="ts-input-counter">
                     0/12
                   </span>
 
@@ -1176,7 +1131,6 @@
                 </div>
 
               </div>
-
 
               <div class="sn-field">
 
@@ -1200,7 +1154,6 @@
 
               </div>
 
-
               <div class="sn-field">
 
                 <label class="sn-label">
@@ -1222,7 +1175,6 @@
                 </div>
 
               </div>
-
 
               <div class="sn-field">
 
@@ -1257,7 +1209,6 @@
 
                   </label>
 
-
                   <label class="ts-network">
 
                     <input
@@ -1285,7 +1236,6 @@
 
               </div>
 
-
               <div class="sn-field ts-field-full">
 
                 <label class="sn-label">
@@ -1304,10 +1254,7 @@
                     placeholder="Describe your token, ecosystem or project..."
                   ></textarea>
 
-                  <span
-                    id="descriptionCount"
-                    class="ts-textarea-counter"
-                  >
+                  <span id="descriptionCount" class="ts-textarea-counter">
                     0/500
                   </span>
 
@@ -1318,9 +1265,6 @@
             </div>
 
           </div>
-
-
-          <!-- STEP 2 -->
 
           <div class="ts-step">
 
@@ -1337,7 +1281,6 @@
           <div class="ts-form">
 
             <div class="ts-switches">
-
 
               <div class="ts-switch-row">
 
@@ -1369,7 +1312,6 @@
 
               </div>
 
-
               <div class="ts-switch-row">
 
                 <div class="ts-switch-info">
@@ -1400,7 +1342,6 @@
 
               </div>
 
-
               <div class="ts-switch-row">
 
                 <div class="ts-switch-info">
@@ -1430,13 +1371,9 @@
 
               </div>
 
-
             </div>
 
           </div>
-
-
-          <!-- SAVE -->
 
           <div class="ts-bottom">
 
@@ -1474,9 +1411,6 @@
 
         </section>
 
-
-        <!-- PREVIEW -->
-
         <aside class="ts-preview">
 
           <section class="ts-panel">
@@ -1504,17 +1438,13 @@
 
             </div>
 
-
             <div style="padding:12px">
 
               <div class="ts-token-card">
 
                 <div class="ts-token-top">
 
-                  <div
-                    id="previewSymbol"
-                    class="ts-token-symbol"
-                  >
+                  <div id="previewSymbol" class="ts-token-symbol">
                     S
                   </div>
 
@@ -1524,100 +1454,62 @@
 
                 </div>
 
-                <div
-                  id="previewName"
-                  class="ts-token-name"
-                >
+                <div id="previewName" class="ts-token-name">
                   Your Token
                 </div>
 
-                <div
-                  id="previewTicker"
-                  class="ts-token-ticker"
-                >
+                <div id="previewTicker" class="ts-token-ticker">
                   $TOKEN
                 </div>
 
-                <div
-                  id="previewDescription"
-                  class="ts-token-description"
-                >
+                <div id="previewDescription" class="ts-token-description">
                   Your token description will appear here.
                 </div>
-
 
                 <div class="ts-preview-stats">
 
                   <div class="ts-preview-stat">
-
                     <span>Supply</span>
-
-                    <strong id="previewSupply">
-                      100,000,000
-                    </strong>
-
+                    <strong id="previewSupply">100,000,000</strong>
                   </div>
 
                   <div class="ts-preview-stat">
-
                     <span>Decimals</span>
-
-                    <strong id="previewDecimals">
-                      9
-                    </strong>
-
+                    <strong id="previewDecimals">9</strong>
                   </div>
 
                   <div class="ts-preview-stat">
-
                     <span>Network</span>
-
-                    <strong id="previewNetwork">
-                      Solana Mainnet
-                    </strong>
-
+                    <strong id="previewNetwork">Solana Mainnet</strong>
                   </div>
 
                   <div class="ts-preview-stat">
-
                     <span>Metadata</span>
-
-                    <strong id="previewMetadata">
-                      Enabled
-                    </strong>
-
+                    <strong id="previewMetadata">Enabled</strong>
                   </div>
 
                 </div>
-
 
                 <div class="ts-preview-status">
 
                   <div class="ts-status-row">
                     <span>Freeze Authority</span>
-                    <strong id="previewFreeze">
-                      Enabled
-                    </strong>
+                    <strong id="previewFreeze">Enabled</strong>
                   </div>
 
                   <div class="ts-status-row">
                     <span>Mint Authority</span>
-                    <strong id="previewMint">
-                      Enabled
-                    </strong>
+                    <strong id="previewMint">Enabled</strong>
                   </div>
 
                   <div class="ts-status-row">
                     <span>Deployment</span>
-                    <strong>
-                      Wallet Authorized
-                    </strong>
+                    <strong>Wallet Authorized</strong>
                   </div>
 
                 </div>
 
               </div>
-
 
               <div class="ts-security-card">
 
@@ -1639,55 +1531,24 @@
 
               </div>
 
-
               <div class="ts-feature-strip">
 
                 <div class="ts-feature">
-
-                  <div class="ts-feature-icon">
-                    ◇
-                  </div>
-
-                  <strong>
-                    Token Identity
-                  </strong>
-
-                  <span>
-                    Name, symbol and metadata.
-                  </span>
-
+                  <div class="ts-feature-icon">◇</div>
+                  <strong>Token Identity</strong>
+                  <span>Name, symbol and metadata.</span>
                 </div>
 
                 <div class="ts-feature">
-
-                  <div class="ts-feature-icon">
-                    ◈
-                  </div>
-
-                  <strong>
-                    Tokenomics
-                  </strong>
-
-                  <span>
-                    Supply and precision.
-                  </span>
-
+                  <div class="ts-feature-icon">◈</div>
+                  <strong>Tokenomics</strong>
+                  <span>Supply and precision.</span>
                 </div>
 
                 <div class="ts-feature">
-
-                  <div class="ts-feature-icon">
-                    ◆
-                  </div>
-
-                  <strong>
-                    Security
-                  </strong>
-
-                  <span>
-                    Authority configuration.
-                  </span>
-
+                  <div class="ts-feature-icon">◆</div>
+                  <strong>Security</strong>
+                  <span>Authority configuration.</span>
                 </div>
 
               </div>
@@ -1702,11 +1563,6 @@
 
     </section>
 
-
-    <!-- ===================================================
-         TOAST
-    ==================================================== -->
-
     <div
       id="tokenStudioToast"
       class="ts-toast"
@@ -1714,10 +1570,7 @@
       aria-live="polite"
     >
 
-      <div
-        id="toastIcon"
-        class="ts-toast-icon"
-      >
+      <div id="toastIcon" class="ts-toast-icon">
         ✓
       </div>
 
@@ -1737,11 +1590,6 @@
 
   </main>
 
-
-  <!-- =====================================================
-       APP
-  ====================================================== -->
-
   <script type="module">
 
     import {
@@ -1749,60 +1597,26 @@
       getUser
     } from "./assets/js/supabase.js";
 
-
     const $ = (selector) =>
       document.querySelector(selector);
 
+    const projectName = $("#projectName");
+    const tokenName = $("#tokenName");
+    const tokenSymbol = $("#tokenSymbol");
+    const decimals = $("#decimals");
+    const totalSupply = $("#totalSupply");
+    const description = $("#projectDescription");
 
-    const projectName =
-      $("#projectName");
-
-    const tokenName =
-      $("#tokenName");
-
-    const tokenSymbol =
-      $("#tokenSymbol");
-
-    const decimals =
-      $("#decimals");
-
-    const totalSupply =
-      $("#totalSupply");
-
-    const description =
-      $("#projectDescription");
-
-
-    const previewName =
-      $("#previewName");
-
-    const previewTicker =
-      $("#previewTicker");
-
-    const previewSymbol =
-      $("#previewSymbol");
-
-    const previewSupply =
-      $("#previewSupply");
-
-    const previewDecimals =
-      $("#previewDecimals");
-
-    const previewNetwork =
-      $("#previewNetwork");
-
-    const previewDescription =
-      $("#previewDescription");
-
-    const previewFreeze =
-      $("#previewFreeze");
-
-    const previewMint =
-      $("#previewMint");
-
-    const previewMetadata =
-      $("#previewMetadata");
-
+    const previewName = $("#previewName");
+    const previewTicker = $("#previewTicker");
+    const previewSymbol = $("#previewSymbol");
+    const previewSupply = $("#previewSupply");
+    const previewDecimals = $("#previewDecimals");
+    const previewNetwork = $("#previewNetwork");
+    const previewDescription = $("#previewDescription");
+    const previewFreeze = $("#previewFreeze");
+    const previewMint = $("#previewMint");
+    const previewMetadata = $("#previewMetadata");
 
     function formatNumber(value){
 
@@ -1810,49 +1624,35 @@
         return "0";
       }
 
-      const number =
-        Number(value);
+      const number = Number(value);
 
       if (!Number.isFinite(number)) {
         return "0";
       }
 
-      return new Intl.NumberFormat(
-        "en-US"
-      ).format(number);
-
+      return new Intl.NumberFormat("en-US").format(number);
     }
-
 
     function getNetwork(){
 
       return document
-        .querySelector(
-          'input[name="network"]:checked'
-        )
-        ?.value ||
-        "solana-mainnet";
-
+        .querySelector('input[name="network"]:checked')
+        ?.value || "solana-mainnet";
     }
-
 
     function updatePreview(){
 
       const name =
-        tokenName.value.trim() ||
-        "Your Token";
+        tokenName.value.trim() || "Your Token";
 
       const symbol =
-        tokenSymbol.value.trim().toUpperCase() ||
-        "TOKEN";
+        tokenSymbol.value.trim().toUpperCase() || "TOKEN";
 
       const supply =
-        totalSupply.value ||
-        "100000000";
+        totalSupply.value || "100000000";
 
       const decimalValue =
-        decimals.value ||
-        "9";
+        decimals.value || "9";
 
       const network =
         getNetwork();
@@ -1861,22 +1661,11 @@
         description.value.trim() ||
         "Your token description will appear here.";
 
-
-      previewName.textContent =
-        name;
-
-      previewTicker.textContent =
-        "$" + symbol;
-
-      previewSymbol.textContent =
-        symbol.slice(0, 3) ||
-        "S";
-
-      previewSupply.textContent =
-        formatNumber(supply);
-
-      previewDecimals.textContent =
-        decimalValue;
+      previewName.textContent = name;
+      previewTicker.textContent = "$" + symbol;
+      previewSymbol.textContent = symbol.slice(0, 3) || "S";
+      previewSupply.textContent = formatNumber(supply);
+      previewDecimals.textContent = decimalValue;
 
       previewNetwork.textContent =
         network === "solana-devnet"
@@ -1885,7 +1674,6 @@
 
       previewDescription.textContent =
         descriptionValue;
-
 
       previewFreeze.textContent =
         $("#freezeAuthority").checked
@@ -1902,7 +1690,6 @@
           ? "Enabled"
           : "Disabled";
 
-
       $("#projectNameCount").textContent =
         `${projectName.value.length}/60`;
 
@@ -1911,9 +1698,7 @@
 
       $("#descriptionCount").textContent =
         `${description.value.length}/500`;
-
     }
-
 
     function showToast(
       title,
@@ -1921,40 +1706,25 @@
       type = "success"
     ){
 
-      const toast =
-        $("#tokenStudioToast");
+      const toast = $("#tokenStudioToast");
+      const icon = $("#toastIcon");
 
-      const icon =
-        $("#toastIcon");
-
-      $("#toastTitle").textContent =
-        title;
-
-      $("#toastMessage").textContent =
-        message;
+      $("#toastTitle").textContent = title;
+      $("#toastMessage").textContent = message;
 
       icon.textContent =
-        type === "error"
-          ? "!"
-          : "✓";
+        type === "error" ? "!" : "✓";
 
       toast.className =
         `ts-toast show ${type}`;
 
-      clearTimeout(
-        window.__sonativaTokenToast
-      );
+      clearTimeout(window.__sonativaTokenToast);
 
       window.__sonativaTokenToast =
-        setTimeout(
-          () => {
-            toast.classList.remove("show");
-          },
-          4200
-        );
-
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 4200);
     }
-
 
     function collectProject(){
 
@@ -1988,15 +1758,9 @@
           $("#mintAuthority").checked,
 
         metadata:
-          $("#metadata").checked,
-
-        created_at:
-          new Date().toISOString()
-
+          $("#metadata").checked
       };
-
     }
-
 
     function validateProject(project){
 
@@ -2014,9 +1778,7 @@
         projectName.focus();
 
         return false;
-
       }
-
 
       if (
         project.token_name.length < 2
@@ -2031,9 +1793,7 @@
         tokenName.focus();
 
         return false;
-
       }
-
 
       if (
         !/^[A-Za-z0-9]{1,12}$/.test(
@@ -2050,9 +1810,7 @@
         tokenSymbol.focus();
 
         return false;
-
       }
-
 
       if (
         !Number.isInteger(project.decimals) ||
@@ -2069,9 +1827,7 @@
         decimals.focus();
 
         return false;
-
       }
-
 
       const supply =
         Number(project.total_supply);
@@ -2090,14 +1846,10 @@
         totalSupply.focus();
 
         return false;
-
       }
 
-
       return true;
-
     }
-
 
     function saveLocal(project){
 
@@ -2105,13 +1857,11 @@
         JSON.parse(
           localStorage.getItem(
             "sonativa_projects"
-          ) ||
-          "[]"
+          ) || "[]"
         );
 
       project.id =
-        "local_" +
-        Date.now();
+        "local_" + Date.now();
 
       existing.unshift(project);
 
@@ -2119,21 +1869,16 @@
         "sonativa_projects",
         JSON.stringify(existing)
       );
-
     }
-
 
     async function saveProject(){
 
       const project =
         collectProject();
 
-      if (
-        !validateProject(project)
-      ){
+      if (!validateProject(project)){
         return;
       }
-
 
       const button =
         $("#saveButton");
@@ -2141,17 +1886,12 @@
       const original =
         button.textContent;
 
-      button.disabled =
-        true;
-
-      button.textContent =
-        "Saving...";
-
+      button.disabled = true;
+      button.textContent = "Saving...";
 
       try {
 
-        let savedRemotely =
-          false;
+        let savedRemotely = false;
 
         if (supabase){
 
@@ -2162,10 +1902,38 @@
 
             if (user){
 
+              /*
+               * IMPORTANT:
+               * This object matches the current
+               * public.projects table exactly.
+               *
+               * Existing columns:
+               * id
+               * user_id
+               * project_name
+               * token_name
+               * token_symbol
+               * total_supply
+               * decimals
+               * network
+               * description
+               * metadata_uri
+               * token_status
+               * mint_address
+               * created_at
+               * updated_at
+               *
+               * We do NOT send:
+               * metadata_enabled
+               * freeze_authority
+               * mint_authority
+               */
+
               const result =
                 await supabase
                   .from("projects")
                   .insert({
+
                     user_id:
                       user.id,
 
@@ -2190,23 +1958,22 @@
                     description:
                       project.description,
 
-                    freeze_authority:
-                      project.freeze_authority,
-
-                    mint_authority:
-                      project.mint_authority,
-
-                    metadata_enabled:
-                      project.metadata,
-
                     token_status:
                       "draft"
-                  });
+
+                  })
+                  .select();
 
               if (!result.error){
 
-                savedRemotely =
-                  true;
+                savedRemotely = true;
+
+              } else {
+
+                console.error(
+                  "[Sonativa] Supabase project insert error:",
+                  result.error
+                );
 
               }
 
@@ -2214,8 +1981,8 @@
 
           } catch (remoteError){
 
-            console.warn(
-              "[Sonativa] Remote project save unavailable:",
+            console.error(
+              "[Sonativa] Remote project save error:",
               remoteError
             );
 
@@ -2223,33 +1990,31 @@
 
         }
 
-
         if (!savedRemotely){
 
           saveLocal(project);
 
-        }
+          showToast(
+            "Project saved locally",
+            "Supabase did not accept the project. Check the browser console for the exact error.",
+            "error"
+          );
 
+          return;
+        }
 
         showToast(
           "Project saved",
-          savedRemotely
-            ? "Your project draft was saved to your Sonativa workspace."
-            : "Project saved locally. It will remain available on this device.",
+          "Your project draft was saved to your Sonativa workspace.",
           "success"
         );
 
+        setTimeout(() => {
 
-        setTimeout(
-          () => {
+          window.location.href =
+            "projects.html";
 
-            window.location.href =
-              "projects.html";
-
-          },
-          1000
-        );
-
+        }, 1000);
 
       } catch(error){
 
@@ -2260,51 +2025,32 @@
 
         showToast(
           "Save failed",
+          error?.message ||
           "Unable to save this project.",
           "error"
         );
 
       } finally {
 
-        button.disabled =
-          false;
-
-        button.textContent =
-          original;
+        button.disabled = false;
+        button.textContent = original;
 
       }
-
     }
-
 
     function resetForm(){
 
-      projectName.value =
-        "";
+      projectName.value = "";
+      tokenName.value = "";
+      tokenSymbol.value = "";
 
-      tokenName.value =
-        "";
+      decimals.value = "9";
+      totalSupply.value = "100000000";
+      description.value = "";
 
-      tokenSymbol.value =
-        "";
-
-      decimals.value =
-        "9";
-
-      totalSupply.value =
-        "100000000";
-
-      description.value =
-        "";
-
-      $("#freezeAuthority").checked =
-        true;
-
-      $("#mintAuthority").checked =
-        true;
-
-      $("#metadata").checked =
-        true;
+      $("#freezeAuthority").checked = true;
+      $("#mintAuthority").checked = true;
+      $("#metadata").checked = true;
 
       document
         .querySelector(
@@ -2319,9 +2065,7 @@
         "The Token Studio form has been cleared.",
         "success"
       );
-
     }
-
 
     [
       projectName,
@@ -2333,39 +2077,32 @@
       $("#freezeAuthority"),
       $("#mintAuthority"),
       $("#metadata")
-    ]
-      .forEach(
-        element => {
+    ].forEach(element => {
 
-          element.addEventListener(
-            "input",
-            updatePreview
-          );
-
-          element.addEventListener(
-            "change",
-            updatePreview
-          );
-
-        }
+      element.addEventListener(
+        "input",
+        updatePreview
       );
 
+      element.addEventListener(
+        "change",
+        updatePreview
+      );
+
+    });
 
     document
       .querySelectorAll(
         'input[name="network"]'
       )
-      .forEach(
-        element => {
+      .forEach(element => {
 
-          element.addEventListener(
-            "change",
-            updatePreview
-          );
+        element.addEventListener(
+          "change",
+          updatePreview
+        );
 
-        }
-      );
-
+      });
 
     tokenSymbol.addEventListener(
       "input",
@@ -2384,20 +2121,17 @@
       }
     );
 
-
     $("#saveButton")
       .addEventListener(
         "click",
         saveProject
       );
 
-
     $("#resetButton")
       .addEventListener(
         "click",
         resetForm
       );
-
 
     $("#focusBuilder")
       .addEventListener(
@@ -2410,27 +2144,16 @@
               block:"start"
             });
 
-          setTimeout(
-            () => {
-              projectName.focus();
-            },
-            450
-          );
+          setTimeout(() => {
+            projectName.focus();
+          }, 450);
 
         }
       );
 
-
-    /*
-      Allow the global Sonativa application
-      to initialize sidebar, language, auth,
-      wallet and notifications.
-    */
-
     updatePreview();
 
   </script>
-
 
   <script
     type="module"
