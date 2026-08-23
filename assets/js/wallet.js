@@ -1,59 +1,63 @@
 /* =========================================================
-   SONATIVA — WALLET.JS
-   Solana Wallet / Phantom Integration
+   SONATIVA — WALLET SYSTEM
+   File: assets/js/wallet.js
+
+   Supports:
+   • Phantom
+   • Solana wallet connection
+   • Connect / disconnect
+   • Account change detection
+   • Network detection
+   • Public address display
+   • SOL balance
+   • Safe transaction signing
+   • No private key / seed phrase access
    ========================================================= */
 
+import {
+  Connection,
+  PublicKey,
+  Transaction,
+  VersionedTransaction
+} from "https://esm.sh/@solana/web3.js@1.98.4";
+
 import { supabase } from "./supabase.js";
+
 
 /* =========================================================
    CONFIG
 ========================================================= */
 
-const STORAGE_KEY = "sonativa_wallet";
-const WALLET_NETWORK_KEY = "sonativa_wallet_network";
+const SONATIVA_NETWORK =
+  "mainnet-beta";
 
-const NETWORKS = {
-  mainnet: {
-    name: "Solana Mainnet",
-    cluster: "mainnet-beta"
-  },
+const SOLANA_RPC =
+  "https://api.mainnet-beta.solana.com";
 
-  devnet: {
-    name: "Solana Devnet",
-    cluster: "devnet"
-  },
+const connection =
+  new Connection(
+    SOLANA_RPC,
+    "confirmed"
+  );
 
-  testnet: {
-    name: "Solana Testnet",
-    cluster: "testnet"
-  }
-};
 
-/*
-  Mainnet token creation can remain disabled while
-  Sonativa is being tested.
-*/
+/* =========================================================
+   STATE
+========================================================= */
+
+let walletPublicKey = null;
 
 let walletProvider = null;
-let connectedPublicKey = null;
+
+let walletConnected = false;
+
 
 /* =========================================================
-   DOM HELPERS
+   FIND PHANTOM
 ========================================================= */
 
-function $(selector) {
-  return document.querySelector(selector);
-}
+function getPhantomProvider() {
 
-function $all(selector) {
-  return [...document.querySelectorAll(selector)];
-}
-
-/* =========================================================
-   WALLET PROVIDER
-========================================================= */
-
-function detectPhantom() {
   if (
     window.phantom &&
     window.phantom.solana
@@ -71,87 +75,595 @@ function detectPhantom() {
   return null;
 }
 
-/* =========================================================
-   PHANTOM DEEP LINK / BROWSER SUPPORT
-========================================================= */
-
-function isInsidePhantom() {
-  const ua =
-    navigator.userAgent ||
-    "";
-
-  return (
-    /Phantom/i.test(ua) ||
-    /PhantomBrowser/i.test(ua)
-  );
-}
-
-function getCurrentPageUrl() {
-  return window.location.href;
-}
-
-function openInsidePhantom() {
-  const url =
-    getCurrentPageUrl();
-
-  const encoded =
-    encodeURIComponent(url);
-
-  /*
-    Phantom's browser can open normal HTTPS pages.
-    This fallback gives the user a clear way to
-    continue when Phantom is not injected.
-  */
-
-  const phantomUrl =
-    `https://phantom.app/ul/browse/${encoded}`;
-
-  window.location.href =
-    phantomUrl;
-}
 
 /* =========================================================
-   INITIALIZE PROVIDER
+   GET PROVIDER
 ========================================================= */
 
-export function initializeWallet() {
+export function getWalletProvider() {
+
+  if (walletProvider) {
+    return walletProvider;
+  }
+
   walletProvider =
-    detectPhantom();
+    getPhantomProvider();
 
   return walletProvider;
 }
 
+
 /* =========================================================
-   PUBLIC KEY
+   PHANTOM DETECTION
 ========================================================= */
 
-export function getPublicKey() {
-  if (connectedPublicKey) {
-    return connectedPublicKey;
+export function isPhantomInstalled() {
+
+  return !!getPhantomProvider();
+
+}
+
+
+/* =========================================================
+   CONNECT
+========================================================= */
+
+export async function connectWallet() {
+
+  const provider =
+    getWalletProvider();
+
+  if (!provider) {
+
+    throw new Error(
+      "Phantom Wallet was not detected. Open Sonativa inside Phantom or use a browser with Phantom installed."
+    );
+
   }
 
+  try {
+
+    const response =
+      await provider.connect();
+
+    const publicKey =
+      response?.publicKey ||
+      provider.publicKey;
+
+    if (!publicKey) {
+      throw new Error(
+        "Phantom did not return a wallet address."
+      );
+    }
+
+    walletPublicKey =
+      publicKey instanceof PublicKey
+        ? publicKey
+        : new PublicKey(
+            publicKey.toString()
+          );
+
+    walletConnected = true;
+
+    saveWalletState();
+
+    await updateWalletUI();
+
+    return walletPublicKey.toString();
+
+  } catch (error) {
+
+    console.error(
+      "Sonativa wallet connection error:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+/* =========================================================
+   DISCONNECT
+========================================================= */
+
+export async function disconnectWallet() {
+
+  const provider =
+    getWalletProvider();
+
+  try {
+
+    if (provider) {
+      await provider.disconnect();
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Wallet disconnect warning:",
+      error
+    );
+
+  }
+
+  walletPublicKey = null;
+
+  walletConnected = false;
+
+  clearWalletState();
+
+  await updateWalletUI();
+
+}
+
+
+/* =========================================================
+   CURRENT WALLET
+========================================================= */
+
+export function getWalletAddress() {
+
+  if (walletPublicKey) {
+    return walletPublicKey.toString();
+  }
+
+  const provider =
+    getWalletProvider();
+
   if (
-    walletProvider &&
-    walletProvider.publicKey
+    provider &&
+    provider.publicKey
   ) {
-    return walletProvider.publicKey
-      .toString();
+
+    try {
+
+      walletPublicKey =
+        new PublicKey(
+          provider.publicKey.toString()
+        );
+
+      walletConnected = true;
+
+      return walletPublicKey.toString();
+
+    } catch {
+      return null;
+    }
+
   }
 
   return null;
+
 }
 
+
 /* =========================================================
-   FORMAT ADDRESS
+   CONNECTION STATUS
+========================================================= */
+
+export function isWalletConnected() {
+
+  return !!getWalletAddress();
+
+}
+
+
+/* =========================================================
+   NETWORK
+========================================================= */
+
+export function getNetwork() {
+
+  return SONATIVA_NETWORK;
+
+}
+
+
+/* =========================================================
+   SOL BALANCE
+========================================================= */
+
+export async function getSolBalance(
+  address = null
+) {
+
+  const wallet =
+    address ||
+    getWalletAddress();
+
+  if (!wallet) {
+    return 0;
+  }
+
+  try {
+
+    const publicKey =
+      new PublicKey(wallet);
+
+    const lamports =
+      await connection.getBalance(
+        publicKey,
+        "confirmed"
+      );
+
+    return lamports / 1_000_000_000;
+
+  } catch (error) {
+
+    console.error(
+      "SOL balance error:",
+      error
+    );
+
+    return 0;
+
+  }
+
+}
+
+
+/* =========================================================
+   WALLET INFO
+========================================================= */
+
+export async function getWalletInfo() {
+
+  const address =
+    getWalletAddress();
+
+  if (!address) {
+
+    return {
+      connected: false,
+      address: null,
+      network: SONATIVA_NETWORK,
+      balance: 0
+    };
+
+  }
+
+  const balance =
+    await getSolBalance(address);
+
+  return {
+
+    connected: true,
+
+    address,
+
+    network:
+      SONATIVA_NETWORK,
+
+    balance
+
+  };
+
+}
+
+
+/* =========================================================
+   SAFE TRANSACTION SIGNING
+========================================================= */
+
+export async function signTransaction(
+  transaction
+) {
+
+  const provider =
+    getWalletProvider();
+
+  if (!provider) {
+
+    throw new Error(
+      "Phantom Wallet is not available."
+    );
+
+  }
+
+  if (!getWalletAddress()) {
+
+    throw new Error(
+      "Connect your Phantom wallet first."
+    );
+
+  }
+
+  if (!transaction) {
+
+    throw new Error(
+      "Transaction is required."
+    );
+
+  }
+
+  try {
+
+    const signed =
+      await provider.signTransaction(
+        transaction
+      );
+
+    return signed;
+
+  } catch (error) {
+
+    console.error(
+      "Transaction signing failed:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+/* =========================================================
+   SIGN AND SEND TRANSACTION
+========================================================= */
+
+export async function signAndSendTransaction(
+  transaction
+) {
+
+  const provider =
+    getWalletProvider();
+
+  if (!provider) {
+
+    throw new Error(
+      "Phantom Wallet is not available."
+    );
+
+  }
+
+  if (!getWalletAddress()) {
+
+    throw new Error(
+      "Connect your Phantom wallet first."
+    );
+
+  }
+
+  try {
+
+    const signed =
+      await provider.signAndSendTransaction(
+        transaction
+      );
+
+    const signature =
+      signed?.signature ||
+      signed;
+
+    if (!signature) {
+
+      throw new Error(
+        "Phantom did not return a transaction signature."
+      );
+
+    }
+
+    await connection.confirmTransaction(
+      signature,
+      "confirmed"
+    );
+
+    return signature;
+
+  } catch (error) {
+
+    console.error(
+      "Transaction failed:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+/* =========================================================
+   SIGN MESSAGE
+========================================================= */
+
+export async function signMessage(
+  message
+) {
+
+  const provider =
+    getWalletProvider();
+
+  if (!provider) {
+
+    throw new Error(
+      "Phantom Wallet is not available."
+    );
+
+  }
+
+  if (!getWalletAddress()) {
+
+    throw new Error(
+      "Connect your Phantom wallet first."
+    );
+
+  }
+
+  if (!message) {
+
+    throw new Error(
+      "Message is required."
+    );
+
+  }
+
+  const encoded =
+    new TextEncoder().encode(
+      message
+    );
+
+  const result =
+    await provider.signMessage(
+      encoded,
+      "utf8"
+    );
+
+  return result;
+
+}
+
+
+/* =========================================================
+   SAVE LOCAL WALLET STATE
+========================================================= */
+
+function saveWalletState() {
+
+  const address =
+    getWalletAddress();
+
+  if (!address) {
+    return;
+  }
+
+  localStorage.setItem(
+    "sonativa_wallet_connected",
+    "true"
+  );
+
+  localStorage.setItem(
+    "sonativa_wallet_address",
+    address
+  );
+
+}
+
+
+/* =========================================================
+   CLEAR LOCAL STATE
+========================================================= */
+
+function clearWalletState() {
+
+  localStorage.removeItem(
+    "sonativa_wallet_connected"
+  );
+
+  localStorage.removeItem(
+    "sonativa_wallet_address"
+  );
+
+}
+
+
+/* =========================================================
+   WALLET UI
+========================================================= */
+
+export async function updateWalletUI() {
+
+  const address =
+    getWalletAddress();
+
+  const connected =
+    !!address;
+
+  const elements =
+    document.querySelectorAll(
+      "[data-wallet-address]"
+    );
+
+  elements.forEach(
+    element => {
+
+      element.textContent =
+        connected
+          ? shortenAddress(address)
+          : "Not connected";
+
+    }
+  );
+
+
+  document
+    .querySelectorAll(
+      "[data-wallet-status]"
+    )
+    .forEach(
+      element => {
+
+        element.textContent =
+          connected
+            ? "Connected"
+            : "Not connected";
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-wallet-balance]"
+    )
+    .forEach(
+      async element => {
+
+        if (!connected) {
+
+          element.textContent =
+            "0 SOL";
+
+          return;
+
+        }
+
+        const balance =
+          await getSolBalance(address);
+
+        element.textContent =
+          `${balance.toFixed(4)} SOL`;
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-wallet-connect]"
+    )
+    .forEach(
+      button => {
+
+        button.textContent =
+          connected
+            ? shortenAddress(address)
+            : "Connect Phantom";
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   SHORT ADDRESS
 ========================================================= */
 
 export function shortenAddress(
   address,
-  start = 6,
-  end = 6
+  start = 5,
+  end = 5
 ) {
+
   if (!address) {
-    return "Not connected";
+    return "";
   }
 
   const value =
@@ -161,7 +673,9 @@ export function shortenAddress(
     value.length <=
     start + end + 3
   ) {
+
     return value;
+
   }
 
   return (
@@ -169,990 +683,352 @@ export function shortenAddress(
     "..." +
     value.slice(-end)
   );
+
 }
+
 
 /* =========================================================
    COPY ADDRESS
 ========================================================= */
 
-export async function copyAddress(
-  address = getPublicKey()
-) {
-  if (!address) {
-    return false;
-  }
+export async function copyWalletAddress() {
 
-  try {
-    await navigator.clipboard.writeText(
-      String(address)
+  const address =
+    getWalletAddress();
+
+  if (!address) {
+
+    throw new Error(
+      "No wallet is connected."
     );
 
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/* =========================================================
-   WALLET STATE
-========================================================= */
-
-export function getWalletState() {
-  return {
-    connected:
-      !!getPublicKey(),
-
-    address:
-      getPublicKey(),
-
-    shortened:
-      shortenAddress(
-        getPublicKey()
-      ),
-
-    provider:
-      walletProvider
-        ? "Phantom"
-        : null,
-
-    network:
-      getStoredNetwork()
-  };
-}
-
-/* =========================================================
-   STORAGE
-========================================================= */
-
-function saveWallet(address) {
-  if (!address) {
-    return;
   }
 
-  localStorage.setItem(
-    STORAGE_KEY,
+  await navigator.clipboard.writeText(
     address
   );
+
+  return address;
+
 }
 
-function clearWalletStorage() {
-  localStorage.removeItem(
-    STORAGE_KEY
-  );
-}
-
-function getStoredWallet() {
-  return localStorage.getItem(
-    STORAGE_KEY
-  );
-}
-
-export function setNetwork(network) {
-  if (
-    !NETWORKS[network]
-  ) {
-    throw new Error(
-      "Unsupported Solana network."
-    );
-  }
-
-  localStorage.setItem(
-    WALLET_NETWORK_KEY,
-    network
-  );
-
-  updateWalletUI();
-
-  return network;
-}
-
-export function getStoredNetwork() {
-  return (
-    localStorage.getItem(
-      WALLET_NETWORK_KEY
-    ) ||
-    "devnet"
-  );
-}
-
-/* =========================================================
-   CONNECT PHANTOM
-========================================================= */
-
-export async function connectWallet() {
-  walletProvider =
-    detectPhantom();
-
-  if (!walletProvider) {
-    throw new Error(
-      "Phantom wallet was not detected. Open Sonativa inside Phantom or use a browser with Phantom installed."
-    );
-  }
-
-  try {
-    const response =
-      await walletProvider.connect();
-
-    const publicKey =
-      response?.publicKey ||
-      walletProvider.publicKey;
-
-    if (!publicKey) {
-      throw new Error(
-        "Phantom did not return a wallet address."
-      );
-    }
-
-    connectedPublicKey =
-      publicKey.toString();
-
-    saveWallet(
-      connectedPublicKey
-    );
-
-    updateWalletUI();
-
-    await syncWalletWithSupabase(
-      connectedPublicKey
-    );
-
-    dispatchWalletEvent(
-      "connected"
-    );
-
-    return connectedPublicKey;
-
-  } catch (error) {
-    console.error(
-      "Sonativa wallet connection:",
-      error
-    );
-
-    throw error;
-  }
-}
-
-/* =========================================================
-   DISCONNECT
-========================================================= */
-
-export async function disconnectWallet() {
-  try {
-    if (
-      walletProvider &&
-      typeof walletProvider.disconnect ===
-        "function"
-    ) {
-      await walletProvider.disconnect();
-    }
-  } catch (error) {
-    console.warn(
-      "Phantom disconnect:",
-      error
-    );
-  }
-
-  connectedPublicKey = null;
-
-  clearWalletStorage();
-
-  updateWalletUI();
-
-  dispatchWalletEvent(
-    "disconnected"
-  );
-
-  return true;
-}
-
-/* =========================================================
-   RECONNECT
-========================================================= */
-
-export async function reconnectWallet() {
-  walletProvider =
-    detectPhantom();
-
-  if (!walletProvider) {
-    return null;
-  }
-
-  try {
-    /*
-      onlyIfTrusted prevents Phantom from
-      opening a new permission popup on every page.
-    */
-
-    let response = null;
-
-    if (
-      typeof walletProvider.connect ===
-      "function"
-    ) {
-      response =
-        await walletProvider.connect({
-          onlyIfTrusted: true
-        });
-    }
-
-    const publicKey =
-      response?.publicKey ||
-      walletProvider.publicKey;
-
-    if (!publicKey) {
-      connectedPublicKey = null;
-
-      updateWalletUI();
-
-      return null;
-    }
-
-    connectedPublicKey =
-      publicKey.toString();
-
-    saveWallet(
-      connectedPublicKey
-    );
-
-    updateWalletUI();
-
-    await syncWalletWithSupabase(
-      connectedPublicKey
-    );
-
-    dispatchWalletEvent(
-      "reconnected"
-    );
-
-    return connectedPublicKey;
-
-  } catch (error) {
-    /*
-      User simply has not approved Sonativa yet.
-      This is not treated as a fatal application error.
-    */
-
-    connectedPublicKey = null;
-
-    updateWalletUI();
-
-    return null;
-  }
-}
-
-/* =========================================================
-   SUPABASE WALLET SYNC
-========================================================= */
-
-async function syncWalletWithSupabase(
-  address
-) {
-  if (!address) {
-    return;
-  }
-
-  try {
-    const {
-      data: {
-        user
-      }
-    } =
-      await supabase.auth.getUser();
-
-    /*
-      Wallet connection must remain usable
-      without authentication.
-    */
-
-    if (!user) {
-      return;
-    }
-
-    /*
-      This updates user metadata only.
-      It does not store private keys or seed phrases.
-    */
-
-    const {
-      error
-    } =
-      await supabase.auth.updateUser({
-        data: {
-          wallet_address:
-            address,
-          wallet_provider:
-            "phantom",
-          wallet_network:
-            getStoredNetwork()
-        }
-      });
-
-    if (error) {
-      console.warn(
-        "Wallet profile sync:",
-        error.message
-      );
-    }
-
-  } catch (error) {
-    console.warn(
-      "Wallet Supabase sync:",
-      error
-    );
-  }
-}
-
-/* =========================================================
-   WALLET EVENTS
-========================================================= */
-
-function dispatchWalletEvent(
-  type
-) {
-  window.dispatchEvent(
-    new CustomEvent(
-      "sonativa:wallet",
-      {
-        detail: {
-          type,
-          ...getWalletState()
-        }
-      }
-    )
-  );
-}
 
 /* =========================================================
    PHANTOM EVENTS
 ========================================================= */
 
-function setupProviderEvents() {
-  if (!walletProvider) {
+function setupWalletEvents() {
+
+  const provider =
+    getWalletProvider();
+
+  if (!provider) {
     return;
   }
 
-  if (
-    typeof walletProvider.on !==
-    "function"
-  ) {
-    return;
-  }
 
-  walletProvider.on(
+  provider.on(
     "connect",
-    (publicKey) => {
-      connectedPublicKey =
-        publicKey?.toString() ||
-        walletProvider.publicKey?.toString() ||
-        null;
+    async publicKey => {
 
-      if (connectedPublicKey) {
-        saveWallet(
-          connectedPublicKey
+      try {
+
+        walletPublicKey =
+          publicKey instanceof PublicKey
+            ? publicKey
+            : new PublicKey(
+                publicKey.toString()
+              );
+
+        walletConnected = true;
+
+        saveWalletState();
+
+        await updateWalletUI();
+
+      } catch (error) {
+
+        console.error(
+          "Wallet connect event error:",
+          error
         );
+
       }
 
-      updateWalletUI();
-
-      dispatchWalletEvent(
-        "connected"
-      );
     }
   );
 
-  walletProvider.on(
+
+  provider.on(
     "disconnect",
-    () => {
-      connectedPublicKey = null;
+    async () => {
 
-      clearWalletStorage();
+      walletPublicKey = null;
 
-      updateWalletUI();
+      walletConnected = false;
 
-      dispatchWalletEvent(
-        "disconnected"
-      );
+      clearWalletState();
+
+      await updateWalletUI();
+
     }
   );
 
-  walletProvider.on(
+
+  provider.on(
     "accountChanged",
-    async (publicKey) => {
+    async publicKey => {
+
       if (!publicKey) {
-        connectedPublicKey = null;
 
-        clearWalletStorage();
+        walletPublicKey = null;
 
-        updateWalletUI();
+        walletConnected = false;
 
-        dispatchWalletEvent(
-          "accountChanged"
-        );
+        clearWalletState();
+
+        await updateWalletUI();
 
         return;
+
       }
 
-      connectedPublicKey =
-        publicKey.toString();
+      try {
 
-      saveWallet(
-        connectedPublicKey
-      );
-
-      updateWalletUI();
-
-      await syncWalletWithSupabase(
-        connectedPublicKey
-      );
-
-      dispatchWalletEvent(
-        "accountChanged"
-      );
-    }
-  );
-}
-
-/* =========================================================
-   UI UPDATE
-========================================================= */
-
-export function updateWalletUI() {
-  const address =
-    getPublicKey();
-
-  const connected =
-    !!address;
-
-  const short =
-    shortenAddress(address);
-
-  /*
-    Standard selectors
-  */
-
-  $all(
-    "[data-wallet-address]"
-  ).forEach(
-    (element) => {
-      element.textContent =
-        address || "Not connected";
-    }
-  );
-
-  $all(
-    "[data-wallet-short]"
-  ).forEach(
-    (element) => {
-      element.textContent =
-        connected
-          ? short
-          : "Connect Wallet";
-    }
-  );
-
-  $all(
-    "[data-wallet-status]"
-  ).forEach(
-    (element) => {
-      element.textContent =
-        connected
-          ? "Connected"
-          : "Not connected";
-
-      element.dataset.connected =
-        connected
-          ? "true"
-          : "false";
-    }
-  );
-
-  $all(
-    "[data-wallet-network]"
-  ).forEach(
-    (element) => {
-      const network =
-        getStoredNetwork();
-
-      element.textContent =
-        NETWORKS[network]?.name ||
-        network;
-    }
-  );
-
-  /*
-    Connect buttons
-  */
-
-  $all(
-    "[data-wallet-connect]"
-  ).forEach(
-    (button) => {
-      button.textContent =
-        connected
-          ? short
-          : "Connect Phantom";
-
-      button.dataset.connected =
-        connected
-          ? "true"
-          : "false";
-    }
-  );
-
-  /*
-    Disconnect buttons
-  */
-
-  $all(
-    "[data-wallet-disconnect]"
-  ).forEach(
-    (button) => {
-      button.hidden =
-        !connected;
-    }
-  );
-
-  /*
-    Elements visible only when connected
-  */
-
-  $all(
-    "[data-wallet-only-connected]"
-  ).forEach(
-    (element) => {
-      element.hidden =
-        !connected;
-    }
-  );
-
-  /*
-    Elements visible only when disconnected
-  */
-
-  $all(
-    "[data-wallet-only-disconnected]"
-  ).forEach(
-    (element) => {
-      element.hidden =
-        connected;
-    }
-  );
-
-  /*
-    Sidebar / dashboard compatibility
-  */
-
-  const walletStatus =
-    $("#walletStatus");
-
-  if (walletStatus) {
-    walletStatus.textContent =
-      connected
-        ? "Connected"
-        : "Guest";
-  }
-
-  const walletAddress =
-    $("#walletAddress");
-
-  if (walletAddress) {
-    walletAddress.textContent =
-      connected
-        ? short
-        : "Not connected";
-  }
-}
-
-/* =========================================================
-   CONNECT BUTTON BINDING
-========================================================= */
-
-function bindWalletButtons() {
-  $all(
-    "[data-wallet-connect]"
-  ).forEach(
-    (button) => {
-      button.addEventListener(
-        "click",
-        async (event) => {
-          event.preventDefault();
-
-          if (getPublicKey()) {
-            return;
-          }
-
-          button.disabled = true;
-
-          const originalText =
-            button.textContent;
-
-          button.textContent =
-            "Connecting...";
-
-          try {
-            await connectWallet();
-
-          } catch (error) {
-            console.error(
-              "Wallet connect:",
-              error
-            );
-
-            /*
-              If Phantom is not available,
-              offer the Phantom browser route.
-            */
-
-            const message =
-              error?.message ||
-              "Unable to connect wallet.";
-
-            if (
-              message
-                .toLowerCase()
-                .includes(
-                  "not detected"
-                )
-            ) {
-              const open =
-                window.confirm(
-                  "Phantom was not detected. Open this Sonativa page inside Phantom?"
-                );
-
-              if (open) {
-                openInsidePhantom();
-                return;
-              }
-            }
-
-            alert(message);
-
-          } finally {
-            button.disabled =
-              false;
-
-            if (
-              !getPublicKey()
-            ) {
-              button.textContent =
-                originalText ||
-                "Connect Phantom";
-            }
-          }
-        }
-      );
-    }
-  );
-
-  $all(
-    "[data-wallet-disconnect]"
-  ).forEach(
-    (button) => {
-      button.addEventListener(
-        "click",
-        async (event) => {
-          event.preventDefault();
-
-          button.disabled =
-            true;
-
-          try {
-            await disconnectWallet();
-          } catch (error) {
-            console.error(
-              "Wallet disconnect:",
-              error
-            );
-          } finally {
-            button.disabled =
-              false;
-          }
-        }
-      );
-    }
-  );
-
-  $all(
-    "[data-wallet-copy]"
-  ).forEach(
-    (button) => {
-      button.addEventListener(
-        "click",
-        async (event) => {
-          event.preventDefault();
-
-          const address =
-            getPublicKey();
-
-          if (!address) {
-            return;
-          }
-
-          const copied =
-            await copyAddress(
-              address
-            );
-
-          const oldText =
-            button.textContent;
-
-          button.textContent =
-            copied
-              ? "Copied ✓"
-              : "Copy failed";
-
-          setTimeout(
-            () => {
-              button.textContent =
-                oldText;
-            },
-            1500
+        walletPublicKey =
+          new PublicKey(
+            publicKey.toString()
           );
-        }
-      );
+
+        walletConnected = true;
+
+        saveWalletState();
+
+        await updateWalletUI();
+
+      } catch (error) {
+
+        console.error(
+          "Account change error:",
+          error
+        );
+
+      }
+
     }
   );
+
 }
 
+
 /* =========================================================
-   NETWORK SELECTOR
+   CONNECT BUTTONS
 ========================================================= */
 
-function bindNetworkSelector() {
-  $all(
-    "[data-wallet-network-select]"
-  ).forEach(
-    (select) => {
-      select.value =
-        getStoredNetwork();
+function setupConnectButtons() {
 
-      select.addEventListener(
-        "change",
-        () => {
-          try {
-            setNetwork(
-              select.value
-            );
-          } catch (error) {
-            console.error(
-              "Network selection:",
-              error
-            );
+  document
+    .querySelectorAll(
+      "[data-wallet-connect]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          async event => {
+
+            event.preventDefault();
+
+            try {
+
+              await connectWallet();
+
+            } catch (error) {
+
+              showWalletError(
+                error
+              );
+
+            }
+
           }
-        }
-      );
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-wallet-disconnect]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          async event => {
+
+            event.preventDefault();
+
+            await disconnectWallet();
+
+          }
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-wallet-copy]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          async event => {
+
+            event.preventDefault();
+
+            try {
+
+              await copyWalletAddress();
+
+              const oldText =
+                button.textContent;
+
+              button.textContent =
+                "Copied";
+
+              setTimeout(
+                () => {
+                  button.textContent =
+                    oldText;
+                },
+                1500
+              );
+
+            } catch (error) {
+
+              showWalletError(
+                error
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   ERROR DISPLAY
+========================================================= */
+
+function showWalletError(error) {
+
+  const message =
+    error?.message ||
+    "Wallet operation failed.";
+
+  console.error(
+    "Sonativa Wallet:",
+    message
+  );
+
+  const errorElements =
+    document.querySelectorAll(
+      "[data-wallet-error]"
+    );
+
+  errorElements.forEach(
+    element => {
+
+      element.textContent =
+        message;
+
+      element.hidden = false;
+
     }
   );
+
 }
 
+
 /* =========================================================
-   PHANTOM SECURITY CHECK
+   RESTORE CONNECTION
 ========================================================= */
 
-export function isValidSolanaAddress(
-  address
-) {
-  if (!address) {
-    return false;
+export async function restoreWallet() {
+
+  const provider =
+    getWalletProvider();
+
+  if (!provider) {
+    return null;
   }
 
-  /*
-    Solana public keys are base58 encoded
-    and normally 32 bytes / 32-44 characters.
-  */
+  try {
 
-  if (
-    typeof address !==
-    "string"
-  ) {
-    return false;
+    const response =
+      await provider.connect({
+        onlyIfTrusted: true
+      });
+
+    const publicKey =
+      response?.publicKey ||
+      provider.publicKey;
+
+    if (!publicKey) {
+      return null;
+    }
+
+    walletPublicKey =
+      new PublicKey(
+        publicKey.toString()
+      );
+
+    walletConnected = true;
+
+    saveWalletState();
+
+    await updateWalletUI();
+
+    return walletPublicKey.toString();
+
+  } catch {
+
+    return null;
+
   }
 
-  if (
-    address.length < 32 ||
-    address.length > 44
-  ) {
-    return false;
-  }
-
-  /*
-    Base58 alphabet.
-  */
-
-  return /^[1-9A-HJ-NP-Za-km-z]+$/.test(
-    address
-  );
 }
 
-/* =========================================================
-   TRANSACTION AUTHORIZATION
-========================================================= */
-
-export async function signTransaction(
-  transaction
-) {
-  if (!walletProvider) {
-    walletProvider =
-      detectPhantom();
-  }
-
-  if (!walletProvider) {
-    throw new Error(
-      "Phantom wallet was not detected."
-    );
-  }
-
-  if (!getPublicKey()) {
-    await connectWallet();
-  }
-
-  if (
-    typeof walletProvider.signTransaction !==
-    "function"
-  ) {
-    throw new Error(
-      "This Phantom wallet does not support transaction signing."
-    );
-  }
-
-  return walletProvider.signTransaction(
-    transaction
-  );
-}
 
 /* =========================================================
-   SIGN MESSAGE
-========================================================= */
-
-export async function signMessage(
-  message
-) {
-  if (!walletProvider) {
-    walletProvider =
-      detectPhantom();
-  }
-
-  if (!walletProvider) {
-    throw new Error(
-      "Phantom wallet was not detected."
-    );
-  }
-
-  if (!getPublicKey()) {
-    await connectWallet();
-  }
-
-  if (
-    typeof walletProvider.signMessage !==
-    "function"
-  ) {
-    throw new Error(
-      "This wallet does not support message signing."
-    );
-  }
-
-  const encoded =
-    typeof message ===
-    "string"
-      ? new TextEncoder().encode(
-          message
-        )
-      : message;
-
-  return walletProvider.signMessage(
-    encoded,
-    "utf8"
-  );
-}
-
-/* =========================================================
-   NEVER REQUEST SEED PHRASE
-========================================================= */
-
-export function walletSecurityNotice() {
-  return {
-    privateKeyRequested:
-      false,
-
-    seedPhraseRequested:
-      false,
-
-    custodial:
-      false,
-
-    message:
-      "Sonativa never requests or stores your Phantom seed phrase or private key."
-  };
-}
-
-/* =========================================================
-   FULL INITIALIZATION
+   INIT
 ========================================================= */
 
 export async function initWallet() {
-  initializeWallet();
 
-  setupProviderEvents();
+  setupWalletEvents();
 
-  bindWalletButtons();
+  setupConnectButtons();
 
-  bindNetworkSelector();
+  await restoreWallet();
 
-  /*
-    Attempt silent reconnection.
-    This keeps the connection available when
-    the user returns from Phantom to Sonativa.
-  */
+  await updateWalletUI();
 
-  await reconnectWallet();
-
-  updateWalletUI();
-
-  return getWalletState();
 }
 
-/* =========================================================
-   WALLET EVENTS FOR OTHER PAGES
-========================================================= */
-
-window.addEventListener(
-  "sonativa:wallet",
-  (event) => {
-    updateWalletUI();
-
-    if (
-      event.detail?.address
-    ) {
-      console.info(
-        "Sonativa wallet:",
-        event.detail.address
-      );
-    }
-  }
-);
-
-/* =========================================================
-   GLOBAL API
-========================================================= */
-
-window.SonativaWallet = {
-  initializeWallet,
-  connectWallet,
-  disconnectWallet,
-  reconnectWallet,
-  getPublicKey,
-  getWalletState,
-  shortenAddress,
-  copyAddress,
-  setNetwork,
-  getStoredNetwork,
-  isValidSolanaAddress,
-  signTransaction,
-  signMessage,
-  walletSecurityNotice,
-  updateWalletUI,
-  initWallet
-};
 
 /* =========================================================
    AUTO START
@@ -1162,13 +1038,54 @@ if (
   document.readyState ===
   "loading"
 ) {
+
   document.addEventListener(
     "DOMContentLoaded",
-    () => {
-      initWallet();
-    },
-    { once: true }
+    initWallet
   );
+
 } else {
+
   initWallet();
+
 }
+
+
+/* =========================================================
+   PUBLIC API
+========================================================= */
+
+window.SonativaWallet = {
+
+  connect:
+    connectWallet,
+
+  disconnect:
+    disconnectWallet,
+
+  getAddress:
+    getWalletAddress,
+
+  getInfo:
+    getWalletInfo,
+
+  getBalance:
+    getSolBalance,
+
+  signTransaction,
+
+  signAndSendTransaction,
+
+  signMessage,
+
+  copyAddress:
+    copyWalletAddress,
+
+  isConnected:
+    isWalletConnected,
+
+  isPhantomInstalled,
+
+  shortenAddress
+
+};
