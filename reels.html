@@ -1,1 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa Reels — short-form Web3, AI, technology and market education.">
+<title>Sonativa — Reels</title>
 
+<link rel="stylesheet" href="assets/css/sonativa.css">
+
+<style>
+.reels-page{
+  width:min(1400px,94%);
+  margin:auto;
+  padding:32px 0 70px;
+}
+
+.reels-hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:24px;
+  padding:25px;
+  margin-bottom:18px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 88% 0%,rgba(120,140,170,.12),transparent 42%),
+    var(--panel);
+}
+
+.eyebrow{
+  color:#78869a;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.6px;
+}
+
+.reels-hero h1{
+  margin-top:9px;
+  font-size:30px;
+  letter-spacing:-.8px;
+}
+
+.reels-hero p{
+  max-width:720px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+}
+
+.reels-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border:1px solid #273444;
+  border-radius:8px;
+  background:#0c121c;
+  color:#9ba8bb;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#8de8b2;
+  box-shadow:0 0 0 4px rgba(141,232,178,.08);
+}
+
+.reels-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.filter{
+  padding:7px 10px;
+  border:1px solid #253143;
+  border-radius:7px;
+  background:#0c121c;
+  color:#7d899b;
+  font-size:8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.filter.active,
+.filter:hover{
+  color:#e3e8ef;
+  border-color:#4b586b;
+  background:#141c28;
+}
+
+.search{
+  width:230px;
+  min-height:34px;
+  padding:0 11px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  outline:none;
+  background:#090e17;
+  color:#dce4ef;
+  font-size:9px;
+}
+
+.search::placeholder{
+  color:#586578;
+}
+
+.reels-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;
+}
+
+.reel-card{
+  position:relative;
+  min-height:390px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#080d15;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.reel-card:hover{
+  transform:translateY(-3px);
+  border-color:#465366;
+}
+
+.reel-cover{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:16px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4,6,11,.12) 0%,
+      rgba(4,6,11,.18) 35%,
+      rgba(4,6,11,.94) 100%
+    ),
+    radial-gradient(
+      circle at 75% 18%,
+      rgba(170,185,205,.18),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      #111a27,
+      #070b12
+    );
+}
+
+.reel-number{
+  color:#78869a;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.play{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #536176;
+  border-radius:50%;
+  background:rgba(5,8,13,.75);
+  color:#e6ebf1;
+  font-size:15px;
+  padding-left:2px;
+}
+
+.reel-bottom{
+  position:relative;
+  z-index:2;
+}
+
+.reel-tag{
+  display:inline-flex;
+  width:max-content;
+  padding:4px 6px;
+  margin-bottom:8px;
+  border:1px solid #344155;
+  border-radius:4px;
+  background:#0b111a;
+  color:#8794a7;
+  font-size:7px;
+  font-weight:900;
+}
+
+.reel-card h2{
+  color:#edf1f5;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.reel-card p{
+  margin-top:7px;
+  color:#8b97a8;
+  font-size:8px;
+  line-height:1.55;
+}
+
+.reel-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:12px;
+  color:#667388;
+  font-size:7px;
+}
+
+.empty{
+  display:none;
+  grid-column:1/-1;
+  padding:35px;
+  text-align:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:#68758a;
+  font-size:9px;
+}
+
+.notice{
+  margin-top:16px;
+  padding:13px;
+  border:1px solid #202b3d;
+  border-radius:9px;
+  background:#080d15;
+  color:#68758a;
+  font-size:8px;
+  line-height:1.65;
+}
+
+.reel-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(0,0,0,.78);
+  backdrop-filter:blur(10px);
+}
+
+.reel-modal.open{
+  display:flex;
+}
+
+.reel-player{
+  position:relative;
+  width:min(430px,96vw);
+  height:min(760px,88vh);
+  overflow:hidden;
+  border:1px solid #303c4e;
+  border-radius:18px;
+  background:#070b12;
+  box-shadow:0 25px 100px rgba(0,0,0,.55);
+}
+
+.player-background{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5,8,13,.12),
+      rgba(5,8,13,.94)
+    ),
+    radial-gradient(
+      circle at 75% 18%,
+      rgba(180,195,215,.2),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #111b29,
+      #05080d
+    );
+}
+
+.player-content{
+  position:absolute;
+  inset:auto 0 0;
+  padding:25px;
+}
+
+.player-tag{
+  display:inline-flex;
+  padding:5px 7px;
+  border:1px solid #3a475a;
+  border-radius:5px;
+  background:#0b111a;
+  color:#a1adbd;
+  font-size:7px;
+  font-weight:900;
+}
+
+.player-content h2{
+  margin-top:10px;
+  color:#f0f3f7;
+  font-size:22px;
+  line-height:1.3;
+}
+
+.player-content p{
+  margin-top:9px;
+  color:#9aa6b7;
+  font-size:9px;
+  line-height:1.7;
+}
+
+.player-content ul{
+  margin-top:12px;
+  padding-left:18px;
+  color:#9aa6b7;
+  font-size:8px;
+  line-height:1.8;
+}
+
+.player-controls{
+  display:flex;
+  gap:8px;
+  margin-top:17px;
+}
+
+.player-btn{
+  min-height:36px;
+  padding:0 12px;
+  border:1px solid #354155;
+  border-radius:8px;
+  background:#0c121c;
+  color:#dce4ef;
+  font-size:8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.player-btn.primary{
+  background:#fff;
+  color:#05070c;
+  border-color:#fff;
+}
+
+.modal-close{
+  position:absolute;
+  z-index:5;
+  top:12px;
+  right:12px;
+  width:34px;
+  height:34px;
+  border:1px solid #354155;
+  border-radius:8px;
+  background:rgba(8,12,18,.82);
+  color:#e3e8ef;
+  font-size:18px;
+  cursor:pointer;
+}
+
+@media(max-width:1150px){
+  .reels-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(max-width:850px){
+  .reels-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:700px){
+  .reels-hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .reels-toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .reels-grid{
+    grid-template-columns:1fr;
+  }
+
+  .reel-card{
+    min-height:430px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-logo">SONATIVA</div>
+<div class="brand-version">BETA</div>
+</div>
+
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+<span class="nav-icon">⌂</span>
+<span>Dashboard</span>
+</a>
+
+<a class="nav-item" href="projects.html">
+<span class="nav-icon">▣</span>
+<span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+<span class="nav-icon">◇</span>
+<span>Token Studio</span>
+</a>
+
+<a class="nav-item" href="tokenomics.html">
+<span class="nav-icon">◈</span>
+<span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+<span class="nav-icon">◆</span>
+<span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+<span class="nav-icon">⌁</span>
+<span>Advanced Analysis</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="ai.html">
+<span class="nav-icon">✦</span>
+<span>Sonativa AI</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="security.html">
+<span class="nav-icon">◇</span>
+<span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item" href="news.html">
+<span class="nav-icon">▤</span>
+<span>World News</span>
+</a>
+
+<a class="nav-item" href="books.html">
+<span class="nav-icon">▥</span>
+<span>Books</span>
+</a>
+
+<a class="nav-item" href="live.html">
+<span class="nav-icon">●</span>
+<span>Live</span>
+</a>
+
+<a class="nav-item active" href="reels.html">
+<span class="nav-icon">▶</span>
+<span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+<span class="nav-icon">◉</span>
+<span>Wallet</span>
+</a>
+
+<a class="nav-item" href="pricing.html">
+<span class="nav-icon">◇</span>
+<span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+<span class="nav-icon">⚙</span>
+<span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="account">
+
+<div class="avatar" id="avatar">G</div>
+
+<div class="account-info">
+
+<div class="account-name" id="accountName">Guest</div>
+
+<div class="account-status">● Workspace</div>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Reels
+</div>
+
+<div class="page-subtitle">
+Short-form intelligence and education
+</div>
+
+</div>
+
+</div>
+
+<div class="top-actions">
+
+<select class="lang" id="languageSelect">
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+</select>
+
+<a class="icon-button" href="settings.html">
+⚙
+</a>
+
+</div>
+
+</header>
+
+
+<section class="reels-page">
+
+<div class="reels-hero">
+
+<div>
+
+<div class="eyebrow">
+SONATIVA SHORT FORM
+</div>
+
+<h1>
+Reels
+</h1>
+
+<p>
+Fast, focused lessons covering Web3, AI, markets, security and
+product building — designed to teach one useful concept at a time.
+</p>
+
+</div>
+
+<div class="reels-status">
+<div class="status-dot"></div>
+LIBRARY READY
+</div>
+
+</div>
+
+
+<div class="reels-toolbar">
+
+<div class="filters">
+
+<button class="filter active" data-filter="all">
+All
+</button>
+
+<button class="filter" data-filter="web3">
+Web3
+</button>
+
+<button class="filter" data-filter="trading">
+Trading
+</button>
+
+<button class="filter" data-filter="ai">
+AI
+</button>
+
+<button class="filter" data-filter="security">
+Security
+</button>
+
+<button class="filter" data-filter="business">
+Business
+</button>
+
+</div>
+
+<input
+class="search"
+id="searchInput"
+type="search"
+placeholder="Search reels..."
+autocomplete="off">
+
+</div>
+
+
+<div class="reels-grid" id="reelsGrid">
+
+
+<article
+class="reel-card"
+data-category="web3"
+data-title="How a blockchain transaction works"
+data-reel="transaction">
+
+<div class="reel-cover">
+
+<span class="reel-number">
+01 / WEB3
+</span>
+
+<div class="play">
+▶
+</div>
+
+<div class="reel-bottom">
+
+<span class="reel-tag">
+WEB3
+</span>
+
+<h2>
+How a blockchain transaction works
+</h2>
+
+<p>
+Understand the journey from wallet signature to network confirmation.
+</p>
+
+<div class="reel-meta">
+<span>01:42</span>
+<span>Foundation</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="reel-card"
+data-category="trading"
+data-title="Liquidity explained"
+data-reel="liquidity">
+
+<div class="reel-cover">
+
+<span class="reel-number">
+02 / MARKETS
+</span>
+
+<div class="play">
+▶
+</div>
+
+<div class="reel-bottom">
+
+<span class="reel-tag">
+TRADING
+</span>
+
+<h2>
+Liquidity explained in simple terms
+</h2>
+
+<p>
+Why liquidity matters and how traders think about areas of interest.
+</p>
+
+<div class="reel-meta">
+<span>02:18</span>
+<span>Intermediate</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="reel-card"
+data-category="ai"
+data-title="What is an AI agent"
+data-reel="agent">
+
+<div class="reel-cover">
+
+<span class="reel-number">
+03 / AI
+</span>
+
+<div class="play">
+▶
+</div>
+
+<div class="reel-bottom">
+
+<span class="reel-tag">
+AI
+</span>
+
+<h2>
+What is an AI agent?
+</h2>
+
+<p>
+Models, tools, instructions and feedback working together.
+</p>
+
+<div class="reel-meta">
+<span>01:56</span>
+<span>Foundation</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="reel-card"
+data-category="security"
+data-title="Never share your seed phrase"
+data-reel="seed">
+
+<div class="reel-cover">
+
+<span class="reel-number">
+04 / SECURITY
+</span>
+
+<div class="play">
+▶
+</div>
+
+<div class="reel-bottom">
+
+<span class="reel-tag">
+SECURITY
+</span>
+
+<h2>
+The one wallet rule you should never break
+</h2>
+
+<p>
+Your seed phrase belongs only to you. Learn the common traps.
+</p>
+
+<div class="reel-meta">
+<span>01:20</span>
+<span>Essential</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="reel-card"
+data-category="web3"
+data-title="Token supply versus market cap"
+data-reel="marketcap">
+
+<div class="reel-cover">
+
+<span class="reel-number">
+05 / TOKENOMICS
+</span>
+
+<div class="play">
+▶
+</div>
+
+<div class="reel-bottom">
+
+<span class="reel-tag">
+TOKENOMICS
+</span>
+
+<h2>
+Supply vs market cap
+</h2>
+
+<p>
+Why token price alone tells you very little about a project.
+</p>
+
+<div class="reel-meta">
+<span>02:05</span>
+<span>Foundation</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="reel-card"
+data-category="business"
+data-title="Build the smallest useful product"
+data-reel="mvp">
+
+<div class="reel-cover">
+
+<span class="reel-number">
+06 / PRODUCT
+</span>
+
+<div class="play">
+▶
+</div>
+
+<div class="reel-bottom">
+
+<span class="reel-tag">
+BUSINESS
+</span>
+
+<h2>
+Build the smallest useful product
+</h2>
+
+<p>
+A practical approach to turning an idea into something users can test.
+</p>
+
+<div class="reel-meta">
+<span>02:31</span>
+<span>Product</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="reel-card"
+data-category="trading"
+data-title="Risk management before entries"
+data-reel="risk">
+
+<div class="reel-cover">
+
+<span class="reel-number">
+07 / RISK
+</span>
+
+<div class="play">
+▶
+</div>
+
+<div class="reel-bottom">
+
+<span class="reel-tag">
+RISK
+</span>
+
+<h2>
+Risk management comes before entries
+</h2>
+
+<p>
+Position size and predefined loss limits protect the process.
+</p>
+
+<div class="reel-meta">
+<span>01:49</span>
+<span>Essential</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="reel-card"
+data-category="ai"
+data-title="How to evaluate AI outputs"
+data-reel="evaluation">
+
+<div class="reel-cover">
+
+<span class="reel-number">
+08 / AI
+</span>
+
+<div class="play">
+▶
+</div>
+
+<div class="reel-bottom">
+
+<span class="reel-tag">
+AI
+</span>
+
+<h2>
+How to evaluate AI outputs
+</h2>
+
+<p>
+Useful AI systems need verification, evaluation and reliable context.
+</p>
+
+<div class="reel-meta">
+<span>02:14</span>
+<span>Advanced</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<div class="empty" id="emptyState">
+No reels match your search.
+</div>
+
+</div>
+
+
+<div class="notice">
+Sonativa Reels are educational content. They are not financial advice,
+investment recommendations or a guarantee of future results.
+</div>
+
+
+<footer>
+© 2026 Sonativa — Web3 tools, intelligence and education.
+</footer>
+
+</section>
+
+</main>
+
+</div>
+
+
+<div
+class="reel-modal"
+id="reelModal"
+role="dialog"
+aria-modal="true"
+aria-labelledby="playerTitle">
+
+<div class="reel-player">
+
+<div class="player-background"></div>
+
+<button
+class="modal-close"
+id="modalClose"
+type="button"
+aria-label="Close">
+×
+</button>
+
+<div class="player-content">
+
+<span class="player-tag" id="playerTag">
+SONATIVA REEL
+</span>
+
+<h2 id="playerTitle">
+Reel
+</h2>
+
+<p id="playerDescription"></p>
+
+<ul id="playerPoints"></ul>
+
+<div class="player-controls">
+
+<button
+class="player-btn primary"
+id="playButton"
+type="button">
+▶ Play Preview
+</button>
+
+<button
+class="player-btn"
+id="closePlayerButton"
+type="button">
+Close
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {
+getUser
+} from "./assets/js/supabase.js";
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const sidebar =
+document.getElementById("sidebar");
+
+document
+.getElementById("menuButton")
+?.addEventListener(
+"click",
+()=>{
+sidebar.classList.toggle("open");
+}
+);
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+const languageSelect =
+document.getElementById("languageSelect");
+
+const savedLanguage =
+localStorage.getItem("sonativa_language");
+
+if(savedLanguage){
+
+languageSelect.value =
+savedLanguage;
+
+document.documentElement.lang =
+savedLanguage;
+
+document.documentElement.dir =
+savedLanguage === "ar"
+? "rtl"
+: "ltr";
+
+}
+
+languageSelect?.addEventListener(
+"change",
+()=>{
+
+const language =
+languageSelect.value;
+
+localStorage.setItem(
+"sonativa_language",
+language
+);
+
+document.documentElement.lang =
+language;
+
+document.documentElement.dir =
+language === "ar"
+? "rtl"
+: "ltr";
+
+}
+);
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+async function loadUser(){
+
+try{
+
+const user =
+await getUser();
+
+if(!user)return;
+
+const name =
+user.user_metadata?.full_name ||
+user.user_metadata?.name ||
+user.email?.split("@")[0] ||
+"Sonativa User";
+
+document.getElementById(
+"accountName"
+).textContent =
+name;
+
+document.getElementById(
+"avatar"
+).textContent =
+name.charAt(0).toUpperCase();
+
+}catch(error){
+
+console.error(
+"[Reels User]",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   FILTER + SEARCH
+========================================================= */
+
+const filters =
+document.querySelectorAll(".filter");
+
+const cards =
+document.querySelectorAll(".reel-card");
+
+const searchInput =
+document.getElementById("searchInput");
+
+const emptyState =
+document.getElementById("emptyState");
+
+let currentFilter =
+"all";
+
+
+function renderReels(){
+
+const query =
+searchInput.value
+.trim()
+.toLowerCase();
+
+let visible = 0;
+
+cards.forEach(
+card=>{
+
+const category =
+card.dataset.category || "";
+
+const title =
+(card.dataset.title || "")
+.toLowerCase();
+
+const text =
+card.textContent.toLowerCase();
+
+const categoryMatch =
+currentFilter === "all" ||
+category === currentFilter;
+
+const searchMatch =
+!query ||
+title.includes(query) ||
+text.includes(query);
+
+const show =
+categoryMatch &&
+searchMatch;
+
+card.style.display =
+show
+? "block"
+: "none";
+
+if(show)visible++;
+
+}
+);
+
+emptyState.style.display =
+visible
+? "none"
+: "block";
+
+}
+
+
+filters.forEach(
+filter=>{
+
+filter.addEventListener(
+"click",
+()=>{
+
+filters.forEach(
+item =>
+item.classList.remove("active")
+);
+
+filter.classList.add("active");
+
+currentFilter =
+filter.dataset.filter;
+
+renderReels();
+
+}
+);
+
+}
+);
+
+searchInput.addEventListener(
+"input",
+renderReels
+);
+
+
+/* =========================================================
+   REEL CONTENT
+========================================================= */
+
+const reelData = {
+
+transaction:{
+tag:"WEB3",
+title:"How a blockchain transaction works",
+description:
+"Follow the basic path of a transaction from wallet approval to network confirmation.",
+points:[
+"Wallet creates and signs the transaction.",
+"Transaction is broadcast to the network.",
+"Validators or miners process the transaction.",
+"The resulting state is recorded on-chain."
+]
+},
+
+liquidity:{
+tag:"TRADING",
+title:"Liquidity explained in simple terms",
+description:
+"Liquidity describes how easily an asset can be bought or sold without causing a large price impact.",
+points:[
+"Liquidity can be concentrated around important levels.",
+"Large orders can interact with available liquidity.",
+"Volatility and liquidity are closely related.",
+"Always combine liquidity analysis with risk management."
+]
+},
+
+agent:{
+tag:"AI",
+title:"What is an AI agent?",
+description:
+"An AI agent combines a model with instructions, tools and feedback to complete multi-step tasks.",
+points:[
+"Define the objective.",
+"Give the system reliable context.",
+"Allow controlled tool use.",
+"Evaluate the final result."
+]
+},
+
+seed:{
+tag:"SECURITY",
+title:"The one wallet rule you should never break",
+description:
+"Your seed phrase or private key is the ultimate credential for a self-custody wallet.",
+points:[
+"Never send it to support.",
+"Never enter it into an unknown website.",
+"Never store it in public code.",
+"Use secure offline backups."
+]
+},
+
+marketcap:{
+tag:"TOKENOMICS",
+title:"Supply vs market cap",
+description:
+"Token price must always be evaluated together with circulating supply and valuation.",
+points:[
+"Market cap equals price multiplied by circulating supply.",
+"FDV considers the fully diluted supply.",
+"Large supply can make low prices misleading.",
+"Unlock schedules can affect future circulating supply."
+]
+},
+
+mvp:{
+tag:"BUSINESS",
+title:"Build the smallest useful product",
+description:
+"A focused first version helps validate whether users actually need the product.",
+points:[
+"Identify one important problem.",
+"Build the smallest useful workflow.",
+"Measure real user behavior.",
+"Improve based on evidence."
+]
+},
+
+risk:{
+tag:"RISK",
+title:"Risk management comes before entries",
+description:
+"A trading system should define the acceptable loss before a position is opened.",
+points:[
+"Define risk per trade.",
+"Calculate position size from the stop.",
+"Set invalidation before entry.",
+"Do not increase risk to recover losses."
+]
+},
+
+evaluation:{
+tag:"AI",
+title:"How to evaluate AI outputs",
+description:
+"AI output should be treated as a result to evaluate, not automatically as truth.",
+points:[
+"Check factual claims.",
+"Verify important sources.",
+"Test edge cases.",
+"Monitor quality continuously."
+]
+}
+
+};
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+const modal =
+document.getElementById("reelModal");
+
+const modalClose =
+document.getElementById("modalClose");
+
+const closePlayerButton =
+document.getElementById(
+"closePlayerButton"
+);
+
+const playerTitle =
+document.getElementById(
+"playerTitle"
+);
+
+const playerTag =
+document.getElementById(
+"playerTag"
+);
+
+const playerDescription =
+document.getElementById(
+"playerDescription"
+);
+
+const playerPoints =
+document.getElementById(
+"playerPoints"
+);
+
+const playButton =
+document.getElementById(
+"playButton"
+);
+
+
+function openReel(id){
+
+const reel =
+reelData[id];
+
+if(!reel)return;
+
+playerTag.textContent =
+reel.tag;
+
+playerTitle.textContent =
+reel.title;
+
+playerDescription.textContent =
+reel.description;
+
+playerPoints.innerHTML =
+reel.points
+.map(
+point =>
+`<li>${point}</li>`
+)
+.join("");
+
+playButton.textContent =
+"▶ Play Preview";
+
+playButton.dataset.playing =
+"false";
+
+modal.classList.add("open");
+
+document.body.style.overflow =
+"hidden";
+
+}
+
+
+function closeReel(){
+
+modal.classList.remove("open");
+
+document.body.style.overflow =
+"";
+
+}
+
+
+cards.forEach(
+card=>{
+
+card.addEventListener(
+"click",
+()=>{
+
+openReel(
+card.dataset.reel
+);
+
+}
+);
+
+}
+);
+
+
+modalClose.addEventListener(
+"click",
+closeReel
+);
+
+closePlayerButton.addEventListener(
+"click",
+closeReel
+);
+
+
+modal.addEventListener(
+"click",
+event=>{
+
+if(
+event.target === modal
+){
+
+closeReel();
+
+}
+
+}
+);
+
+
+document.addEventListener(
+"keydown",
+event=>{
+
+if(
+event.key === "Escape" &&
+modal.classList.contains("open")
+){
+
+closeReel();
+
+}
+
+}
+);
+
+
+/* =========================================================
+   PREVIEW BUTTON
+========================================================= */
+
+playButton.addEventListener(
+"click",
+()=>{
+
+const playing =
+playButton.dataset.playing ===
+"true";
+
+if(playing){
+
+playButton.dataset.playing =
+"false";
+
+playButton.textContent =
+"▶ Play Preview";
+
+return;
+
+}
+
+playButton.dataset.playing =
+"true";
+
+playButton.textContent =
+"❚❚ Preview Active";
+
+}
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadUser();
+
+</script>
+
+</body>
+</html>
