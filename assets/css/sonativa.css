@@ -1,1 +1,1374 @@
+/* Sonativa — Global Design System */
 
+:root{
+–bg:#04060b;
+–bg-soft:#070b12;
+–panel:rgba(10,15,24,.88);
+–panel-2:#0d131e;
+–panel-3:#111927;
+
+–border:#202b3d;
+–border-soft:#182131;
+–border-strong:#344157;
+
+–text:#f5f7fb;
+–text-soft:#c5cedc;
+–muted:#7f8ba0;
+–muted-2:#5f6c80;
+
+–success:#62e39a;
+–warning:#e8bd68;
+–danger:#ff7373;
+–info:#78a9ff;
+
+–accent:#ffffff;
+
+–sidebar-width:250px;
+–topbar-height:76px;
+
+–radius-sm:7px;
+–radius-md:10px;
+–radius-lg:14px;
+–radius-xl:18px;
+
+–shadow:0 18px 55px rgba(0,0,0,.20);
+}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+min-height:100vh;
+overflow-x:hidden;
+
+font-family:
+Inter,
+ui-sans-serif,
+system-ui,
+-apple-system,
+BlinkMacSystemFont,
+“Segoe UI”,
+sans-serif;
+
+background:var(–bg);
+color:var(–text);
+line-height:1.5;
+}
+
+button,
+input,
+textarea,
+select{
+font:inherit;
+}
+
+button,
+a{
+-webkit-tap-highlight-color:transparent;
+}
+
+button{
+cursor:pointer;
+}
+
+a{
+color:inherit;
+}
+
+/* =========================================
+BACKGROUND
+========================================= */
+
+.sonativa-background{
+position:fixed;
+inset:0;
+z-index:-10;
+overflow:hidden;
+
+background:
+radial-gradient(
+circle at 68% -12%,
+rgba(55,78,115,.34),
+transparent 38%
+),
+radial-gradient(
+circle at 8% 92%,
+rgba(31,55,91,.22),
+transparent 36%
+),
+#04060b;
+}
+
+.sonativa-background::before{
+content:””;
+position:absolute;
+inset:0;
+
+background-image:
+linear-gradient(
+rgba(255,255,255,.022) 1px,
+transparent 1px
+),
+linear-gradient(
+90deg,
+rgba(255,255,255,.022) 1px,
+transparent 1px
+);
+
+background-size:50px 50px;
+
+mask-image:
+radial-gradient(
+circle at center,
+black,
+transparent 80%
+);
+}
+
+.sonativa-background::after{
+content:””;
+position:absolute;
+
+width:600px;
+height:600px;
+
+right:-220px;
+top:100px;
+
+border:1px solid rgba(255,255,255,.035);
+border-radius:50%;
+
+box-shadow:
+0 0 0 80px rgba(255,255,255,.012),
+0 0 0 160px rgba(255,255,255,.008);
+}
+
+/* =========================================
+APP
+========================================= */
+
+.sonativa-app{
+min-height:100vh;
+}
+
+/* =========================================
+SIDEBAR
+========================================= */
+
+.sonativa-sidebar{
+position:fixed;
+
+left:0;
+top:0;
+bottom:0;
+
+width:var(–sidebar-width);
+
+display:flex;
+flex-direction:column;
+
+z-index:100;
+
+background:
+linear-gradient(
+180deg,
+rgba(8,12,20,.97),
+rgba(5,8,14,.96)
+);
+
+border-right:1px solid var(–border);
+
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+}
+
+.sonativa-brand{
+height:76px;
+
+display:flex;
+align-items:center;
+
+padding:0 24px;
+
+border-bottom:1px solid var(–border);
+}
+
+.sonativa-brand-logo{
+font-size:21px;
+font-weight:900;
+letter-spacing:4px;
+}
+
+.sonativa-brand-version{
+margin-left:8px;
+
+padding:3px 7px;
+
+border:1px solid var(–border-strong);
+border-radius:5px;
+
+color:var(–muted);
+
+font-size:9px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.sonativa-nav{
+flex:1;
+
+padding:18px 12px;
+
+overflow-y:auto;
+}
+
+.sonativa-nav-section{
+margin:18px 12px 8px;
+
+color:#596579;
+
+font-size:10px;
+font-weight:700;
+letter-spacing:1.6px;
+
+text-transform:uppercase;
+}
+
+.sonativa-nav-item{
+width:100%;
+
+display:flex;
+align-items:center;
+gap:12px;
+
+padding:11px 13px;
+margin:3px 0;
+
+color:var(–text-soft);
+
+text-decoration:none;
+
+border:1px solid transparent;
+border-radius:9px;
+
+font-size:13px;
+
+transition:
+background .2s ease,
+border-color .2s ease,
+color .2s ease,
+transform .2s ease;
+}
+
+.sonativa-nav-item:hover{
+color:#fff;
+
+background:rgba(255,255,255,.045);
+
+border-color:#202a3a;
+}
+
+.sonativa-nav-item.active{
+color:#fff;
+
+background:#151c29;
+
+border-color:#303b4f;
+}
+
+.sonativa-nav-item:active{
+transform:translateY(1px);
+}
+
+.sonativa-nav-icon{
+width:18px;
+
+flex-shrink:0;
+
+text-align:center;
+
+opacity:.85;
+}
+
+.sonativa-nav-badge{
+margin-left:auto;
+
+padding:2px 6px;
+
+border:1px solid #273444;
+border-radius:5px;
+
+background:#202a39;
+color:#9ba8bb;
+
+font-size:9px;
+font-weight:700;
+letter-spacing:.3px;
+}
+
+/* =========================================
+SIDEBAR ACCOUNT
+========================================= */
+
+.sonativa-sidebar-bottom{
+padding:14px 12px;
+
+border-top:1px solid var(–border);
+}
+
+.sonativa-account{
+display:flex;
+align-items:center;
+gap:10px;
+
+padding:10px;
+
+border-radius:10px;
+
+background:rgba(255,255,255,.025);
+}
+
+.sonativa-avatar{
+width:34px;
+height:34px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+flex-shrink:0;
+
+border:1px solid #303b4d;
+border-radius:9px;
+
+background:#1a2230;
+
+font-size:13px;
+font-weight:800;
+}
+
+.sonativa-account-info{
+min-width:0;
+}
+
+.sonativa-account-name{
+overflow:hidden;
+
+color:#fff;
+
+font-size:12px;
+font-weight:700;
+
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.sonativa-account-status{
+margin-top:2px;
+
+color:var(–success);
+
+font-size:10px;
+}
+
+/* =========================================
+MAIN
+========================================= */
+
+.sonativa-main{
+min-height:100vh;
+margin-left:var(–sidebar-width);
+}
+
+/* =========================================
+TOPBAR
+========================================= */
+
+.sonativa-topbar{
+height:var(–topbar-height);
+
+position:sticky;
+top:0;
+
+z-index:50;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+gap:20px;
+
+padding:0 30px;
+
+background:rgba(5,8,14,.78);
+
+border-bottom:1px solid var(–border);
+
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+}
+
+.sonativa-topbar-left{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.sonativa-page-title{
+font-size:15px;
+font-weight:800;
+}
+
+.sonativa-page-subtitle{
+margin-top:2px;
+
+color:var(–muted);
+
+font-size:11px;
+}
+
+.sonativa-top-actions{
+display:flex;
+align-items:center;
+gap:9px;
+}
+
+/* =========================================
+BUTTONS
+========================================= */
+
+.sonativa-icon-button{
+width:38px;
+height:38px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+color:#b6c0cf;
+
+background:#0d131e;
+
+border:1px solid var(–border);
+border-radius:9px;
+
+transition:
+background .2s ease,
+border-color .2s ease,
+color .2s ease;
+}
+
+.sonativa-icon-button:hover{
+color:#fff;
+
+background:#151d2a;
+
+border-color:var(–border-strong);
+}
+
+.sonativa-primary-button{
+min-height:40px;
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+gap:8px;
+
+padding:0 16px;
+
+color:#05070c;
+
+background:#fff;
+
+border:1px solid #fff;
+border-radius:9px;
+
+font-size:12px;
+font-weight:800;
+
+text-decoration:none;
+
+transition:
+background .2s ease,
+transform .2s ease;
+}
+
+.sonativa-primary-button:hover{
+background:#e9edf3;
+}
+
+.sonativa-primary-button:active{
+transform:translateY(1px);
+}
+
+.sonativa-secondary-button{
+min-height:40px;
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+gap:8px;
+
+padding:0 16px;
+
+color:#d5dce7;
+
+background:#0d131e;
+
+border:1px solid var(–border);
+border-radius:9px;
+
+font-size:12px;
+font-weight:700;
+
+text-decoration:none;
+
+transition:.2s;
+}
+
+.sonativa-secondary-button:hover{
+color:#fff;
+background:#151d2a;
+border-color:var(–border-strong);
+}
+
+.sonativa-danger-button{
+min-height:40px;
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+gap:8px;
+
+padding:0 16px;
+
+color:#ff9b9b;
+
+background:#170c0e;
+
+border:1px solid #4b252b;
+border-radius:9px;
+
+font-size:12px;
+font-weight:700;
+}
+
+.sonativa-danger-button:hover{
+background:#211014;
+border-color:#69343c;
+}
+
+/* =========================================
+CONTENT
+========================================= */
+
+.sonativa-content{
+width:min(1400px,94%);
+
+margin:0 auto;
+
+padding:35px 0 70px;
+}
+
+.sonativa-page-header{
+display:flex;
+align-items:flex-end;
+justify-content:space-between;
+
+gap:25px;
+
+margin-bottom:28px;
+}
+
+.sonativa-page-header h1{
+font-size:31px;
+font-weight:850;
+
+letter-spacing:-.8px;
+}
+
+.sonativa-page-header p{
+margin-top:7px;
+
+color:var(–muted);
+
+font-size:13px;
+}
+
+/* =========================================
+GRID
+========================================= */
+
+.sonativa-grid{
+display:grid;
+gap:18px;
+}
+
+.sonativa-grid-2{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.sonativa-grid-3{
+grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.sonativa-grid-4{
+grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+/* =========================================
+CARDS
+========================================= */
+
+.sonativa-card{
+min-width:0;
+
+padding:22px;
+
+background:var(–panel);
+
+border:1px solid var(–border);
+border-radius:15px;
+
+box-shadow:var(–shadow);
+
+backdrop-filter:blur(14px);
+-webkit-backdrop-filter:blur(14px);
+}
+
+.sonativa-card-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+gap:15px;
+
+margin-bottom:19px;
+}
+
+.sonativa-card-title{
+font-size:15px;
+font-weight:800;
+}
+
+.sonativa-card-subtitle{
+margin-top:4px;
+
+color:var(–muted);
+
+font-size:10px;
+}
+
+.sonativa-card-link{
+color:#8f9bad;
+
+font-size:11px;
+
+text-decoration:none;
+}
+
+.sonativa-card-link:hover{
+color:#fff;
+}
+
+/* =========================================
+STAT CARDS
+========================================= */
+
+.sonativa-stat-card{
+padding:20px;
+
+background:var(–panel);
+
+border:1px solid var(–border);
+border-radius:14px;
+
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+}
+
+.sonativa-stat-label{
+color:var(–muted);
+
+font-size:11px;
+}
+
+.sonativa-stat-value{
+margin-top:8px;
+
+font-size:24px;
+font-weight:850;
+}
+
+.sonativa-stat-small{
+margin-top:6px;
+
+color:#68758a;
+
+font-size:10px;
+}
+
+/* =========================================
+FORMS
+========================================= */
+
+.sonativa-form{
+display:flex;
+flex-direction:column;
+gap:17px;
+}
+
+.sonativa-form-group{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.sonativa-label{
+color:#c7d0dd;
+
+font-size:11px;
+font-weight:700;
+}
+
+.sonativa-input,
+.sonativa-select,
+.sonativa-textarea{
+width:100%;
+
+color:#fff;
+
+background:#090e17;
+
+border:1px solid #1d2737;
+border-radius:9px;
+
+outline:none;
+
+transition:
+border-color .2s ease,
+background .2s ease,
+box-shadow .2s ease;
+}
+
+.sonativa-input,
+.sonativa-select{
+height:44px;
+
+padding:0 13px;
+}
+
+.sonativa-textarea{
+min-height:120px;
+
+padding:12px 13px;
+
+resize:vertical;
+}
+
+.sonativa-input::placeholder,
+.sonativa-textarea::placeholder{
+color:#596579;
+}
+
+.sonativa-input:focus,
+.sonativa-select:focus,
+.sonativa-textarea:focus{
+background:#0c121d;
+
+border-color:#42516a;
+
+box-shadow:0 0 0 3px rgba(120,169,255,.06);
+}
+
+.sonativa-help{
+color:var(–muted-2);
+
+font-size:10px;
+line-height:1.6;
+}
+
+/* =========================================
+BADGES / STATUS
+========================================= */
+
+.sonativa-status{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+width:max-content;
+
+padding:5px 8px;
+
+color:#8c9aac;
+
+background:#101922;
+
+border:1px solid #273444;
+border-radius:6px;
+
+font-size:9px;
+font-weight:700;
+}
+
+.sonativa-status.success{
+color:var(–success);
+
+background:#0b1711;
+
+border-color:#28543d;
+}
+
+.sonativa-status.warning{
+color:var(–warning);
+
+background:#17140c;
+
+border-color:#5a4b29;
+}
+
+.sonativa-status.danger{
+color:var(–danger);
+
+background:#170c0e;
+
+border-color:#4b252b;
+}
+
+.sonativa-status.info{
+color:var(–info);
+
+background:#0c1320;
+
+border-color:#263e63;
+}
+
+/* =========================================
+TOOL CARDS
+========================================= */
+
+.sonativa-tools{
+display:grid;
+
+grid-template-columns:repeat(2,minmax(0,1fr));
+
+gap:10px;
+}
+
+.sonativa-tool{
+display:flex;
+align-items:center;
+
+gap:12px;
+
+padding:14px;
+
+color:#fff;
+
+background:#090e17;
+
+border:1px solid #1d2737;
+border-radius:11px;
+
+text-decoration:none;
+
+transition:.2s;
+}
+
+.sonativa-tool:hover{
+transform:translateY(-1px);
+
+background:#101722;
+
+border-color:#344157;
+}
+
+.sonativa-tool-icon{
+width:38px;
+height:38px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+flex-shrink:0;
+
+border:1px solid #293548;
+border-radius:9px;
+
+background:#151d2a;
+
+font-size:16px;
+}
+
+.sonativa-tool-name{
+font-size:12px;
+font-weight:800;
+}
+
+.sonativa-tool-description{
+margin-top:3px;
+
+color:#68758a;
+
+font-size:10px;
+}
+
+/* =========================================
+TABLE
+========================================= */
+
+.sonativa-table-wrapper{
+width:100%;
+
+overflow-x:auto;
+
+border:1px solid var(–border);
+border-radius:12px;
+}
+
+.sonativa-table{
+width:100%;
+
+border-collapse:collapse;
+
+min-width:650px;
+}
+
+.sonativa-table th{
+padding:12px 14px;
+
+color:#7f8ba0;
+
+background:#0b111a;
+
+border-bottom:1px solid var(–border);
+
+font-size:10px;
+font-weight:800;
+
+text-align:left;
+}
+
+.sonativa-table td{
+padding:13px 14px;
+
+color:#c5cedc;
+
+border-bottom:1px solid #182131;
+
+font-size:11px;
+}
+
+.sonativa-table tr:last-child td{
+border-bottom:0;
+}
+
+/* =========================================
+LISTS
+========================================= */
+
+.sonativa-list{
+display:flex;
+flex-direction:column;
+}
+
+.sonativa-list-item{
+display:flex;
+align-items:center;
+
+gap:13px;
+
+padding:13px 0;
+
+border-bottom:1px solid #1b2432;
+}
+
+.sonativa-list-item:last-child{
+border-bottom:0;
+}
+
+.sonativa-list-icon{
+width:40px;
+height:40px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+flex-shrink:0;
+
+background:#121a27;
+
+border:1px solid #283449;
+border-radius:10px;
+
+font-size:12px;
+font-weight:900;
+}
+
+.sonativa-list-content{
+min-width:0;
+flex:1;
+}
+
+.sonativa-list-title{
+color:#fff;
+
+font-size:12px;
+font-weight:800;
+}
+
+.sonativa-list-meta{
+margin-top:3px;
+
+color:#69768a;
+
+font-size:10px;
+}
+
+/* =========================================
+PREMIUM
+========================================= */
+
+.sonativa-premium{
+position:relative;
+
+overflow:hidden;
+}
+
+.sonativa-premium::before{
+content:””;
+
+position:absolute;
+
+inset:0;
+
+pointer-events:none;
+
+background:
+radial-gradient(
+circle at 90% 0%,
+rgba(232,189,104,.10),
+transparent 38%
+);
+}
+
+.sonativa-premium-badge{
+display:inline-flex;
+
+align-items:center;
+
+padding:4px 7px;
+
+color:var(–warning);
+
+background:#17140c;
+
+border:1px solid #5a4b29;
+border-radius:5px;
+
+font-size:9px;
+font-weight:800;
+letter-spacing:.5px;
+}
+
+/* =========================================
+EMPTY STATE
+========================================= */
+
+.sonativa-empty{
+padding:35px 20px;
+
+color:var(–muted);
+
+border:1px dashed #293548;
+border-radius:12px;
+
+text-align:center;
+}
+
+.sonativa-empty-icon{
+margin-bottom:10px;
+
+font-size:28px;
+}
+
+.sonativa-empty-title{
+color:#d8dee8;
+
+font-size:13px;
+font-weight:800;
+}
+
+.sonativa-empty-text{
+margin-top:5px;
+
+color:#68758a;
+
+font-size:10px;
+}
+
+/* =========================================
+ALERTS
+========================================= */
+
+.sonativa-alert{
+padding:13px 15px;
+
+border:1px solid var(–border);
+border-radius:9px;
+
+background:#0d131e;
+
+color:#aeb8c7;
+
+font-size:11px;
+}
+
+.sonativa-alert.success{
+color:#9de9bc;
+
+background:#0b1711;
+
+border-color:#28543d;
+}
+
+.sonativa-alert.warning{
+color:#e8d19a;
+
+background:#17140c;
+
+border-color:#5a4b29;
+}
+
+.sonativa-alert.danger{
+color:#ffadad;
+
+background:#170c0e;
+
+border-color:#4b252b;
+}
+
+/* =========================================
+LOADING
+========================================= */
+
+.sonativa-loading{
+display:flex;
+align-items:center;
+justify-content:center;
+
+min-height:100px;
+
+color:var(–muted);
+
+font-size:11px;
+}
+
+.sonativa-spinner{
+width:18px;
+height:18px;
+
+margin-right:8px;
+
+border:2px solid #273444;
+border-top-color:#fff;
+
+border-radius:50%;
+
+animation:sonativaSpin .8s linear infinite;
+}
+
+@keyframes sonativaSpin{
+to{
+transform:rotate(360deg);
+}
+}
+
+/* =========================================
+MOBILE MENU
+========================================= */
+
+.sonativa-menu-button{
+display:none;
+}
+
+/* =========================================
+FOOTER
+========================================= */
+
+.sonativa-footer{
+padding:35px 0;
+
+color:#515d70;
+
+font-size:10px;
+
+text-align:center;
+}
+
+/* =========================================
+RTL
+========================================= */
+
+html[dir=“rtl”] .sonativa-sidebar{
+left:auto;
+right:0;
+
+border-right:0;
+border-left:1px solid var(–border);
+}
+
+html[dir=“rtl”] .sonativa-main{
+margin-left:0;
+margin-right:var(–sidebar-width);
+}
+
+html[dir=“rtl”] .sonativa-nav-badge{
+margin-left:0;
+margin-right:auto;
+}
+
+html[dir=“rtl”] .sonativa-account{
+direction:rtl;
+}
+
+html[dir=“rtl”] .sonativa-table th,
+html[dir=“rtl”] .sonativa-table td{
+text-align:right;
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media(max-width:1100px){
+
+.sonativa-grid-4{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.sonativa-grid-3{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+}
+
+@media(max-width:760px){
+
+:root{
+–sidebar-width:0px;
+}
+
+.sonativa-sidebar{
+width:260px;
+
+transform:translateX(-100%);
+transition:transform .25s ease;
+
+}
+
+.sonativa-sidebar.open{
+transform:translateX(0);
+}
+
+.sonativa-main{
+margin-left:0;
+}
+
+html[dir=“rtl”] .sonativa-sidebar{
+transform:translateX(100%);
+}
+
+html[dir=“rtl”] .sonativa-sidebar.open{
+transform:translateX(0);
+}
+
+html[dir=“rtl”] .sonativa-main{
+margin-right:0;
+}
+
+.sonativa-menu-button{
+display:flex;
+}
+
+.sonativa-topbar{
+height:68px;
+
+padding:0 16px;
+
+}
+
+.sonativa-content{
+width:92%;
+
+padding-top:25px;
+
+}
+
+.sonativa-page-header{
+align-items:flex-start;
+
+flex-direction:column;
+
+}
+
+.sonativa-page-header h1{
+font-size:26px;
+}
+
+.sonativa-grid-2,
+.sonativa-grid-3{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:520px){
+
+.sonativa-grid-4{
+grid-template-columns:1fr;
+}
+
+.sonativa-tools{
+grid-template-columns:1fr;
+}
+
+.sonativa-card{
+padding:17px;
+}
+
+.sonativa-top-actions{
+gap:5px;
+}
+
+.sonativa-page-subtitle{
+display:none;
+}
+
+}
+
+/* =========================================
+ACCESSIBILITY
+========================================= */
+
+:focus-visible{
+outline:2px solid rgba(120,169,255,.7);
+outline-offset:2px;
+}
+
+::selection{
+background:rgba(255,255,255,.16);
+}
