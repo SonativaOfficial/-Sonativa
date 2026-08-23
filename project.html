@@ -1,402 +1,564 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Project — Sonativa</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa project workspace.">
+<title>Sonativa — Project</title>
+<link rel="stylesheet" href="assets/css/sonativa.css">
 
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+.project-page{
+  width:min(1400px,94%);
+  margin:auto;
+  padding:32px 0 70px;
 }
 
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:
-radial-gradient(
-circle at 50% -10%,
-#172033 0%,
-#06080d 45%,
-#040509 100%
-);
-color:#fff;
-min-height:100vh;
+.project-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:20px;
 }
 
-.container{
-width:92%;
-max-width:1000px;
-margin:auto;
+.project-heading{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
-header{
-border-bottom:1px solid #202633;
-background:rgba(5,7,12,.92);
-backdrop-filter:blur(10px);
+.project-logo{
+  width:58px;
+  height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:#121a27;
+  border:1px solid #2a374c;
+  font-size:18px;
+  font-weight:900;
 }
 
-.nav{
-min-height:72px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
+.project-title{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:-.7px;
 }
 
-.logo{
-font-size:23px;
-font-weight:900;
-letter-spacing:3px;
+.project-subtitle{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:11px;
 }
 
-.back{
-padding:10px 15px;
-border:1px solid #303847;
-border-radius:9px;
-background:#10151e;
-color:#fff;
-text-decoration:none;
-transition:.2s;
+.header-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-.back:hover{
-background:#171d28;
-border-color:#4a5569;
+.btn{
+  min-height:39px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:0 13px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:#0d131e;
+  color:#dce4ef;
+  text-decoration:none;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-main{
-padding:55px 0;
+.btn:hover{
+  background:#151d2a;
+  border-color:var(--border2);
 }
 
-.hero{
-text-align:center;
-margin-bottom:35px;
+.btn.primary{
+  background:#fff;
+  color:#05070c;
+  border-color:#fff;
 }
 
-.hero h1{
-font-size:42px;
-margin-bottom:10px;
-word-break:break-word;
-}
-
-.hero p{
-color:#818b9c;
-font-size:15px;
-word-break:break-word;
-}
-
-.status{
-display:inline-flex;
-align-items:center;
-gap:7px;
-margin-top:15px;
-padding:7px 13px;
-border-radius:20px;
-background:#151a24;
-border:1px solid #303847;
-color:#9ca6b7;
-font-size:12px;
-}
-
-.status-dot{
-width:7px;
-height:7px;
-border-radius:50%;
-background:#8b95a7;
-}
-
-.status.created{
-color:#8ee6b0;
-border-color:#315c45;
-}
-
-.status.created .status-dot{
-background:#57d88b;
+.btn.danger{
+  color:#ff9a9a;
+  border-color:#4d292f;
+  background:#160c0f;
 }
 
 .grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(290px,1fr));
-gap:18px;
+  display:grid;
+  grid-template-columns:1.45fr .75fr;
+  gap:18px;
 }
 
 .card{
-background:rgba(12,16,23,.94);
-border:1px solid #252d3b;
-border-radius:16px;
-padding:25px;
-box-shadow:
-0 12px 40px rgba(0,0,0,.15);
+  padding:21px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  backdrop-filter:blur(14px);
 }
 
-.card h2{
-font-size:19px;
-margin-bottom:20px;
+.card + .card{
+  margin-top:18px;
 }
 
-.row{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:15px;
-padding:13px 0;
-border-bottom:1px solid #202733;
+.card-title{
+  font-size:14px;
+  font-weight:900;
 }
 
-.row:last-child{
-border-bottom:0;
+.card-subtitle{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
 }
 
-.label{
-color:#707b8e;
-font-size:13px;
-flex-shrink:0;
+.overview-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:18px;
 }
 
-.value{
-text-align:right;
-word-break:break-word;
-font-size:14px;
-max-width:68%;
+.metric{
+  padding:14px;
+  border:1px solid #1d2737;
+  border-radius:10px;
+  background:#090e17;
 }
 
-.description{
-grid-column:1/-1;
+.metric-label{
+  color:#68758a;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.7px;
 }
 
-.description-text{
-color:#aeb7c6;
-line-height:1.7;
-white-space:pre-wrap;
-word-break:break-word;
+.metric-value{
+  margin-top:7px;
+  color:#f5f7fb;
+  font-size:14px;
+  font-weight:900;
+  word-break:break-word;
 }
 
-.tokenomics{
-grid-column:1/-1;
+.info-list{
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
 }
 
-.tokenomics-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(180px,1fr));
-gap:12px;
+.info-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  padding:12px 0;
+  border-bottom:1px solid #1b2432;
 }
 
-.tokenomics-item{
-padding:16px;
-background:#080b12;
-border:1px solid #252d3b;
-border-radius:10px;
+.info-row:last-child{
+  border-bottom:0;
 }
 
-.tokenomics-item span{
-display:block;
-color:#707b8e;
-font-size:12px;
-margin-bottom:6px;
+.info-label{
+  color:#68758a;
+  font-size:9px;
 }
 
-.tokenomics-item strong{
-font-size:18px;
-}
-
-.onchain{
-grid-column:1/-1;
-}
-
-.address-box{
-margin-top:12px;
-padding:15px;
-background:#080b12;
-border:1px solid #252d3b;
-border-radius:10px;
-}
-
-.address-label{
-color:#707b8e;
-font-size:12px;
-margin-bottom:8px;
+.info-value{
+  max-width:65%;
+  color:#dbe2ec;
+  font-size:10px;
+  font-weight:700;
+  text-align:right;
+  word-break:break-word;
 }
 
 .address{
-font-family:
-ui-monospace,
-SFMono-Regular,
-Menlo,
-Monaco,
-Consolas,
-monospace;
-font-size:12px;
-line-height:1.6;
-word-break:break-all;
-color:#aeb7c6;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:8px;
 }
 
-.address-actions{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-top:12px;
+.status{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  padding:5px 8px;
+  border-radius:6px;
+  border:1px solid #273444;
+  background:#101922;
+  color:#8c9aac;
+  font-size:8px;
+  font-weight:800;
 }
 
-.small-button{
-padding:9px 12px;
-border-radius:8px;
-border:1px solid #303847;
-background:#10151e;
-color:#fff;
-cursor:pointer;
-font-size:12px;
-text-decoration:none;
+.status.created{
+  color:var(--success);
+  border-color:#28543d;
+  background:#0b1711;
 }
 
-.small-button:hover{
-background:#171d28;
+.status.failed{
+  color:var(--danger);
+  border-color:#522b32;
+  background:#190d10;
 }
 
-.small-button.primary{
-background:#fff;
-color:#06080d;
-border-color:#fff;
+.actions-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:16px;
 }
 
-.actions{
-margin-top:30px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
+.action{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 12px;
+  border:1px solid #1d2737;
+  border-radius:9px;
+  background:#090e17;
+  color:#dce4ef;
+  text-decoration:none;
+  font-size:10px;
+  font-weight:800;
 }
 
-.button{
-display:inline-block;
-padding:13px 20px;
-border-radius:9px;
-font-weight:bold;
-text-decoration:none;
-border:1px solid #303847;
-background:#10151e;
-color:#fff;
-cursor:pointer;
+.action:hover{
+  background:#101722;
+  border-color:#344157;
 }
 
-.button:hover{
-background:#171d28;
+.action-icon{
+  width:28px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:7px;
+  background:#151d2a;
+  border:1px solid #293548;
 }
 
-.primary{
-background:#fff;
-color:#06080d;
-border-color:#fff;
+.security-box{
+  margin-top:16px;
+  padding:14px;
+  border:1px solid #20362b;
+  border-radius:10px;
+  background:#09130e;
 }
 
-.loading,
-.error,
-.empty{
-text-align:center;
-padding:45px 20px;
-color:#818b9c;
+.security-box strong{
+  color:#8de8b2;
+  font-size:10px;
 }
 
-.error{
-color:#ff8f8f;
+.security-box p{
+  margin-top:5px;
+  color:#718173;
+  font-size:9px;
+  line-height:1.6;
 }
 
-.error-box{
-background:#120c0c;
-border:1px solid #633737;
-border-radius:14px;
-padding:25px;
+.empty,
+.loading{
+  min-height:300px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#68758a;
 }
 
-.empty-box{
-background:#0d1119;
-border:1px solid #252d3b;
-border-radius:16px;
-padding:35px 20px;
+.empty h2{
+  margin-top:12px;
+  color:#f5f7fb;
+  font-size:16px;
 }
 
-.empty-box h2{
-color:#fff;
-margin-bottom:10px;
+.empty p{
+  max-width:420px;
+  margin:7px auto 17px;
+  font-size:10px;
+  line-height:1.6;
 }
 
-.empty-box p{
-color:#818b9c;
-margin-bottom:20px;
+.empty-icon{
+  width:55px;
+  height:55px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:#121a27;
+  border:1px solid #293548;
+  font-size:21px;
+  font-weight:900;
 }
 
-.copy-success{
-color:#8ee6b0 !important;
+.mono{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 
-footer{
-text-align:center;
-padding:45px 0;
-color:#697386;
-font-size:13px;
+.copy{
+  margin-left:6px;
+  padding:3px 6px;
+  border:1px solid var(--border);
+  border-radius:5px;
+  background:#0d131e;
+  color:#8d9bad;
+  cursor:pointer;
+  font-size:8px;
 }
 
-.hidden{
-display:none !important;
+.copy:hover{
+  color:#fff;
 }
 
-@media(max-width:600px){
-
-main{
-padding:40px 0;
+.toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:999;
+  max-width:320px;
+  padding:11px 13px;
+  border:1px solid #303b4f;
+  border-radius:9px;
+  background:#0d131e;
+  color:#dce4ef;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
+  font-size:9px;
+  opacity:0;
+  transform:translateY(8px);
+  pointer-events:none;
+  transition:.2s;
 }
 
-.hero h1{
-font-size:32px;
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
 }
 
-.row{
-flex-direction:column;
-gap:6px;
+@media(max-width:950px){
+  .grid{
+    grid-template-columns:1fr;
+  }
 }
 
-.value{
-max-width:100%;
-text-align:left;
-}
+@media(max-width:650px){
+  .project-page{
+    width:92%;
+  }
 
-.nav{
-min-height:64px;
-}
+  .project-header{
+    flex-direction:column;
+  }
 
-.logo{
-font-size:20px;
-}
+  .overview-grid{
+    grid-template-columns:1fr;
+  }
 
-}
+  .info-row{
+    flex-direction:column;
+    gap:5px;
+  }
 
+  .info-value{
+    max-width:100%;
+    text-align:left;
+  }
+}
 </style>
-
 </head>
 
 <body>
 
-<header>
+<div class="background"></div>
 
-<div class="container nav">
+<div class="app">
 
-<div class="logo">
-SONATIVA
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+  <div class="brand-logo">SONATIVA</div>
+  <div class="brand-version">BETA</div>
 </div>
 
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+  <span class="nav-icon">⌂</span>
+  <span>Dashboard</span>
+</a>
+
+<a class="nav-item active" href="projects.html">
+  <span class="nav-icon">▣</span>
+  <span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+  <span class="nav-icon">◇</span>
+  <span>Token Studio</span>
+</a>
+
+<a class="nav-item" href="tokenomics.html">
+  <span class="nav-icon">◈</span>
+  <span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+  <span class="nav-icon">◆</span>
+  <span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+  <span class="nav-icon">⌁</span>
+  <span>Advanced Analysis</span>
+  <span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="ai.html">
+  <span class="nav-icon">✦</span>
+  <span>Sonativa AI</span>
+  <span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="security.html">
+  <span class="nav-icon">◇</span>
+  <span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item" href="news.html">
+  <span class="nav-icon">▤</span>
+  <span>World News</span>
+</a>
+
+<a class="nav-item" href="books.html">
+  <span class="nav-icon">▥</span>
+  <span>Books</span>
+</a>
+
+<a class="nav-item" href="live.html">
+  <span class="nav-icon">●</span>
+  <span>Live</span>
+</a>
+
+<a class="nav-item" href="reels.html">
+  <span class="nav-icon">▶</span>
+  <span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+  <span class="nav-icon">◉</span>
+  <span>Wallet</span>
+</a>
+
+<a class="nav-item" href="pricing.html">
+  <span class="nav-icon">◇</span>
+  <span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+  <span class="nav-icon">⚙</span>
+  <span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+<div class="account">
+
+<div class="avatar" id="avatar">G</div>
+
+<div class="account-info">
+
+<div class="account-name" id="accountName">
+Guest
+</div>
+
+<div class="account-status">
+● Workspace
+</div>
+
+</div>
+
+</div>
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button"
+aria-label="Open menu">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Project
+</div>
+
+<div class="page-subtitle">
+Project workspace and deployment information
+</div>
+
+</div>
+
+</div>
+
+
+<div class="top-actions">
+
+<select
+class="lang"
+id="languageSelect"
+aria-label="Language">
+
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+
+</select>
+
 <a
-class="back"
-href="projects.html">
-
-← My Projects
-
+class="icon-button"
+href="settings.html"
+title="Settings">
+⚙
 </a>
 
 </div>
@@ -404,1233 +566,1120 @@ href="projects.html">
 </header>
 
 
-<main>
+<section
+class="project-page"
+id="page">
 
-<div class="container">
-
-<section class="hero">
-
-<h1 id="projectTitle">
-Loading...
-</h1>
-
-<p id="projectSubtitle">
-Loading project information...
-</p>
-
-<div
-class="status"
-id="projectStatus">
-
-<span class="status-dot"></span>
-
-<span id="statusText">
-Loading
-</span>
-
+<div class="loading">
+Loading project...
 </div>
 
 </section>
 
 
-<div id="content">
-
-<div class="loading">
-Loading your project...
-</div>
-
-</div>
-
+<div
+class="toast"
+id="toast">
+Copied
 </div>
 
 </main>
 
-
-<footer>
-© 2026 Sonativa
-</footer>
+</div>
 
 
 <script type="module">
 
+import {
+  supabase,
+  getUser
+} from "./assets/js/supabase.js";
+
+
+const sidebar =
+document.getElementById(
+  "sidebar"
+);
+
+const menuButton =
+document.getElementById(
+  "menuButton"
+);
+
+const languageSelect =
+document.getElementById(
+  "languageSelect"
+);
+
+const page =
+document.getElementById(
+  "page"
+);
+
+const toast =
+document.getElementById(
+  "toast"
+);
+
 
 /* =========================================================
-   SUPABASE
+   MOBILE MENU
 ========================================================= */
 
-import {
-createClient
-}
-from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+menuButton?.addEventListener(
+  "click",
+  () => {
 
+    sidebar.classList.toggle(
+      "open"
+    );
 
-const SUPABASE_URL =
-"https://kallobeodjzzhrsaqszw.supabase.co";
-
-
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
-
-
-const supabase =
-createClient(
-SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY
+  }
 );
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+const savedLanguage =
+localStorage.getItem(
+  "sonativa_language"
+);
+
+if(savedLanguage){
+
+  languageSelect.value =
+    savedLanguage;
+
+  applyLanguage(
+    savedLanguage
+  );
+
+}
+
+
+languageSelect?.addEventListener(
+  "change",
+  () => {
+
+    const language =
+      languageSelect.value;
+
+    localStorage.setItem(
+      "sonativa_language",
+      language
+    );
+
+    applyLanguage(
+      language
+    );
+
+  }
+);
+
+
+function applyLanguage(
+  language
+){
+
+  document.documentElement.lang =
+    language;
+
+  document.documentElement.dir =
+    language === "ar"
+      ? "rtl"
+      : "ltr";
+
+}
 
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
-function escapeHtml(value){
+function escapeHTML(
+  value
+){
 
-return String(value ?? "")
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+}
+
+
+function formatDate(
+  value
+){
+
+  if(!value){
+
+    return "Unknown";
+
+  }
+
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "Unknown";
+
+  }
+
+
+  return new Intl.DateTimeFormat(
+    undefined,
+    {
+      year:"numeric",
+      month:"short",
+      day:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  ).format(
+    date
+  );
+
+}
+
+
+function isCreated(
+  project
+){
+
+  return Boolean(
+    project.mint_address
+  ) ||
+  [
+    "created",
+    "minted",
+    "deployed",
+    "live"
+  ].includes(
+    String(
+      project.token_status ||
+      ""
+    ).toLowerCase()
+  );
+
+}
+
+
+function shortAddress(
+  value
+){
+
+  if(!value){
+
+    return "—";
+
+  }
+
+
+  if(value.length <= 20){
+
+    return value;
+
+  }
+
+
+  return (
+    value.slice(
+      0,
+      10
+    )
+    +
+    "..."
+    +
+    value.slice(
+      -8
+    )
+  );
+
+}
+
+
+function showToast(
+  message
+){
+
+  toast.textContent =
+    message;
+
+  toast.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    window.__sonativaToast
+  );
+
+  window.__sonativaToast =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      1800
+    );
 
 }
 
 
 /* =========================================================
-   FORMAT BIG NUMBERS
+   COPY
 ========================================================= */
 
-function formatBigNumber(value){
-
-if(
-value === null ||
-value === undefined ||
-value === ""
+window.copyProjectValue =
+async function(
+  value
 ){
 
-return "-";
+  try{
 
-}
+    await navigator.clipboard.writeText(
+      value
+    );
 
-try{
+    showToast(
+      "Copied to clipboard"
+    );
 
-return BigInt(
-String(value)
-).toLocaleString("en-US");
+  }catch(error){
 
-}catch{
+    showToast(
+      "Copy failed"
+    );
 
-return escapeHtml(value);
-
-}
-
-}
-
-
-/* =========================================================
-   FORMAT DATE
-========================================================= */
-
-function formatDate(value){
-
-if(!value){
-
-return "-";
-
-}
-
-const date =
-new Date(value);
-
-if(
-Number.isNaN(
-date.getTime()
-)
-){
-
-return "-";
-
-}
-
-return date.toLocaleString(
-undefined,
-{
-dateStyle:"medium",
-timeStyle:"short"
-}
-);
-
-}
-
-
-/* =========================================================
-   TOKEN STATUS
-========================================================= */
-
-function normalizeStatus(status){
-
-return String(
-status || "draft"
-)
-.toLowerCase()
-.trim();
-
-}
-
-
-function getStatusLabel(status){
-
-switch(
-normalizeStatus(status)
-){
-
-case "created":
-return "Token Created";
-
-case "minted":
-return "Token Created";
-
-case "failed":
-return "Creation Failed";
-
-case "creating":
-return "Creating Token";
-
-case "draft":
-default:
-return "Draft";
-
-}
-
-}
-
-
-/* =========================================================
-   EXPLORER NETWORK
-========================================================= */
-
-function getExplorerCluster(network){
-
-const value =
-String(network || "")
-.toLowerCase();
-
-if(
-value.includes("devnet")
-){
-
-return "devnet";
-
-}
-
-if(
-value.includes("testnet")
-){
-
-return "testnet";
-
-}
-
-return "";
-
-}
-
-
-function getExplorerAddressUrl(
-mintAddress,
-network
-){
-
-if(!mintAddress){
-
-return "";
-
-}
-
-const cluster =
-getExplorerCluster(network);
-
-let url =
-"https://explorer.solana.com/address/" +
-encodeURIComponent(
-mintAddress
-);
-
-if(cluster){
-
-url +=
-"?cluster=" +
-encodeURIComponent(
-cluster
-);
-
-}
-
-return url;
-
-}
-
-
-function getExplorerTxUrl(
-signature,
-network
-){
-
-if(!signature){
-
-return "";
-
-}
-
-const cluster =
-getExplorerCluster(network);
-
-let url =
-"https://explorer.solana.com/tx/" +
-encodeURIComponent(
-signature
-);
-
-if(cluster){
-
-url +=
-"?cluster=" +
-encodeURIComponent(
-cluster
-);
-
-}
-
-return url;
-
-}
-
-
-/* =========================================================
-   TOKENOMICS
-========================================================= */
-
-function parseTokenomics(description){
-
-if(!description){
-
-return null;
-
-}
-
-const marker =
-"--- SONATIVA TOKENOMICS ---";
-
-if(
-!description.includes(marker)
-){
-
-return null;
-
-}
-
-const section =
-description
-.split(marker)[1]
-.trim();
-
-
-const result = {};
-
-
-section
-.split(/\r?\n/)
-.forEach(
-function(line){
-
-const match =
-line.match(
-/^([^:]+):\s*([\d.]+)%$/
-);
-
-if(!match){
-
-return;
-
-}
-
-const key =
-match[1]
-.trim()
-.toLowerCase()
-.replace(/\s+/g,"_");
-
-
-result[key] =
-match[2] + "%";
-
-});
-
-
-return result;
-
-}
-
-
-/* =========================================================
-   COPY TO CLIPBOARD
-========================================================= */
-
-async function copyText(
-text,
-button
-){
-
-if(!text){
-
-return;
-
-}
-
-try{
-
-await navigator.clipboard.writeText(
-text
-);
-
-const original =
-button.textContent;
-
-button.textContent =
-"Copied ✓";
-
-button.classList.add(
-"copy-success"
-);
-
-setTimeout(
-function(){
-
-button.textContent =
-original;
-
-button.classList.remove(
-"copy-success"
-);
-
-},
-1600
-);
-
-}catch(error){
-
-console.error(
-"Copy failed:",
-error
-);
-
-alert(
-"Could not copy automatically. Please copy it manually."
-);
-
-}
-
-}
-
-
-/* =========================================================
-   GLOBAL COPY
-========================================================= */
-
-window.copyMint =
-function(){
-
-const element =
-document.getElementById(
-"mintAddressText"
-);
-
-const button =
-document.getElementById(
-"copyMintButton"
-);
-
-if(element){
-
-copyText(
-element.textContent,
-button
-);
-
-}
-
-};
-
-
-window.copySignature =
-function(){
-
-const element =
-document.getElementById(
-"signatureText"
-);
-
-const button =
-document.getElementById(
-"copySignatureButton"
-);
-
-if(element){
-
-copyText(
-element.textContent,
-button
-);
-
-}
+  }
 
 };
 
 
 /* =========================================================
-   URL
+   PROJECT ID
 ========================================================= */
 
 const params =
 new URLSearchParams(
-window.location.search
+  window.location.search
 );
 
 const projectId =
-params.get("id");
+params.get(
+  "id"
+);
 
 
 /* =========================================================
-   LOAD PROJECT
+   USER
 ========================================================= */
 
-async function loadProject(){
+async function load(){
 
-const content =
-document.getElementById(
-"content"
-);
+  try{
 
+    const user =
+      await getUser();
 
-/* ---------------------------------------------------------
-   NO PROJECT ID
---------------------------------------------------------- */
 
-if(!projectId){
+    if(!user){
 
-content.innerHTML = `
+      renderLogin();
 
-<div class="empty-box">
+      return;
 
-<h2>
-No project selected
-</h2>
+    }
 
-<p>
-Please select a project from My Projects.
-</p>
 
-<a
-class="button primary"
-href="projects.html">
+    const name =
+      user.user_metadata?.full_name ||
+      user.user_metadata?.name ||
+      user.email?.split("@")[0] ||
+      "Sonativa User";
 
-← My Projects
 
-</a>
+    document.getElementById(
+      "accountName"
+    ).textContent =
+      name;
 
-</div>
 
-`;
+    document.getElementById(
+      "avatar"
+    ).textContent =
+      String(
+        name
+      ).charAt(0).toUpperCase();
 
-return;
 
-}
+    if(!projectId){
 
+      renderMissing();
 
-/* ---------------------------------------------------------
-   AUTH
---------------------------------------------------------- */
+      return;
 
-const {
-data:{
-user
-},
-error:userError
-} =
-await supabase.auth.getUser();
+    }
 
 
-if(userError){
+    await loadProject(
+      user.id,
+      projectId
+    );
 
-console.error(
-"Auth error:",
-userError
-);
 
-content.innerHTML = `
+  }catch(error){
 
-<div class="error-box">
+    console.error(
+      "[Sonativa Project]",
+      error
+    );
 
-<h2>
-Unable to verify account
-</h2>
+    renderError();
 
-<br>
-
-${escapeHtml(
-userError.message
-)}
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-if(!user){
-
-content.innerHTML = `
-
-<div class="empty-box">
-
-<h2>
-You must login first
-</h2>
-
-<p>
-Please login to view your project.
-</p>
-
-<a
-class="button primary"
-href="index.html">
-
-Login
-
-</a>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-/* ---------------------------------------------------------
-   GET PROJECT
---------------------------------------------------------- */
-
-const {
-data:project,
-error
-} =
-await supabase
-
-.from("projects")
-
-.select(`
-Id,
-created_at,
-user_id,
-project_name,
-token_name,
-token_symbol,
-total_supply,
-network,
-description,
-decimals,
-mint_address,
-creation_signature,
-token_status
-`)
-
-.eq(
-"Id",
-projectId
-)
-
-.eq(
-"user_id",
-user.id
-)
-
-.single();
-
-
-/* ---------------------------------------------------------
-   DATABASE ERROR
---------------------------------------------------------- */
-
-if(error){
-
-console.error(
-"Project error:",
-error
-);
-
-content.innerHTML = `
-
-<div class="error-box">
-
-<h2>
-Project not found
-</h2>
-
-<br>
-
-<p>
-${escapeHtml(
-error.message
-)}
-</p>
-
-<br>
-
-<a
-class="button primary"
-href="projects.html">
-
-← My Projects
-
-</a>
-
-</div>
-
-`;
-
-return;
+  }
 
 }
 
 
 /* =========================================================
-   HEADER
+   DATABASE
 ========================================================= */
 
-document.getElementById(
-"projectTitle"
-).textContent =
-project.project_name ||
-"Unnamed Project";
-
-
-document.getElementById(
-"projectSubtitle"
-).textContent =
-project.token_name ||
-"Sonativa Project";
-
-
-const status =
-normalizeStatus(
-project.token_status
-);
-
-
-const statusElement =
-document.getElementById(
-"projectStatus"
-);
-
-
-document.getElementById(
-"statusText"
-).textContent =
-getStatusLabel(
-status
-);
-
-
-if(
-status === "created" ||
-status === "minted"
+async function loadProject(
+  userId,
+  id
 ){
 
-statusElement.classList.add(
-"created"
-);
+  const {
+    data,
+    error
+  } =
+  await supabase
+    .from("projects")
+    .select(`
+      id,
+      project_name,
+      token_name,
+      token_symbol,
+      token_status,
+      mint_address,
+      created_at
+    `)
+    .eq(
+      "id",
+      id
+    )
+    .eq(
+      "user_id",
+      userId
+    )
+    .maybeSingle();
+
+
+  if(error){
+
+    throw error;
+
+  }
+
+
+  if(!data){
+
+    renderNotFound();
+
+    return;
+
+  }
+
+
+  renderProject(
+    data
+  );
 
 }
 
 
 /* =========================================================
-   TOKENOMICS
+   RENDER PROJECT
 ========================================================= */
 
-const tokenomics =
-parseTokenomics(
-project.description
-);
-
-
-let tokenomicsHTML =
-"";
-
-
-if(tokenomics){
-
-tokenomicsHTML = `
-
-<div class="card tokenomics">
-
-<h2>
-Tokenomics
-</h2>
-
-<div class="tokenomics-grid">
-
-<div class="tokenomics-item">
-<span>TEAM</span>
-<strong>
-${escapeHtml(
-tokenomics.team || "0%"
-)}
-</strong>
-</div>
-
-<div class="tokenomics-item">
-<span>TREASURY</span>
-<strong>
-${escapeHtml(
-tokenomics.treasury || "0%"
-)}
-</strong>
-</div>
-
-<div class="tokenomics-item">
-<span>COMMUNITY</span>
-<strong>
-${escapeHtml(
-tokenomics.community || "0%"
-)}
-</strong>
-</div>
-
-<div class="tokenomics-item">
-<span>PUBLIC SALE</span>
-<strong>
-${escapeHtml(
-tokenomics.public_sale || "0%"
-)}
-</strong>
-</div>
-
-<div class="tokenomics-item">
-<span>LIQUIDITY</span>
-<strong>
-${escapeHtml(
-tokenomics.liquidity || "0%"
-)}
-</strong>
-</div>
-
-<div class="tokenomics-item">
-<span>BURN RESERVE</span>
-<strong>
-${escapeHtml(
-tokenomics.burn_reserve || "0%"
-)}
-</strong>
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =========================================================
-   ON-CHAIN DATA
-========================================================= */
-
-let onChainHTML =
-"";
-
-
-if(
-project.mint_address ||
-project.creation_signature
+function renderProject(
+  project
 ){
 
-const explorerAddress =
-getExplorerAddressUrl(
-project.mint_address,
-project.network
-);
+  const name =
+    project.project_name ||
+    "Unnamed Project";
 
 
-const explorerTx =
-getExplorerTxUrl(
-project.creation_signature,
-project.network
-);
+  const tokenName =
+    project.token_name ||
+    "Token";
 
 
-onChainHTML = `
-
-<div class="card onchain">
-
-<h2>
-On-Chain Information
-</h2>
+  const symbol =
+    project.token_symbol ||
+    "—";
 
 
-${
-project.mint_address
-?
-`
-
-<div class="address-box">
-
-<div class="address-label">
-Mint Address
-</div>
-
-<div
-class="address"
-id="mintAddressText">
-${escapeHtml(
-project.mint_address
-)}
-</div>
-
-<div class="address-actions">
-
-<button
-id="copyMintButton"
-class="small-button"
-onclick="copyMint()">
-
-Copy
-
-</button>
-
-${
-explorerAddress
-?
-`
-
-<a
-class="small-button primary"
-href="${escapeHtml(
-explorerAddress
-)}"
-target="_blank"
-rel="noopener noreferrer">
-
-View Mint
-
-</a>
-
-`
-:
-""
-}
-
-</div>
-
-</div>
-
-`
-:
-""
-}
+  const status =
+    String(
+      project.token_status ||
+      "draft"
+    ).toLowerCase();
 
 
-${
-project.creation_signature
-?
-`
+  const created =
+    isCreated(
+      project
+    );
 
-<div class="address-box">
 
-<div class="address-label">
-Creation Transaction
-</div>
+  const mint =
+    project.mint_address ||
+    "";
 
-<div
-class="address"
-id="signatureText">
-${escapeHtml(
-project.creation_signature
-)}
-</div>
 
-<div class="address-actions">
+  page.innerHTML = `
 
-<button
-id="copySignatureButton"
-class="small-button"
-onclick="copySignature()">
+    <div class="project-header">
 
-Copy
+      <div class="project-heading">
 
-</button>
+        <div class="project-logo">
+          ${escapeHTML(
+            String(
+              name
+            ).charAt(0).toUpperCase()
+          )}
+        </div>
 
-${
-explorerTx
-?
-`
+        <div>
 
-<a
-class="small-button primary"
-href="${escapeHtml(
-explorerTx
-)}"
-target="_blank"
-rel="noopener noreferrer">
+          <div class="project-title">
+            ${escapeHTML(name)}
+          </div>
 
-View Transaction
+          <div class="project-subtitle">
+            ${escapeHTML(tokenName)}
+            ${
+              symbol !== "—"
+                ? ` • $${escapeHTML(symbol)}`
+                : ""
+            }
+          </div>
 
-</a>
+        </div>
 
-`
-:
-""
-}
+      </div>
 
-</div>
 
-</div>
+      <div class="header-actions">
 
-`
-:
-""
-}
+        <a
+          class="btn"
+          href="projects.html">
+          ← Projects
+        </a>
 
-</div>
+        <a
+          class="btn primary"
+          href="token-studio.html">
+          Token Studio
+        </a>
 
-`;
+      </div>
+
+    </div>
+
+
+    <div class="grid">
+
+
+      <div>
+
+
+        <section class="card">
+
+          <div class="card-title">
+            Project Overview
+          </div>
+
+          <div class="card-subtitle">
+            Current project and token state
+          </div>
+
+
+          <div class="overview-grid">
+
+            <div class="metric">
+
+              <div class="metric-label">
+                Status
+              </div>
+
+              <div class="metric-value">
+
+                <span
+                  class="status ${
+                    created
+                      ? "created"
+                      : status === "failed"
+                        ? "failed"
+                        : ""
+                  }">
+
+                  ${
+                    created
+                      ? "Created"
+                      : status === "failed"
+                        ? "Failed"
+                        : "Draft"
+                  }
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="metric">
+
+              <div class="metric-label">
+                Network
+              </div>
+
+              <div class="metric-value">
+                Solana
+              </div>
+
+            </div>
+
+
+            <div class="metric">
+
+              <div class="metric-label">
+                Symbol
+              </div>
+
+              <div class="metric-value">
+                ${
+                  symbol === "—"
+                    ? "—"
+                    : "$" + escapeHTML(symbol)
+                }
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="info-list">
+
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Project ID
+              </div>
+
+              <div class="info-value mono">
+                ${escapeHTML(
+                  project.id
+                )}
+
+                <button
+                  class="copy"
+                  onclick="copyProjectValue('${escapeJS(project.id)}')">
+                  Copy
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Token Name
+              </div>
+
+              <div class="info-value">
+                ${escapeHTML(
+                  tokenName
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Token Symbol
+              </div>
+
+              <div class="info-value">
+                ${
+                  symbol === "—"
+                    ? "—"
+                    : "$" +
+                      escapeHTML(symbol)
+                }
+              </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Created
+              </div>
+
+              <div class="info-value">
+                ${escapeHTML(
+                  formatDate(
+                    project.created_at
+                  )
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Token Status
+              </div>
+
+              <div class="info-value">
+                ${escapeHTML(
+                  status
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Mint Address
+              </div>
+
+              <div class="info-value address">
+
+                ${
+                  mint
+                    ? `
+                      ${escapeHTML(
+                        shortAddress(
+                          mint
+                        )
+                      )}
+
+                      <button
+                        class="copy"
+                        onclick="copyProjectValue('${escapeJS(mint)}')">
+                        Copy
+                      </button>
+                    `
+                    : "Not deployed"
+                }
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+        <section class="card">
+
+          <div class="card-title">
+            Project Activity
+          </div>
+
+          <div class="card-subtitle">
+            Important project state information
+          </div>
+
+
+          <div class="info-list">
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Workspace
+              </div>
+
+              <div class="info-value">
+                Sonativa
+              </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Deployment
+              </div>
+
+              <div class="info-value">
+                ${
+                  created
+                    ? "Token created"
+                    : "Not deployed"
+                }
+              </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+              <div class="info-label">
+                Wallet authorization
+              </div>
+
+              <div class="info-value">
+                Required for transactions
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+      </div>
+
+
+      <aside>
+
+
+        <section class="card">
+
+          <div class="card-title">
+            Project Actions
+          </div>
+
+          <div class="card-subtitle">
+            Continue building your project
+          </div>
+
+
+          <div class="actions-list">
+
+            <a
+              class="action"
+              href="token-studio.html">
+
+              <span class="action-icon">
+                ◇
+              </span>
+
+              <span>
+                Token Studio
+              </span>
+
+            </a>
+
+
+            <a
+              class="action"
+              href="tokenomics.html">
+
+              <span class="action-icon">
+                ◈
+              </span>
+
+              <span>
+                Tokenomics
+              </span>
+
+            </a>
+
+
+            <a
+              class="action"
+              href="security.html">
+
+              <span class="action-icon">
+                ✓
+              </span>
+
+              <span>
+                Security Scanner
+              </span>
+
+            </a>
+
+
+            <a
+              class="action"
+              href="analysis.html">
+
+              <span class="action-icon">
+                ⌁
+              </span>
+
+              <span>
+                Advanced Analysis
+              </span>
+
+            </a>
+
+          </div>
+
+        </section>
+
+
+        <section class="card">
+
+          <div class="card-title">
+            Security
+          </div>
+
+          <div class="security-box">
+
+            <strong>
+              ✓ Wallet stays yours
+            </strong>
+
+            <p>
+              Sonativa does not request or store
+              your private key or seed phrase.
+              Blockchain transactions require
+              explicit wallet authorization.
+            </p>
+
+          </div>
+
+        </section>
+
+
+      </aside>
+
+
+    </div>
+
+
+    <footer>
+      © 2026 Sonativa — Web3 tools, intelligence and education.
+    </footer>
+
+  `;
 
 }
 
 
 /* =========================================================
-   DISPLAY
+   SAFE JS STRING
 ========================================================= */
 
-content.innerHTML = `
+function escapeJS(
+  value
+){
 
-<div class="grid">
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    )
+    .replace(
+      /"/g,
+      '\\"'
+    )
+    .replace(
+      /\n/g,
+      "\\n"
+    )
+    .replace(
+      /\r/g,
+      "\\r"
+    );
 
+}
 
-<!-- PROJECT -->
 
-<div class="card">
+/* =========================================================
+   STATES
+========================================================= */
 
-<h2>
-Project Information
-</h2>
+function renderLogin(){
 
+  page.innerHTML = `
 
-<div class="row">
+    <div class="card empty">
 
-<span class="label">
-Project Name
-</span>
+      <div class="empty-icon">
+        ◉
+      </div>
 
-<span class="value">
-${escapeHtml(
-project.project_name ||
-"-"
-)}
-</span>
+      <h2>
+        Sign in required
+      </h2>
 
-</div>
+      <p>
+        Sign in to Sonativa to view your project.
+      </p>
 
+      <a
+        class="btn primary"
+        href="login.html">
+        Sign In
+      </a>
 
-<div class="row">
+    </div>
 
-<span class="label">
-Network
-</span>
+  `;
 
-<span class="value">
-${escapeHtml(
-project.network ||
-"-"
-)}
-</span>
+}
 
-</div>
 
+function renderMissing(){
 
-<div class="row">
+  page.innerHTML = `
 
-<span class="label">
-Status
-</span>
+    <div class="card empty">
 
-<span class="value">
-${escapeHtml(
-getStatusLabel(
-project.token_status
-)
-)}
-</span>
+      <div class="empty-icon">
+        ?
+      </div>
 
-</div>
+      <h2>
+        Project not selected
+      </h2>
 
+      <p>
+        Open a project from My Projects
+        to view its details.
+      </p>
 
-<div class="row">
+      <a
+        class="btn primary"
+        href="projects.html">
+        View Projects
+      </a>
 
-<span class="label">
-Created
-</span>
+    </div>
 
-<span class="value">
-${formatDate(
-project.created_at
-)}
-</span>
+  `;
 
-</div>
+}
 
-</div>
 
+function renderNotFound(){
 
-<!-- TOKEN -->
+  page.innerHTML = `
 
-<div class="card">
+    <div class="card empty">
 
-<h2>
-Token Information
-</h2>
+      <div class="empty-icon">
+        !
+      </div>
 
+      <h2>
+        Project not found
+      </h2>
 
-<div class="row">
+      <p>
+        This project does not exist,
+        or you do not have permission to view it.
+      </p>
 
-<span class="label">
-Token Name
-</span>
+      <a
+        class="btn primary"
+        href="projects.html">
+        Back to Projects
+      </a>
 
-<span class="value">
-${escapeHtml(
-project.token_name ||
-"-"
-)}
-</span>
+    </div>
 
-</div>
+  `;
 
+}
 
-<div class="row">
 
-<span class="label">
-Token Symbol
-</span>
+function renderError(){
 
-<span class="value">
-${escapeHtml(
-project.token_symbol ||
-"-"
-)}
-</span>
+  page.innerHTML = `
 
-</div>
+    <div class="card empty">
 
+      <div class="empty-icon">
+        !
+      </div>
 
-<div class="row">
+      <h2>
+        Unable to load project
+      </h2>
 
-<span class="label">
-Total Supply
-</span>
+      <p>
+        Something went wrong while loading
+        this project. Please try again.
+      </p>
 
-<span class="value">
-${formatBigNumber(
-project.total_supply
-)}
-</span>
+      <button
+        class="btn primary"
+        onclick="location.reload()">
+        Try Again
+      </button>
 
-</div>
+    </div>
 
-
-<div class="row">
-
-<span class="label">
-Decimals
-</span>
-
-<span class="value">
-${escapeHtml(
-project.decimals ?? 6
-)}
-</span>
-
-</div>
-
-</div>
-
-
-${tokenomicsHTML}
-
-
-${onChainHTML}
-
-
-<!-- DESCRIPTION -->
-
-<div class="card description">
-
-<h2>
-Project Description
-</h2>
-
-<div class="description-text">
-${escapeHtml(
-project.description ||
-"No description provided."
-)}
-</div>
-
-</div>
-
-
-</div>
-
-
-<div class="actions">
-
-<a
-class="button primary"
-href="projects.html">
-
-← My Projects
-
-</a>
-
-
-<a
-class="button"
-href="token-studio.html">
-
-Create Another Project
-
-</a>
-
-
-<a
-class="button"
-href="tokenomics-studio.html?id=${encodeURIComponent(
-project.Id
-)}">
-
-Edit Tokenomics
-
-</a>
-
-</div>
-
-`;
+  `;
 
 }
 
@@ -1639,10 +1688,9 @@ Edit Tokenomics
    START
 ========================================================= */
 
-loadProject();
+load();
 
 </script>
 
 </body>
-
 </html>
