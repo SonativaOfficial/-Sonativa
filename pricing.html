@@ -1,1 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa Premium plans and features.">
+<title>Sonativa — Premium</title>
 
+<link rel="stylesheet" href="assets/css/sonativa.css">
+
+<style>
+.pricing-page{
+  width:min(1380px,94%);
+  margin:auto;
+  padding:32px 0 70px;
+}
+
+.pricing-hero{
+  text-align:center;
+  padding:25px 15px 28px;
+}
+
+.eyebrow{
+  color:#7d8b9f;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.7px;
+}
+
+.pricing-hero h1{
+  margin-top:9px;
+  font-size:31px;
+  letter-spacing:-1px;
+}
+
+.pricing-hero p{
+  max-width:650px;
+  margin:9px auto 0;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.billing{
+  display:flex;
+  justify-content:center;
+  gap:5px;
+  margin-top:18px;
+}
+
+.billing button{
+  min-height:31px;
+  padding:0 12px;
+  border:1px solid #293548;
+  border-radius:7px;
+  background:#090e17;
+  color:#7f8c9f;
+  font-size:7px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.billing button.active{
+  background:#e8edf3;
+  color:#05080d;
+  border-color:#e8edf3;
+}
+
+.plans{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  align-items:stretch;
+}
+
+.plan{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel);
+}
+
+.plan.featured{
+  border-color:#4a5668;
+  box-shadow:0 0 0 1px rgba(180,190,205,.05);
+}
+
+.plan-tag{
+  position:absolute;
+  top:12px;
+  right:12px;
+  padding:5px 7px;
+  border:1px solid #394558;
+  border-radius:5px;
+  color:#aeb9c8;
+  background:#0a1019;
+  font-size:6px;
+  font-weight:900;
+}
+
+.plan-name{
+  color:#cbd4df;
+  font-size:12px;
+  font-weight:900;
+}
+
+.plan-description{
+  min-height:38px;
+  margin-top:6px;
+  color:#657287;
+  font-size:7px;
+  line-height:1.6;
+}
+
+.price{
+  display:flex;
+  align-items:flex-end;
+  gap:4px;
+  margin-top:16px;
+}
+
+.price strong{
+  color:#e4e9ef;
+  font-size:29px;
+  line-height:1;
+  letter-spacing:-1px;
+}
+
+.price span{
+  margin-bottom:3px;
+  color:#68758a;
+  font-size:7px;
+}
+
+.price-note{
+  margin-top:6px;
+  color:#566377;
+  font-size:6px;
+}
+
+.plan-button{
+  width:100%;
+  min-height:36px;
+  margin-top:17px;
+  border:1px solid #2b374a;
+  border-radius:7px;
+  background:#0b111a;
+  color:#cbd4df;
+  font-size:8px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.plan-button:hover{
+  background:#151d29;
+}
+
+.plan.featured .plan-button{
+  border-color:#e8edf3;
+  background:#e8edf3;
+  color:#05080d;
+}
+
+.features{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:19px;
+  padding-top:16px;
+  border-top:1px solid #1c2635;
+}
+
+.feature{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  color:#8b98aa;
+  font-size:7px;
+  line-height:1.5;
+}
+
+.feature-check{
+  flex:0 0 13px;
+  width:13px;
+  height:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #334054;
+  border-radius:4px;
+  color:#aeb9c8;
+  font-size:7px;
+}
+
+.comparison{
+  margin-top:14px;
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel);
+}
+
+.section-title{
+  font-size:12px;
+  font-weight:900;
+}
+
+.section-sub{
+  margin-top:5px;
+  color:#657287;
+  font-size:7px;
+}
+
+.compare-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  margin-top:15px;
+  border:1px solid #1d2737;
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.compare-cell{
+  min-height:36px;
+  display:flex;
+  align-items:center;
+  padding:8px 10px;
+  border-right:1px solid #1d2737;
+  border-bottom:1px solid #1d2737;
+  color:#778498;
+  font-size:7px;
+}
+
+.compare-cell:nth-child(4n){
+  border-right:0;
+}
+
+.compare-cell.head{
+  color:#cbd4df;
+  background:#0b111a;
+  font-weight:900;
+}
+
+.compare-cell strong{
+  color:#cbd4df;
+}
+
+.faq{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.faq-item{
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--panel);
+}
+
+.faq-item strong{
+  display:block;
+  color:#cbd4df;
+  font-size:8px;
+}
+
+.faq-item p{
+  margin-top:6px;
+  color:#657287;
+  font-size:7px;
+  line-height:1.6;
+}
+
+.notice{
+  margin-top:14px;
+  padding:12px;
+  border:1px solid #202b3d;
+  border-radius:8px;
+  background:#090e17;
+  color:#657287;
+  font-size:7px;
+  line-height:1.6;
+  text-align:center;
+}
+
+@media(max-width:900px){
+  .plans{
+    grid-template-columns:1fr;
+  }
+
+  .plan{
+    max-width:520px;
+    width:100%;
+    margin:auto;
+  }
+
+  .compare-grid{
+    overflow-x:auto;
+    grid-template-columns:180px repeat(3,130px);
+  }
+}
+
+@media(max-width:650px){
+  .faq{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-logo">SONATIVA</div>
+<div class="brand-version">BETA</div>
+</div>
+
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+<span class="nav-icon">⌂</span>
+<span>Dashboard</span>
+</a>
+
+<a class="nav-item" href="projects.html">
+<span class="nav-icon">▣</span>
+<span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+<span class="nav-icon">◇</span>
+<span>Token Studio</span>
+</a>
+
+<a class="nav-item" href="tokenomics.html">
+<span class="nav-icon">◈</span>
+<span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+<span class="nav-icon">◆</span>
+<span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+<span class="nav-icon">⌁</span>
+<span>Advanced Analysis</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="ai.html">
+<span class="nav-icon">✦</span>
+<span>Sonativa AI</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="security.html">
+<span class="nav-icon">◇</span>
+<span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item" href="news.html">
+<span class="nav-icon">▤</span>
+<span>World News</span>
+</a>
+
+<a class="nav-item" href="books.html">
+<span class="nav-icon">▥</span>
+<span>Books</span>
+</a>
+
+<a class="nav-item" href="live.html">
+<span class="nav-icon">●</span>
+<span>Live</span>
+</a>
+
+<a class="nav-item" href="reels.html">
+<span class="nav-icon">▶</span>
+<span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+<span class="nav-icon">◉</span>
+<span>Wallet</span>
+</a>
+
+<a class="nav-item active" href="pricing.html">
+<span class="nav-icon">◇</span>
+<span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+<span class="nav-icon">⚙</span>
+<span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="account">
+
+<div class="avatar" id="avatar">G</div>
+
+<div class="account-info">
+<div class="account-name" id="accountName">Guest</div>
+<div class="account-status">● Workspace</div>
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Premium
+</div>
+
+<div class="page-subtitle">
+Unlock advanced Sonativa capabilities
+</div>
+
+</div>
+
+</div>
+
+<div class="top-actions">
+
+<select class="lang" id="languageSelect">
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+</select>
+
+<a class="icon-button" href="settings.html">
+⚙
+</a>
+
+</div>
+
+</header>
+
+
+<section class="pricing-page">
+
+<div class="pricing-hero">
+
+<div class="eyebrow">
+SONATIVA PREMIUM
+</div>
+
+<h1>
+Choose your workspace
+</h1>
+
+<p>
+Start with the essentials and upgrade when you need deeper
+research, advanced analysis and AI-powered workflows.
+</p>
+
+<div class="billing">
+
+<button
+class="active"
+data-period="monthly"
+type="button">
+Monthly
+</button>
+
+<button
+data-period="yearly"
+type="button">
+Yearly · Save
+</button>
+
+</div>
+
+</div>
+
+
+<div class="plans">
+
+
+<article class="plan">
+
+<div class="plan-name">
+Free
+</div>
+
+<div class="plan-description">
+Explore Sonativa and build the foundation of your Web3 workspace.
+</div>
+
+<div class="price">
+
+<strong>$0</strong>
+
+<span>/ forever</span>
+
+</div>
+
+<div class="price-note">
+No payment required.
+</div>
+
+<button
+class="plan-button"
+data-plan="Free"
+type="button">
+Current Plan
+</button>
+
+<div class="features">
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Basic workspace</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Basic project tools</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Token Studio access</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Basic tokenomics tools</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Saved local preferences</span>
+</div>
+
+</div>
+
+</article>
+
+
+<article class="plan featured">
+
+<div class="plan-tag">
+MOST POPULAR
+</div>
+
+<div class="plan-name">
+Pro
+</div>
+
+<div class="plan-description">
+For serious builders and researchers who need advanced Sonativa tools.
+</div>
+
+<div class="price">
+
+<strong
+id="proPrice">
+$19
+</strong>
+
+<span>/ month</span>
+
+</div>
+
+<div class="price-note" id="proNote">
+Billed monthly.
+</div>
+
+<button
+class="plan-button"
+data-plan="Pro"
+type="button">
+Choose Pro
+</button>
+
+<div class="features">
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Everything in Free</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Advanced Analysis</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Sonativa AI workspace</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Advanced research workflows</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Priority feature access</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Higher workspace limits</span>
+</div>
+
+</div>
+
+</article>
+
+
+<article class="plan">
+
+<div class="plan-name">
+Studio
+</div>
+
+<div class="plan-description">
+For teams building serious products, tokens and research systems.
+</div>
+
+<div class="price">
+
+<strong
+id="studioPrice">
+$49
+</strong>
+
+<span>/ month</span>
+
+</div>
+
+<div class="price-note" id="studioNote">
+Billed monthly.
+</div>
+
+<button
+class="plan-button"
+data-plan="Studio"
+type="button">
+Choose Studio
+</button>
+
+<div class="features">
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Everything in Pro</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Team-ready workspace</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Expanded project limits</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Advanced security workflows</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Priority support</span>
+</div>
+
+<div class="feature">
+<span class="feature-check">✓</span>
+<span>Early access to new tools</span>
+</div>
+
+</div>
+
+</article>
+
+</div>
+
+
+<section class="comparison">
+
+<div class="section-title">
+Plan comparison
+</div>
+
+<div class="section-sub">
+A quick overview of the workspace differences.
+</div>
+
+<div class="compare-grid">
+
+<div class="compare-cell head">
+Feature
+</div>
+
+<div class="compare-cell head">
+Free
+</div>
+
+<div class="compare-cell head">
+Pro
+</div>
+
+<div class="compare-cell head">
+Studio
+</div>
+
+
+<div class="compare-cell">
+Token Studio
+</div>
+
+<div class="compare-cell">
+Basic
+</div>
+
+<div class="compare-cell">
+Advanced
+</div>
+
+<div class="compare-cell">
+Advanced
+</div>
+
+
+<div class="compare-cell">
+Advanced Analysis
+</div>
+
+<div class="compare-cell">
+— 
+</div>
+
+<div class="compare-cell">
+<strong>✓</strong>
+</div>
+
+<div class="compare-cell">
+<strong>✓</strong>
+</div>
+
+
+<div class="compare-cell">
+Sonativa AI
+</div>
+
+<div class="compare-cell">
+Limited
+</div>
+
+<div class="compare-cell">
+<strong>✓</strong>
+</div>
+
+<div class="compare-cell">
+<strong>✓</strong>
+</div>
+
+
+<div class="compare-cell">
+Security tools
+</div>
+
+<div class="compare-cell">
+Basic
+</div>
+
+<div class="compare-cell">
+Advanced
+</div>
+
+<div class="compare-cell">
+Advanced
+</div>
+
+
+<div class="compare-cell">
+Projects
+</div>
+
+<div class="compare-cell">
+Limited
+</div>
+
+<div class="compare-cell">
+Higher limits
+</div>
+
+<div class="compare-cell">
+Expanded
+</div>
+
+
+<div class="compare-cell">
+Priority access
+</div>
+
+<div class="compare-cell">
+—
+</div>
+
+<div class="compare-cell">
+✓
+</div>
+
+<div class="compare-cell">
+✓
+</div>
+
+</div>
+
+</section>
+
+
+<div class="faq">
+
+<div class="faq-item">
+
+<strong>
+Can I upgrade later?
+</strong>
+
+<p>
+Yes. Your workspace can move to a higher plan when you need more
+capabilities.
+</p>
+
+</div>
+
+<div class="faq-item">
+
+<strong>
+Is the price final?
+</strong>
+
+<p>
+The displayed prices are interface defaults. Connect your billing
+provider before accepting real payments.
+</p>
+
+</div>
+
+<div class="faq-item">
+
+<strong>
+Do I need a wallet?
+</strong>
+
+<p>
+No. A wallet is not required to explore the basic Sonativa workspace.
+</p>
+
+</div>
+
+<div class="faq-item">
+
+<strong>
+Can I cancel?
+</strong>
+
+<p>
+Yes, once a real billing provider is connected, subscription
+management should be handled through the provider's customer portal.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="notice">
+Pricing on this front-end is currently a product interface.
+No real payment is processed by this page until a secure billing
+backend and payment provider are connected.
+</div>
+
+
+<footer>
+© 2026 Sonativa — Web3 tools, intelligence and education.
+</footer>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script type="module">
+
+import {
+getUser
+} from "./assets/js/supabase.js";
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+const sidebar =
+document.getElementById("sidebar");
+
+document
+.getElementById("menuButton")
+?.addEventListener(
+"click",
+()=>{
+sidebar.classList.toggle("open");
+}
+);
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+const languageSelect =
+document.getElementById("languageSelect");
+
+const savedLanguage =
+localStorage.getItem("sonativa_language");
+
+if(savedLanguage){
+
+languageSelect.value =
+savedLanguage;
+
+document.documentElement.lang =
+savedLanguage;
+
+document.documentElement.dir =
+savedLanguage === "ar"
+? "rtl"
+: "ltr";
+
+}
+
+languageSelect?.addEventListener(
+"change",
+()=>{
+
+const language =
+languageSelect.value;
+
+localStorage.setItem(
+"sonativa_language",
+language
+);
+
+document.documentElement.lang =
+language;
+
+document.documentElement.dir =
+language === "ar"
+? "rtl"
+: "ltr";
+
+}
+);
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+async function loadUser(){
+
+try{
+
+const user =
+await getUser();
+
+if(!user)return;
+
+const name =
+user.user_metadata?.full_name ||
+user.user_metadata?.name ||
+user.email?.split("@")[0] ||
+"Sonativa User";
+
+document.getElementById(
+"accountName"
+).textContent =
+name;
+
+document.getElementById(
+"avatar"
+).textContent =
+name.charAt(0).toUpperCase();
+
+}catch(error){
+
+console.error(
+"[Pricing User]",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   BILLING
+========================================================= */
+
+const billingButtons =
+document.querySelectorAll(
+".billing button"
+);
+
+const proPrice =
+document.getElementById(
+"proPrice"
+);
+
+const studioPrice =
+document.getElementById(
+"studioPrice"
+);
+
+const proNote =
+document.getElementById(
+"proNote"
+);
+
+const studioNote =
+document.getElementById(
+"studioNote"
+);
+
+
+function setBilling(period){
+
+billingButtons.forEach(
+button=>{
+button.classList.toggle(
+"active",
+button.dataset.period === period
+);
+}
+);
+
+if(period === "yearly"){
+
+proPrice.textContent =
+"$15";
+
+studioPrice.textContent =
+"$39";
+
+proNote.textContent =
+"Annual billing · effective monthly price.";
+
+studioNote.textContent =
+"Annual billing · effective monthly price.";
+
+}else{
+
+proPrice.textContent =
+"$19";
+
+studioPrice.textContent =
+"$49";
+
+proNote.textContent =
+"Billed monthly.";
+
+studioNote.textContent =
+"Billed monthly.";
+
+}
+
+localStorage.setItem(
+"sonativa_billing_period",
+period
+);
+
+}
+
+
+billingButtons.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+setBilling(
+button.dataset.period
+);
+
+}
+);
+
+}
+);
+
+
+const savedPeriod =
+localStorage.getItem(
+"sonativa_billing_period"
+);
+
+setBilling(
+savedPeriod === "yearly"
+? "yearly"
+: "monthly"
+);
+
+
+/* =========================================================
+   PLAN BUTTONS
+========================================================= */
+
+document
+.querySelectorAll(".plan-button")
+.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+const plan =
+button.dataset.plan;
+
+if(plan === "Free"){
+
+window.location.href =
+"index.html";
+
+return;
+
+}
+
+localStorage.setItem(
+"sonativa_selected_plan",
+plan
+);
+
+const original =
+button.textContent;
+
+button.textContent =
+"Selected ✓";
+
+setTimeout(
+()=>{
+button.textContent =
+original;
+},
+1200
+);
+
+}
+);
+
+}
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadUser();
+
+</script>
+
+</body>
+</html>
