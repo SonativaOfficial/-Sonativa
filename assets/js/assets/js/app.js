@@ -549,7 +549,7 @@ function initPageTitle() {
 
 
 /* =========================================================
-   NOTIFICATIONS
+   TOAST / QUICK NOTIFICATION
 ========================================================= */
 
 function notify(
@@ -645,11 +645,573 @@ function notify(
 
 
 /* =========================================================
+   NOTIFICATION CENTER
+========================================================= */
+
+const NOTIFICATION_KEY =
+  "sonativa_notifications";
+
+
+function getNotifications() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(
+        NOTIFICATION_KEY
+      ) || "[]"
+    );
+
+  } catch {
+
+    return [];
+
+  }
+
+}
+
+
+function saveNotifications(
+  notifications
+) {
+
+  localStorage.setItem(
+    NOTIFICATION_KEY,
+    JSON.stringify(
+      notifications
+    )
+  );
+
+}
+
+
+function addNotification(
+  title,
+  message,
+  type = "info"
+) {
+
+  const notifications =
+    getNotifications();
+
+
+  notifications.unshift({
+
+    id:
+      Date.now(),
+
+    title:
+      String(title || "Notification"),
+
+    message:
+      String(message || ""),
+
+    type:
+      String(type || "info"),
+
+    time:
+      new Date().toISOString(),
+
+    read:
+      false
+
+  });
+
+
+  saveNotifications(
+    notifications.slice(
+      0,
+      50
+    )
+  );
+
+
+  renderNotificationCenter();
+
+
+  notify(
+    message,
+    type
+  );
+
+}
+
+
+function markNotificationsRead() {
+
+  const notifications =
+    getNotifications()
+      .map(
+        (notification) => ({
+          ...notification,
+          read: true
+        })
+      );
+
+
+  saveNotifications(
+    notifications
+  );
+
+
+  renderNotificationCenter();
+
+}
+
+
+function clearNotifications() {
+
+  saveNotifications([]);
+
+  renderNotificationCenter();
+
+}
+
+
+function formatNotificationTime(
+  value
+) {
+
+  try {
+
+    return new Date(
+      value
+    ).toLocaleString(
+      getLanguage() === "ar"
+        ? "ar"
+        : getLanguage() === "fr"
+          ? "fr"
+          : "en"
+    );
+
+  } catch {
+
+    return "";
+
+  }
+
+}
+
+
+function renderNotificationCenter() {
+
+  const button =
+    $("#sonativaNotificationButton");
+
+  const panel =
+    $("#sonativaNotificationPanel");
+
+
+  if (
+    !button ||
+    !panel
+  ) {
+    return;
+  }
+
+
+  const notifications =
+    getNotifications();
+
+
+  const unread =
+    notifications.filter(
+      (item) =>
+        !item.read
+    ).length;
+
+
+  button.innerHTML = `
+    <span
+      class="sn-notification-icon"
+      aria-hidden="true"
+    >🔔</span>
+
+    ${
+      unread > 0
+        ? `
+          <span
+            class="sn-notification-dot"
+            aria-label="${unread} unread notifications"
+          >
+            ${unread > 9 ? "9+" : unread}
+          </span>
+        `
+        : ""
+    }
+  `;
+
+
+  if (!notifications.length) {
+
+    panel.innerHTML = `
+      <div class="sn-notification-header">
+
+        <strong>
+          Notifications
+        </strong>
+
+        <button
+          type="button"
+          class="sn-notification-close"
+          data-notification-close
+          aria-label="Close notifications"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="sn-notification-empty">
+
+        <div class="sn-notification-empty-icon">
+          🔔
+        </div>
+
+        <div>
+          No notifications yet.
+        </div>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  panel.innerHTML = `
+    <div class="sn-notification-header">
+
+      <div>
+
+        <strong>
+          Notifications
+        </strong>
+
+        ${
+          unread
+            ? `
+              <span
+                class="sn-notification-count"
+              >
+                ${unread}
+              </span>
+            `
+            : ""
+        }
+
+      </div>
+
+      <button
+        type="button"
+        class="sn-notification-close"
+        data-notification-close
+        aria-label="Close notifications"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="sn-notification-list">
+
+      ${
+        notifications
+          .map(
+            (item) => `
+
+              <div
+                class="
+                  sn-notification-item
+                  ${item.read ? "" : "unread"}
+                "
+              >
+
+                <div
+                  class="
+                    sn-notification-type
+                    ${escapeHTML(item.type)}
+                  "
+                >
+                  ${
+                    item.type === "error"
+                      ? "!"
+                      : item.type === "success"
+                        ? "✓"
+                        : "•"
+                  }
+                </div>
+
+
+                <div
+                  class="sn-notification-content"
+                >
+
+                  <div
+                    class="sn-notification-title"
+                  >
+                    ${escapeHTML(item.title)}
+                  </div>
+
+
+                  <div
+                    class="sn-notification-message"
+                  >
+                    ${escapeHTML(item.message)}
+                  </div>
+
+
+                  <div
+                    class="sn-notification-time"
+                  >
+                    ${formatNotificationTime(
+                      item.time
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("")
+      }
+
+    </div>
+
+
+    <div class="sn-notification-footer">
+
+      <button
+        type="button"
+        class="sn-btn sn-btn-sm"
+        data-notification-read
+      >
+        Mark all as read
+      </button>
+
+      <button
+        type="button"
+        class="sn-btn sn-btn-sm sn-btn-danger"
+        data-notification-clear
+      >
+        Clear all
+      </button>
+
+    </div>
+  `;
+
+}
+
+
+function initNotificationCenter() {
+
+  const topActions =
+    $("#topActions");
+
+
+  if (!topActions) {
+    return;
+  }
+
+
+  if (
+    $("#sonativaNotificationWrap")
+  ) {
+    return;
+  }
+
+
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+
+  wrapper.id =
+    "sonativaNotificationWrap";
+
+  wrapper.className =
+    "sn-notification-wrap";
+
+
+  wrapper.innerHTML = `
+    <button
+      id="sonativaNotificationButton"
+      class="
+        sn-icon-button
+        sn-notification-button
+      "
+      type="button"
+      aria-label="Notifications"
+      aria-expanded="false"
+      title="Notifications"
+    >
+    </button>
+
+
+    <div
+      id="sonativaNotificationPanel"
+      class="sn-notification-panel"
+      hidden
+    ></div>
+  `;
+
+
+  topActions.prepend(
+    wrapper
+  );
+
+
+  renderNotificationCenter();
+
+
+  const button =
+    $("#sonativaNotificationButton");
+
+  const panel =
+    $("#sonativaNotificationPanel");
+
+
+  button.addEventListener(
+    "click",
+    (event) => {
+
+      event.stopPropagation();
+
+
+      const isOpen =
+        !panel.hidden;
+
+
+      panel.hidden =
+        isOpen;
+
+
+      button.setAttribute(
+        "aria-expanded",
+        String(!isOpen)
+      );
+
+
+      if (!isOpen) {
+
+        renderNotificationCenter();
+
+      }
+
+    }
+  );
+
+
+  panel.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        event.target.closest(
+          "[data-notification-close]"
+        )
+      ) {
+
+        panel.hidden =
+          true;
+
+        button.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+
+
+      if (
+        event.target.closest(
+          "[data-notification-read]"
+        )
+      ) {
+
+        markNotificationsRead();
+
+      }
+
+
+      if (
+        event.target.closest(
+          "[data-notification-clear]"
+        )
+      ) {
+
+        clearNotifications();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        !wrapper.contains(
+          event.target
+        )
+      ) {
+
+        panel.hidden =
+          true;
+
+        button.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "sonativa:language",
+    () => {
+
+      renderNotificationCenter();
+
+    }
+  );
+
+}
+
+
+/* =========================================================
    GLOBAL NOTIFICATION API
 ========================================================= */
 
 window.SonativaNotify =
   notify;
+
+
+window.SonativaNotifications = {
+
+  getAll:
+    getNotifications,
+
+  add:
+    addNotification,
+
+  markAllRead:
+    markNotificationsRead,
+
+  clear:
+    clearNotifications
+
+};
 
 
 /* =========================================================
@@ -1183,6 +1745,9 @@ window.Sonativa = {
 
   notify,
 
+  notifications:
+    window.SonativaNotifications,
+
   escapeHTML,
 
   getLanguage,
@@ -1204,6 +1769,8 @@ async function initSonativa() {
     initSidebar();
 
     initLanguage();
+
+    initNotificationCenter();
 
     initNavigation();
 
