@@ -1,143 +1,53 @@
 /* =========================================================
-   SONATIVA — GLOBAL APPLICATION CORE
-   assets/js/app.js
-   Version: 2026.08
+   SONATIVA — APP CORE
+   File: assets/js/app.js
    ========================================================= */
 
-"use strict";
+import {
+  supabase,
+  getUser,
+  getSession,
+  onAuthStateChange,
+  signOut
+} from "./supabase.js";
+
+import {
+  SonativaWallet
+} from "./wallet.js";
+
 
 /* =========================================================
-   SONATIVA GLOBAL CONFIG
-   ========================================================= */
+   CONFIG
+========================================================= */
 
-window.Sonativa = window.Sonativa || {};
-
-Sonativa.config = {
+const CONFIG = {
   appName: "Sonativa",
-  version: "2026.08",
-  storagePrefix: "sonativa_",
-
-  routes: {
-    home: "index.html",
-    login: "login.html",
-    projects: "projects.html",
-    project: "project.html",
-    tokenStudio: "token-studio.html",
-    tokenomics: "tokenomics.html",
-    wallet: "wallet.html",
-    analysis: "analysis.html",
-    security: "security.html",
-    ai: "ai.html",
-    news: "news.html",
-    live: "live.html",
-    reels: "reels.html",
-    books: "books.html",
-    pricing: "pricing.html",
-    settings: "settings.html",
-    founder: "founder.html"
-  },
-
-  features: {
-    free: {
-      dashboard: true,
-      projects: true,
-      basicTokenStudio: true,
-      basicTokenomics: true,
-      basicNews: true,
-      basicReels: true,
-      basicBooks: true,
-      basicAnalysis: true
-    },
-
-    premium: {
-      advancedAnalysis: true,
-      advancedAI: true,
-      advancedSecurity: true,
-      advancedTokenTools: true,
-      premiumNews: true,
-      premiumReels: true,
-      premiumBooks: true,
-      advancedWalletTools: true
-    }
-  }
+  version: "2026",
+  loginPage: "login.html",
+  homePage: "index.html",
+  defaultLanguage: "en"
 };
 
 
 /* =========================================================
    DOM HELPERS
-   ========================================================= */
+========================================================= */
 
-Sonativa.$ = function(selector, parent) {
-  return (parent || document).querySelector(selector);
-};
-
-Sonativa.$$ = function(selector, parent) {
-  return Array.from(
-    (parent || document).querySelectorAll(selector)
-  );
-};
-
-Sonativa.id = function(id) {
-  return document.getElementById(id);
-};
+const $ = (
+  selector,
+  parent = document
+) => parent.querySelector(selector);
 
 
-/* =========================================================
-   SAFE STORAGE
-   ========================================================= */
-
-Sonativa.storage = {
-
-  key(name) {
-    return Sonativa.config.storagePrefix + name;
-  },
-
-  get(name, fallback = null) {
-    try {
-      const value = localStorage.getItem(
-        this.key(name)
-      );
-
-      if (value === null) {
-        return fallback;
-      }
-
-      return JSON.parse(value);
-
-    } catch {
-      return fallback;
-    }
-  },
-
-  set(name, value) {
-    try {
-      localStorage.setItem(
-        this.key(name),
-        JSON.stringify(value)
-      );
-
-      return true;
-
-    } catch {
-      return false;
-    }
-  },
-
-  remove(name) {
-    try {
-      localStorage.removeItem(
-        this.key(name)
-      );
-    } catch {}
-  }
-};
+const $$ = (
+  selector,
+  parent = document
+) => [
+  ...parent.querySelectorAll(selector)
+];
 
 
-/* =========================================================
-   SECURITY HELPERS
-   ========================================================= */
-
-Sonativa.escapeHTML = function(value) {
+const escapeHTML = (value) => {
 
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -145,271 +55,154 @@ Sonativa.escapeHTML = function(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-};
 
-
-Sonativa.debounce = function(fn, delay = 300) {
-
-  let timer;
-
-  return function(...args) {
-
-    clearTimeout(timer);
-
-    timer = setTimeout(
-      () => fn.apply(this, args),
-      delay
-    );
-  };
-};
-
-
-Sonativa.throttle = function(fn, delay = 200) {
-
-  let waiting = false;
-
-  return function(...args) {
-
-    if (waiting) {
-      return;
-    }
-
-    waiting = true;
-
-    fn.apply(this, args);
-
-    setTimeout(() => {
-      waiting = false;
-    }, delay);
-  };
-};
-
-
-/* =========================================================
-   PAGE DETECTION
-   ========================================================= */
-
-Sonativa.getCurrentPage = function() {
-
-  const path =
-    window.location.pathname
-      .split("/")
-      .pop()
-      .toLowerCase();
-
-  return path || "index.html";
-};
-
-
-/* =========================================================
-   ACTIVE NAVIGATION
-   ========================================================= */
-
-Sonativa.initNavigation = function() {
-
-  const current =
-    Sonativa.getCurrentPage();
-
-  Sonativa.$$(".nav-item").forEach(item => {
-
-    const href =
-      item.getAttribute("href");
-
-    if (!href || href === "#") {
-      return;
-    }
-
-    const target =
-      href.split("/").pop().toLowerCase();
-
-    if (target === current) {
-      item.classList.add("active");
-      item.setAttribute(
-        "aria-current",
-        "page"
-      );
-    } else {
-      item.classList.remove("active");
-      item.removeAttribute(
-        "aria-current"
-      );
-    }
-
-  });
 };
 
 
 /* =========================================================
    MOBILE SIDEBAR
-   ========================================================= */
+========================================================= */
 
-Sonativa.initMobileMenu = function() {
+function initSidebar() {
 
   const sidebar =
-    Sonativa.id("sidebar");
+    $("#sidebar");
 
-  const button =
-    Sonativa.id("menuButton");
+  const menuButton =
+    $("#menuButton");
 
-  if (!sidebar || !button) {
+  if (!sidebar || !menuButton) {
     return;
   }
 
-  const closeMenu = () => {
-    sidebar.classList.remove("open");
-
-    button.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-  };
-
-  button.setAttribute(
-    "aria-expanded",
-    "false"
-  );
-
-  button.addEventListener(
+  menuButton.addEventListener(
     "click",
-    event => {
+    () => {
 
-      event.preventDefault();
-
-      const opened =
-        sidebar.classList.toggle("open");
-
-      button.setAttribute(
-        "aria-expanded",
-        String(opened)
+      sidebar.classList.toggle(
+        "open"
       );
+
     }
   );
 
 
-  Sonativa.$$(".nav-item").forEach(item => {
+  $$(".nav-item")
+    .forEach((item) => {
 
-    item.addEventListener(
-      "click",
-      () => {
+      item.addEventListener(
+        "click",
+        () => {
 
-        if (window.innerWidth <= 760) {
-          closeMenu();
+          if (
+            window.innerWidth <= 760
+          ) {
+
+            sidebar.classList.remove(
+              "open"
+            );
+
+          }
+
         }
+      );
 
-      }
-    );
-
-  });
+    });
 
 
   document.addEventListener(
     "click",
-    event => {
+    (event) => {
 
-      if (window.innerWidth > 760) {
+      if (
+        window.innerWidth > 760
+      ) {
         return;
       }
 
       if (
-        sidebar.classList.contains("open") &&
         !sidebar.contains(event.target) &&
-        !button.contains(event.target)
+        !menuButton.contains(event.target)
       ) {
-        closeMenu();
+
+        sidebar.classList.remove(
+          "open"
+        );
+
       }
 
     }
   );
 
-
-  window.addEventListener(
-    "resize",
-    () => {
-
-      if (window.innerWidth > 760) {
-        closeMenu();
-      }
-
-    }
-  );
-
-};
+}
 
 
 /* =========================================================
-   LANGUAGE SYSTEM
-   ========================================================= */
+   LANGUAGE
+========================================================= */
 
-Sonativa.languages = {
-  en: {
-    name: "English",
-    dir: "ltr"
-  },
+function getLanguage() {
 
-  ar: {
-    name: "العربية",
-    dir: "rtl"
-  },
+  return (
+    localStorage.getItem(
+      "sonativa_language"
+    ) ||
+    CONFIG.defaultLanguage
+  );
 
-  fr: {
-    name: "Français",
-    dir: "ltr"
+}
+
+
+function applyLanguage(
+  language = getLanguage()
+) {
+
+  const supported = [
+    "en",
+    "ar",
+    "fr"
+  ];
+
+  if (
+    !supported.includes(language)
+  ) {
+
+    language =
+      CONFIG.defaultLanguage;
+
   }
-};
 
-
-Sonativa.setLanguage = function(language) {
-
-  if (!Sonativa.languages[language]) {
-    language = "en";
-  }
-
-  const config =
-    Sonativa.languages[language];
+  localStorage.setItem(
+    "sonativa_language",
+    language
+  );
 
   document.documentElement.lang =
     language;
 
   document.documentElement.dir =
-    config.dir;
+    language === "ar"
+      ? "rtl"
+      : "ltr";
 
-  Sonativa.storage.set(
-    "language",
-    language
-  );
 
   const select =
-    Sonativa.id("languageSelect");
+    $("#languageSelect");
 
   if (select) {
-    select.value = language;
+    select.value =
+      language;
   }
 
-  document.dispatchEvent(
-    new CustomEvent(
-      "sonativa:languagechange",
-      {
-        detail: {
-          language
-        }
-      }
-    )
-  );
-};
+}
 
 
-Sonativa.initLanguage = function() {
+function initLanguage() {
+
+  applyLanguage();
 
   const select =
-    Sonativa.id("languageSelect");
-
-  const saved =
-    Sonativa.storage.get(
-      "language",
-      "en"
-    );
-
-  Sonativa.setLanguage(saved);
+    $("#languageSelect");
 
   if (!select) {
     return;
@@ -418,1367 +211,1080 @@ Sonativa.initLanguage = function() {
   select.addEventListener(
     "change",
     () => {
-      Sonativa.setLanguage(
+
+      applyLanguage(
         select.value
       );
-    }
-  );
-};
 
-
-/* =========================================================
-   THEME
-   ========================================================= */
-
-Sonativa.setTheme = function(theme) {
-
-  const allowed = [
-    "dark",
-    "light",
-    "system"
-  ];
-
-  if (!allowed.includes(theme)) {
-    theme = "dark";
-  }
-
-  document.documentElement.dataset.theme =
-    theme;
-
-  Sonativa.storage.set(
-    "theme",
-    theme
-  );
-
-  document.dispatchEvent(
-    new CustomEvent(
-      "sonativa:themechange",
-      {
-        detail: {
-          theme
-        }
-      }
-    )
-  );
-};
-
-
-Sonativa.initTheme = function() {
-
-  const saved =
-    Sonativa.storage.get(
-      "theme",
-      "dark"
-    );
-
-  Sonativa.setTheme(saved);
-};
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-Sonativa.initAccessibility = function() {
-
-  const media =
-    window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
-
-  const apply = () => {
-
-    document.documentElement.classList.toggle(
-      "reduced-motion",
-      media.matches
-    );
-
-  };
-
-  apply();
-
-  if (media.addEventListener) {
-    media.addEventListener(
-      "change",
-      apply
-    );
-  }
-
-};
-
-
-/* =========================================================
-   TOAST SYSTEM
-   ========================================================= */
-
-Sonativa.toast = function(
-  message,
-  type = "info",
-  duration = 3500
-) {
-
-  let container =
-    Sonativa.id("sonativaToastContainer");
-
-  if (!container) {
-
-    container =
-      document.createElement("div");
-
-    container.id =
-      "sonativaToastContainer";
-
-    container.setAttribute(
-      "aria-live",
-      "polite"
-    );
-
-    container.style.position =
-      "fixed";
-
-    container.style.right =
-      "18px";
-
-    container.style.bottom =
-      "18px";
-
-    container.style.zIndex =
-      "99999";
-
-    container.style.display =
-      "flex";
-
-    container.style.flexDirection =
-      "column";
-
-    container.style.gap =
-      "10px";
-
-    document.body.appendChild(
-      container
-    );
-  }
-
-
-  const toast =
-    document.createElement("div");
-
-  toast.className =
-    "sonativa-toast sonativa-toast-" +
-    type;
-
-  toast.textContent =
-    message;
-
-  toast.style.padding =
-    "12px 16px";
-
-  toast.style.borderRadius =
-    "10px";
-
-  toast.style.background =
-    "#111827";
-
-  toast.style.color =
-    "#ffffff";
-
-  toast.style.border =
-    "1px solid #293548";
-
-  toast.style.fontSize =
-    "12px";
-
-  toast.style.maxWidth =
-    "360px";
-
-  toast.style.boxShadow =
-    "0 15px 40px rgba(0,0,0,.35)";
-
-  toast.style.opacity =
-    "0";
-
-  toast.style.transform =
-    "translateY(8px)";
-
-  toast.style.transition =
-    "opacity .2s ease, transform .2s ease";
-
-  container.appendChild(
-    toast
-  );
-
-
-  requestAnimationFrame(() => {
-
-    toast.style.opacity =
-      "1";
-
-    toast.style.transform =
-      "translateY(0)";
-
-  });
-
-
-  window.setTimeout(() => {
-
-    toast.style.opacity =
-      "0";
-
-    toast.style.transform =
-      "translateY(8px)";
-
-    window.setTimeout(() => {
-      toast.remove();
-    }, 250);
-
-  }, duration);
-
-};
-
-
-/* =========================================================
-   LOADING SYSTEM
-   ========================================================= */
-
-Sonativa.loading = {
-
-  show(message = "Loading...") {
-
-    let overlay =
-      Sonativa.id(
-        "sonativaLoading"
-      );
-
-    if (!overlay) {
-
-      overlay =
-        document.createElement("div");
-
-      overlay.id =
-        "sonativaLoading";
-
-      overlay.style.position =
-        "fixed";
-
-      overlay.style.inset =
-        "0";
-
-      overlay.style.zIndex =
-        "99998";
-
-      overlay.style.display =
-        "flex";
-
-      overlay.style.alignItems =
-        "center";
-
-      overlay.style.justifyContent =
-        "center";
-
-      overlay.style.background =
-        "rgba(3,6,11,.72)";
-
-      overlay.style.backdropFilter =
-        "blur(8px)";
-
-      overlay.innerHTML = `
-        <div
-          style="
-            min-width:220px;
-            padding:22px;
-            border:1px solid #273449;
-            border-radius:14px;
-            background:#0b111b;
-            text-align:center;
-          "
-        >
-          <div
-            style="
-              width:30px;
-              height:30px;
-              margin:0 auto 12px;
-              border:3px solid #293548;
-              border-top-color:#ffffff;
-              border-radius:50%;
-              animation:sonativaSpin .8s linear infinite;
-            "
-          ></div>
-
-          <div
-            id="sonativaLoadingMessage"
-            style="
-              color:#d9e0ea;
-              font-size:12px;
-            "
-          ></div>
-        </div>
-      `;
-
-      document.body.appendChild(
-        overlay
-      );
-
-
-      if (!Sonativa.id(
-        "sonativaLoadingStyle"
-      )) {
-
-        const style =
-          document.createElement("style");
-
-        style.id =
-          "sonativaLoadingStyle";
-
-        style.textContent = `
-          @keyframes sonativaSpin {
-            to {
-              transform:rotate(360deg);
+      window.dispatchEvent(
+        new CustomEvent(
+          "sonativa:language",
+          {
+            detail: {
+              language:
+                select.value
             }
           }
-        `;
-
-        document.head.appendChild(
-          style
-        );
-      }
-
-    }
-
-    const messageElement =
-      Sonativa.id(
-        "sonativaLoadingMessage"
+        )
       );
 
-    if (messageElement) {
-      messageElement.textContent =
-        message;
-    }
-
-    overlay.hidden = false;
-  },
-
-
-  hide() {
-
-    const overlay =
-      Sonativa.id(
-        "sonativaLoading"
-      );
-
-    if (overlay) {
-      overlay.hidden = true;
-    }
-
-  }
-
-};
-
-
-/* =========================================================
-   MODAL SYSTEM
-   ========================================================= */
-
-Sonativa.modal = {
-
-  open(content, options = {}) {
-
-    this.close();
-
-    const overlay =
-      document.createElement("div");
-
-    overlay.id =
-      "sonativaModal";
-
-    overlay.style.position =
-      "fixed";
-
-    overlay.style.inset =
-      "0";
-
-    overlay.style.zIndex =
-      "99990";
-
-    overlay.style.display =
-      "flex";
-
-    overlay.style.alignItems =
-      "center";
-
-    overlay.style.justifyContent =
-      "center";
-
-    overlay.style.padding =
-      "20px";
-
-    overlay.style.background =
-      "rgba(0,0,0,.72)";
-
-    overlay.style.backdropFilter =
-      "blur(8px)";
-
-
-    const box =
-      document.createElement("div");
-
-    box.style.width =
-      "min(620px,100%)";
-
-    box.style.maxHeight =
-      "90vh";
-
-    box.style.overflow =
-      "auto";
-
-    box.style.background =
-      "#0b111b";
-
-    box.style.border =
-      "1px solid #293548";
-
-    box.style.borderRadius =
-      "15px";
-
-    box.style.padding =
-      "24px";
-
-    box.style.boxShadow =
-      "0 30px 100px rgba(0,0,0,.55)";
-
-
-    if (options.title) {
-
-      const title =
-        document.createElement("div");
-
-      title.textContent =
-        options.title;
-
-      title.style.fontSize =
-        "17px";
-
-      title.style.fontWeight =
-        "800";
-
-      title.style.marginBottom =
-        "16px";
-
-      box.appendChild(
-        title
-      );
-
-    }
-
-
-    const body =
-      document.createElement("div");
-
-    if (typeof content === "string") {
-      body.innerHTML = content;
-    } else if (content instanceof Node) {
-      body.appendChild(content);
-    }
-
-    box.appendChild(body);
-
-
-    overlay.appendChild(box);
-
-    document.body.appendChild(
-      overlay
-    );
-
-
-    overlay.addEventListener(
-      "click",
-      event => {
-
-        if (
-          event.target === overlay &&
-          options.closeOnBackdrop !== false
-        ) {
-          this.close();
-        }
-
-      }
-    );
-
-
-    document.addEventListener(
-      "keydown",
-      this.escapeHandler
-    );
-
-    return overlay;
-  },
-
-
-  escapeHandler(event) {
-
-    if (event.key === "Escape") {
-      Sonativa.modal.close();
-    }
-
-  },
-
-
-  close() {
-
-    const modal =
-      Sonativa.id(
-        "sonativaModal"
-      );
-
-    if (modal) {
-      modal.remove();
-    }
-
-    document.removeEventListener(
-      "keydown",
-      this.escapeHandler
-    );
-
-  }
-
-};
-
-
-/* =========================================================
-   PREMIUM SYSTEM
-   ========================================================= */
-
-Sonativa.premium = {
-
-  isActive() {
-
-    return (
-      Sonativa.storage.get(
-        "subscription",
-        "free"
-      ) === "premium"
-    );
-
-  },
-
-
-  getPlan() {
-
-    return Sonativa.storage.get(
-      "subscription",
-      "free"
-    );
-
-  },
-
-
-  require(feature, callback) {
-
-    if (
-      Sonativa.premium.isActive()
-    ) {
-
-      if (typeof callback === "function") {
-        return callback();
-      }
-
-      return true;
-    }
-
-
-    Sonativa.showPremium(feature);
-
-    return false;
-  }
-
-};
-
-
-Sonativa.showPremium = function(
-  feature = "this feature"
-) {
-
-  const message = `
-    <div style="line-height:1.7;color:#aeb8c8;font-size:13px;">
-      <p style="margin-bottom:12px;">
-        ${Sonativa.escapeHTML(
-          feature
-        )}
-        is available in Sonativa Premium.
-      </p>
-
-      <p>
-        Upgrade to unlock advanced Sonativa tools,
-        analytics, AI and professional features.
-      </p>
-
-      <a
-        href="pricing.html"
-        style="
-          display:inline-flex;
-          margin-top:18px;
-          padding:11px 16px;
-          border-radius:9px;
-          background:#ffffff;
-          color:#05070c;
-          text-decoration:none;
-          font-weight:800;
-          font-size:12px;
-        "
-      >
-        View Premium
-      </a>
-    </div>
-  `;
-
-  Sonativa.modal.open(
-    message,
-    {
-      title: "Sonativa Premium"
     }
   );
 
-};
+}
 
 
 /* =========================================================
-   PREMIUM FEATURE LOCKS
-   ========================================================= */
+   ACCOUNT UI
+========================================================= */
 
-Sonativa.initPremiumLocks = function() {
+function getUserName(
+  user
+) {
 
-  Sonativa.$$(
-    "[data-premium], .premium-feature"
-  ).forEach(element => {
+  if (!user) {
+    return "Guest";
+  }
 
-    const feature =
-      element.dataset.premium ||
-      element.dataset.feature ||
-      "Premium feature";
+  return (
+    user.user_metadata?.full_name ||
+    user.user_metadata?.name ||
+    user.email?.split("@")[0] ||
+    "Sonativa User"
+  );
 
-    if (
-      Sonativa.premium.isActive()
-    ) {
-      element.classList.add(
-        "premium-unlocked"
-      );
-
-      return;
-    }
+}
 
 
-    element.classList.add(
-      "premium-locked"
-    );
+function getInitial(
+  name
+) {
+
+  return String(
+    name || "S"
+  )
+    .charAt(0)
+    .toUpperCase();
+
+}
 
 
-    if (
-      element.tagName === "A"
-    ) {
+function updateUserUI(
+  user
+) {
 
-      element.addEventListener(
+  const name =
+    getUserName(user);
+
+  const avatar =
+    $("#avatar");
+
+  const accountName =
+    $("#accountName");
+
+  const walletStatus =
+    $("#walletStatus");
+
+
+  if (accountName) {
+
+    accountName.textContent =
+      name;
+
+  }
+
+
+  if (avatar) {
+
+    avatar.textContent =
+      getInitial(name);
+
+  }
+
+
+  if (walletStatus) {
+
+    walletStatus.textContent =
+      user
+        ? "Ready"
+        : "Guest";
+
+  }
+
+
+  $$("[data-user-name]")
+    .forEach((element) => {
+
+      element.textContent =
+        name;
+
+    });
+
+
+  $$("[data-user-email]")
+    .forEach((element) => {
+
+      element.textContent =
+        user?.email ||
+        "";
+
+    });
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function initLogout() {
+
+  $$("[data-sonativa-logout]")
+    .forEach((button) => {
+
+      button.addEventListener(
         "click",
-        event => {
+        async (event) => {
 
           event.preventDefault();
 
-          Sonativa.showPremium(
-            feature
-          );
+          const original =
+            button.textContent;
 
-        }
-      );
+          button.disabled =
+            true;
 
-    } else {
+          button.textContent =
+            "Signing out...";
 
-      element.addEventListener(
-        "click",
-        () => {
-          Sonativa.showPremium(
-            feature
-          );
-        }
-      );
 
-    }
+          try {
 
-  });
+            await signOut();
 
-};
+            window.location.href =
+              CONFIG.loginPage;
 
+          } catch (error) {
 
-/* =========================================================
-   GLOBAL SEARCH
-   ========================================================= */
+            console.error(
+              "[Sonativa] Logout error:",
+              error
+            );
 
-Sonativa.initSearch = function() {
+            button.disabled =
+              false;
 
-  const input =
-    Sonativa.$(
-      "[data-sonativa-search]"
-    );
+            button.textContent =
+              original;
 
-  if (!input) {
-    return;
-  }
+            notify(
+              error.message ||
+              "Unable to sign out.",
+              "error"
+            );
 
-  const items =
-    Sonativa.$$(
-      "[data-search-item]"
-    );
-
-
-  const search = Sonativa.debounce(
-    () => {
-
-      const query =
-        input.value
-          .trim()
-          .toLowerCase();
-
-      items.forEach(item => {
-
-        const text =
-          item.textContent
-            .toLowerCase();
-
-        item.hidden =
-          query.length > 0 &&
-          !text.includes(query);
-
-      });
-
-    },
-    150
-  );
-
-
-  input.addEventListener(
-    "input",
-    search
-  );
-
-};
-
-
-/* =========================================================
-   FORM PROTECTION
-   ========================================================= */
-
-Sonativa.initForms = function() {
-
-  document.addEventListener(
-    "submit",
-    event => {
-
-      const form =
-        event.target;
-
-      if (
-        !form.matches(
-          "[data-sonativa-form]"
-        )
-      ) {
-        return;
-      }
-
-      if (
-        form.dataset.loading === "true"
-      ) {
-        event.preventDefault();
-        return;
-      }
-
-      form.dataset.loading =
-        "true";
-
-      const button =
-        form.querySelector(
-          'button[type="submit"]'
-        );
-
-      if (button) {
-
-        button.dataset.originalText =
-          button.textContent;
-
-        button.disabled =
-          true;
-
-        button.textContent =
-          "Processing...";
-      }
-
-    }
-  );
-
-};
-
-
-/* =========================================================
-   COPY TO CLIPBOARD
-   ========================================================= */
-
-Sonativa.copy = async function(
-  value,
-  successMessage = "Copied."
-) {
-
-  try {
-
-    await navigator.clipboard.writeText(
-      String(value)
-    );
-
-    Sonativa.toast(
-      successMessage,
-      "success"
-    );
-
-    return true;
-
-  } catch {
-
-    const textarea =
-      document.createElement(
-        "textarea"
-      );
-
-    textarea.value =
-      String(value);
-
-    textarea.style.position =
-      "fixed";
-
-    textarea.style.opacity =
-      "0";
-
-    document.body.appendChild(
-      textarea
-    );
-
-    textarea.select();
-
-    let success = false;
-
-    try {
-      success =
-        document.execCommand(
-          "copy"
-        );
-    } catch {}
-
-    textarea.remove();
-
-    if (success) {
-      Sonativa.toast(
-        successMessage,
-        "success"
-      );
-    } else {
-      Sonativa.toast(
-        "Unable to copy.",
-        "error"
-      );
-    }
-
-    return success;
-  }
-
-};
-
-
-/* =========================================================
-   COPY BUTTONS
-   ========================================================= */
-
-Sonativa.initCopyButtons = function() {
-
-  Sonativa.$$(
-    "[data-copy]"
-  ).forEach(button => {
-
-    button.addEventListener(
-      "click",
-      async event => {
-
-        event.preventDefault();
-
-        const value =
-          button.dataset.copy;
-
-        if (!value) {
-          return;
-        }
-
-        await Sonativa.copy(
-          value,
-          "Copied successfully."
-        );
-
-      }
-    );
-
-  });
-
-};
-
-
-/* =========================================================
-   EXTERNAL LINK SAFETY
-   ========================================================= */
-
-Sonativa.initExternalLinks = function() {
-
-  Sonativa.$$(
-    'a[target="_blank"]'
-  ).forEach(link => {
-
-    const rel =
-      link.getAttribute("rel") || "";
-
-    const values =
-      new Set(
-        rel
-          .split(/\s+/)
-          .filter(Boolean)
-      );
-
-    values.add("noopener");
-    values.add("noreferrer");
-
-    link.setAttribute(
-      "rel",
-      Array.from(values).join(" ")
-    );
-
-  });
-
-};
-
-
-/* =========================================================
-   SCROLL HEADER
-   ========================================================= */
-
-Sonativa.initScroll = function() {
-
-  const topbar =
-    document.querySelector(
-      ".topbar"
-    );
-
-  if (!topbar) {
-    return;
-  }
-
-  const update =
-    Sonativa.throttle(
-      () => {
-
-        topbar.classList.toggle(
-          "scrolled",
-          window.scrollY > 10
-        );
-
-      },
-      100
-    );
-
-  window.addEventListener(
-    "scroll",
-    update,
-    {
-      passive:true
-    }
-  );
-
-  update();
-
-};
-
-
-/* =========================================================
-   YEAR AUTO UPDATE
-   ========================================================= */
-
-Sonativa.initYear = function() {
-
-  const year =
-    new Date().getFullYear();
-
-  Sonativa.$$(
-    "[data-sonativa-year]"
-  ).forEach(element => {
-    element.textContent =
-      year;
-  });
-
-};
-
-
-/* =========================================================
-   OFFLINE / ONLINE STATUS
-   ========================================================= */
-
-Sonativa.updateNetworkStatus =
-function() {
-
-  const online =
-    navigator.onLine;
-
-  document.documentElement.classList.toggle(
-    "offline",
-    !online
-  );
-
-  document.documentElement.classList.toggle(
-    "online",
-    online
-  );
-
-  document.dispatchEvent(
-    new CustomEvent(
-      "sonativa:network",
-      {
-        detail: {
-          online
-        }
-      }
-    )
-  );
-
-};
-
-
-Sonativa.initNetworkStatus =
-function() {
-
-  window.addEventListener(
-    "online",
-    () => {
-
-      Sonativa.updateNetworkStatus();
-
-      Sonativa.toast(
-        "Connection restored.",
-        "success"
-      );
-
-    }
-  );
-
-
-  window.addEventListener(
-    "offline",
-    () => {
-
-      Sonativa.updateNetworkStatus();
-
-      Sonativa.toast(
-        "You are currently offline.",
-        "error"
-      );
-
-    }
-  );
-
-
-  Sonativa.updateNetworkStatus();
-
-};
-
-
-/* =========================================================
-   WALLET EVENT BRIDGE
-   ========================================================= */
-
-Sonativa.wallet = {
-
-  getAddress() {
-
-    return Sonativa.storage.get(
-      "walletAddress",
-      null
-    );
-
-  },
-
-
-  setAddress(address) {
-
-    if (!address) {
-      this.disconnect();
-      return;
-    }
-
-    Sonativa.storage.set(
-      "walletAddress",
-      address
-    );
-
-    document.dispatchEvent(
-      new CustomEvent(
-        "sonativa:wallet",
-        {
-          detail: {
-            connected:true,
-            address
           }
+
         }
-      )
-    );
+      );
 
-  },
+    });
 
-
-  disconnect() {
-
-    Sonativa.storage.remove(
-      "walletAddress"
-    );
-
-    document.dispatchEvent(
-      new CustomEvent(
-        "sonativa:wallet",
-        {
-          detail: {
-            connected:false,
-            address:null
-          }
-        }
-      )
-    );
-
-  },
-
-
-  shorten(address, start = 6, end = 4) {
-
-    if (!address) {
-      return "Not connected";
-    }
-
-    if (
-      address.length <=
-      start + end + 3
-    ) {
-      return address;
-    }
-
-    return (
-      address.slice(0,start) +
-      "..." +
-      address.slice(-end)
-    );
-
-  }
-
-};
+}
 
 
 /* =========================================================
    WALLET UI
-   ========================================================= */
+========================================================= */
 
-Sonativa.updateWalletUI = function() {
+function updateWalletUI() {
+
+  if (
+    !window.SonativaWallet
+  ) {
+    return;
+  }
+
+  const connected =
+    window.SonativaWallet
+      .isConnected();
 
   const address =
-    Sonativa.wallet.getAddress();
+    window.SonativaWallet
+      .getAddress();
 
-  const elements =
-    Sonativa.$$(
-      "[data-wallet-address]"
+
+  $$("[data-wallet-status]")
+    .forEach((element) => {
+
+      element.textContent =
+        connected
+          ? "Connected"
+          : "Not connected";
+
+      element.dataset.connected =
+        connected
+          ? "true"
+          : "false";
+
+    });
+
+
+  $$("[data-wallet-address]")
+    .forEach((element) => {
+
+      element.textContent =
+        connected && address
+          ? `${address.slice(0, 4)}...${address.slice(-4)}`
+          : "Not connected";
+
+    });
+
+
+  $$("[data-wallet-full-address]")
+    .forEach((element) => {
+
+      element.textContent =
+        address ||
+        "Not connected";
+
+    });
+
+}
+
+
+/* =========================================================
+   WALLET EVENTS
+========================================================= */
+
+function initWallet() {
+
+  if (
+    window.SonativaWallet
+  ) {
+
+    window.SonativaWallet
+      .onChange(
+        updateWalletUI
+      );
+
+    updateWalletUI();
+
+  }
+
+}
+
+
+/* =========================================================
+   ACTIVE NAVIGATION
+========================================================= */
+
+function initNavigation() {
+
+  const current =
+    window.location.pathname
+      .split("/")
+      .pop()
+      .toLowerCase() ||
+    "index.html";
+
+
+  $$(".nav-item")
+    .forEach((item) => {
+
+      const href =
+        item.getAttribute("href");
+
+      if (!href) {
+        return;
+      }
+
+      const target =
+        href
+          .split("/")
+          .pop()
+          .split("?")[0]
+          .toLowerCase();
+
+
+      if (
+        target === current
+      ) {
+
+        item.classList.add(
+          "active"
+        );
+
+      }
+
+    });
+
+}
+
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+function initPageTitle() {
+
+  const title =
+    document.title;
+
+  $$("[data-page-title]")
+    .forEach((element) => {
+
+      element.textContent =
+        title
+          .replace(
+            "Sonativa —",
+            ""
+          )
+          .trim();
+
+    });
+
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+function notify(
+  message,
+  type = "info"
+) {
+
+  let container =
+    $("#sonativaNotifications");
+
+
+  if (!container) {
+
+    container =
+      document.createElement(
+        "div"
+      );
+
+    container.id =
+      "sonativaNotifications";
+
+
+    Object.assign(
+      container.style,
+      {
+        position: "fixed",
+        top: "20px",
+        right: "20px",
+        zIndex: "999999",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        width: "min(360px, calc(100vw - 40px))"
+      }
     );
 
-  elements.forEach(element => {
 
-    element.textContent =
-      address
-      ?
-      Sonativa.wallet.shorten(
-        address
-      )
-      :
-      "Not connected";
+    document.body.appendChild(
+      container
+    );
 
-  });
+  }
 
 
-  Sonativa.$$(
-    "[data-wallet-status]"
-  ).forEach(element => {
-
-    element.textContent =
-      address
-      ?
-      "Connected"
-      :
-      "Not connected";
-
-  });
-
-};
+  const item =
+    document.createElement(
+      "div"
+    );
 
 
-Sonativa.initWalletUI = function() {
+  item.textContent =
+    message;
 
-  Sonativa.updateWalletUI();
 
-  document.addEventListener(
-    "sonativa:wallet",
-    Sonativa.updateWalletUI
+  Object.assign(
+    item.style,
+    {
+      padding: "13px 15px",
+      borderRadius: "10px",
+      border: "1px solid rgba(255,255,255,.12)",
+      background:
+        type === "error"
+          ? "#180d0d"
+          : "#0d151f",
+      color:
+        type === "error"
+          ? "#ffaaaa"
+          : "#dbe4ef",
+      fontFamily:
+        "system-ui, sans-serif",
+      fontSize: "12px",
+      boxShadow:
+        "0 15px 40px rgba(0,0,0,.35)"
+    }
   );
 
-};
+
+  container.appendChild(
+    item
+  );
+
+
+  setTimeout(
+    () => {
+
+      item.remove();
+
+    },
+    4500
+  );
+
+}
 
 
 /* =========================================================
-   APP EVENTS
-   ========================================================= */
+   GLOBAL NOTIFICATION API
+========================================================= */
 
-Sonativa.events = {
-
-  emit(name, detail = {}) {
-
-    document.dispatchEvent(
-      new CustomEvent(
-        "sonativa:" + name,
-        {
-          detail
-        }
-      )
-    );
-
-  },
-
-  on(name, callback) {
-
-    document.addEventListener(
-      "sonativa:" + name,
-      callback
-    );
-
-  }
-
-};
+window.SonativaNotify =
+  notify;
 
 
 /* =========================================================
-   ERROR HANDLING
-   ========================================================= */
+   SUPABASE AUTH
+========================================================= */
 
-window.addEventListener(
-  "error",
-  event => {
-
-    console.error(
-      "[Sonativa]",
-      event.error || event.message
-    );
-
-  }
-);
-
-
-window.addEventListener(
-  "unhandledrejection",
-  event => {
-
-    console.error(
-      "[Sonativa] Unhandled Promise:",
-      event.reason
-    );
-
-  }
-);
-
-
-/* =========================================================
-   INITIALIZATION
-   ========================================================= */
-
-Sonativa.init = function() {
+async function initAuth() {
 
   try {
 
-    Sonativa.initNavigation();
+    const session =
+      await getSession();
 
-    Sonativa.initMobileMenu();
+    const user =
+      session?.user ||
+      await getUser();
 
-    Sonativa.initLanguage();
 
-    Sonativa.initTheme();
-
-    Sonativa.initAccessibility();
-
-    Sonativa.initPremiumLocks();
-
-    Sonativa.initSearch();
-
-    Sonativa.initForms();
-
-    Sonativa.initCopyButtons();
-
-    Sonativa.initExternalLinks();
-
-    Sonativa.initScroll();
-
-    Sonativa.initYear();
-
-    Sonativa.initNetworkStatus();
-
-    Sonativa.initWalletUI();
-
-    console.log(
-      "Sonativa initialized:",
-      Sonativa.config.version
+    updateUserUI(
+      user
     );
 
 
-    document.dispatchEvent(
-      new CustomEvent(
-        "sonativa:ready",
-        {
-          detail: {
-            version:
-              Sonativa.config.version,
-            page:
-              Sonativa.getCurrentPage()
-          }
-        }
-      )
+    document.documentElement
+      .dataset.authenticated =
+        user
+          ? "true"
+          : "false";
+
+
+    onAuthStateChange(
+      (
+        event,
+        newSession
+      ) => {
+
+        const newUser =
+          newSession?.user ||
+          null;
+
+
+        updateUserUI(
+          newUser
+        );
+
+
+        document.documentElement
+          .dataset.authenticated =
+            newUser
+              ? "true"
+              : "false";
+
+
+        window.dispatchEvent(
+          new CustomEvent(
+            "sonativa:auth",
+            {
+              detail: {
+                event,
+                session:
+                  newSession
+              }
+            }
+          )
+        );
+
+      }
     );
 
   } catch (error) {
 
     console.error(
-      "Sonativa initialization error:",
+      "[Sonativa] Auth initialization error:",
       error
     );
 
   }
 
+}
+
+
+/* =========================================================
+   FOUNDER ACCESS
+========================================================= */
+
+async function checkFounderAccess() {
+
+  if (
+    !supabase
+  ) {
+    return false;
+  }
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabase.rpc(
+        "is_sonativa_founder"
+      );
+
+
+    if (error) {
+
+      console.warn(
+        "[Sonativa] Founder check:",
+        error.message
+      );
+
+      return false;
+    }
+
+
+    return data === true;
+
+  } catch (error) {
+
+    console.warn(
+      "[Sonativa] Founder check failed:",
+      error
+    );
+
+    return false;
+  }
+
+}
+
+
+/* =========================================================
+   FOUNDER UI
+========================================================= */
+
+function addFounderUI() {
+
+  if (
+    $("#founderControlLink")
+  ) {
+    return;
+  }
+
+
+  const nav =
+    $(".nav");
+
+
+  if (nav) {
+
+    const section =
+      document.createElement(
+        "div"
+      );
+
+    section.className =
+      "nav-section";
+
+    section.textContent =
+      "Founder";
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+    link.id =
+      "founderControlLink";
+
+    link.className =
+      "nav-item";
+
+    link.href =
+      "founder.html";
+
+
+    link.innerHTML = `
+      <span class="nav-icon">◆</span>
+      <span>Founder Control Center</span>
+      <span class="nav-badge">FOUNDER</span>
+    `;
+
+
+    nav.appendChild(
+      section
+    );
+
+    nav.appendChild(
+      link
+    );
+
+  }
+
+
+  const topActions =
+    $("#topActions");
+
+
+  if (
+    topActions &&
+    !$("#founderTopButton")
+  ) {
+
+    const button =
+      document.createElement(
+        "a"
+      );
+
+    button.id =
+      "founderTopButton";
+
+    button.href =
+      "founder.html";
+
+    button.className =
+      "founder-button";
+
+    button.textContent =
+      "Founder";
+
+
+    topActions.prepend(
+      button
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PROJECT COUNT
+========================================================= */
+
+async function loadProjectStats() {
+
+  const user =
+    await getUser();
+
+
+  const projectsCount =
+    $("#projectsCount");
+
+  const tokensCount =
+    $("#tokensCount");
+
+
+  if (!user) {
+
+    if (projectsCount) {
+      projectsCount.textContent =
+        "0";
+    }
+
+    if (tokensCount) {
+      tokensCount.textContent =
+        "0";
+    }
+
+    return;
+  }
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("projects")
+        .select(
+          "id,token_status,mint_address",
+          {
+            count: "exact"
+          }
+        )
+        .eq(
+          "user_id",
+          user.id
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    const projects =
+      data || [];
+
+
+    if (projectsCount) {
+
+      projectsCount.textContent =
+        String(
+          projects.length
+        );
+
+    }
+
+
+    const tokens =
+      projects.filter(
+        (project) =>
+          Boolean(
+            project.mint_address
+          ) ||
+          project.token_status ===
+            "created" ||
+          project.token_status ===
+            "minted"
+      );
+
+
+    if (tokensCount) {
+
+      tokensCount.textContent =
+        String(
+          tokens.length
+        );
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "[Sonativa] Project statistics unavailable:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PROTECTED PAGE
+========================================================= */
+
+async function protectPage() {
+
+  const required =
+    document.body.dataset.authRequired ===
+    "true";
+
+
+  if (!required) {
+    return;
+  }
+
+
+  const session =
+    await getSession();
+
+
+  if (!session) {
+
+    const current =
+      window.location.pathname +
+      window.location.search +
+      window.location.hash;
+
+
+    window.location.href =
+      `${CONFIG.loginPage}?redirect=${encodeURIComponent(current)}`;
+
+  }
+
+}
+
+
+/* =========================================================
+   PREMIUM UI
+========================================================= */
+
+function initPremiumFeatures() {
+
+  $$("[data-premium]")
+    .forEach((element) => {
+
+      element.addEventListener(
+        "click",
+        (event) => {
+
+          const locked =
+            element.dataset.premium ===
+            "locked";
+
+
+          if (!locked) {
+            return;
+          }
+
+
+          event.preventDefault();
+
+
+          window.dispatchEvent(
+            new CustomEvent(
+              "sonativa:premium",
+              {
+                detail: {
+                  element
+                }
+              }
+            )
+          );
+
+
+          notify(
+            "This feature will be available with Sonativa Premium.",
+            "info"
+          );
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   PREVENT DOUBLE SUBMISSION
+========================================================= */
+
+function initForms() {
+
+  $$("form")
+    .forEach((form) => {
+
+      form.addEventListener(
+        "submit",
+        () => {
+
+          const button =
+            form.querySelector(
+              "button[type='submit']"
+            );
+
+
+          if (!button) {
+            return;
+          }
+
+
+          if (
+            button.dataset.locked ===
+            "true"
+          ) {
+            return;
+          }
+
+
+          button.dataset.locked =
+            "true";
+
+
+          setTimeout(
+            () => {
+
+              button.dataset.locked =
+                "false";
+
+            },
+            1500
+          );
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   SAFE EXTERNAL LINKS
+========================================================= */
+
+function initExternalLinks() {
+
+  $$(
+    'a[target="_blank"]'
+  )
+    .forEach((link) => {
+
+      const rel =
+        link.getAttribute(
+          "rel"
+        ) || "";
+
+
+      if (
+        !rel.includes("noopener")
+      ) {
+
+        link.setAttribute(
+          "rel",
+          `${rel} noopener noreferrer`.trim()
+        );
+
+      }
+
+    });
+
+}
+
+
+/* =========================================================
+   GLOBAL APP
+========================================================= */
+
+window.Sonativa = {
+
+  version:
+    CONFIG.version,
+
+  config:
+    CONFIG,
+
+  supabase,
+
+  getUser,
+
+  getSession,
+
+  wallet:
+    window.SonativaWallet || null,
+
+  notify,
+
+  escapeHTML,
+
+  getLanguage,
+
+  setLanguage:
+    applyLanguage
+
 };
 
 
 /* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function initSonativa() {
+
+  try {
+
+    initSidebar();
+
+    initLanguage();
+
+    initNavigation();
+
+    initPageTitle();
+
+    initLogout();
+
+    initWallet();
+
+    initPremiumFeatures();
+
+    initForms();
+
+    initExternalLinks();
+
+    await initAuth();
+
+    await protectPage();
+
+    await loadProjectStats();
+
+
+    const isFounder =
+      await checkFounderAccess();
+
+
+    if (isFounder) {
+
+      addFounderUI();
+
+    }
+
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "sonativa:ready",
+        {
+          detail: {
+            version:
+              CONFIG.version
+          }
+        }
+      )
+    );
+
+
+    console.info(
+      "Sonativa application initialized."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "[Sonativa] Initialization failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
    START
-   ========================================================= */
+========================================================= */
 
 if (
-  document.readyState === "loading"
+  document.readyState ===
+  "loading"
 ) {
 
   document.addEventListener(
     "DOMContentLoaded",
-    Sonativa.init,
+    initSonativa,
     {
-      once:true
+      once: true
     }
   );
 
 } else {
 
-  Sonativa.init();
+  initSonativa();
 
 }
