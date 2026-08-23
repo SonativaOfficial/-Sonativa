@@ -2,7 +2,7 @@
    SONATIVA — AUTHENTICATION SYSTEM
    Version: 2026
    Developer / Founder = GitHub ONLY
-   Regular users = handled separately
+   Regular users = Email / Google
    ========================================================= */
 
 import {
@@ -85,7 +85,6 @@ function setLoading(
 
       button.dataset.originalText =
         button.textContent;
-
     }
 
     button.disabled = true;
@@ -174,6 +173,9 @@ function showMessage(
 
     box.style.background =
       "#0d141e";
+
+    box.style.borderColor =
+      "rgba(255,255,255,.12)";
   }
 
   box.hidden = false;
@@ -332,10 +334,12 @@ async function register(
       password,
 
       options: {
+
         data: {
           account_type: "user",
           ...metadata
         }
+
       }
 
     });
@@ -357,6 +361,9 @@ async function loginWithGoogle() {
   const redirect =
     safeRedirect();
 
+  const redirectTo =
+    `${window.location.origin}/${redirect}`;
+
   const {
     data,
     error
@@ -367,13 +374,14 @@ async function loginWithGoogle() {
 
       options: {
 
-        redirectTo:
-          `${window.location.origin}/${redirect}`,
+        redirectTo,
 
         queryParams: {
           prompt: "select_account"
         }
+
       }
+
     });
 
   if (error) throw error;
@@ -390,38 +398,68 @@ async function loginWithGitHub() {
 
   clearMessage();
 
-  /*
-    مهم:
-    لا نرسل المستخدم مباشرة إلى index.html.
+  try {
 
-    نرجعه إلى login.html بعد GitHub
-    حتى نتحقق من Founder UID.
-  */
+    /*
+      Flow:
 
-  const callback =
-    `${window.location.origin}/login.html?github_callback=1`;
+      Sonativa
+        ↓
+      Supabase OAuth
+        ↓
+      GitHub
+        ↓
+      Supabase callback
+        ↓
+      Sonativa login.html
+        ↓
+      Founder verification
+        ↓
+      index.html
+    */
 
-  const {
-    data,
-    error
-  } =
-    await supabase.auth.signInWithOAuth({
+    const redirectTo =
+      `${window.location.origin}/login.html?github_callback=1`;
 
-      provider: "github",
+    const {
+      data,
+      error
+    } =
+      await supabase.auth.signInWithOAuth({
 
-      options: {
+        provider: "github",
 
-        redirectTo:
-          callback,
+        options: {
 
-        scopes:
-          "read:user user:email"
-      }
-    });
+          redirectTo,
 
-  if (error) throw error;
+          scopes:
+            "read:user user:email"
+        }
 
-  return data;
+      });
+
+    if (error) {
+
+      console.error(
+        "[Sonativa GitHub OAuth] Error:",
+        error
+      );
+
+      throw error;
+    }
+
+    return data;
+
+  } catch (error) {
+
+    console.error(
+      "[Sonativa GitHub OAuth] Exception:",
+      error
+    );
+
+    throw error;
+  }
 }
 
 
@@ -444,8 +482,8 @@ async function verifyDeveloper() {
   }
 
   /*
-    التحقق الحقيقي من Supabase RPC.
-    لا نعتمد على email فقط.
+    التحقق من Founder يتم عبر
+    Supabase RPC.
   */
 
   const founder =
@@ -454,8 +492,7 @@ async function verifyDeveloper() {
   if (!founder) {
 
     /*
-      أي GitHub account آخر
-      يتم تسجيل خروجه مباشرة.
+      GitHub account غير مصرح به.
     */
 
     await supabase.auth.signOut();
@@ -489,30 +526,68 @@ async function handleDeveloperCallback() {
   if (
     params.get("github_callback") !== "1"
   ) {
+
     return false;
   }
 
-  const result =
-    await verifyDeveloper();
+  try {
 
-  if (
-    result.authenticated &&
-    result.founder
-  ) {
+    /*
+      التأكد من وجود session
+      بعد رجوع المستخدم من GitHub.
+    */
 
-    window.location.replace(
-      AUTH_CONFIG.developerPage
+    const session =
+      await getSession();
+
+    if (!session) {
+
+      showMessage(
+        "GitHub login completed, but no active session was found.",
+        "error"
+      );
+
+      return true;
+    }
+
+    const result =
+      await verifyDeveloper();
+
+    if (
+      result.authenticated &&
+      result.founder
+    ) {
+
+      window.location.replace(
+        AUTH_CONFIG.developerPage
+      );
+
+      return true;
+    }
+
+    showMessage(
+      "This GitHub account is not authorized as the Sonativa Developer.",
+      "error"
+    );
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "[Sonativa Developer Callback]",
+      error
+    );
+
+    await supabase.auth.signOut();
+
+    showMessage(
+      "GitHub authentication failed. Please try again.",
+      "error"
     );
 
     return true;
   }
-
-  showMessage(
-    "This GitHub account is not authorized as the Sonativa Developer.",
-    "error"
-  );
-
-  return true;
 }
 
 
@@ -650,6 +725,7 @@ function initSocialLogin() {
               return;
             }
 
+
             if (
               provider === "google"
             ) {
@@ -665,6 +741,7 @@ function initSocialLogin() {
               return;
             }
 
+
             throw new Error(
               "Unsupported authentication provider."
             );
@@ -677,7 +754,7 @@ function initSocialLogin() {
             );
 
             showMessage(
-              error.message ||
+              error?.message ||
               "Unable to continue.",
               "error"
             );
@@ -756,7 +833,7 @@ function initLoginForm() {
         );
 
         showMessage(
-          error.message ||
+          error?.message ||
           "Unable to sign in.",
           "error"
         );
@@ -893,7 +970,7 @@ function initRegisterForm() {
         );
 
         showMessage(
-          error.message ||
+          error?.message ||
           "Unable to create account.",
           "error"
         );
@@ -968,7 +1045,7 @@ function initResetForm() {
         );
 
         showMessage(
-          error.message ||
+          error?.message ||
           "Unable to send reset email.",
           "error"
         );
@@ -1066,7 +1143,7 @@ function initNewPasswordForm() {
         );
 
         showMessage(
-          error.message ||
+          error?.message ||
           "Unable to update password.",
           "error"
         );
@@ -1116,7 +1193,7 @@ function initLogoutButtons() {
             );
 
             showMessage(
-              error.message ||
+              error?.message ||
               "Unable to sign out.",
               "error"
             );
@@ -1208,9 +1285,10 @@ async function initAuth() {
   initLogoutButtons();
   initAuthState();
 
+
   /*
-    إذا رجعنا من GitHub،
-    نتحقق من Founder قبل الدخول.
+    إذا رجع المستخدم من GitHub
+    نتحقق من Founder.
   */
 
   try {
@@ -1233,6 +1311,10 @@ async function initAuth() {
   }
 }
 
+
+/* =========================================================
+   START
+========================================================= */
 
 if (
   document.readyState ===
