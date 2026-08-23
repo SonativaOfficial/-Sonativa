@@ -1,323 +1,1029 @@
 /* =========================================================
-   SONATIVA — AUTHENTICATION SYSTEM
+   SONATIVA — AUTH SYSTEM
    File: assets/js/auth.js
    ========================================================= */
-import { supabase } from "./supabase.js";
-/* ---------------------------------------------------------
-   Helpers
---------------------------------------------------------- */
-function getRedirectUrl() {
-  return window.location.origin + window.location.pathname;
-}
-function getUserName(user) {
-  return (
-    user?.user_metadata?.full_name ||
-    user?.user_metadata?.name ||
-    user?.email?.split("@")[0] ||
-    "Sonativa User"
-  );
-}
-/* ---------------------------------------------------------
-   Get current user
---------------------------------------------------------- */
-export async function getCurrentUser() {
-  try {
-    const {
-      data: { user },
-      error
-    } = await supabase.auth.getUser();
-    if (error) {
-      console.warn("Sonativa auth:", error.message);
-      return null;
-    }
-    return user || null;
-  } catch (error) {
-    console.error("Sonativa auth error:", error);
-    return null;
-  }
-}
-/* ---------------------------------------------------------
-   Get current session
---------------------------------------------------------- */
-export async function getSession() {
-  try {
-    const {
-      data: { session },
-      error
-    } = await supabase.auth.getSession();
-    if (error) {
-      console.warn("Session error:", error.message);
-      return null;
-    }
-    return session || null;
-  } catch (error) {
-    console.error("Session error:", error);
-    return null;
-  }
-}
-/* ---------------------------------------------------------
-   Email / Password Login
---------------------------------------------------------- */
-export async function signInWithEmail(email, password) {
-  if (!email || !password) {
-    throw new Error("Email and password are required.");
-  }
-  const { data, error } =
-    await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password
-    });
+
+import {
+  supabase
+} from "./supabase.js";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const LOGIN_PAGE =
+  "login.html";
+
+const HOME_PAGE =
+  "index.html";
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+export async function getUser() {
+
+  const {
+    data,
+    error
+  } =
+    await supabase.auth.getUser();
+
   if (error) {
-    throw error;
+
+    console.warn(
+      "Sonativa auth:",
+      error.message
+    );
+
+    return null;
   }
-  return data;
+
+  return data?.user || null;
+
 }
-/* ---------------------------------------------------------
-   Create Account
---------------------------------------------------------- */
-export async function signUpWithEmail(
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+export async function getSession() {
+
+  const {
+    data,
+    error
+  } =
+    await supabase.auth.getSession();
+
+  if (error) {
+
+    console.warn(
+      "Sonativa session:",
+      error.message
+    );
+
+    return null;
+  }
+
+  return data?.session || null;
+
+}
+
+
+/* =========================================================
+   LOGIN — EMAIL
+========================================================= */
+
+export async function loginWithEmail(
+  email,
+  password
+) {
+
+  if (!email || !password) {
+
+    throw new Error(
+      "Email and password are required."
+    );
+
+  }
+
+  const {
+    data,
+    error
+  } =
+    await supabase.auth.signInWithPassword({
+
+      email:
+        email.trim(),
+
+      password
+
+    });
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   SIGN UP
+========================================================= */
+
+export async function signUp(
   email,
   password,
-  fullName = ""
+  metadata = {}
 ) {
+
   if (!email || !password) {
-    throw new Error("Email and password are required.");
-  }
-  const redirectTo =
-    window.location.origin + "/login.html";
-  const { data, error } =
-    await supabase.auth.signUp({
-      email: email.trim(),
-      password,
-      options: {
-        emailRedirectTo: redirectTo,
-        data: {
-          full_name: fullName.trim()
-        }
-      }
-    });
-  if (error) {
-    throw error;
-  }
-  return data;
-}
-/* ---------------------------------------------------------
-   Google Login
---------------------------------------------------------- */
-export async function signInWithGoogle() {
-  const { data, error } =
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: getRedirectUrl()
-      }
-    });
-  if (error) {
-    throw error;
-  }
-  return data;
-}
-/* ---------------------------------------------------------
-   GitHub Login
---------------------------------------------------------- */
-export async function signInWithGitHub() {
-  const { data, error } =
-    await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: getRedirectUrl()
-      }
-    });
-  if (error) {
-    throw error;
-  }
-  return data;
-}
-/* ---------------------------------------------------------
-   Logout
---------------------------------------------------------- */
-export async function signOut() {
-  const { error } =
-    await supabase.auth.signOut();
-  if (error) {
-    throw error;
-  }
-  window.location.href = "login.html";
-}
-/* ---------------------------------------------------------
-   Password Reset
---------------------------------------------------------- */
-export async function resetPassword(email) {
-  if (!email) {
-    throw new Error("Email is required.");
-  }
-  const redirectTo =
-    window.location.origin + "/login.html";
-  const { data, error } =
-    await supabase.auth.resetPasswordForEmail(
-      email.trim(),
-      {
-        redirectTo
-      }
+
+    throw new Error(
+      "Email and password are required."
     );
-  if (error) {
-    throw error;
+
   }
-  return data;
-}
-/* ---------------------------------------------------------
-   Update Password
---------------------------------------------------------- */
-export async function updatePassword(password) {
-  if (!password || password.length < 8) {
+
+
+  if (password.length < 8) {
+
     throw new Error(
       "Password must contain at least 8 characters."
     );
+
   }
-  const { data, error } =
-    await supabase.auth.updateUser({
-      password
-    });
-  if (error) {
-    throw error;
-  }
-  return data;
-}
-/* ---------------------------------------------------------
-   Update Profile
---------------------------------------------------------- */
-export async function updateProfile(profile = {}) {
-  const allowed = {};
-  if (typeof profile.full_name === "string") {
-    allowed.full_name =
-      profile.full_name.trim();
-  }
-  if (typeof profile.name === "string") {
-    allowed.name =
-      profile.name.trim();
-  }
-  if (typeof profile.avatar_url === "string") {
-    allowed.avatar_url =
-      profile.avatar_url.trim();
-  }
-  const { data, error } =
-    await supabase.auth.updateUser({
-      data: allowed
-    });
-  if (error) {
-    throw error;
-  }
-  return data;
-}
-/* ---------------------------------------------------------
-   Require Login
---------------------------------------------------------- */
-export async function requireAuth() {
-  const user =
-    await getCurrentUser();
-  if (!user) {
-    const current =
-      window.location.pathname +
-      window.location.search;
-    const encoded =
-      encodeURIComponent(current);
-    window.location.href =
-      `login.html?redirect=${encoded}`;
-    return null;
-  }
-  return user;
-}
-/* ---------------------------------------------------------
-   Redirect Logged-In User
---------------------------------------------------------- */
-export async function redirectIfAuthenticated(
-  destination = "index.html"
-) {
-  const user =
-    await getCurrentUser();
-  if (user) {
-    window.location.href =
-      destination;
-  }
-  return user;
-}
-/* ---------------------------------------------------------
-   Auth State Listener
---------------------------------------------------------- */
-export function onAuthStateChange(callback) {
-  return supabase.auth.onAuthStateChange(
-    (event, session) => {
-      try {
-        callback(event, session);
-      } catch (error) {
-        console.error(
-          "Auth callback error:",
-          error
-        );
+
+
+  const {
+    data,
+    error
+  } =
+    await supabase.auth.signUp({
+
+      email:
+        email.trim(),
+
+      password,
+
+      options: {
+
+        data: {
+          ...metadata
+        }
+
       }
+
+    });
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   MAGIC LINK
+========================================================= */
+
+export async function sendMagicLink(
+  email
+) {
+
+  if (!email) {
+
+    throw new Error(
+      "Email is required."
+    );
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabase.auth.signInWithOtp({
+
+      email:
+        email.trim(),
+
+      options: {
+
+        emailRedirectTo:
+          window.location.origin +
+          "/index.html"
+
+      }
+
+    });
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   GOOGLE LOGIN
+========================================================= */
+
+export async function loginWithGoogle() {
+
+  const {
+    data,
+    error
+  } =
+  await supabase.auth.signInWithOAuth({
+
+    provider:
+      "google",
+
+    options: {
+
+      redirectTo:
+        window.location.origin +
+        "/index.html"
+
+    }
+
+  });
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+export async function logout() {
+
+  const {
+    error
+  } =
+    await supabase.auth.signOut();
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  window.location.href =
+    LOGIN_PAGE;
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+export function onAuthChange(
+  callback
+) {
+
+  return supabase.auth.onAuthStateChange(
+    (
+      event,
+      session
+    ) => {
+
+      if (
+        typeof callback ===
+        "function"
+      ) {
+
+        callback(
+          event,
+          session
+        );
+
+      }
+
     }
   );
+
 }
-/* ---------------------------------------------------------
-   Update UI
---------------------------------------------------------- */
-export async function updateAuthUI() {
-  const user =
-    await getCurrentUser();
-  const accountName =
-    document.getElementById("accountName");
-  const avatar =
-    document.getElementById("avatar");
-  const walletStatus =
-    document.getElementById("walletStatus");
-  if (!user) {
-    if (accountName) {
-      accountName.textContent = "Guest";
-    }
-    if (avatar) {
-      avatar.textContent = "G";
-    }
-    if (walletStatus) {
-      walletStatus.textContent = "Guest";
-    }
+
+
+/* =========================================================
+   REQUIRE LOGIN
+========================================================= */
+
+export async function requireAuth(
+  redirect = LOGIN_PAGE
+) {
+
+  const session =
+    await getSession();
+
+
+  if (!session) {
+
+    const current =
+      window.location.href;
+
+    const separator =
+      redirect.includes("?")
+        ? "&"
+        : "?";
+
+
+    window.location.href =
+      redirect +
+      separator +
+      "redirect=" +
+      encodeURIComponent(
+        current
+      );
+
+
     return null;
+
   }
-  const name =
-    getUserName(user);
-  if (accountName) {
-    accountName.textContent =
-      name;
-  }
-  if (avatar) {
-    avatar.textContent =
-      name.charAt(0).toUpperCase();
-  }
-  if (walletStatus) {
-    walletStatus.textContent =
-      "Ready";
-  }
-  return user;
+
+
+  return session;
+
 }
-/* ---------------------------------------------------------
-   Global Auth Boot
---------------------------------------------------------- */
-export async function initAuth(options = {}) {
+
+
+/* =========================================================
+   REQUIRE GUEST
+========================================================= */
+
+export async function requireGuest(
+  redirect = HOME_PAGE
+) {
+
+  const session =
+    await getSession();
+
+
+  if (session) {
+
+    window.location.href =
+      redirect;
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+   USER PROFILE
+========================================================= */
+
+export async function updateProfile(
+  updates = {}
+) {
+
   const {
-    requireLogin = false,
-    redirectIfLoggedIn = false,
-    redirectDestination = "index.html"
-  } = options;
-  if (redirectIfLoggedIn) {
-    return redirectIfAuthenticated(
-      redirectDestination
-    );
+    data,
+    error
+  } =
+    await supabase.auth.updateUser({
+
+      data: {
+        ...updates
+      }
+
+    });
+
+
+  if (error) {
+
+    throw error;
+
   }
-  if (requireLogin) {
-    return requireAuth();
-  }
-  return updateAuthUI();
+
+
+  return data?.user || null;
+
 }
-/* ---------------------------------------------------------
-   Export Supabase Client
---------------------------------------------------------- */
-export { supabase };
+
+
+/* =========================================================
+   CHANGE PASSWORD
+========================================================= */
+
+export async function changePassword(
+  newPassword
+) {
+
+  if (!newPassword) {
+
+    throw new Error(
+      "New password is required."
+    );
+
+  }
+
+
+  if (newPassword.length < 8) {
+
+    throw new Error(
+      "Password must contain at least 8 characters."
+    );
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabase.auth.updateUser({
+
+      password:
+        newPassword
+
+    });
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  return data?.user || null;
+
+}
+
+
+/* =========================================================
+   PASSWORD RESET
+========================================================= */
+
+export async function resetPassword(
+  email
+) {
+
+  if (!email) {
+
+    throw new Error(
+      "Email is required."
+    );
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabase.auth.resetPasswordForEmail(
+
+      email.trim(),
+
+      {
+        redirectTo:
+          window.location.origin +
+          "/login.html"
+      }
+
+    );
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   AUTH ERROR MESSAGE
+========================================================= */
+
+export function getAuthErrorMessage(
+  error
+) {
+
+  const message =
+    String(
+      error?.message ||
+      error ||
+      ""
+    ).toLowerCase();
+
+
+  if (
+    message.includes(
+      "invalid login credentials"
+    )
+  ) {
+
+    return "Email or password is incorrect.";
+
+  }
+
+
+  if (
+    message.includes(
+      "email not confirmed"
+    )
+  ) {
+
+    return "Please confirm your email first.";
+
+  }
+
+
+  if (
+    message.includes(
+      "user already registered"
+    )
+  ) {
+
+    return "This email is already registered.";
+
+  }
+
+
+  if (
+    message.includes(
+      "password"
+    ) &&
+    message.includes(
+      "characters"
+    )
+  ) {
+
+    return "Password is too short.";
+
+  }
+
+
+  if (
+    message.includes(
+      "rate limit"
+    )
+  ) {
+
+    return "Too many attempts. Please try again later.";
+
+  }
+
+
+  if (
+    message.includes(
+      "network"
+    )
+  ) {
+
+    return "Network error. Check your internet connection.";
+
+  }
+
+
+  return (
+    error?.message ||
+    "Authentication failed. Please try again."
+  );
+
+}
+
+
+/* =========================================================
+   REDIRECT AFTER LOGIN
+========================================================= */
+
+export function getRedirectTarget() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const redirect =
+    params.get(
+      "redirect"
+    );
+
+
+  if (!redirect) {
+
+    return HOME_PAGE;
+
+  }
+
+
+  try {
+
+    const url =
+      new URL(
+        redirect,
+        window.location.origin
+      );
+
+
+    if (
+      url.origin !==
+      window.location.origin
+    ) {
+
+      return HOME_PAGE;
+
+    }
+
+
+    return (
+      url.pathname +
+      url.search +
+      url.hash
+    );
+
+  } catch {
+
+    return HOME_PAGE;
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGIN FORM
+========================================================= */
+
+function setupLoginForm() {
+
+  const form =
+    document.querySelector(
+      "[data-sonativa-login]"
+    );
+
+
+  if (!form) {
+    return;
+  }
+
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const email =
+        form.querySelector(
+          "[name='email']"
+        )?.value;
+
+
+      const password =
+        form.querySelector(
+          "[name='password']"
+        )?.value;
+
+
+      const button =
+        form.querySelector(
+          "button[type='submit']"
+        );
+
+
+      try {
+
+        if (button) {
+
+          button.disabled =
+            true;
+
+          button.dataset.originalText =
+            button.textContent;
+
+          button.textContent =
+            "Signing in...";
+
+        }
+
+
+        await loginWithEmail(
+          email,
+          password
+        );
+
+
+        window.location.href =
+          getRedirectTarget();
+
+
+      } catch (error) {
+
+        showAuthMessage(
+          form,
+          getAuthErrorMessage(
+            error
+          )
+        );
+
+
+      } finally {
+
+        if (button) {
+
+          button.disabled =
+            false;
+
+          button.textContent =
+            button.dataset.originalText ||
+            "Sign in";
+
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   SIGNUP FORM
+========================================================= */
+
+function setupSignupForm() {
+
+  const form =
+    document.querySelector(
+      "[data-sonativa-signup]"
+    );
+
+
+  if (!form) {
+    return;
+  }
+
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const email =
+        form.querySelector(
+          "[name='email']"
+        )?.value;
+
+
+      const password =
+        form.querySelector(
+          "[name='password']"
+        )?.value;
+
+
+      try {
+
+        await signUp(
+          email,
+          password
+        );
+
+
+        showAuthMessage(
+          form,
+          "Account created. Check your email to confirm your account."
+        );
+
+
+      } catch (error) {
+
+        showAuthMessage(
+          form,
+          getAuthErrorMessage(
+            error
+          )
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LOGOUT BUTTONS
+========================================================= */
+
+function setupLogoutButtons() {
+
+  document
+    .querySelectorAll(
+      "[data-sonativa-logout]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          async event => {
+
+            event.preventDefault();
+
+            try {
+
+              button.disabled =
+                true;
+
+              await logout();
+
+            } catch (error) {
+
+              button.disabled =
+                false;
+
+              showAuthMessage(
+                document,
+                getAuthErrorMessage(
+                  error
+                )
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   AUTH MESSAGE
+========================================================= */
+
+function showAuthMessage(
+  container,
+  message
+) {
+
+  let element =
+    container.querySelector(
+      "[data-auth-message]"
+    );
+
+
+  if (!element) {
+
+    element =
+      document.createElement(
+        "div"
+      );
+
+    element.dataset.authMessage =
+      "true";
+
+    element.setAttribute(
+      "role",
+      "alert"
+    );
+
+    container.prepend(
+      element
+    );
+
+  }
+
+
+  element.textContent =
+    message;
+
+}
+
+
+/* =========================================================
+   GLOBAL API
+========================================================= */
+
+window.SonativaAuth = {
+
+  getUser,
+
+  getSession,
+
+  loginWithEmail,
+
+  signUp,
+
+  sendMagicLink,
+
+  loginWithGoogle,
+
+  logout,
+
+  onAuthChange,
+
+  requireAuth,
+
+  requireGuest,
+
+  updateProfile,
+
+  changePassword,
+
+  resetPassword,
+
+  getAuthErrorMessage,
+
+  getRedirectTarget
+
+};
+
+
+/* =========================================================
+   AUTO SETUP
+========================================================= */
+
+function initAuth() {
+
+  setupLoginForm();
+
+  setupSignupForm();
+
+  setupLogoutButtons();
+
+
+  onAuthChange(
+    (
+      event,
+      session
+    ) => {
+
+      document
+        .documentElement
+        .dataset.authenticated =
+        session
+          ? "true"
+          : "false";
+
+
+      window.dispatchEvent(
+        new CustomEvent(
+          "sonativa:auth",
+          {
+            detail: {
+              event,
+              session
+            }
+          }
+        )
+      );
+
+    }
+  );
+
+}
+
+
+if (
+  document.readyState ===
+  "loading"
+) {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initAuth
+  );
+
+} else {
+
+  initAuth();
+
+}
