@@ -1,9 +1,8 @@
 /* =========================================================
    SONATIVA — AUTHENTICATION SYSTEM
    Version: 2026
-   GitHub = Developer / Founder
-   Google = Regular User
-   Email/Password = Regular User
+   Developer / Founder = GitHub ONLY
+   Regular users = handled separately
    ========================================================= */
 
 import {
@@ -11,7 +10,8 @@ import {
   getUser,
   getSession,
   signOut,
-  onAuthStateChange
+  onAuthStateChange,
+  isFounder
 } from "./supabase.js";
 
 
@@ -22,6 +22,7 @@ import {
 const AUTH_CONFIG = {
   loginPage: "login.html",
   homePage: "index.html",
+  developerPage: "index.html",
   redirectParameter: "redirect"
 };
 
@@ -37,10 +38,16 @@ const $$ = (selector, parent = document) =>
   [...parent.querySelectorAll(selector)];
 
 
+/* =========================================================
+   SAFE REDIRECT
+========================================================= */
+
 function safeRedirect() {
 
   const params =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+      window.location.search
+    );
 
   const redirect =
     params.get(
@@ -61,73 +68,6 @@ function safeRedirect() {
 
 
 /* =========================================================
-   USER ROLE
-========================================================= */
-
-function getUserProviders(user) {
-
-  if (!user) {
-    return [];
-  }
-
-  const providers = [];
-
-  if (user.app_metadata?.provider) {
-    providers.push(
-      user.app_metadata.provider
-    );
-  }
-
-  if (Array.isArray(user.app_metadata?.providers)) {
-    providers.push(
-      ...user.app_metadata.providers
-    );
-  }
-
-  if (Array.isArray(user.identities)) {
-
-    user.identities.forEach(identity => {
-
-      if (identity?.provider) {
-        providers.push(
-          identity.provider
-        );
-      }
-
-    });
-
-  }
-
-  return [
-    ...new Set(
-      providers.filter(Boolean)
-    )
-  ];
-}
-
-
-function isGitHubUser(user) {
-
-  return getUserProviders(user)
-    .includes("github");
-}
-
-
-function getAccountType(user) {
-
-  if (!user) {
-    return "guest";
-  }
-
-  if (isGitHubUser(user)) {
-    return "developer";
-  }
-
-  return "user";
-}
-
-
-/* =========================================================
    LOADING
 ========================================================= */
 
@@ -137,15 +77,15 @@ function setLoading(
   text = "Please wait..."
 ) {
 
-  if (!button) {
-    return;
-  }
+  if (!button) return;
 
   if (loading) {
 
     if (!button.dataset.originalText) {
+
       button.dataset.originalText =
         button.textContent;
+
     }
 
     button.disabled = true;
@@ -163,7 +103,7 @@ function setLoading(
 
 
 /* =========================================================
-   MESSAGE SYSTEM
+   MESSAGE
 ========================================================= */
 
 function showMessage(
@@ -190,7 +130,8 @@ function showMessage(
         borderRadius: "9px",
         fontSize: "12px",
         lineHeight: "1.5",
-        border: "1px solid rgba(255,255,255,.12)"
+        border:
+          "1px solid rgba(255,255,255,.12)"
       }
     );
 
@@ -215,9 +156,7 @@ function showMessage(
     box.style.borderColor =
       "#4a252c";
 
-  } else if (
-    type === "success"
-  ) {
+  } else if (type === "success") {
 
     box.style.color =
       "#8ff0b7";
@@ -255,7 +194,7 @@ function clearMessage() {
 
 
 /* =========================================================
-   VALIDATION
+   EMAIL VALIDATION
 ========================================================= */
 
 function isValidEmail(email) {
@@ -268,6 +207,10 @@ function isValidEmail(email) {
     );
 }
 
+
+/* =========================================================
+   PASSWORD VALIDATION
+========================================================= */
 
 function validatePassword(password) {
 
@@ -299,7 +242,7 @@ function validatePassword(password) {
 
 
 /* =========================================================
-   EMAIL / PASSWORD LOGIN
+   EMAIL LOGIN
 ========================================================= */
 
 async function login(
@@ -333,13 +276,13 @@ async function login(
     error
   } =
     await supabase.auth.signInWithPassword({
+
       email,
       password
+
     });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
@@ -369,13 +312,13 @@ async function register(
     );
   }
 
-  const passwordCheck =
+  const check =
     validatePassword(password);
 
-  if (!passwordCheck.valid) {
+  if (!check.valid) {
 
     throw new Error(
-      passwordCheck.message
+      check.message
     );
   }
 
@@ -394,18 +337,17 @@ async function register(
           ...metadata
         }
       }
+
     });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
 
 
 /* =========================================================
-   GOOGLE — REGULAR USER
+   GOOGLE LOGIN
 ========================================================= */
 
 async function loginWithGoogle() {
@@ -429,30 +371,35 @@ async function loginWithGoogle() {
           `${window.location.origin}/${redirect}`,
 
         queryParams: {
-          access_type: "offline",
           prompt: "select_account"
         }
       }
     });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
 
 
 /* =========================================================
-   GITHUB — DEVELOPER / FOUNDER
+   GITHUB — DEVELOPER ONLY
 ========================================================= */
 
 async function loginWithGitHub() {
 
   clearMessage();
 
-  const redirect =
-    safeRedirect();
+  /*
+    مهم:
+    لا نرسل المستخدم مباشرة إلى index.html.
+
+    نرجعه إلى login.html بعد GitHub
+    حتى نتحقق من Founder UID.
+  */
+
+  const callback =
+    `${window.location.origin}/login.html?github_callback=1`;
 
   const {
     data,
@@ -465,18 +412,107 @@ async function loginWithGitHub() {
       options: {
 
         redirectTo:
-          `${window.location.origin}/${redirect}`,
+          callback,
 
         scopes:
           "read:user user:email"
       }
     });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
+}
+
+
+/* =========================================================
+   VERIFY DEVELOPER / FOUNDER
+========================================================= */
+
+async function verifyDeveloper() {
+
+  const user =
+    await getUser();
+
+  if (!user) {
+
+    return {
+      authenticated: false,
+      founder: false,
+      user: null
+    };
+  }
+
+  /*
+    التحقق الحقيقي من Supabase RPC.
+    لا نعتمد على email فقط.
+  */
+
+  const founder =
+    await isFounder();
+
+  if (!founder) {
+
+    /*
+      أي GitHub account آخر
+      يتم تسجيل خروجه مباشرة.
+    */
+
+    await supabase.auth.signOut();
+
+    return {
+      authenticated: false,
+      founder: false,
+      user
+    };
+  }
+
+  return {
+    authenticated: true,
+    founder: true,
+    user
+  };
+}
+
+
+/* =========================================================
+   DEVELOPER CALLBACK
+========================================================= */
+
+async function handleDeveloperCallback() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  if (
+    params.get("github_callback") !== "1"
+  ) {
+    return false;
+  }
+
+  const result =
+    await verifyDeveloper();
+
+  if (
+    result.authenticated &&
+    result.founder
+  ) {
+
+    window.location.replace(
+      AUTH_CONFIG.developerPage
+    );
+
+    return true;
+  }
+
+  showMessage(
+    "This GitHub account is not authorized as the Sonativa Developer.",
+    "error"
+  );
+
+  return true;
 }
 
 
@@ -484,9 +520,7 @@ async function loginWithGitHub() {
    PASSWORD RESET
 ========================================================= */
 
-async function resetPassword(
-  email
-) {
+async function resetPassword(email) {
 
   clearMessage();
 
@@ -509,15 +543,16 @@ async function resetPassword(
     error
   } =
     await supabase.auth.resetPasswordForEmail(
+
       email,
+
       {
         redirectTo: redirect
       }
+
     );
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return true;
 }
@@ -546,12 +581,13 @@ async function updatePassword(
     error
   } =
     await supabase.auth.updateUser({
-      password: newPassword
+
+      password:
+        newPassword
+
     });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
@@ -582,6 +618,82 @@ async function logout() {
 
 
 /* =========================================================
+   SOCIAL BUTTONS
+========================================================= */
+
+function initSocialLogin() {
+
+  $$("[data-auth-provider]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        async () => {
+
+          const provider =
+            button.dataset.authProvider;
+
+          try {
+
+            if (
+              provider === "github"
+            ) {
+
+              setLoading(
+                button,
+                true,
+                "Opening GitHub..."
+              );
+
+              await loginWithGitHub();
+
+              return;
+            }
+
+            if (
+              provider === "google"
+            ) {
+
+              setLoading(
+                button,
+                true,
+                "Opening Google..."
+              );
+
+              await loginWithGoogle();
+
+              return;
+            }
+
+            throw new Error(
+              "Unsupported authentication provider."
+            );
+
+          } catch (error) {
+
+            console.error(
+              "[Sonativa Auth] Social login:",
+              error
+            );
+
+            showMessage(
+              error.message ||
+              "Unable to continue.",
+              "error"
+            );
+
+            setLoading(
+              button,
+              false
+            );
+          }
+        }
+      );
+    });
+}
+
+
+/* =========================================================
    LOGIN FORM
 ========================================================= */
 
@@ -590,9 +702,7 @@ function initLoginForm() {
   const form =
     $("#loginForm");
 
-  if (!form) {
-    return;
-  }
+  if (!form) return;
 
   const emailInput =
     form.querySelector(
@@ -625,36 +735,18 @@ function initLoginForm() {
           "Signing in..."
         );
 
-        const data =
-          await login(
-            emailInput?.value,
-            passwordInput?.value
-          );
-
-        const user =
-          data?.user ||
-          await getUser();
-
-        const accountType =
-          getAccountType(user);
+        await login(
+          emailInput?.value,
+          passwordInput?.value
+        );
 
         showMessage(
-          accountType === "developer"
-            ? "Developer account authenticated. Redirecting..."
-            : "Login successful. Redirecting...",
+          "Login successful. Redirecting...",
           "success"
         );
 
-        window.setTimeout(
-          () => {
-
-            window.location.replace(
-              safeRedirect()
-            );
-
-          },
-          350
-        );
+        window.location.href =
+          safeRedirect();
 
       } catch (error) {
 
@@ -664,7 +756,7 @@ function initLoginForm() {
         );
 
         showMessage(
-          error?.message ||
+          error.message ||
           "Unable to sign in.",
           "error"
         );
@@ -680,7 +772,7 @@ function initLoginForm() {
 
 
 /* =========================================================
-   REGISTER FORM
+   REGISTER
 ========================================================= */
 
 function initRegisterForm() {
@@ -689,9 +781,7 @@ function initRegisterForm() {
     $("#registerForm") ||
     $("#signupForm");
 
-  if (!form) {
-    return;
-  }
+  if (!form) return;
 
   const emailInput =
     form.querySelector(
@@ -728,7 +818,7 @@ function initRegisterForm() {
 
       if (
         confirmInput &&
-        passwordInput?.value !==
+        passwordInput.value !==
         confirmInput.value
       ) {
 
@@ -777,11 +867,6 @@ function initRegisterForm() {
             "success"
           );
 
-          setLoading(
-            submitButton,
-            false
-          );
-
         } else {
 
           showMessage(
@@ -792,9 +877,8 @@ function initRegisterForm() {
           setTimeout(
             () => {
 
-              window.location.replace(
-                safeRedirect()
-              );
+              window.location.href =
+                safeRedirect();
 
             },
             700
@@ -809,7 +893,7 @@ function initRegisterForm() {
         );
 
         showMessage(
-          error?.message ||
+          error.message ||
           "Unable to create account.",
           "error"
         );
@@ -834,9 +918,7 @@ function initResetForm() {
     $("#resetPasswordForm") ||
     $("#forgotPasswordForm");
 
-  if (!form) {
-    return;
-  }
+  if (!form) return;
 
   const emailInput =
     form.querySelector(
@@ -886,7 +968,7 @@ function initResetForm() {
         );
 
         showMessage(
-          error?.message ||
+          error.message ||
           "Unable to send reset email.",
           "error"
         );
@@ -910,9 +992,7 @@ function initNewPasswordForm() {
   const form =
     $("#newPasswordForm");
 
-  if (!form) {
-    return;
-  }
+  if (!form) return;
 
   const passwordInput =
     form.querySelector(
@@ -939,7 +1019,7 @@ function initNewPasswordForm() {
 
       if (
         confirmInput &&
-        passwordInput?.value !==
+        passwordInput.value !==
         confirmInput.value
       ) {
 
@@ -960,7 +1040,7 @@ function initNewPasswordForm() {
         );
 
         await updatePassword(
-          passwordInput?.value
+          passwordInput.value
         );
 
         showMessage(
@@ -971,9 +1051,8 @@ function initNewPasswordForm() {
         setTimeout(
           () => {
 
-            window.location.replace(
-              AUTH_CONFIG.homePage
-            );
+            window.location.href =
+              AUTH_CONFIG.homePage;
 
           },
           800
@@ -987,7 +1066,7 @@ function initNewPasswordForm() {
         );
 
         showMessage(
-          error?.message ||
+          error.message ||
           "Unable to update password.",
           "error"
         );
@@ -1003,86 +1082,7 @@ function initNewPasswordForm() {
 
 
 /* =========================================================
-   SOCIAL LOGIN
-========================================================= */
-
-function initSocialLogin() {
-
-  $$("[data-auth-provider]")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        async () => {
-
-          const provider =
-            String(
-              button.dataset.authProvider ||
-              ""
-            ).toLowerCase();
-
-          try {
-
-            if (
-              provider === "github"
-            ) {
-
-              setLoading(
-                button,
-                true,
-                "Opening GitHub..."
-              );
-
-              await loginWithGitHub();
-
-              return;
-            }
-
-            if (
-              provider === "google"
-            ) {
-
-              setLoading(
-                button,
-                true,
-                "Opening Google..."
-              );
-
-              await loginWithGoogle();
-
-              return;
-            }
-
-            throw new Error(
-              "Unsupported authentication provider."
-            );
-
-          } catch (error) {
-
-            console.error(
-              "[Sonativa Auth] Social login:",
-              error
-            );
-
-            showMessage(
-              error?.message ||
-              "Unable to continue.",
-              "error"
-            );
-
-            setLoading(
-              button,
-              false
-            );
-          }
-        }
-      );
-    });
-}
-
-
-/* =========================================================
-   LOGOUT
+   LOGOUT BUTTONS
 ========================================================= */
 
 function initLogoutButtons() {
@@ -1116,7 +1116,7 @@ function initLogoutButtons() {
             );
 
             showMessage(
-              error?.message ||
+              error.message ||
               "Unable to sign out.",
               "error"
             );
@@ -1141,10 +1141,6 @@ function initAuthState() {
   onAuthStateChange(
     (event, session) => {
 
-      const user =
-        session?.user ||
-        null;
-
       window.dispatchEvent(
         new CustomEvent(
           "sonativa:auth-change",
@@ -1152,11 +1148,9 @@ function initAuthState() {
             detail: {
               event,
               session,
-              user,
-              accountType:
-                getAccountType(user),
-              isDeveloper:
-                isGitHubUser(user)
+              user:
+                session?.user ||
+                null
             }
           }
         )
@@ -1182,21 +1176,10 @@ export const SonativaAuth = {
   loginWithGoogle,
   loginWithGitHub,
 
+  verifyDeveloper,
+
   getUser,
   getSession,
-
-  isGitHubUser,
-
-  getAccountType,
-
-  isDeveloper:
-    async () => {
-
-      const user =
-        await getUser();
-
-      return isGitHubUser(user);
-    },
 
   isAuthenticated:
     async () =>
@@ -1214,15 +1197,40 @@ window.SonativaAuth =
    INITIALIZATION
 ========================================================= */
 
-function initAuth() {
+async function initAuth() {
 
   initLoginForm();
   initRegisterForm();
   initResetForm();
   initNewPasswordForm();
+
   initSocialLogin();
   initLogoutButtons();
   initAuthState();
+
+  /*
+    إذا رجعنا من GitHub،
+    نتحقق من Founder قبل الدخول.
+  */
+
+  try {
+
+    await handleDeveloperCallback();
+
+  } catch (error) {
+
+    console.error(
+      "[Sonativa Auth] Developer callback:",
+      error
+    );
+
+    await supabase.auth.signOut();
+
+    showMessage(
+      "GitHub authentication failed. Please try again.",
+      "error"
+    );
+  }
 }
 
 
@@ -1234,13 +1242,10 @@ if (
   document.addEventListener(
     "DOMContentLoaded",
     initAuth,
-    {
-      once: true
-    }
+    { once: true }
   );
 
 } else {
 
   initAuth();
-
 }
