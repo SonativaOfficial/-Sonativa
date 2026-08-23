@@ -1,1 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa Books — curated Web3, AI, technology and trading education.">
+<title>Sonativa — Books</title>
+<link rel="stylesheet" href="assets/css/sonativa.css">
 
+<style>
+.books-page{
+  width:min(1400px,94%);
+  margin:auto;
+  padding:32px 0 70px;
+}
+
+.books-hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:25px;
+  padding:25px;
+  margin-bottom:18px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 88% 0%,rgba(120,140,170,.12),transparent 42%),
+    var(--panel);
+}
+
+.eyebrow{
+  color:#78869a;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.6px;
+}
+
+.books-hero h1{
+  margin-top:9px;
+  font-size:30px;
+  letter-spacing:-.8px;
+}
+
+.books-hero p{
+  max-width:720px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+}
+
+.library-status{
+  padding:10px 12px;
+  border:1px solid #273444;
+  border-radius:8px;
+  background:#0c121c;
+  color:#9ba8bb;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.filters{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.filter{
+  padding:7px 10px;
+  border:1px solid #253143;
+  border-radius:7px;
+  background:#0c121c;
+  color:#7d899b;
+  font-size:8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.filter.active,
+.filter:hover{
+  color:#e3e8ef;
+  border-color:#4b586b;
+  background:#141c28;
+}
+
+.search{
+  width:230px;
+  min-height:34px;
+  padding:0 11px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  outline:none;
+  background:#090e17;
+  color:#dce4ef;
+  font-size:9px;
+}
+
+.search::placeholder{
+  color:#586578;
+}
+
+.book-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+}
+
+.book{
+  display:flex;
+  flex-direction:column;
+  min-height:350px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel);
+  transition:.18s ease;
+}
+
+.book:hover{
+  transform:translateY(-2px);
+  border-color:#3d4a5d;
+}
+
+.cover{
+  position:relative;
+  min-height:170px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  background:
+    radial-gradient(circle at 80% 15%,rgba(180,195,215,.16),transparent 32%),
+    linear-gradient(145deg,#121b27,#070b12);
+  border-bottom:1px solid #1d2737;
+}
+
+.cover-number{
+  color:#67758a;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.cover-mark{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #364357;
+  border-radius:10px;
+  color:#cbd4df;
+  background:#0a1019;
+  font-size:17px;
+}
+
+.cover h2{
+  max-width:230px;
+  color:#e8edf3;
+  font-size:17px;
+  line-height:1.25;
+}
+
+.book-body{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  padding:16px;
+}
+
+.book-type{
+  width:max-content;
+  padding:4px 6px;
+  border:1px solid #283447;
+  border-radius:4px;
+  color:#7f8da1;
+  background:#0b111a;
+  font-size:7px;
+  font-weight:900;
+}
+
+.book-body h3{
+  margin-top:10px;
+  font-size:12px;
+  line-height:1.4;
+}
+
+.book-body p{
+  margin-top:7px;
+  color:#6f7c90;
+  font-size:9px;
+  line-height:1.6;
+}
+
+.book-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:auto;
+  padding-top:15px;
+  color:#657287;
+  font-size:8px;
+}
+
+.book-actions{
+  display:flex;
+  gap:7px;
+  margin-top:12px;
+}
+
+.btn{
+  min-height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:1;
+  padding:0 10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#0d131e;
+  color:#dce4ef;
+  text-decoration:none;
+  font-size:9px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:#151d2a;
+}
+
+.btn.primary{
+  background:#fff;
+  color:#05070c;
+  border-color:#fff;
+}
+
+.notice{
+  margin-top:16px;
+  padding:13px;
+  border:1px solid #202b3d;
+  border-radius:9px;
+  background:#080d15;
+  color:#68758a;
+  font-size:8px;
+  line-height:1.65;
+}
+
+.empty{
+  display:none;
+  grid-column:1/-1;
+  padding:30px;
+  text-align:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:#68758a;
+  font-size:9px;
+}
+
+.reader-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(10px);
+}
+
+.reader-overlay.open{
+  display:flex;
+}
+
+.reader{
+  width:min(760px,100%);
+  max-height:88vh;
+  overflow:auto;
+  padding:24px;
+  border:1px solid #303c4e;
+  border-radius:16px;
+  background:#090e17;
+  box-shadow:0 25px 80px rgba(0,0,0,.45);
+}
+
+.reader-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.reader h2{
+  font-size:20px;
+}
+
+.reader-close{
+  width:34px;
+  height:34px;
+  border:1px solid #273444;
+  border-radius:8px;
+  background:#0d131e;
+  color:#dce4ef;
+  cursor:pointer;
+}
+
+.reader-content{
+  margin-top:20px;
+  color:#9aa6b7;
+  font-size:10px;
+  line-height:1.9;
+}
+
+.reader-content h3{
+  margin:18px 0 7px;
+  color:#dce4ef;
+  font-size:12px;
+}
+
+.reader-content ul{
+  padding-left:18px;
+}
+
+@media(max-width:1000px){
+  .book-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:700px){
+  .books-hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .book-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-logo">SONATIVA</div>
+<div class="brand-version">BETA</div>
+</div>
+
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+<span class="nav-icon">⌂</span>
+<span>Dashboard</span>
+</a>
+
+<a class="nav-item" href="projects.html">
+<span class="nav-icon">▣</span>
+<span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+<span class="nav-icon">◇</span>
+<span>Token Studio</span>
+</a>
+
+<a class="nav-item" href="tokenomics.html">
+<span class="nav-icon">◈</span>
+<span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+<span class="nav-icon">◆</span>
+<span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+<span class="nav-icon">⌁</span>
+<span>Advanced Analysis</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="ai.html">
+<span class="nav-icon">✦</span>
+<span>Sonativa AI</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="security.html">
+<span class="nav-icon">◇</span>
+<span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item" href="news.html">
+<span class="nav-icon">▤</span>
+<span>World News</span>
+</a>
+
+<a class="nav-item active" href="books.html">
+<span class="nav-icon">▥</span>
+<span>Books</span>
+</a>
+
+<a class="nav-item" href="live.html">
+<span class="nav-icon">●</span>
+<span>Live</span>
+</a>
+
+<a class="nav-item" href="reels.html">
+<span class="nav-icon">▶</span>
+<span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+<span class="nav-icon">◉</span>
+<span>Wallet</span>
+</a>
+
+<a class="nav-item" href="pricing.html">
+<span class="nav-icon">◇</span>
+<span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+<span class="nav-icon">⚙</span>
+<span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="account">
+
+<div class="avatar" id="avatar">G</div>
+
+<div class="account-info">
+
+<div class="account-name" id="accountName">Guest</div>
+
+<div class="account-status">● Workspace</div>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Books
+</div>
+
+<div class="page-subtitle">
+Learn Web3, AI, technology and markets
+</div>
+
+</div>
+
+</div>
+
+<div class="top-actions">
+
+<select class="lang" id="languageSelect">
+
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+
+</select>
+
+<a class="icon-button" href="settings.html">
+⚙
+</a>
+
+</div>
+
+</header>
+
+
+<section class="books-page">
+
+
+<div class="books-hero">
+
+<div>
+
+<div class="eyebrow">
+SONATIVA LEARNING
+</div>
+
+<h1>
+Books & Knowledge
+</h1>
+
+<p>
+A focused library for understanding blockchain, tokenomics,
+security, artificial intelligence, markets and digital products.
+</p>
+
+</div>
+
+<div class="library-status">
+● LIBRARY READY
+</div>
+
+</div>
+
+
+<div class="toolbar">
+
+<div class="filters">
+
+<button class="filter active" data-filter="all">
+All
+</button>
+
+<button class="filter" data-filter="web3">
+Web3
+</button>
+
+<button class="filter" data-filter="trading">
+Trading
+</button>
+
+<button class="filter" data-filter="ai">
+AI
+</button>
+
+<button class="filter" data-filter="security">
+Security
+</button>
+
+<button class="filter" data-filter="business">
+Business
+</button>
+
+</div>
+
+<input
+class="search"
+id="searchInput"
+type="search"
+placeholder="Search books..."
+autocomplete="off">
+
+</div>
+
+
+<div class="book-grid" id="bookGrid">
+
+
+<article
+class="book"
+data-category="web3"
+data-title="Web3 Foundations">
+
+<div class="cover">
+
+<span class="cover-number">
+01 / WEB3
+</span>
+
+<div class="cover-mark">
+◇
+</div>
+
+<h2>
+Web3 Foundations
+</h2>
+
+</div>
+
+<div class="book-body">
+
+<span class="book-type">
+FOUNDATION
+</span>
+
+<h3>
+Web3 Foundations
+</h3>
+
+<p>
+Understand wallets, blockchains, tokens, transactions and
+the basic architecture of decentralized applications.
+</p>
+
+<div class="book-meta">
+<span>Beginner</span>
+<span>8 chapters</span>
+</div>
+
+<div class="book-actions">
+
+<button
+class="btn primary read-btn"
+data-book="web3">
+Read Preview
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="book"
+data-category="trading"
+data-title="Market Structure">
+
+<div class="cover">
+
+<span class="cover-number">
+02 / MARKETS
+</span>
+
+<div class="cover-mark">
+⌁
+</div>
+
+<h2>
+Market Structure
+</h2>
+
+</div>
+
+<div class="book-body">
+
+<span class="book-type">
+MARKETS
+</span>
+
+<h3>
+Market Structure
+</h3>
+
+<p>
+A practical introduction to liquidity, structure, volatility,
+risk management and disciplined market analysis.
+</p>
+
+<div class="book-meta">
+<span>Intermediate</span>
+<span>10 chapters</span>
+</div>
+
+<div class="book-actions">
+
+<button
+class="btn primary read-btn"
+data-book="markets">
+Read Preview
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="book"
+data-category="ai"
+data-title="AI Systems">
+
+<div class="cover">
+
+<span class="cover-number">
+03 / AI
+</span>
+
+<div class="cover-mark">
+✦
+</div>
+
+<h2>
+AI Systems
+</h2>
+
+</div>
+
+<div class="book-body">
+
+<span class="book-type">
+ARTIFICIAL INTELLIGENCE
+</span>
+
+<h3>
+AI Systems
+</h3>
+
+<p>
+Learn how modern AI systems combine models, data, tools,
+agents and evaluation into practical workflows.
+</p>
+
+<div class="book-meta">
+<span>Beginner</span>
+<span>7 chapters</span>
+</div>
+
+<div class="book-actions">
+
+<button
+class="btn primary read-btn"
+data-book="ai">
+Read Preview
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="book"
+data-category="security"
+data-title="Web3 Security">
+
+<div class="cover">
+
+<span class="cover-number">
+04 / SECURITY
+</span>
+
+<div class="cover-mark">
+◇
+</div>
+
+<h2>
+Web3 Security
+</h2>
+
+</div>
+
+<div class="book-body">
+
+<span class="book-type">
+SECURITY
+</span>
+
+<h3>
+Web3 Security
+</h3>
+
+<p>
+Learn how to protect wallets, identify risky contracts,
+understand approvals and reduce common attack surfaces.
+</p>
+
+<div class="book-meta">
+<span>Essential</span>
+<span>9 chapters</span>
+</div>
+
+<div class="book-actions">
+
+<button
+class="btn primary read-btn"
+data-book="security">
+Read Preview
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="book"
+data-category="web3"
+data-title="Tokenomics Design">
+
+<div class="cover">
+
+<span class="cover-number">
+05 / TOKENOMICS
+</span>
+
+<div class="cover-mark">
+◈
+</div>
+
+<h2>
+Tokenomics Design
+</h2>
+
+</div>
+
+<div class="book-body">
+
+<span class="book-type">
+TOKENOMICS
+</span>
+
+<h3>
+Tokenomics Design
+</h3>
+
+<p>
+Explore supply, allocation, vesting, utility, incentives,
+liquidity and sustainable token design.
+</p>
+
+<div class="book-meta">
+<span>Intermediate</span>
+<span>11 chapters</span>
+</div>
+
+<div class="book-actions">
+
+<button
+class="btn primary read-btn"
+data-book="tokenomics">
+Read Preview
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+
+<article
+class="book"
+data-category="business"
+data-title="Building Digital Products">
+
+<div class="cover">
+
+<span class="cover-number">
+06 / BUILD
+</span>
+
+<div class="cover-mark">
+◆
+</div>
+
+<h2>
+Building Digital Products
+</h2>
+
+</div>
+
+<div class="book-body">
+
+<span class="book-type">
+PRODUCT
+</span>
+
+<h3>
+Building Digital Products
+</h3>
+
+<p>
+From idea to launch: product thinking, validation, user
+experience, iteration and sustainable development.
+</p>
+
+<div class="book-meta">
+<span>Intermediate</span>
+<span>9 chapters</span>
+</div>
+
+<div class="book-actions">
+
+<button
+class="btn primary read-btn"
+data-book="product">
+Read Preview
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+
+<div class="empty" id="emptyState">
+No books match your search.
+</div>
+
+</div>
+
+
+<div class="notice">
+Sonativa educational material is provided for learning and research.
+Trading, investing and blockchain activities involve risk. Always
+verify information and make independent decisions.
+</div>
+
+
+<footer>
+© 2026 Sonativa — Web3 tools, intelligence and education.
+</footer>
+
+</section>
+
+</main>
+
+</div>
+
+
+<div
+class="reader-overlay"
+id="readerOverlay"
+role="dialog"
+aria-modal="true"
+aria-labelledby="readerTitle">
+
+<div class="reader">
+
+<div class="reader-head">
+
+<div>
+
+<div class="eyebrow">
+SONATIVA READER
+</div>
+
+<h2 id="readerTitle">
+Book Preview
+</h2>
+
+</div>
+
+<button
+class="reader-close"
+id="readerClose"
+type="button"
+aria-label="Close">
+×
+</button>
+
+</div>
+
+<div
+class="reader-content"
+id="readerContent">
+</div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {
+getUser
+} from "./assets/js/supabase.js";
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const sidebar =
+document.getElementById("sidebar");
+
+const menuButton =
+document.getElementById("menuButton");
+
+menuButton?.addEventListener(
+"click",
+()=>{
+sidebar.classList.toggle("open");
+}
+);
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+const languageSelect =
+document.getElementById("languageSelect");
+
+const savedLanguage =
+localStorage.getItem("sonativa_language");
+
+if(savedLanguage){
+
+languageSelect.value =
+savedLanguage;
+
+document.documentElement.lang =
+savedLanguage;
+
+document.documentElement.dir =
+savedLanguage === "ar"
+? "rtl"
+: "ltr";
+
+}
+
+languageSelect?.addEventListener(
+"change",
+()=>{
+
+const language =
+languageSelect.value;
+
+localStorage.setItem(
+"sonativa_language",
+language
+);
+
+document.documentElement.lang =
+language;
+
+document.documentElement.dir =
+language === "ar"
+? "rtl"
+: "ltr";
+
+}
+);
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+async function loadUser(){
+
+try{
+
+const user =
+await getUser();
+
+if(!user)return;
+
+const name =
+user.user_metadata?.full_name ||
+user.user_metadata?.name ||
+user.email?.split("@")[0] ||
+"Sonativa User";
+
+document.getElementById(
+"accountName"
+).textContent =
+name;
+
+document.getElementById(
+"avatar"
+).textContent =
+name.charAt(0).toUpperCase();
+
+}catch(error){
+
+console.error(
+"[Books User]",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   FILTER + SEARCH
+========================================================= */
+
+const filters =
+document.querySelectorAll(".filter");
+
+const books =
+document.querySelectorAll(".book");
+
+const searchInput =
+document.getElementById("searchInput");
+
+const emptyState =
+document.getElementById("emptyState");
+
+let currentFilter =
+"all";
+
+
+function renderBooks(){
+
+const query =
+searchInput.value
+.trim()
+.toLowerCase();
+
+let visible =
+0;
+
+books.forEach(
+book=>{
+
+const category =
+book.dataset.category || "";
+
+const title =
+(book.dataset.title || "")
+.toLowerCase();
+
+const content =
+book.textContent.toLowerCase();
+
+const filterMatch =
+currentFilter === "all" ||
+category === currentFilter;
+
+const searchMatch =
+!query ||
+title.includes(query) ||
+content.includes(query);
+
+const show =
+filterMatch &&
+searchMatch;
+
+book.style.display =
+show
+? "flex"
+: "none";
+
+if(show)visible++;
+
+}
+);
+
+emptyState.style.display =
+visible
+? "none"
+: "block";
+
+}
+
+
+filters.forEach(
+filter=>{
+
+filter.addEventListener(
+"click",
+()=>{
+
+filters.forEach(
+item =>
+item.classList.remove("active")
+);
+
+filter.classList.add("active");
+
+currentFilter =
+filter.dataset.filter;
+
+renderBooks();
+
+}
+);
+
+}
+);
+
+searchInput.addEventListener(
+"input",
+renderBooks
+);
+
+
+/* =========================================================
+   READER
+========================================================= */
+
+const readerOverlay =
+document.getElementById(
+"readerOverlay"
+);
+
+const readerTitle =
+document.getElementById(
+"readerTitle"
+);
+
+const readerContent =
+document.getElementById(
+"readerContent"
+);
+
+const readerClose =
+document.getElementById(
+"readerClose"
+);
+
+
+const previews = {
+
+web3:{
+title:"Web3 Foundations",
+html:`
+<h3>Chapter 1 — The Web3 Mental Model</h3>
+<p>
+Web3 applications combine wallets, networks, smart contracts,
+tokens and user-owned assets. Understanding how these layers
+interact is more important than memorizing individual products.
+</p>
+
+<h3>What you should learn</h3>
+<ul>
+<li>How blockchain networks process transactions.</li>
+<li>What wallets actually control.</li>
+<li>How tokens differ from native network assets.</li>
+<li>Why transaction signing must be reviewed carefully.</li>
+</ul>
+
+<h3>Key principle</h3>
+<p>
+Never trust an application simply because its interface looks
+professional. Verify the domain, permissions, contract and
+transaction before signing.
+</p>
+`
+},
+
+markets:{
+title:"Market Structure",
+html:`
+<h3>Chapter 1 — Structure Before Entry</h3>
+<p>
+Market analysis begins with understanding where price is located,
+which levels matter and where liquidity may be concentrated.
+</p>
+
+<h3>Core concepts</h3>
+<ul>
+<li>Market structure and displacement.</li>
+<li>Liquidity and stop clusters.</li>
+<li>Volatility and session behavior.</li>
+<li>Risk-to-reward planning.</li>
+</ul>
+
+<h3>Risk principle</h3>
+<p>
+A good setup does not remove risk. Position sizing and predefined
+loss limits are essential parts of a trading process.
+</p>
+`
+},
+
+ai:{
+title:"AI Systems",
+html:`
+<h3>Chapter 1 — Modern AI Systems</h3>
+<p>
+Modern AI products are systems rather than isolated models.
+They combine models with instructions, data, tools, memory,
+evaluation and user interfaces.
+</p>
+
+<h3>Practical workflow</h3>
+<ul>
+<li>Define the task precisely.</li>
+<li>Choose the appropriate model.</li>
+<li>Give reliable context.</li>
+<li>Use tools when external data is required.</li>
+<li>Evaluate the result before automation.</li>
+</ul>
+`
+},
+
+security:{
+title:"Web3 Security",
+html:`
+<h3>Chapter 1 — Protecting the Wallet</h3>
+<p>
+The most important security rule is simple: never give a seed phrase
+or private key to a website, person, bot or support account.
+</p>
+
+<h3>Before signing</h3>
+<ul>
+<li>Verify the website domain.</li>
+<li>Check the connected network.</li>
+<li>Review token approvals.</li>
+<li>Inspect the destination address.</li>
+<li>Reject unexpected signing requests.</li>
+</ul>
+`
+},
+
+tokenomics:{
+title:"Tokenomics Design",
+html:`
+<h3>Chapter 1 — Designing a Token Economy</h3>
+<p>
+Tokenomics connects supply, distribution, utility, incentives,
+vesting and liquidity. A large supply alone does not determine
+whether a token has value.
+</p>
+
+<h3>Important questions</h3>
+<ul>
+<li>Who receives the initial supply?</li>
+<li>When do tokens unlock?</li>
+<li>What creates genuine demand?</li>
+<li>How much liquidity exists?</li>
+<li>Can insiders materially affect circulating supply?</li>
+</ul>
+`
+},
+
+product:{
+title:"Building Digital Products",
+html:`
+<h3>Chapter 1 — Start With the Problem</h3>
+<p>
+Strong products begin with a clearly defined user problem.
+Features should support that problem instead of becoming a collection
+of unrelated screens.
+</p>
+
+<h3>Build cycle</h3>
+<ul>
+<li>Define the problem.</li>
+<li>Build the smallest useful version.</li>
+<li>Test with real users.</li>
+<li>Measure what matters.</li>
+<li>Iterate continuously.</li>
+</ul>
+`
+}
+
+};
+
+
+document.querySelectorAll(
+".read-btn"
+).forEach(
+button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+const book =
+previews[
+button.dataset.book
+];
+
+if(!book)return;
+
+readerTitle.textContent =
+book.title;
+
+readerContent.innerHTML =
+book.html;
+
+readerOverlay.classList.add(
+"open"
+);
+
+document.body.style.overflow =
+"hidden";
+
+}
+);
+
+}
+);
+
+
+function closeReader(){
+
+readerOverlay.classList.remove(
+"open"
+);
+
+document.body.style.overflow =
+"";
+
+}
+
+
+readerClose.addEventListener(
+"click",
+closeReader
+);
+
+
+readerOverlay.addEventListener(
+"click",
+event=>{
+
+if(
+event.target ===
+readerOverlay
+){
+
+closeReader();
+
+}
+
+}
+);
+
+
+document.addEventListener(
+"keydown",
+event=>{
+
+if(
+event.key === "Escape" &&
+readerOverlay.classList.contains("open")
+){
+
+closeReader();
+
+}
+
+}
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadUser();
+
+</script>
+
+</body>
+</html>
