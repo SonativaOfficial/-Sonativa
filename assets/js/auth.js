@@ -43,7 +43,9 @@ function safeRedirect() {
     new URLSearchParams(window.location.search);
 
   const redirect =
-    params.get(AUTH_CONFIG.redirectParameter);
+    params.get(
+      AUTH_CONFIG.redirectParameter
+    );
 
   if (
     !redirect ||
@@ -58,13 +60,86 @@ function safeRedirect() {
 }
 
 
+/* =========================================================
+   USER ROLE
+========================================================= */
+
+function getUserProviders(user) {
+
+  if (!user) {
+    return [];
+  }
+
+  const providers = [];
+
+  if (user.app_metadata?.provider) {
+    providers.push(
+      user.app_metadata.provider
+    );
+  }
+
+  if (Array.isArray(user.app_metadata?.providers)) {
+    providers.push(
+      ...user.app_metadata.providers
+    );
+  }
+
+  if (Array.isArray(user.identities)) {
+
+    user.identities.forEach(identity => {
+
+      if (identity?.provider) {
+        providers.push(
+          identity.provider
+        );
+      }
+
+    });
+
+  }
+
+  return [
+    ...new Set(
+      providers.filter(Boolean)
+    )
+  ];
+}
+
+
+function isGitHubUser(user) {
+
+  return getUserProviders(user)
+    .includes("github");
+}
+
+
+function getAccountType(user) {
+
+  if (!user) {
+    return "guest";
+  }
+
+  if (isGitHubUser(user)) {
+    return "developer";
+  }
+
+  return "user";
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
 function setLoading(
   button,
   loading,
   text = "Please wait..."
 ) {
 
-  if (!button) return;
+  if (!button) {
+    return;
+  }
 
   if (loading) {
 
@@ -96,48 +171,70 @@ function showMessage(
   type = "info"
 ) {
 
-  let box = $("#authMessage");
+  let box =
+    $("#authMessage");
 
   if (!box) {
 
     box =
       document.createElement("div");
 
-    box.id = "authMessage";
+    box.id =
+      "authMessage";
 
-    Object.assign(box.style, {
-      marginTop: "14px",
-      padding: "12px 14px",
-      borderRadius: "9px",
-      fontSize: "12px",
-      lineHeight: "1.5",
-      border: "1px solid rgba(255,255,255,.12)"
-    });
+    Object.assign(
+      box.style,
+      {
+        marginTop: "14px",
+        padding: "12px 14px",
+        borderRadius: "9px",
+        fontSize: "12px",
+        lineHeight: "1.5",
+        border: "1px solid rgba(255,255,255,.12)"
+      }
+    );
 
     const form =
-      $("form") || document.body;
+      $("form") ||
+      document.body;
 
     form.appendChild(box);
   }
 
-  box.textContent = message;
+  box.textContent =
+    message;
 
   if (type === "error") {
 
-    box.style.color = "#ffaaaa";
-    box.style.background = "#190d0d";
-    box.style.borderColor = "#4a252c";
+    box.style.color =
+      "#ffaaaa";
 
-  } else if (type === "success") {
+    box.style.background =
+      "#190d0d";
 
-    box.style.color = "#8ff0b7";
-    box.style.background = "#0c1912";
-    box.style.borderColor = "#28543d";
+    box.style.borderColor =
+      "#4a252c";
+
+  } else if (
+    type === "success"
+  ) {
+
+    box.style.color =
+      "#8ff0b7";
+
+    box.style.background =
+      "#0c1912";
+
+    box.style.borderColor =
+      "#28543d";
 
   } else {
 
-    box.style.color = "#c7d1df";
-    box.style.background = "#0d141e";
+    box.style.color =
+      "#c7d1df";
+
+    box.style.background =
+      "#0d141e";
   }
 
   box.hidden = false;
@@ -146,7 +243,8 @@ function showMessage(
 
 function clearMessage() {
 
-  const box = $("#authMessage");
+  const box =
+    $("#authMessage");
 
   if (box) {
 
@@ -177,6 +275,7 @@ function validatePassword(password) {
     typeof password !== "string" ||
     !password
   ) {
+
     return {
       valid: false,
       message: "Password is required."
@@ -216,12 +315,14 @@ async function login(
       .toLowerCase();
 
   if (!isValidEmail(email)) {
+
     throw new Error(
       "Enter a valid email address."
     );
   }
 
   if (!password) {
+
     throw new Error(
       "Enter your password."
     );
@@ -236,7 +337,9 @@ async function login(
       password
     });
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data;
 }
@@ -293,7 +396,9 @@ async function register(
       }
     });
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data;
 }
@@ -330,7 +435,9 @@ async function loginWithGoogle() {
       }
     });
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data;
 }
@@ -365,7 +472,9 @@ async function loginWithGitHub() {
       }
     });
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data;
 }
@@ -375,7 +484,9 @@ async function loginWithGitHub() {
    PASSWORD RESET
 ========================================================= */
 
-async function resetPassword(email) {
+async function resetPassword(
+  email
+) {
 
   clearMessage();
 
@@ -394,7 +505,9 @@ async function resetPassword(email) {
   const redirect =
     `${window.location.origin}/login.html`;
 
-  const { error } =
+  const {
+    error
+  } =
     await supabase.auth.resetPasswordForEmail(
       email,
       {
@@ -402,7 +515,9 @@ async function resetPassword(email) {
       }
     );
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return true;
 }
@@ -434,7 +549,9 @@ async function updatePassword(
       password: newPassword
     });
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   return data;
 }
@@ -473,7 +590,9 @@ function initLoginForm() {
   const form =
     $("#loginForm");
 
-  if (!form) return;
+  if (!form) {
+    return;
+  }
 
   const emailInput =
     form.querySelector(
@@ -506,18 +625,36 @@ function initLoginForm() {
           "Signing in..."
         );
 
-        await login(
-          emailInput?.value,
-          passwordInput?.value
-        );
+        const data =
+          await login(
+            emailInput?.value,
+            passwordInput?.value
+          );
+
+        const user =
+          data?.user ||
+          await getUser();
+
+        const accountType =
+          getAccountType(user);
 
         showMessage(
-          "Login successful. Redirecting...",
+          accountType === "developer"
+            ? "Developer account authenticated. Redirecting..."
+            : "Login successful. Redirecting...",
           "success"
         );
 
-        window.location.href =
-          safeRedirect();
+        window.setTimeout(
+          () => {
+
+            window.location.replace(
+              safeRedirect()
+            );
+
+          },
+          350
+        );
 
       } catch (error) {
 
@@ -527,7 +664,7 @@ function initLoginForm() {
         );
 
         showMessage(
-          error.message ||
+          error?.message ||
           "Unable to sign in.",
           "error"
         );
@@ -552,7 +689,9 @@ function initRegisterForm() {
     $("#registerForm") ||
     $("#signupForm");
 
-  if (!form) return;
+  if (!form) {
+    return;
+  }
 
   const emailInput =
     form.querySelector(
@@ -589,7 +728,7 @@ function initRegisterForm() {
 
       if (
         confirmInput &&
-        passwordInput.value !==
+        passwordInput?.value !==
         confirmInput.value
       ) {
 
@@ -613,7 +752,9 @@ function initRegisterForm() {
           account_type: "user"
         };
 
-        if (nameInput?.value.trim()) {
+        if (
+          nameInput?.value.trim()
+        ) {
 
           metadata.full_name =
             nameInput.value.trim();
@@ -636,6 +777,11 @@ function initRegisterForm() {
             "success"
           );
 
+          setLoading(
+            submitButton,
+            false
+          );
+
         } else {
 
           showMessage(
@@ -643,12 +789,16 @@ function initRegisterForm() {
             "success"
           );
 
-          setTimeout(() => {
+          setTimeout(
+            () => {
 
-            window.location.href =
-              safeRedirect();
+              window.location.replace(
+                safeRedirect()
+              );
 
-          }, 700);
+            },
+            700
+          );
         }
 
       } catch (error) {
@@ -659,7 +809,7 @@ function initRegisterForm() {
         );
 
         showMessage(
-          error.message ||
+          error?.message ||
           "Unable to create account.",
           "error"
         );
@@ -684,7 +834,9 @@ function initResetForm() {
     $("#resetPasswordForm") ||
     $("#forgotPasswordForm");
 
-  if (!form) return;
+  if (!form) {
+    return;
+  }
 
   const emailInput =
     form.querySelector(
@@ -734,7 +886,7 @@ function initResetForm() {
         );
 
         showMessage(
-          error.message ||
+          error?.message ||
           "Unable to send reset email.",
           "error"
         );
@@ -758,7 +910,9 @@ function initNewPasswordForm() {
   const form =
     $("#newPasswordForm");
 
-  if (!form) return;
+  if (!form) {
+    return;
+  }
 
   const passwordInput =
     form.querySelector(
@@ -785,7 +939,7 @@ function initNewPasswordForm() {
 
       if (
         confirmInput &&
-        passwordInput.value !==
+        passwordInput?.value !==
         confirmInput.value
       ) {
 
@@ -806,7 +960,7 @@ function initNewPasswordForm() {
         );
 
         await updatePassword(
-          passwordInput.value
+          passwordInput?.value
         );
 
         showMessage(
@@ -814,12 +968,16 @@ function initNewPasswordForm() {
           "success"
         );
 
-        setTimeout(() => {
+        setTimeout(
+          () => {
 
-          window.location.href =
-            AUTH_CONFIG.homePage;
+            window.location.replace(
+              AUTH_CONFIG.homePage
+            );
 
-        }, 800);
+          },
+          800
+        );
 
       } catch (error) {
 
@@ -829,7 +987,7 @@ function initNewPasswordForm() {
         );
 
         showMessage(
-          error.message ||
+          error?.message ||
           "Unable to update password.",
           "error"
         );
@@ -858,11 +1016,16 @@ function initSocialLogin() {
         async () => {
 
           const provider =
-            button.dataset.authProvider;
+            String(
+              button.dataset.authProvider ||
+              ""
+            ).toLowerCase();
 
           try {
 
-            if (provider === "github") {
+            if (
+              provider === "github"
+            ) {
 
               setLoading(
                 button,
@@ -875,7 +1038,9 @@ function initSocialLogin() {
               return;
             }
 
-            if (provider === "google") {
+            if (
+              provider === "google"
+            ) {
 
               setLoading(
                 button,
@@ -900,7 +1065,7 @@ function initSocialLogin() {
             );
 
             showMessage(
-              error.message ||
+              error?.message ||
               "Unable to continue.",
               "error"
             );
@@ -951,7 +1116,7 @@ function initLogoutButtons() {
             );
 
             showMessage(
-              error.message ||
+              error?.message ||
               "Unable to sign out.",
               "error"
             );
@@ -976,6 +1141,10 @@ function initAuthState() {
   onAuthStateChange(
     (event, session) => {
 
+      const user =
+        session?.user ||
+        null;
+
       window.dispatchEvent(
         new CustomEvent(
           "sonativa:auth-change",
@@ -983,9 +1152,11 @@ function initAuthState() {
             detail: {
               event,
               session,
-              user:
-                session?.user ||
-                null
+              user,
+              accountType:
+                getAccountType(user),
+              isDeveloper:
+                isGitHubUser(user)
             }
           }
         )
@@ -1004,6 +1175,7 @@ export const SonativaAuth = {
   login,
   register,
   logout,
+
   resetPassword,
   updatePassword,
 
@@ -1012,6 +1184,19 @@ export const SonativaAuth = {
 
   getUser,
   getSession,
+
+  isGitHubUser,
+
+  getAccountType,
+
+  isDeveloper:
+    async () => {
+
+      const user =
+        await getUser();
+
+      return isGitHubUser(user);
+    },
 
   isAuthenticated:
     async () =>
@@ -1049,10 +1234,13 @@ if (
   document.addEventListener(
     "DOMContentLoaded",
     initAuth,
-    { once: true }
+    {
+      once: true
+    }
   );
 
 } else {
 
   initAuth();
+
 }
