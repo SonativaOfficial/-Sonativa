@@ -7,21 +7,25 @@
 
 <meta
   name="viewport"
-  content="width=device-width,initial-scale=1.0">
+  content="width=device-width,initial-scale=1.0"
+>
 
 <meta
   name="theme-color"
-  content="#04060b">
+  content="#04060b"
+>
 
 <meta
   name="description"
-  content="Sign in to your Sonativa Web3 workspace.">
+  content="Sign in to your Sonativa Web3 workspace."
+>
 
 <title>Sonativa — Sign In</title>
 
 <link
   rel="stylesheet"
-  href="assets/css/sonativa.css">
+  href="assets/css/sonativa.css"
+>
 
 <style>
 
@@ -31,7 +35,6 @@
   align-items:center;
   justify-content:center;
   padding:30px 16px;
-  position:relative;
 }
 
 .login-shell{
@@ -40,45 +43,131 @@
 
 .login-brand{
   text-align:center;
-  margin-bottom:24px;
+  margin-bottom:25px;
 }
 
 .login-brand-name{
-  font-size:30px;
+  font-size:29px;
   font-weight:950;
-  letter-spacing:6px;
+  letter-spacing:5px;
 }
 
 .login-brand-sub{
   margin-top:8px;
-  color:var(--sn-muted);
+  color:#7d899b;
   font-size:11px;
 }
 
 .login-card{
   padding:27px;
   background:rgba(10,15,24,.94);
-  border:1px solid var(--sn-border);
-  border-radius:18px;
-  box-shadow:
-    0 30px 100px rgba(0,0,0,.45);
-  backdrop-filter:blur(20px);
+  border:1px solid #1d2736;
+  border-radius:17px;
+  box-shadow:0 25px 90px rgba(0,0,0,.42);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 }
 
 .login-title{
-  font-size:22px;
+  font-size:21px;
   font-weight:900;
 }
 
 .login-description{
   margin-top:7px;
-  color:var(--sn-muted);
+  color:#7d899b;
   font-size:11px;
   line-height:1.6;
 }
 
-.login-form{
+.developer-login{
   margin-top:22px;
+  padding:16px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.015)
+    );
+  border:1px solid #303c50;
+  border-radius:12px;
+}
+
+.developer-label{
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+}
+
+.developer-description{
+  margin-top:4px;
+  margin-bottom:12px;
+  color:#7d899b;
+  font-size:9px;
+  line-height:1.5;
+}
+
+.github-button{
+  width:100%;
+  height:45px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+
+  border:1px solid #fff;
+  border-radius:9px;
+
+  background:#fff;
+  color:#05070c;
+
+  font-size:11px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  transition:
+    background .18s ease,
+    transform .18s ease;
+}
+
+.github-button:hover{
+  background:#e9edf3;
+  transform:translateY(-1px);
+}
+
+.github-button:active{
+  transform:translateY(0);
+}
+
+.github-icon{
+  width:18px;
+  height:18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.divider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:21px 0;
+  color:#596579;
+  font-size:9px;
+}
+
+.divider::before,
+.divider::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:#1e2938;
+}
+
+.login-form{
+  margin-top:0;
 }
 
 .field{
@@ -88,9 +177,9 @@
 .field label{
   display:block;
   margin-bottom:7px;
-  color:var(--sn-text-soft);
+  color:#aab4c4;
   font-size:10px;
-  font-weight:750;
+  font-weight:700;
 }
 
 .field input{
@@ -98,21 +187,19 @@
   height:44px;
   padding:0 12px;
 
-  color:#fff;
-  background:#080d15;
-
-  border:1px solid var(--sn-border);
+  border:1px solid #1d2736;
   border-radius:9px;
 
   outline:none;
+
+  background:#080d15;
+  color:#fff;
+
   font:inherit;
   font-size:12px;
-
-  transition:.18s ease;
 }
 
 .field input:focus{
-  background:#0b111b;
   border-color:#52647f;
   box-shadow:
     0 0 0 3px rgba(119,169,255,.08);
@@ -132,22 +219,23 @@
   top:7px;
 
   height:30px;
-  padding:0 9px;
 
-  color:#9ca8b9;
-  background:#111824;
+  padding:0 9px;
 
   border:1px solid #273444;
   border-radius:6px;
 
+  background:#111824;
+  color:#9ca8b9;
+
   cursor:pointer;
+
   font-size:9px;
 }
 
 .login-button{
   width:100%;
   height:44px;
-
   margin-top:4px;
 
   border:1px solid #fff;
@@ -167,165 +255,25 @@
 }
 
 .login-button:disabled,
-.secondary-button:disabled,
 .github-button:disabled{
-  opacity:.5;
+  opacity:.55;
   cursor:not-allowed;
 }
 
-.divider{
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  margin:20px 0;
-
-  color:#596579;
-  font-size:9px;
-}
-
-.divider::before,
-.divider::after{
-  content:"";
-  height:1px;
-  flex:1;
-  background:#1e2938;
-}
-
-
-/* =========================================================
-   SOCIAL BUTTONS
-========================================================= */
-
-.social-stack{
-  display:grid;
-  gap:9px;
-}
-
-.social-button{
-  width:100%;
-  min-height:44px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  gap:10px;
-
-  border-radius:9px;
-
-  cursor:pointer;
-
-  font-size:10px;
-  font-weight:850;
-
-  transition:.18s ease;
-}
-
-.github-button{
-  color:#fff;
-  background:#151b24;
-  border:1px solid #344052;
-}
-
-.github-button:hover{
-  background:#202936;
-  border-color:#4a586d;
-}
-
-.google-button{
-  color:#dce3ec;
-  background:#0d131e;
-  border:1px solid var(--sn-border);
-}
-
-.google-button:hover{
-  background:#151d2a;
-  border-color:var(--sn-border-hover);
-}
-
-.social-icon{
-  width:18px;
-  height:18px;
-
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-
-  font-size:14px;
-  font-weight:900;
-}
-
-
-/* =========================================================
-   DEVELOPER BOX
-========================================================= */
-
-.developer-box{
-  margin-top:18px;
-  padding:15px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.035),
-      rgba(255,255,255,.012)
-    );
-
-  border:1px solid #303b4d;
-  border-radius:12px;
-}
-
-.developer-label{
-  display:flex;
-  align-items:center;
-  gap:7px;
-
-  color:#fff;
-
+.regular-login-title{
+  margin-bottom:13px;
+  color:#c4ccd8;
   font-size:11px;
-  font-weight:900;
+  font-weight:850;
 }
-
-.developer-dot{
-  width:7px;
-  height:7px;
-
-  background:var(--sn-success);
-
-  border-radius:50%;
-
-  box-shadow:
-    0 0 12px rgba(98,227,154,.45);
-}
-
-.developer-description{
-  margin-top:6px;
-
-  color:var(--sn-muted);
-
-  font-size:9px;
-  line-height:1.6;
-}
-
-.developer-note{
-  margin-top:9px;
-
-  color:#69768a;
-
-  font-size:9px;
-}
-
-
-/* =========================================================
-   ACCOUNT
-========================================================= */
 
 .secondary-button{
   width:100%;
   height:42px;
 
-  border:1px solid var(--sn-border);
+  margin-top:10px;
+
+  border:1px solid #1d2736;
   border-radius:9px;
 
   background:#0d131e;
@@ -339,13 +287,8 @@
 
 .secondary-button:hover{
   background:#151d2a;
-  border-color:var(--sn-border-hover);
+  border-color:#344258;
 }
-
-
-/* =========================================================
-   MESSAGE
-========================================================= */
 
 .message{
   display:none;
@@ -375,11 +318,6 @@
   border:1px solid #28543d;
 }
 
-
-/* =========================================================
-   SECURITY
-========================================================= */
-
 .security-note{
   margin-top:16px;
   padding:11px;
@@ -388,17 +326,11 @@
   border-radius:9px;
 
   background:#080d15;
-
   color:#69768a;
 
   font-size:9px;
   line-height:1.6;
 }
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
 
 .login-footer{
   margin-top:18px;
@@ -420,16 +352,7 @@
   color:#fff;
 }
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
 @media(max-width:480px){
-
-  .login-page{
-    padding:20px 12px;
-  }
 
   .login-card{
     padding:21px;
@@ -456,8 +379,6 @@
   <div class="login-shell">
 
 
-    <!-- BRAND -->
-
     <div class="login-brand">
 
       <div class="login-brand-name">
@@ -465,32 +386,76 @@
       </div>
 
       <div class="login-brand-sub">
-        Web3 tools for everyone
+        Secure Web3 workspace
       </div>
 
     </div>
 
 
-    <!-- LOGIN CARD -->
-
     <section class="login-card">
+
 
       <div class="login-title">
         Welcome back
       </div>
 
       <div class="login-description">
-        Sign in to access your Sonativa workspace,
-        projects and tools.
+        Access your Sonativa workspace, projects and Web3 tools.
       </div>
 
 
-      <!-- EMAIL LOGIN -->
+      <!-- =====================================================
+           DEVELOPER / FOUNDER LOGIN
+      ====================================================== -->
+
+      <div class="developer-login">
+
+        <div class="developer-label">
+          Developer / Founder
+        </div>
+
+        <div class="developer-description">
+          Use the official GitHub account connected to Sonativa.
+        </div>
+
+        <button
+          class="github-button"
+          id="githubButton"
+          data-auth-provider="github"
+          type="button"
+        >
+
+          <span class="github-icon">
+            ◆
+          </span>
+
+          Continue with GitHub
+
+        </button>
+
+      </div>
+
+
+      <div class="divider">
+        OR
+      </div>
+
+
+      <!-- =====================================================
+           REGULAR USER LOGIN
+      ====================================================== -->
+
+      <div class="regular-login-title">
+        Regular user
+      </div>
+
 
       <form
         class="login-form"
         id="loginForm"
-        novalidate>
+        novalidate
+      >
+
 
         <div class="field">
 
@@ -504,7 +469,8 @@
             type="email"
             autocomplete="email"
             placeholder="you@example.com"
-            required>
+            required
+          >
 
         </div>
 
@@ -524,15 +490,15 @@
               autocomplete="current-password"
               placeholder="Your password"
               minlength="8"
-              required>
+              required
+            >
 
             <button
               class="password-toggle"
               id="togglePassword"
-              type="button">
-
+              type="button"
+            >
               Show
-
             </button>
 
           </div>
@@ -543,135 +509,55 @@
         <button
           class="login-button"
           id="loginButton"
-          type="submit">
-
-          Sign In
-
+          type="submit"
+        >
+          Sign In with Email
         </button>
+
 
       </form>
 
 
+      <button
+        class="secondary-button"
+        id="googleButton"
+        data-auth-provider="google"
+        type="button"
+      >
+        Continue with Google
+      </button>
+
+
+      <button
+        class="secondary-button"
+        id="signupButton"
+        type="button"
+      >
+        Create a Sonativa account
+      </button>
+
+
       <div
         class="message"
-        id="message"
+        id="authMessage"
         role="status"
-        aria-live="polite">
-      </div>
+        aria-live="polite"
+        hidden
+      ></div>
 
-
-      <div class="divider">
-        OR
-      </div>
-
-
-      <!-- SOCIAL -->
-
-      <div class="social-stack">
-
-
-        <!-- GOOGLE USER -->
-
-        <button
-          class="social-button google-button"
-          data-auth-provider="google"
-          type="button">
-
-          <span class="social-icon">
-            G
-          </span>
-
-          Continue with Google
-
-        </button>
-
-
-        <!-- GITHUB DEVELOPER -->
-
-        <button
-          class="social-button github-button"
-          data-auth-provider="github"
-          type="button">
-
-          <span class="social-icon">
-            ◉
-          </span>
-
-          Continue with GitHub
-
-        </button>
-
-      </div>
-
-
-      <!-- DEVELOPER -->
-
-      <div class="developer-box">
-
-        <div class="developer-label">
-
-          <span class="developer-dot"></span>
-
-          Developer / Founder
-
-        </div>
-
-        <div class="developer-description">
-
-          Use GitHub to access the Sonativa
-          developer workspace.
-
-        </div>
-
-        <div class="developer-note">
-
-          Your developer account is authenticated
-          through GitHub OAuth.
-
-        </div>
-
-      </div>
-
-
-      <!-- CREATE ACCOUNT -->
-
-      <div style="margin-top:14px;">
-
-        <button
-          class="secondary-button"
-          id="signupButton"
-          type="button">
-
-          Create a Sonativa account
-
-        </button>
-
-      </div>
-
-
-      <!-- SECURITY -->
 
       <div class="security-note">
-
-        🔒 Sonativa will never ask for your
-        wallet seed phrase or private key.
-
-        <br>
-
-        Wallet transactions require your own
-        wallet authorization.
-
+        🔒 Sonativa will never ask for your wallet seed phrase or private key.
+        Wallet transactions require your own wallet authorization.
       </div>
+
 
     </section>
 
 
-    <!-- FOOTER -->
-
     <div class="login-footer">
 
-      By continuing, you agree to use
-      Sonativa responsibly.
+      By continuing, you agree to use Sonativa responsibly.
 
       <br><br>
 
@@ -681,6 +567,7 @@
 
     </div>
 
+
   </div>
 
 </main>
@@ -689,14 +576,9 @@
 <script type="module">
 
 import {
-  supabase,
-  getUser
-} from "./assets/js/supabase.js";
+  SonativaAuth
+} from "./assets/js/auth.js";
 
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
 
 const form =
   document.getElementById(
@@ -723,20 +605,16 @@ const signupButton =
     "signupButton"
   );
 
-const message =
-  document.getElementById(
-    "message"
-  );
-
 const togglePassword =
   document.getElementById(
     "togglePassword"
   );
 
+const message =
+  document.getElementById(
+    "authMessage"
+  );
 
-/* =========================================================
-   MESSAGE
-========================================================= */
 
 function showMessage(
   text,
@@ -748,12 +626,10 @@ function showMessage(
 
   message.className =
     `message show ${type}`;
+
+  message.hidden = false;
 }
 
-
-/* =========================================================
-   LOADING
-========================================================= */
 
 function setLoginLoading(
   loading
@@ -765,12 +641,12 @@ function setLoginLoading(
   loginButton.textContent =
     loading
       ? "Signing in..."
-      : "Sign In";
+      : "Sign In with Email";
 }
 
 
 /* =========================================================
-   PASSWORD
+   PASSWORD VISIBILITY
 ========================================================= */
 
 togglePassword.addEventListener(
@@ -799,24 +675,13 @@ togglePassword.addEventListener(
    ALREADY AUTHENTICATED
 ========================================================= */
 
-try {
+const existingUser =
+  await SonativaAuth.getUser();
 
-  const existingUser =
-    await getUser();
+if(existingUser){
 
-  if(existingUser){
-
-    window.location.replace(
-      "index.html"
-    );
-
-  }
-
-} catch(error){
-
-  console.warn(
-    "[Sonativa Auth] Session check:",
-    error
+  window.location.replace(
+    "index.html"
   );
 
 }
@@ -834,7 +699,6 @@ form.addEventListener(
 
     message.className =
       "message";
-
 
     const email =
       emailInput.value
@@ -854,6 +718,7 @@ form.addEventListener(
       emailInput.focus();
 
       return;
+
     }
 
 
@@ -866,18 +731,7 @@ form.addEventListener(
       passwordInput.focus();
 
       return;
-    }
 
-
-    if(password.length < 8){
-
-      showMessage(
-        "Password must contain at least 8 characters."
-      );
-
-      passwordInput.focus();
-
-      return;
     }
 
 
@@ -886,22 +740,10 @@ form.addEventListener(
 
     try{
 
-      const {
-        error
-      } =
-      await supabase.auth.signInWithPassword({
-
+      await SonativaAuth.login(
         email,
         password
-
-      });
-
-
-      if(error){
-
-        throw error;
-
-      }
+      );
 
 
       showMessage(
@@ -918,7 +760,7 @@ form.addEventListener(
           );
 
         },
-        500
+        400
       );
 
 
@@ -946,145 +788,32 @@ form.addEventListener(
 
 
 /* =========================================================
-   CREATE USER ACCOUNT
+   CREATE ACCOUNT
 ========================================================= */
 
 signupButton.addEventListener(
   "click",
-  async () => {
+  () => {
 
     const email =
-      emailInput.value
-        .trim()
-        .toLowerCase();
-
-    const password =
-      passwordInput.value;
-
-
-    if(!email){
-
-      showMessage(
-        "Enter your email first."
+      encodeURIComponent(
+        emailInput.value
+          .trim()
       );
 
-      emailInput.focus();
-
-      return;
-    }
-
-
-    if(
-      !password ||
-      password.length < 8
-    ){
-
-      showMessage(
-        "Create a password with at least 8 characters."
-      );
-
-      passwordInput.focus();
-
-      return;
-    }
-
-
-    signupButton.disabled =
-      true;
-
-    signupButton.textContent =
-      "Creating account...";
-
-
-    try{
-
-      const {
-        data,
-        error
-      } =
-      await supabase.auth.signUp({
-
-        email,
-
-        password,
-
-        options: {
-
-          data: {
-            account_type: "user"
-          }
-
-        }
-
-      });
-
-
-      if(error){
-
-        throw error;
-
-      }
-
-
-      if(data?.session){
-
-        showMessage(
-          "Account created. Redirecting...",
-          "success"
-        );
-
-        window.setTimeout(
-          () => {
-
-            window.location.replace(
-              "index.html"
-            );
-
-          },
-          500
-        );
-
-        return;
-      }
-
-
-      showMessage(
-        "Account created. Check your email to confirm your account.",
-        "success"
-      );
-
-
-    }catch(error){
-
-      console.error(
-        "[Sonativa Signup]",
-        error
-      );
-
-
-      showMessage(
-        getAuthError(
-          error?.message
-        )
-      );
-
-
-    }finally{
-
-      signupButton.disabled =
-        false;
-
-      signupButton.textContent =
-        "Create a Sonativa account";
-
-    }
+    window.location.href =
+      `register.html${
+        email
+          ? `?email=${email}`
+          : ""
+      }`;
 
   }
 );
 
 
 /* =========================================================
-   AUTH ERROR TRANSLATION
+   FRIENDLY ERRORS
 ========================================================= */
 
 function getAuthError(
@@ -1104,6 +833,7 @@ function getAuthError(
   ){
 
     return "Incorrect email or password.";
+
   }
 
 
@@ -1114,6 +844,7 @@ function getAuthError(
   ){
 
     return "Please confirm your email before signing in.";
+
   }
 
 
@@ -1124,6 +855,7 @@ function getAuthError(
   ){
 
     return "This email is already registered. Try signing in.";
+
   }
 
 
@@ -1131,22 +863,13 @@ function getAuthError(
     text.includes(
       "password"
     ) &&
-    (
-      text.includes("8") ||
-      text.includes("characters")
+    text.includes(
+      "8"
     )
   ){
 
     return "Password must contain at least 8 characters.";
-  }
 
-
-  if(
-    text.includes("provider") &&
-    text.includes("not enabled")
-  ){
-
-    return "This login provider is not enabled in Supabase yet.";
   }
 
 
@@ -1154,6 +877,7 @@ function getAuthError(
     error ||
     "Unable to complete authentication. Please try again."
   );
+
 }
 
 </script>
