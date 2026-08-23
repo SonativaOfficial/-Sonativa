@@ -1,590 +1,217 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa — Web3 workspace for projects, tokens, analytics, security and digital content.">
 
-<title>Sonativa — Web3 Platform</title>
+<title>Sonativa — Dashboard</title>
+
+<link rel="stylesheet" href="assets/css/sonativa.css">
 
 <style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-:root{
-  --bg:#05070c;
-  --panel:rgba(12,17,27,.82);
-  --panel2:rgba(16,22,34,.9);
-  --border:#202b3d;
-  --border2:#2d394d;
-  --text:#f5f7fb;
-  --muted:#7f8ba0;
-  --muted2:#aab4c4;
-  --accent:#ffffff;
-  --success:#62e39a;
-  --danger:#ff7373;
-  --sidebar:250px;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  background:#04060b;
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-.background{
-  position:fixed;
-  inset:0;
-  z-index:-10;
-  overflow:hidden;
-
-  background:
-    radial-gradient(
-      circle at 65% -10%,
-      rgba(55,78,115,.34),
-      transparent 38%
-    ),
-    radial-gradient(
-      circle at 10% 90%,
-      rgba(31,55,91,.22),
-      transparent 35%
-    ),
-    #04060b;
-}
-
-.background::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background-image:
-    linear-gradient(
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    );
-
-  background-size:50px 50px;
-
-  mask-image:
-    radial-gradient(
-      circle at center,
-      black,
-      transparent 80%
-    );
-}
-
-.background::after{
-  content:"";
-  position:absolute;
-  width:600px;
-  height:600px;
-  right:-220px;
-  top:100px;
-
-  border:1px solid rgba(255,255,255,.04);
-  border-radius:50%;
-
-  box-shadow:
-    0 0 0 80px rgba(255,255,255,.015),
-    0 0 0 160px rgba(255,255,255,.01);
-}
-
-.app{
-  min-height:100vh;
-}
-
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-
-  width:var(--sidebar);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(8,12,20,.96),
-      rgba(5,8,14,.94)
-    );
-
-  border-right:1px solid var(--border);
-
-  display:flex;
-  flex-direction:column;
-
-  z-index:100;
-
-  backdrop-filter:blur(18px);
-}
-
-.brand{
-  height:76px;
-
-  display:flex;
-  align-items:center;
-
-  padding:0 24px;
-
-  border-bottom:1px solid var(--border);
-}
-
-.brand-logo{
-  font-size:21px;
-  font-weight:900;
-  letter-spacing:4px;
-}
-
-.brand-version{
-  margin-left:8px;
-  padding:3px 7px;
-
-  border:1px solid var(--border2);
-  border-radius:5px;
-
-  color:var(--muted);
-  font-size:9px;
-  letter-spacing:1px;
-}
-
-.nav{
-  padding:18px 12px;
-  overflow-y:auto;
-}
-
-.nav-section{
-  margin:18px 12px 8px;
-
-  color:#596579;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.6px;
-  text-transform:uppercase;
-}
-
-.nav-item{
-  width:100%;
-
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  padding:11px 13px;
-  margin:3px 0;
-
-  color:var(--muted2);
-  text-decoration:none;
-
-  border:1px solid transparent;
-  border-radius:9px;
-
-  font-size:13px;
-
-  transition:.2s;
-}
-
-.nav-item:hover{
-  color:white;
-  background:rgba(255,255,255,.045);
-  border-color:#202a3a;
-}
-
-.nav-item.active{
-  color:white;
-  background:#151c29;
-  border-color:#303b4f;
-}
-
-.nav-icon{
-  width:18px;
-  text-align:center;
-  opacity:.85;
-}
-
-.nav-badge{
-  margin-left:auto;
-
-  padding:2px 6px;
-
-  border-radius:5px;
-
-  background:#202a39;
-  color:#9ba8bb;
-
-  font-size:9px;
-}
-
-.sidebar-bottom{
-  margin-top:auto;
-  padding:14px 12px;
-
-  border-top:1px solid var(--border);
-}
-
-.account{
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  padding:10px;
-
-  border-radius:10px;
-
-  background:rgba(255,255,255,.025);
-}
-
-.avatar{
-  width:34px;
-  height:34px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:9px;
-
-  background:#1a2230;
-  border:1px solid #303b4d;
-
-  font-size:13px;
-  font-weight:bold;
-}
-
-.account-info{
-  min-width:0;
-}
-
-.account-name{
-  font-size:12px;
-  font-weight:700;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  max-width:160px;
-}
-
-.account-status{
-  margin-top:2px;
-
-  color:var(--success);
-  font-size:10px;
-}
-
-.main{
-  margin-left:var(--sidebar);
-  min-height:100vh;
-}
-
-.topbar{
-  height:76px;
-
-  position:sticky;
-  top:0;
-  z-index:50;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-
-  padding:0 30px;
-
-  background:rgba(5,8,14,.78);
-  border-bottom:1px solid var(--border);
-
-  backdrop-filter:blur(18px);
-}
-
-.page-title{
-  font-size:15px;
-  font-weight:700;
-}
-
-.page-subtitle{
-  margin-top:2px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.icon-button{
-  width:38px;
-  height:38px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:#0d131e;
-  border:1px solid var(--border);
-  border-radius:9px;
-
-  color:#b6c0cf;
-
-  cursor:pointer;
-}
-
-.icon-button:hover{
-  background:#151d2a;
-  border-color:var(--border2);
-  color:white;
-}
-
-.lang{
-  height:38px;
-
-  padding:0 11px;
-
-  color:#b6c0cf;
-  background:#0d131e;
-
-  border:1px solid var(--border);
-  border-radius:9px;
-
-  outline:none;
-}
-
-.founder-button{
-  height:38px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:0 12px;
-
-  border-radius:9px;
-
-  background:#17140c;
-  border:1px solid #5a4b29;
-
-  color:#e8bd68;
-
-  font-size:11px;
-  font-weight:800;
-
-  text-decoration:none;
-}
-
-.founder-button:hover{
-  background:#211d11;
-  border-color:#806a35;
-}
-
-.content{
-  width:min(1400px,94%);
+.dashboard-page{
+  width:min(1450px,94%);
   margin:auto;
-  padding:35px 0 70px;
+  padding:32px 0 70px;
 }
 
-.welcome{
+.hero{
   display:flex;
   align-items:flex-end;
   justify-content:space-between;
   gap:25px;
-
-  margin-bottom:28px;
+  margin-bottom:25px;
 }
 
-.welcome h1{
-  font-size:31px;
-  letter-spacing:-.8px;
+.hero h1{
+  font-size:32px;
+  letter-spacing:-1px;
 }
 
-.welcome p{
+.hero p{
   margin-top:7px;
   color:var(--muted);
   font-size:13px;
 }
 
-.primary-button{
+.hero-actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.s-btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
-
-  padding:12px 17px;
-
+  gap:7px;
+  min-height:40px;
+  padding:0 15px;
   border-radius:9px;
-
-  background:white;
-  color:#05070c;
-
-  border:1px solid white;
-
-  font-weight:800;
-  font-size:12px;
-
   text-decoration:none;
-
+  font-size:11px;
+  font-weight:800;
   cursor:pointer;
+  border:1px solid var(--border);
+  background:#0d131e;
+  color:#dce4ef;
 }
 
-.primary-button:hover{
+.s-btn:hover{
+  background:#151d2a;
+  border-color:var(--border2);
+}
+
+.s-btn.primary{
+  background:#fff;
+  color:#05070c;
+  border-color:#fff;
+}
+
+.s-btn.primary:hover{
   background:#e9edf3;
 }
 
-.stats{
+.stats-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-
-  margin-bottom:22px;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin-bottom:18px;
 }
 
-.stat-card{
-  padding:20px;
-
-  background:var(--panel);
+.stat{
+  padding:18px;
   border:1px solid var(--border);
-
+  background:var(--panel);
   border-radius:14px;
-
-  backdrop-filter:blur(12px);
 }
 
 .stat-label{
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
 }
 
 .stat-value{
   margin-top:8px;
-
-  font-size:24px;
-  font-weight:800;
+  font-size:22px;
+  font-weight:900;
 }
 
-.stat-small{
-  margin-top:6px;
-  color:#68758a;
-  font-size:10px;
+.stat-note{
+  margin-top:5px;
+  color:#657286;
+  font-size:9px;
 }
 
-.dashboard-grid{
+.workspace-grid{
   display:grid;
-  grid-template-columns:1.45fr 1fr;
-  gap:18px;
+  grid-template-columns:1.35fr 1fr;
+  gap:16px;
 }
 
-.card{
-  background:var(--panel);
+.full{
+  grid-column:1/-1;
+}
+
+.s-card{
+  padding:21px;
   border:1px solid var(--border);
   border-radius:15px;
-
-  padding:22px;
-
+  background:var(--panel);
   backdrop-filter:blur(14px);
-
-  box-shadow:
-    0 18px 50px rgba(0,0,0,.12);
 }
 
-.card-header{
+.s-card-head{
   display:flex;
   align-items:center;
   justify-content:space-between;
-
-  margin-bottom:19px;
+  gap:15px;
+  margin-bottom:17px;
 }
 
-.card-title{
-  font-size:15px;
-  font-weight:800;
+.s-card-title{
+  font-size:14px;
+  font-weight:900;
 }
 
-.card-link{
-  color:#8f9bad;
-  font-size:11px;
+.s-card-link{
+  color:#8e9aab;
+  font-size:10px;
   text-decoration:none;
 }
 
-.card-link:hover{
-  color:white;
+.s-card-link:hover{
+  color:#fff;
 }
 
-.tools{
+.tool-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
 }
 
-.tool{
-  display:flex;
-  align-items:center;
-  gap:12px;
-
+.tool-card{
+  min-height:112px;
   padding:14px;
-
-  background:#090e17;
   border:1px solid #1d2737;
   border-radius:11px;
-
+  background:#090e17;
   text-decoration:none;
-  color:white;
-
+  color:#fff;
   transition:.2s;
+  position:relative;
 }
 
-.tool:hover{
-  transform:translateY(-1px);
+.tool-card:hover{
+  transform:translateY(-2px);
   background:#101722;
   border-color:#344157;
 }
 
 .tool-icon{
-  width:38px;
-  height:38px;
-
+  width:34px;
+  height:34px;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  border-radius:9px;
-
+  border-radius:8px;
   background:#151d2a;
   border:1px solid #293548;
-
-  font-size:16px;
+  font-size:15px;
 }
 
-.tool-name{
-  font-size:12px;
+.tool-title{
+  margin-top:11px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.tool-desc{
+  margin-top:4px;
+  color:#68758a;
+  font-size:9px;
+  line-height:1.45;
+}
+
+.badge{
+  position:absolute;
+  top:9px;
+  right:9px;
+  padding:3px 6px;
+  border-radius:5px;
+  border:1px solid #273444;
+  color:#8c9aac;
+  background:#101922;
+  font-size:8px;
   font-weight:800;
 }
 
-.tool-description{
-  margin-top:3px;
-  color:#68758a;
-  font-size:10px;
+.badge.premium{
+  color:#e8bd68;
+  border-color:#5a4b29;
+  background:#17140c;
 }
 
 .activity{
@@ -592,41 +219,40 @@ body{
   flex-direction:column;
 }
 
-.activity-item{
+.activity-row{
   display:flex;
-  align-items:flex-start;
-  gap:12px;
-
-  padding:13px 0;
-
+  gap:11px;
+  padding:12px 0;
   border-bottom:1px solid #1b2432;
 }
 
-.activity-item:last-child{
+.activity-row:last-child{
   border-bottom:0;
 }
 
 .activity-dot{
-  width:8px;
-  height:8px;
-
+  width:7px;
+  height:7px;
+  flex-shrink:0;
   margin-top:5px;
-
   border-radius:50%;
   background:#718096;
-
-  box-shadow:0 0 12px rgba(255,255,255,.12);
 }
 
-.activity-text{
-  font-size:11px;
-  color:#a8b2c1;
+.activity-main{
+  min-width:0;
+  flex:1;
+}
+
+.activity-title{
+  color:#b8c2d0;
+  font-size:10px;
 }
 
 .activity-time{
   margin-top:3px;
   color:#5f6c80;
-  font-size:9px;
+  font-size:8px;
 }
 
 .project-list{
@@ -634,64 +260,55 @@ body{
   flex-direction:column;
 }
 
-.project{
+.project-row{
   display:flex;
   align-items:center;
-  gap:14px;
-
-  padding:13px 0;
-
+  gap:12px;
+  padding:12px 0;
   border-bottom:1px solid #1b2432;
 }
 
-.project:last-child{
+.project-row:last-child{
   border-bottom:0;
 }
 
-.project-icon{
-  width:40px;
-  height:40px;
-
+.project-avatar{
+  width:39px;
+  height:39px;
   display:flex;
   align-items:center;
   justify-content:center;
-
+  flex-shrink:0;
   border-radius:10px;
-
   background:#121a27;
   border:1px solid #283449;
-
-  font-weight:900;
   font-size:12px;
+  font-weight:900;
 }
 
-.project-info{
+.project-main{
   min-width:0;
   flex:1;
 }
 
 .project-name{
-  font-size:12px;
-  font-weight:800;
+  font-size:11px;
+  font-weight:900;
 }
 
-.project-token{
+.project-meta{
   margin-top:3px;
   color:#69768a;
-  font-size:10px;
+  font-size:9px;
 }
 
 .status{
-  padding:5px 8px;
-
+  padding:5px 7px;
   border-radius:6px;
-
-  background:#101922;
   border:1px solid #273444;
-
+  background:#101922;
   color:#8c9aac;
-
-  font-size:9px;
+  font-size:8px;
 }
 
 .status.created{
@@ -700,152 +317,146 @@ body{
   background:#0b1711;
 }
 
-.security{
-  display:flex;
-  align-items:center;
-  gap:18px;
+.news-list{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
 }
 
-.security-score{
-  width:86px;
-  height:86px;
+.news-item{
+  padding:14px;
+  border:1px solid #1d2737;
+  border-radius:11px;
+  background:#090e17;
+  text-decoration:none;
+  color:#fff;
+}
 
+.news-source{
+  color:#68758a;
+  font-size:8px;
+}
+
+.news-title{
+  margin-top:7px;
+  font-size:11px;
+  line-height:1.5;
+  font-weight:800;
+}
+
+.news-note{
+  margin-top:6px;
+  color:#5f6c80;
+  font-size:8px;
+}
+
+.wallet-box{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:15px;
+  border:1px solid #1d2737;
+  border-radius:11px;
+  background:#090e17;
+}
+
+.wallet-left{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.wallet-icon{
+  width:38px;
+  height:38px;
   display:flex;
   align-items:center;
   justify-content:center;
+  border-radius:9px;
+  background:#151d2a;
+  border:1px solid #293548;
+}
 
-  flex-shrink:0;
-
-  border-radius:50%;
-
-  border:7px solid #263243;
-
-  font-size:20px;
+.wallet-title{
+  font-size:11px;
   font-weight:900;
 }
 
-.security-info h3{
-  font-size:13px;
+.wallet-address{
+  margin-top:4px;
+  color:#68758a;
+  font-size:9px;
 }
 
-.security-info p{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.6;
+.free-limit{
+  margin-top:12px;
+  color:#667489;
+  font-size:9px;
 }
 
-footer{
-  padding:35px 0;
+@media(max-width:1150px){
+  .stats-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
 
-  color:#515d70;
+  .tool-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-  text-align:center;
-
-  font-size:10px;
+  .news-list{
+    grid-template-columns:1fr;
+  }
 }
 
-.menu-button{
-  display:none;
+@media(max-width:900px){
+  .workspace-grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
 }
 
-@media(max-width:1050px){
+@media(max-width:650px){
+  .dashboard-page{
+    width:92%;
+    padding-top:24px;
+  }
 
-.stats{
-  grid-template-columns:repeat(2,1fr);
+  .hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .tool-grid{
+    grid-template-columns:1fr;
+  }
+
+  .wallet-box{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 }
 
-.dashboard-grid{
-  grid-template-columns:1fr;
+@media(max-width:430px){
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
 }
-
-}
-
-@media(max-width:760px){
-
-:root{
-  --sidebar:0px;
-}
-
-.sidebar{
-  transform:translateX(-100%);
-  transition:.25s;
-  width:260px;
-}
-
-.sidebar.open{
-  transform:translateX(0);
-}
-
-.main{
-  margin-left:0;
-}
-
-.menu-button{
-  display:flex;
-}
-
-.topbar{
-  padding:0 16px;
-}
-
-.content{
-  width:92%;
-  padding-top:25px;
-}
-
-.welcome{
-  align-items:flex-start;
-  flex-direction:column;
-}
-
-.welcome h1{
-  font-size:26px;
-}
-
-.stats{
-  grid-template-columns:1fr 1fr;
-}
-
-.tools{
-  grid-template-columns:1fr;
-}
-
-}
-
-@media(max-width:480px){
-
-.stats{
-  grid-template-columns:1fr;
-}
-
-.topbar{
-  height:68px;
-}
-
-.page-subtitle{
-  display:none;
-}
-
-.lang{
-  display:none;
-}
-
-.card{
-  padding:17px;
-}
-
-.founder-button{
-  padding:0 9px;
-  font-size:10px;
-}
-
-}
-
 </style>
 </head>
 
-<body>
+<body data-auth-required="false">
 
 <div class="background"></div>
 
@@ -853,102 +464,123 @@ footer{
 
 <aside class="sidebar" id="sidebar">
 
-<div class="brand">
-  <div class="brand-logo">SONATIVA</div>
-  <div class="brand-version">BETA</div>
-</div>
+  <div class="brand">
+    <div class="brand-logo">SONATIVA</div>
+    <div class="brand-version">BETA</div>
+  </div>
 
-<nav class="nav">
+  <nav class="nav">
 
-<div class="nav-section">
-Workspace
-</div>
+    <div class="nav-section">Workspace</div>
 
-<a class="nav-item active" href="index.html">
-  <span class="nav-icon">⌂</span>
-  <span>Dashboard</span>
-</a>
+    <a class="nav-item active" href="index.html">
+      <span class="nav-icon">⌂</span>
+      <span>Dashboard</span>
+    </a>
 
-<a class="nav-item" href="projects.html">
-  <span class="nav-icon">▣</span>
-  <span>My Projects</span>
-</a>
+    <a class="nav-item" href="projects.html">
+      <span class="nav-icon">▣</span>
+      <span>My Projects</span>
+    </a>
 
-<div class="nav-section">
-Build
-</div>
+    <div class="nav-section">Build</div>
 
-<a class="nav-item" href="token-studio.html">
-  <span class="nav-icon">◇</span>
-  <span>Token Studio</span>
-</a>
+    <a class="nav-item" href="token-studio.html">
+      <span class="nav-icon">◇</span>
+      <span>Token Studio</span>
+    </a>
 
-<a class="nav-item" href="tokenomics-studio.html">
-  <span class="nav-icon">◈</span>
-  <span>Tokenomics</span>
-</a>
+    <a class="nav-item" href="tokenomics.html">
+      <span class="nav-icon">◈</span>
+      <span>Tokenomics</span>
+    </a>
 
-<a class="nav-item" href="#">
-  <span class="nav-icon">⬡</span>
-  <span>Website Builder</span>
-  <span class="nav-badge">SOON</span>
-</a>
+    <a class="nav-item" href="project.html">
+      <span class="nav-icon">◆</span>
+      <span>Project Builder</span>
+    </a>
 
-<a class="nav-item" href="#">
-  <span class="nav-icon">▤</span>
-  <span>App Builder</span>
-  <span class="nav-badge">SOON</span>
-</a>
+    <div class="nav-section">Intelligence</div>
 
-<div class="nav-section">
-Intelligence
-</div>
+    <a class="nav-item" href="analysis.html">
+      <span class="nav-icon">⌁</span>
+      <span>Advanced Analysis</span>
+      <span class="nav-badge">PRO</span>
+    </a>
 
-<a class="nav-item" href="#">
-  <span class="nav-icon">✦</span>
-  <span>Sonativa AI</span>
-  <span class="nav-badge">SOON</span>
-</a>
+    <a class="nav-item" href="ai.html">
+      <span class="nav-icon">✦</span>
+      <span>Sonativa AI</span>
+      <span class="nav-badge">PRO</span>
+    </a>
 
-<a class="nav-item" href="#">
-  <span class="nav-icon">⌁</span>
-  <span>Security Scanner</span>
-</a>
+    <a class="nav-item" href="security.html">
+      <span class="nav-icon">◇</span>
+      <span>Security Scanner</span>
+    </a>
 
-<div class="nav-section">
-Account
-</div>
+    <div class="nav-section">Media</div>
 
-<a class="nav-item" href="#">
-  <span class="nav-icon">⚙</span>
-  <span>Settings</span>
-</a>
+    <a class="nav-item" href="news.html">
+      <span class="nav-icon">▤</span>
+      <span>World News</span>
+    </a>
 
-</nav>
+    <a class="nav-item" href="books.html">
+      <span class="nav-icon">▥</span>
+      <span>Books</span>
+    </a>
 
-<div class="sidebar-bottom">
+    <a class="nav-item" href="live.html">
+      <span class="nav-icon">●</span>
+      <span>Live</span>
+    </a>
 
-<div class="account">
+    <a class="nav-item" href="reels.html">
+      <span class="nav-icon">▶</span>
+      <span>Reels</span>
+    </a>
 
-<div class="avatar" id="avatar">
-S
-</div>
+    <div class="nav-section">Account</div>
 
-<div class="account-info">
+    <a class="nav-item" href="wallet.html">
+      <span class="nav-icon">◉</span>
+      <span>Wallet</span>
+    </a>
 
-<div class="account-name" id="accountName">
-Sonativa User
-</div>
+    <a class="nav-item" href="pricing.html">
+      <span class="nav-icon">◇</span>
+      <span>Premium</span>
+    </a>
 
-<div class="account-status">
-● Connected
-</div>
+    <a class="nav-item" href="settings.html">
+      <span class="nav-icon">⚙</span>
+      <span>Settings</span>
+    </a>
 
-</div>
+  </nav>
 
-</div>
+  <div class="sidebar-bottom">
+    <div class="account">
 
-</div>
+      <div class="avatar" id="avatar">G</div>
+
+      <div class="account-info">
+
+        <div
+          class="account-name"
+          id="accountName">
+          Guest
+        </div>
+
+        <div class="account-status">
+          ● Workspace ready
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 
 </aside>
 
@@ -957,464 +589,661 @@ Sonativa User
 
 <header class="topbar">
 
-<div style="display:flex;align-items:center;gap:12px;">
+  <div style="display:flex;align-items:center;gap:12px;">
 
-<button
-class="icon-button menu-button"
-id="menuButton"
-aria-label="Open menu">
-☰
-</button>
+    <button
+      class="icon-button menu-button"
+      id="menuButton"
+      type="button">
+      ☰
+    </button>
 
-<div>
+    <div>
+      <div
+        class="page-title"
+        data-page-title>
+        Dashboard
+      </div>
 
-<div class="page-title">
-Dashboard
-</div>
+      <div class="page-subtitle">
+        Your Sonativa Web3 workspace
+      </div>
+    </div>
 
-<div class="page-subtitle">
-Your Sonativa workspace
-</div>
-
-</div>
-
-</div>
+  </div>
 
 
-<div class="top-actions" id="topActions">
+  <div
+    class="top-actions"
+    id="topActions">
 
-<select
-class="lang"
-id="languageSelect"
-aria-label="Language">
+    <select
+      class="lang"
+      id="languageSelect"
+      aria-label="Language">
 
-<option value="en">
-English
-</option>
+      <option value="en">English</option>
+      <option value="ar">العربية</option>
+      <option value="fr">Français</option>
 
-<option value="ar">
-العربية
-</option>
+    </select>
 
-<option value="fr">
-Français
-</option>
+    <button
+      class="icon-button"
+      type="button"
+      title="Notifications"
+      aria-label="Notifications">
+      ♢
+    </button>
 
-</select>
+    <a
+      class="icon-button"
+      href="settings.html"
+      title="Settings"
+      aria-label="Settings">
+      ⚙
+    </a>
 
-<button
-class="icon-button"
-title="Notifications">
-♢
-</button>
-
-<button
-class="icon-button"
-title="Account">
-◉
-</button>
-
-</div>
+  </div>
 
 </header>
 
 
-<section class="content">
+<section class="dashboard-page">
+
+  <div class="hero">
+
+    <div>
+
+      <h1>
+        Build the Web3 Future.
+      </h1>
+
+      <p>
+        Create, analyze, secure and discover Web3 projects from one workspace.
+      </p>
+
+    </div>
 
-<div class="welcome">
+    <div class="hero-actions">
+
+      <a
+        class="s-btn"
+        href="projects.html">
+        My Projects
+      </a>
 
-<div>
+      <a
+        class="s-btn primary"
+        href="token-studio.html">
+        ＋ Create Project
+      </a>
 
-<h1>
-Build the Web3 Future.
-</h1>
+    </div>
 
-<p>
-Create, manage and secure your Web3 projects from one workspace.
-</p>
+  </div>
 
-</div>
 
-<a
-href="token-studio.html"
-class="primary-button">
+  <div class="stats-grid">
 
-＋ Create Project
+    <div class="stat">
+      <div class="stat-label">Projects</div>
+      <div
+        class="stat-value"
+        id="projectsCount">
+        0
+      </div>
+      <div class="stat-note">
+        Your workspace
+      </div>
+    </div>
 
-</a>
+    <div class="stat">
+      <div class="stat-label">Tokens Created</div>
+      <div
+        class="stat-value"
+        id="tokensCount">
+        0
+      </div>
+      <div class="stat-note">
+        Token Studio
+      </div>
+    </div>
 
-</div>
+    <div class="stat">
+      <div class="stat-label">Wallet</div>
+      <div
+        class="stat-value"
+        id="walletStatus">
+        Guest
+      </div>
+      <div class="stat-note">
+        Phantom connection
+      </div>
+    </div>
 
+    <div class="stat">
+      <div class="stat-label">Free Access</div>
+      <div class="stat-value">Active</div>
+      <div class="stat-note">
+        Limited features
+      </div>
+    </div>
 
-<div class="stats">
+    <div class="stat">
+      <div class="stat-label">Premium</div>
+      <div class="stat-value">PRO</div>
+      <div class="stat-note">
+        Advanced features
+      </div>
+    </div>
 
-<div class="stat-card">
+  </div>
 
-<div class="stat-label">
-Projects
-</div>
 
-<div
-class="stat-value"
-id="projectsCount">
-—
-</div>
+  <div class="workspace-grid">
 
-<div class="stat-small">
-Your projects
-</div>
 
-</div>
+    <section class="s-card">
 
+      <div class="s-card-head">
 
-<div class="stat-card">
+        <div class="s-card-title">
+          Quick Tools
+        </div>
 
-<div class="stat-label">
-Tokens Created
-</div>
+        <a
+          class="s-card-link"
+          href="pricing.html">
+          Explore Premium
+        </a>
 
-<div
-class="stat-value"
-id="tokensCount">
-—
-</div>
+      </div>
 
-<div class="stat-small">
-On Solana
-</div>
 
-</div>
+      <div class="tool-grid">
 
+        <a
+          class="tool-card"
+          href="token-studio.html">
 
-<div class="stat-card">
+          <div class="tool-icon">◇</div>
 
-<div class="stat-label">
-Wallet
-</div>
+          <div class="tool-title">
+            Token Studio
+          </div>
 
-<div
-class="stat-value"
-id="walletStatus">
-—
-</div>
+          <div class="tool-desc">
+            Create and manage token projects.
+          </div>
 
-<div class="stat-small">
-Connection status
-</div>
+          <span class="badge">
+            FREE
+          </span>
 
-</div>
+        </a>
 
 
-<div class="stat-card">
+        <a
+          class="tool-card"
+          href="tokenomics.html">
 
-<div class="stat-label">
-Security
-</div>
+          <div class="tool-icon">◈</div>
 
-<div class="stat-value">
-Protected
-</div>
+          <div class="tool-title">
+            Tokenomics
+          </div>
 
-<div class="stat-small">
-Sonativa workspace
-</div>
+          <div class="tool-desc">
+            Design supply, allocation and distribution.
+          </div>
 
-</div>
+          <span class="badge">
+            FREE
+          </span>
 
-</div>
+        </a>
 
 
-<div class="dashboard-grid">
+        <a
+          class="tool-card"
+          href="analysis.html">
 
+          <div class="tool-icon">⌁</div>
 
-<div class="card">
+          <div class="tool-title">
+            Advanced Analysis
+          </div>
 
-<div class="card-header">
+          <div class="tool-desc">
+            Advanced market and Web3 intelligence tools.
+          </div>
 
-<div class="card-title">
-Quick Tools
-</div>
+          <span class="badge premium">
+            PRO
+          </span>
 
-<a
-href="#"
-class="card-link">
-View all
-</a>
+        </a>
 
-</div>
 
+        <a
+          class="tool-card"
+          href="security.html">
 
-<div class="tools">
+          <div class="tool-icon">◇</div>
 
-<a
-href="token-studio.html"
-class="tool">
+          <div class="tool-title">
+            Security Scanner
+          </div>
 
-<div class="tool-icon">
-◇
-</div>
+          <div class="tool-desc">
+            Inspect projects and smart-contract risks.
+          </div>
 
-<div>
+          <span class="badge">
+            FREE
+          </span>
 
-<div class="tool-name">
-Token Studio
-</div>
+        </a>
 
-<div class="tool-description">
-Create a Solana token
-</div>
 
-</div>
+        <a
+          class="tool-card"
+          href="news.html">
 
-</a>
+          <div class="tool-icon">▤</div>
 
+          <div class="tool-title">
+            World News
+          </div>
 
-<a
-href="projects.html"
-class="tool">
+          <div class="tool-desc">
+            Discover the latest Web3 and world stories.
+          </div>
 
-<div class="tool-icon">
-▣
-</div>
+          <span class="badge">
+            FREE
+          </span>
 
-<div>
+        </a>
 
-<div class="tool-name">
-My Projects
-</div>
 
-<div class="tool-description">
-Manage your projects
-</div>
+        <a
+          class="tool-card"
+          href="ai.html">
 
-</div>
+          <div class="tool-icon">✦</div>
 
-</a>
+          <div class="tool-title">
+            Sonativa AI
+          </div>
 
+          <div class="tool-desc">
+            AI-powered research and Web3 assistance.
+          </div>
 
-<a
-href="tokenomics-studio.html"
-class="tool">
+          <span class="badge premium">
+            PRO
+          </span>
 
-<div class="tool-icon">
-◈
-</div>
+        </a>
 
-<div>
 
-<div class="tool-name">
-Tokenomics
-</div>
+        <a
+          class="tool-card"
+          href="books.html">
 
-<div class="tool-description">
-Design token economics
-</div>
+          <div class="tool-icon">▥</div>
 
-</div>
+          <div class="tool-title">
+            Books
+          </div>
 
-</a>
+          <div class="tool-desc">
+            Web3, finance and technology library.
+          </div>
 
+          <span class="badge">
+            FREE
+          </span>
 
-<a
-href="#"
-class="tool">
+        </a>
 
-<div class="tool-icon">
-⌁
-</div>
 
-<div>
+        <a
+          class="tool-card"
+          href="live.html">
 
-<div class="tool-name">
-Security Scanner
-</div>
+          <div class="tool-icon">●</div>
 
-<div class="tool-description">
-Analyze Web3 contracts
-</div>
+          <div class="tool-title">
+            Live
+          </div>
 
-</div>
+          <div class="tool-desc">
+            Live sessions and community broadcasts.
+          </div>
 
-</a>
+          <span class="badge premium">
+            PRO
+          </span>
 
-</div>
+        </a>
 
-</div>
 
+        <a
+          class="tool-card"
+          href="reels.html">
 
-<div class="card">
+          <div class="tool-icon">▶</div>
 
-<div class="card-header">
+          <div class="tool-title">
+            Reels
+          </div>
 
-<div class="card-title">
-Recent Activity
-</div>
+          <div class="tool-desc">
+            Short Web3 videos and educational clips.
+          </div>
 
-</div>
+          <span class="badge">
+            FREE
+          </span>
 
+        </a>
 
-<div
-class="activity"
-id="activity">
+      </div>
 
-<div class="activity-item">
+    </section>
 
-<div class="activity-dot"></div>
 
-<div>
+    <section class="s-card">
 
-<div class="activity-text">
-Welcome to Sonativa.
-</div>
+      <div class="s-card-head">
 
-<div class="activity-time">
-Your workspace is ready.
-</div>
+        <div class="s-card-title">
+          Wallet
+        </div>
 
-</div>
+        <a
+          class="s-card-link"
+          href="wallet.html">
+          Manage →
+        </a>
 
-</div>
+      </div>
 
 
-<div class="activity-item">
+      <div class="wallet-box">
 
-<div class="activity-dot"></div>
+        <div class="wallet-left">
 
-<div>
+          <div class="wallet-icon">
+            ◉
+          </div>
 
-<div class="activity-text">
-Connect your wallet when needed.
-</div>
+          <div>
 
-<div class="activity-time">
-Wallet data stays under your control.
-</div>
+            <div class="wallet-title">
+              Phantom
+            </div>
 
-</div>
+            <div
+              class="wallet-address"
+              data-wallet-address>
+              Not connected
+            </div>
 
-</div>
+          </div>
 
+        </div>
 
-<div class="activity-item">
 
-<div class="activity-dot"></div>
+        <a
+          class="s-btn"
+          href="wallet.html">
+          Open Wallet
+        </a>
 
-<div>
+      </div>
 
-<div class="activity-text">
-Create your first project.
-</div>
 
-<div class="activity-time">
-Token Studio is ready.
-</div>
+      <div class="free-limit">
+        Sonativa never requests your seed phrase or private key.
+      </div>
 
-</div>
+    </section>
 
-</div>
 
-</div>
+    <section class="s-card">
 
-</div>
+      <div class="s-card-head">
 
+        <div class="s-card-title">
+          Recent Projects
+        </div>
 
-<div class="card">
+        <a
+          class="s-card-link"
+          href="projects.html">
+          View all →
+        </a>
 
-<div class="card-header">
+      </div>
 
-<div class="card-title">
-Recent Projects
-</div>
 
-<a
-href="projects.html"
-class="card-link">
-View projects →
-</a>
+      <div
+        class="project-list"
+        id="projectList">
 
-</div>
+        <div class="project-row">
 
+          <div class="project-avatar">
+            +
+          </div>
 
-<div
-class="project-list"
-id="projectList">
+          <div class="project-main">
 
-<div class="project">
+            <div class="project-name">
+              No projects yet
+            </div>
 
-<div class="project-icon">
-S
-</div>
+            <div class="project-meta">
+              Create your first project with Token Studio.
+            </div>
 
-<div class="project-info">
+          </div>
 
-<div class="project-name">
-No projects loaded
-</div>
+          <a
+            class="status created"
+            href="token-studio.html">
+            Create
+          </a>
 
-<div class="project-token">
-Create a project to see it here.
-</div>
+        </div>
 
-</div>
+      </div>
 
-<span class="status">
-Ready
-</span>
+    </section>
 
-</div>
 
-</div>
+    <section class="s-card">
 
-</div>
+      <div class="s-card-head">
 
+        <div class="s-card-title">
+          Recent Activity
+        </div>
 
-<div class="card">
+      </div>
 
-<div class="card-header">
 
-<div class="card-title">
-Workspace Security
-</div>
+      <div class="activity">
 
-<a
-href="#"
-class="card-link">
-Security
-</a>
+        <div class="activity-row">
 
-</div>
+          <div class="activity-dot"></div>
 
+          <div class="activity-main">
 
-<div class="security">
+            <div class="activity-title">
+              Sonativa workspace initialized.
+            </div>
 
-<div class="security-score">
-✓
-</div>
+            <div class="activity-time">
+              System
+            </div>
 
-<div class="security-info">
+          </div>
 
-<h3>
-Your wallet stays yours.
-</h3>
+        </div>
 
-<p>
-Sonativa does not request your private key or seed phrase.
-Wallet actions require your own wallet authorization.
-</p>
 
-</div>
+        <div class="activity-row">
 
-</div>
+          <div class="activity-dot"></div>
 
-</div>
+          <div class="activity-main">
 
+            <div class="activity-title">
+              Token Studio is available.
+            </div>
 
-</div>
+            <div class="activity-time">
+              Build
+            </div>
 
+          </div>
 
-<footer>
-© 2026 Sonativa — Web3 tools for everyone.
-</footer>
+        </div>
+
+
+        <div class="activity-row">
+
+          <div class="activity-dot"></div>
+
+          <div class="activity-main">
+
+            <div class="activity-title">
+              Connect Phantom when a wallet action is required.
+            </div>
+
+            <div class="activity-time">
+              Wallet
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="activity-row">
+
+          <div class="activity-dot"></div>
+
+          <div class="activity-main">
+
+            <div class="activity-title">
+              Premium features remain optional.
+            </div>
+
+            <div class="activity-time">
+              Sonativa
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="s-card full">
+
+      <div class="s-card-head">
+
+        <div class="s-card-title">
+          Sonativa Discover
+        </div>
+
+        <a
+          class="s-card-link"
+          href="news.html">
+          Open News →
+        </a>
+
+      </div>
+
+
+      <div class="news-list">
+
+        <a
+          class="news-item"
+          href="news.html">
+
+          <div class="news-source">
+            SONATIVA NEWS
+          </div>
+
+          <div class="news-title">
+            Explore the latest Web3, blockchain and technology updates.
+          </div>
+
+          <div class="news-note">
+            Open the News Center →
+          </div>
+
+        </a>
+
+
+        <a
+          class="news-item"
+          href="analysis.html">
+
+          <div class="news-source">
+            MARKET INTELLIGENCE
+          </div>
+
+          <div class="news-title">
+            Analyze markets, projects and on-chain signals.
+          </div>
+
+          <div class="news-note">
+            Advanced tools available in Premium.
+          </div>
+
+        </a>
+
+
+        <a
+          class="news-item"
+          href="books.html">
+
+          <div class="news-source">
+            SONATIVA LIBRARY
+          </div>
+
+          <div class="news-title">
+            Learn blockchain, finance, security and Web3 development.
+          </div>
+
+          <div class="news-note">
+            Open the Library →
+          </div>
+
+        </a>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <footer>
+    © 2026 Sonativa — Web3 tools, intelligence and education.
+  </footer>
 
 </section>
 
@@ -1426,772 +1255,275 @@ Wallet actions require your own wallet authorization.
 <script type="module">
 
 import {
-  createClient
-}
-from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+  supabase,
+  getUser
+} from "./assets/js/supabase.js";
+
+import {
+  SonativaWallet
+} from "./assets/js/wallet.js";
 
 
-const SUPABASE_URL =
-"https://kallobeodjzzhrsaqszw.supabase.co";
+/* =========================================================
+   PROJECTS
+========================================================= */
 
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+async function loadProjects() {
 
-
-const supabase =
-createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY,
-  {
-    auth:{
-      persistSession:true,
-      autoRefreshToken:true,
-      detectSessionInUrl:true
-    }
-  }
-);
-
-
-/* =========================================
-   ELEMENTS
-========================================= */
-
-const sidebar =
-document.getElementById("sidebar");
-
-const menuButton =
-document.getElementById("menuButton");
-
-const languageSelect =
-document.getElementById("languageSelect");
-
-const topActions =
-document.getElementById("topActions");
-
-
-/* =========================================
-   MOBILE MENU
-========================================= */
-
-if(menuButton){
-
-  menuButton.addEventListener(
-    "click",
-    function(){
-
-      sidebar.classList.toggle("open");
-
-    }
-  );
-
-}
-
-
-document
-.querySelectorAll(".nav-item")
-.forEach(function(item){
-
-  item.addEventListener(
-    "click",
-    function(){
-
-      if(window.innerWidth <= 760){
-
-        sidebar.classList.remove("open");
-
-      }
-
-    }
-  );
-
-});
-
-
-/* =========================================
-   SECURITY HELPERS
-========================================= */
-
-function escapeHTML(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-function getInitial(value){
-
-  return String(value || "S")
-    .charAt(0)
-    .toUpperCase();
-
-}
-
-
-/* =========================================
-   SECURE FOUNDER CHECK
-=========================================
-
-   IMPORTANT:
-
-   Do NOT read user_roles directly to decide
-   Founder access.
-
-   The database RPC performs the complete
-   Founder verification server-side.
-
-========================================= */
-
-async function checkFounder(){
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-    await supabase.rpc(
-      "is_sonativa_founder"
-    );
-
-
-    if(error){
-
-      console.warn(
-        "Founder RPC check failed:",
-        error.message
-      );
-
-      return false;
-
-    }
-
-
-    return data === true;
-
-  }catch(error){
-
-    console.warn(
-      "Founder verification failed:",
-      error
-    );
-
-    return false;
-
-  }
-
-}
-
-
-/* =========================================
-   FOUNDER ACCESS UI
-========================================= */
-
-function addFounderAccess(){
-
-  if(
+  const list =
     document.getElementById(
-      "founderControlLink"
-    )
-  ){
+      "projectList"
+    );
+
+
+  if (!list) {
+    return;
+  }
+
+
+  const user =
+    await getUser();
+
+
+  if (!user) {
 
     return;
 
   }
 
 
-  /* Sidebar */
-
-  const nav =
-  document.querySelector(".nav");
-
-
-  if(nav){
-
-    const section =
-    document.createElement("div");
-
-    section.className =
-    "nav-section";
-
-    section.textContent =
-    "Founder";
-
-
-    const link =
-    document.createElement("a");
-
-    link.id =
-    "founderControlLink";
-
-    link.className =
-    "nav-item";
-
-    link.href =
-    "founder.html";
-
-
-    link.innerHTML = `
-
-      <span class="nav-icon">
-        ◆
-      </span>
-
-      <span>
-        Founder Control Center
-      </span>
-
-      <span
-        class="nav-badge"
-        style="
-          color:#e8bd68;
-          border:1px solid #5a4b29;
-          background:#17140c;
-        ">
-
-        FOUNDER
-
-      </span>
-
-    `;
-
-
-    nav.appendChild(section);
-    nav.appendChild(link);
-
-  }
-
-
-  /* Topbar */
-
-  if(topActions){
-
-    const button =
-    document.createElement("a");
-
-    button.id =
-    "founderTopButton";
-
-    button.className =
-    "founder-button";
-
-    button.href =
-    "founder.html";
-
-    button.textContent =
-    "Founder";
-
-
-    topActions.insertBefore(
-      button,
-      topActions.firstChild
-    );
-
-  }
-
-}
-
-
-/* =========================================
-   LOAD USER
-========================================= */
-
-async function loadUser(){
-
-  try{
+  try {
 
     const {
       data,
       error
     } =
-    await supabase.auth.getUser();
-
-
-    if(error){
-
-      console.warn(
-        "Auth error:",
-        error.message
-      );
-
-    }
-
-
-    const user =
-    data?.user;
-
-
-    if(!user){
-
-      document.getElementById(
-        "accountName"
-      ).textContent =
-      "Guest";
-
-
-      document.getElementById(
-        "avatar"
-      ).textContent =
-      "G";
-
-
-      document.getElementById(
-        "walletStatus"
-      ).textContent =
-      "Guest";
-
-
-      document.getElementById(
-        "projectsCount"
-      ).textContent =
-      "0";
-
-
-      document.getElementById(
-        "tokensCount"
-      ).textContent =
-      "0";
-
-
-      renderProjects([]);
-
-
-      return;
-
-    }
-
-
-    /* User name */
-
-    const name =
-    user.user_metadata?.full_name ||
-    user.user_metadata?.name ||
-    user.email?.split("@")[0] ||
-    "Sonativa User";
-
-
-    document.getElementById(
-      "accountName"
-    ).textContent =
-    name;
-
-
-    document.getElementById(
-      "avatar"
-    ).textContent =
-    getInitial(name);
-
-
-    document.getElementById(
-      "walletStatus"
-    ).textContent =
-    "Ready";
-
-
-    /* =====================================
-       SECURE FOUNDER VERIFICATION
-    ===================================== */
-
-    const isFounder =
-    await checkFounder();
-
-
-    if(isFounder){
-
-      addFounderAccess();
-
-    }
-
-
-    /* =====================================
-       PROJECTS
-    ===================================== */
-
-    await loadProjects(
-      user.id
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "loadUser error:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================
-   LOAD PROJECTS
-========================================= */
-
-async function loadProjects(userId){
-
-  const projectsCount =
-  document.getElementById(
-    "projectsCount"
-  );
-
-  const tokensCount =
-  document.getElementById(
-    "tokensCount"
-  );
-
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-    await supabase
-
-    .from("projects")
-
-    .select(`
-      id,
-      project_name,
-      token_name,
-      token_symbol,
-      token_status,
-      created_at,
-      mint_address
-    `)
-
-    .eq(
-      "user_id",
-      userId
-    )
-
-    .order(
-      "created_at",
-      {
-        ascending:false
-      }
-    );
-
-
-    if(error){
-
-      console.error(
-        "Projects error:",
-        error
-      );
-
-
-      projectsCount.textContent =
-      "0";
-
-
-      tokensCount.textContent =
-      "0";
-
-
-      renderProjects([]);
-
-
-      return;
-
+      await supabase
+        .from("projects")
+        .select(`
+          id,
+          project_name,
+          token_name,
+          token_symbol,
+          token_status,
+          mint_address,
+          created_at
+        `)
+        .eq(
+          "user_id",
+          user.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        )
+        .limit(5);
+
+
+    if (error) {
+      throw error;
     }
 
 
     const projects =
-    data || [];
+      data || [];
 
 
-    projectsCount.textContent =
-    projects.length;
+    if (!projects.length) {
+      return;
+    }
 
 
-    const tokenCount =
-    projects.filter(
-      function(project){
+    list.innerHTML =
+      projects.map(
+        project => {
 
-        return (
-          !!project.mint_address ||
-          project.token_status === "created" ||
-          project.token_status === "minted"
-        );
-
-      }
-    ).length;
+          const name =
+            project.project_name ||
+            "Unnamed Project";
 
 
-    tokensCount.textContent =
-    tokenCount;
+          const token =
+            project.token_symbol
+              ? `${project.token_name || "Token"} • $${project.token_symbol}`
+              : project.token_name ||
+                "Token";
 
 
-    renderProjects(
-      projects
-    );
+          const created =
+            Boolean(
+              project.mint_address
+            ) ||
+            project.token_status ===
+              "created" ||
+            project.token_status ===
+              "minted";
 
 
-  }catch(error){
+          return `
+            <div class="project-row">
 
-    console.error(
-      "loadProjects error:",
+              <div class="project-avatar">
+                ${String(
+                  name
+                ).charAt(0).toUpperCase()}
+              </div>
+
+              <div class="project-main">
+
+                <div class="project-name">
+                  ${escapeHTML(name)}
+                </div>
+
+                <div class="project-meta">
+                  ${escapeHTML(token)}
+                </div>
+
+              </div>
+
+              <span class="status ${
+                created
+                  ? "created"
+                  : ""
+              }">
+                ${
+                  created
+                    ? "Created"
+                    : "Draft"
+                }
+              </span>
+
+            </div>
+          `;
+
+        }
+      ).join("");
+
+
+  } catch (error) {
+
+    console.warn(
+      "[Sonativa Dashboard] Projects:",
       error
     );
 
-
-    projectsCount.textContent =
-    "0";
-
-
-    tokensCount.textContent =
-    "0";
-
-
-    renderProjects([]);
-
   }
 
 }
 
 
-/* =========================================
-   RENDER PROJECTS
-========================================= */
+/* =========================================================
+   ESCAPE
+========================================================= */
 
-function renderProjects(projects){
+function escapeHTML(value) {
 
-  const list =
-  document.getElementById(
-    "projectList"
-  );
-
-
-  if(!list){
-
-    return;
-
-  }
-
-
-  if(!projects.length){
-
-    list.innerHTML = `
-
-      <div class="project">
-
-        <div class="project-icon">
-          +
-        </div>
-
-        <div class="project-info">
-
-          <div class="project-name">
-            No projects yet
-          </div>
-
-          <div class="project-token">
-            Create your first project with Token Studio.
-          </div>
-
-        </div>
-
-        <a
-          class="status created"
-          href="token-studio.html">
-
-          Create
-
-        </a>
-
-      </div>
-
-    `;
-
-
-    return;
-
-  }
-
-
-  list.innerHTML =
-  projects
-    .slice(0,5)
-    .map(
-      function(project){
-
-        const name =
-        project.project_name ||
-        "Unnamed Project";
-
-
-        const token =
-        project.token_symbol
-        ?
-        (
-          (project.token_name || "Token")
-          +
-          " • $"
-          +
-          project.token_symbol
-        )
-        :
-        (
-          project.token_name ||
-          "Token"
-        );
-
-
-        const status =
-        String(
-          project.token_status ||
-          "draft"
-        )
-        .toLowerCase();
-
-
-        const created =
-        status === "created" ||
-        status === "minted" ||
-        !!project.mint_address;
-
-
-        return `
-
-          <div class="project">
-
-            <div class="project-icon">
-
-              ${escapeHTML(
-                name.charAt(0).toUpperCase()
-              )}
-
-            </div>
-
-            <div class="project-info">
-
-              <div class="project-name">
-
-                ${escapeHTML(name)}
-
-              </div>
-
-              <div class="project-token">
-
-                ${escapeHTML(token)}
-
-              </div>
-
-            </div>
-
-            <span
-              class="status ${
-                created ? "created" : ""
-              }">
-
-              ${
-                created
-                ? "Created"
-                : "Draft"
-              }
-
-            </span>
-
-          </div>
-
-        `;
-
-      }
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
     )
-    .join("");
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
 
-/* =========================================
-   LANGUAGE
-========================================= */
+/* =========================================================
+   WALLET
+========================================================= */
 
-if(languageSelect){
+function updateWallet() {
 
-  languageSelect.addEventListener(
-    "change",
-    function(){
-
-      const language =
-      this.value;
-
-
-      localStorage.setItem(
-        "sonativa_language",
-        language
-      );
+  if (
+    !SonativaWallet
+  ) {
+    return;
+  }
 
 
-      if(language === "ar"){
-
-        document.documentElement.lang =
-        "ar";
-
-        document.documentElement.dir =
-        "rtl";
-
-      }else{
-
-        document.documentElement.lang =
-        language;
-
-        document.documentElement.dir =
-        "ltr";
-
-      }
-
-    }
-  );
+  const connected =
+    SonativaWallet.isConnected();
 
 
-  const savedLanguage =
-  localStorage.getItem(
-    "sonativa_language"
-  );
+  const address =
+    SonativaWallet.getAddress();
 
 
-  if(savedLanguage){
+  const status =
+    document.getElementById(
+      "walletStatus"
+    );
 
-    languageSelect.value =
-    savedLanguage;
+
+  const addressElement =
+    document.querySelector(
+      "[data-wallet-address]"
+    );
 
 
-    if(savedLanguage === "ar"){
+  if (status) {
 
-      document.documentElement.lang =
-      "ar";
+    status.textContent =
+      connected
+        ? "Connected"
+        : "Guest";
 
-      document.documentElement.dir =
-      "rtl";
+  }
 
-    }else{
 
-      document.documentElement.lang =
-      savedLanguage;
+  if (addressElement) {
 
-      document.documentElement.dir =
-      "ltr";
-
-    }
+    addressElement.textContent =
+      connected
+        ? SonativaWallet.shortenAddress(
+            address,
+            5,
+            5
+          )
+        : "Not connected";
 
   }
 
 }
 
 
-/* =========================================
-   START APPLICATION
-========================================= */
+if (
+  SonativaWallet
+) {
 
-loadUser();
+  SonativaWallet.onChange(
+    updateWallet
+  );
+
+  updateWallet();
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadProjects();
 
 </script>
 
