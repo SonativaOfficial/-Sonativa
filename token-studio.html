@@ -444,7 +444,8 @@
       align-items:center;
       justify-content:center;
       color:#fff;
-      background:linear-gradient(145deg,#1d2c40,#0c1420);
+      background:
+        linear-gradient(145deg,#1d2c40,#0c1420);
       border:1px solid #3c4f69;
       border-radius:16px;
       font-size:18px;
@@ -959,6 +960,7 @@
             <p>
               Configure your token identity, supply, decimals,
               network and authorities in one professional workspace.
+              Tokenomics is optional and can be configured separately.
               Saving a project does not execute any blockchain transaction.
             </p>
 
@@ -1241,7 +1243,10 @@
                   Project Description
                 </label>
 
-                <div class="ts-input-wrap">
+                <div
+                  class="ts-input-wrap"
+                  style="position:relative"
+                >
 
                   <textarea
                     id="projectDescription"
@@ -1288,7 +1293,8 @@
 
                   <span>
                     Allow the token configuration to retain
-                    a freeze authority.
+                    a freeze authority. Disable this if your
+                    final design requires immutable token accounts.
                   </span>
 
                 </div>
@@ -1317,7 +1323,8 @@
 
                   <span>
                     Keep mint authority available for future
-                    authorized minting.
+                    authorized minting. Review this carefully
+                    before deployment.
                   </span>
 
                 </div>
@@ -1345,8 +1352,8 @@
                   </strong>
 
                   <span>
-                    Enable token metadata such as name,
-                    symbol and description.
+                    Enable token metadata configuration.
+                    Metadata URI can be attached later.
                   </span>
 
                 </div>
@@ -1354,7 +1361,7 @@
                 <label class="sn-toggle">
 
                   <input
-                    id="metadata"
+                    id="metadataEnable"
                     type="checkbox"
                     checked
                   >
@@ -1375,7 +1382,8 @@
 
               <strong>Important</strong><br>
 
-              Saving stores your configuration only.
+              Tokenomics is optional.
+              Saving stores your token configuration only.
               No private key, seed phrase or blockchain
               transaction is requested.
 
@@ -1497,8 +1505,8 @@
                   </div>
 
                   <div class="ts-status-row">
-                    <span>Deployment</span>
-                    <strong>Wallet Authorized</strong>
+                    <span>Tokenomics</span>
+                    <strong>Optional</strong>
                   </div>
 
                 </div>
@@ -1521,6 +1529,9 @@
                   Sonativa separates configuration from deployment.
                   Your project can be reviewed and saved before
                   any wallet transaction is requested.
+                  Tokenomics can be configured separately and is
+                  not required to save this project.
+
                 </p>
 
               </div>
@@ -1536,7 +1547,7 @@
                 <div class="ts-feature">
                   <div class="ts-feature-icon">◈</div>
                   <strong>Tokenomics</strong>
-                  <span>Supply and precision.</span>
+                  <span>Optional supply allocation.</span>
                 </div>
 
                 <div class="ts-feature">
@@ -1591,45 +1602,117 @@
       getUser
     } from "./assets/js/supabase.js";
 
+
     const $ = (selector) =>
       document.querySelector(selector);
 
-    const projectName = $("#projectName");
-    const tokenName = $("#tokenName");
-    const tokenSymbol = $("#tokenSymbol");
-    const decimals = $("#decimals");
-    const totalSupply = $("#totalSupply");
-    const description = $("#projectDescription");
 
-    const freezeAuthority = $("#freezeAuthority");
-    const mintAuthority = $("#mintAuthority");
-    const metadataEnable = $("#metadata");
+    /*
+     * ============================================================
+     * FORM ELEMENTS
+     * ============================================================
+     */
 
-    const previewName = $("#previewName");
-    const previewTicker = $("#previewTicker");
-    const previewSymbol = $("#previewSymbol");
-    const previewSupply = $("#previewSupply");
-    const previewDecimals = $("#previewDecimals");
-    const previewNetwork = $("#previewNetwork");
-    const previewDescription = $("#previewDescription");
-    const previewFreeze = $("#previewFreeze");
-    const previewMint = $("#previewMint");
-    const previewMetadata = $("#previewMetadata");
+    const projectName =
+      $("#projectName");
+
+    const tokenName =
+      $("#tokenName");
+
+    const tokenSymbol =
+      $("#tokenSymbol");
+
+    const decimals =
+      $("#decimals");
+
+    const totalSupply =
+      $("#totalSupply");
+
+    const description =
+      $("#projectDescription");
+
+    const freezeAuthority =
+      $("#freezeAuthority");
+
+    const mintAuthority =
+      $("#mintAuthority");
+
+    const metadataEnable =
+      $("#metadataEnable");
+
+
+    /*
+     * ============================================================
+     * PREVIEW ELEMENTS
+     * ============================================================
+     */
+
+    const previewName =
+      $("#previewName");
+
+    const previewTicker =
+      $("#previewTicker");
+
+    const previewSymbol =
+      $("#previewSymbol");
+
+    const previewSupply =
+      $("#previewSupply");
+
+    const previewDecimals =
+      $("#previewDecimals");
+
+    const previewNetwork =
+      $("#previewNetwork");
+
+    const previewDescription =
+      $("#previewDescription");
+
+    const previewFreeze =
+      $("#previewFreeze");
+
+    const previewMint =
+      $("#previewMint");
+
+    const previewMetadata =
+      $("#previewMetadata");
+
+
+    /*
+     * ============================================================
+     * HELPERS
+     * ============================================================
+     */
 
     function formatNumber(value){
 
-      if (!value){
+      if (
+        value === null ||
+        value === undefined ||
+        value === ""
+      ){
+
         return "0";
+
       }
 
-      const number = Number(value);
+      const number =
+        Number(value);
 
-      if (!Number.isFinite(number)){
+      if (
+        !Number.isFinite(number)
+      ){
+
         return "0";
+
       }
 
-      return new Intl.NumberFormat("en-US").format(number);
+      return new Intl.NumberFormat(
+        "en-US"
+      ).format(number);
+
     }
+
 
     function getNetwork(){
 
@@ -1637,8 +1720,17 @@
         .querySelector(
           'input[name="network"]:checked'
         )
-        ?.value || "solana-mainnet";
+        ?.value ||
+        "solana-mainnet";
+
     }
+
+
+    /*
+     * ============================================================
+     * LIVE PREVIEW
+     * ============================================================
+     */
 
     function updatePreview(){
 
@@ -1646,74 +1738,100 @@
         tokenName.value.trim() ||
         "Your Token";
 
+
       const symbol =
         tokenSymbol.value.trim()
           .toUpperCase() ||
         "TOKEN";
 
+
       const supply =
         totalSupply.value ||
         "100000000";
+
 
       const decimalValue =
         decimals.value ||
         "9";
 
+
       const network =
         getNetwork();
+
 
       const descriptionValue =
         description.value.trim() ||
         "Your token description will appear here.";
 
+
       previewName.textContent =
         name;
 
+
       previewTicker.textContent =
         "$" + symbol;
+
 
       previewSymbol.textContent =
         symbol.slice(0,3) ||
         "S";
 
+
       previewSupply.textContent =
         formatNumber(supply);
 
+
       previewDecimals.textContent =
         decimalValue;
+
 
       previewNetwork.textContent =
         network === "solana-devnet"
           ? "Solana Devnet"
           : "Solana Mainnet";
 
+
       previewDescription.textContent =
         descriptionValue;
+
 
       previewFreeze.textContent =
         freezeAuthority.checked
           ? "Enabled"
           : "Disabled";
 
+
       previewMint.textContent =
         mintAuthority.checked
           ? "Enabled"
           : "Disabled";
+
 
       previewMetadata.textContent =
         metadataEnable.checked
           ? "Enabled"
           : "Disabled";
 
+
       $("#projectNameCount").textContent =
         `${projectName.value.length}/60`;
+
 
       $("#symbolCount").textContent =
         `${tokenSymbol.value.length}/12`;
 
+
       $("#descriptionCount").textContent =
         `${description.value.length}/500`;
+
     }
+
+
+    /*
+     * ============================================================
+     * TOAST
+     * ============================================================
+     */
 
     function showToast(
       title,
@@ -1724,34 +1842,82 @@
       const toast =
         $("#tokenStudioToast");
 
+
       const icon =
         $("#toastIcon");
+
 
       $("#toastTitle").textContent =
         title;
 
+
       $("#toastMessage").textContent =
         message;
+
 
       icon.textContent =
         type === "error"
           ? "!"
           : "✓";
 
+
       toast.className =
         `ts-toast show ${type}`;
+
 
       clearTimeout(
         window.__sonativaTokenToast
       );
 
+
       window.__sonativaTokenToast =
         setTimeout(() => {
 
-          toast.classList.remove("show");
+          toast.classList.remove(
+            "show"
+          );
 
         },4200);
+
     }
+
+
+    /*
+     * ============================================================
+     * COLLECT PROJECT
+     *
+     * IMPORTANT:
+     *
+     * These names match the Supabase
+     * public.projects columns.
+     *
+     * id
+     * user_id
+     * project_name
+     * token_name
+     * token_symbol
+     * total_supply
+     * decimals
+     * network
+     * description
+     * metadata_uri
+     * token_status
+     * mint_address
+     * created_at
+     * updated_at
+     * freeze_authority
+     * mint_authority
+     * metadata_enable
+     *
+     * id / created_at / updated_at are
+     * generated by Supabase.
+     *
+     * user_id comes from authenticated user.
+     *
+     * metadata_uri and mint_address are
+     * intentionally left null on draft creation.
+     * ============================================================
+     */
 
     function collectProject(){
 
@@ -1760,40 +1926,72 @@
         project_name:
           projectName.value.trim(),
 
+
         token_name:
           tokenName.value.trim(),
 
+
         token_symbol:
-          tokenSymbol.value.trim()
+          tokenSymbol.value
+            .trim()
             .toUpperCase(),
+
 
         decimals:
           Number(decimals.value),
 
+
         total_supply:
           totalSupply.value,
+
 
         network:
           getNetwork(),
 
+
         description:
           description.value.trim(),
+
+
+        metadata_uri:
+          null,
+
+
+        token_status:
+          "draft",
+
+
+        mint_address:
+          null,
+
 
         freeze_authority:
           freezeAuthority.checked,
 
+
         mint_authority:
           mintAuthority.checked,
+
 
         metadata_enable:
           metadataEnable.checked
 
       };
+
     }
 
-    function validateProject(project){
 
-      if(
+    /*
+     * ============================================================
+     * VALIDATION
+     * ============================================================
+     */
+
+    function validateProject(
+      project
+    ){
+
+      if (
         project.project_name.length < 2 ||
         project.project_name.length > 60
       ){
@@ -1807,28 +2005,33 @@
         projectName.focus();
 
         return false;
+
       }
 
-      if(
+
+      if (
         project.token_name.length < 2 ||
         project.token_name.length > 50
       ){
 
         showToast(
           "Token name required",
-          "Enter a valid token name between 2 and 50 characters.",
+          "Enter a valid public token name.",
           "error"
         );
 
         tokenName.focus();
 
         return false;
+
       }
 
-      if(
-        !/^[A-Za-z0-9]{1,12}$/.test(
-          project.token_symbol
-        )
+
+      if (
+        !/^[A-Za-z0-9]{1,12}$/
+          .test(
+            project.token_symbol
+          )
       ){
 
         showToast(
@@ -1840,10 +2043,14 @@
         tokenSymbol.focus();
 
         return false;
+
       }
 
-      if(
-        !Number.isInteger(project.decimals) ||
+
+      if (
+        !Number.isInteger(
+          project.decimals
+        ) ||
         project.decimals < 0 ||
         project.decimals > 18
       ){
@@ -1857,46 +2064,79 @@
         decimals.focus();
 
         return false;
+
       }
 
-      if(
-        !/^\d+$/.test(
-          String(project.total_supply)
-        )
-      ){
-
-        showToast(
-          "Invalid supply",
-          "Total supply must be a positive whole number.",
-          "error"
-        );
-
-        totalSupply.focus();
-
-        return false;
-      }
 
       const supply =
-        Number(project.total_supply);
+        Number(
+          project.total_supply
+        );
 
-      if(
-        !Number.isSafeInteger(supply) ||
+
+      if (
+        !Number.isFinite(supply) ||
         supply <= 0
       ){
 
         showToast(
           "Invalid supply",
-          "Total supply must be greater than zero and within the supported range.",
+          "Total supply must be greater than zero.",
           "error"
         );
 
         totalSupply.focus();
 
         return false;
+
       }
 
+
+      if (
+        !Number.isInteger(supply)
+      ){
+
+        showToast(
+          "Invalid supply",
+          "Total supply must be a whole number.",
+          "error"
+        );
+
+        totalSupply.focus();
+
+        return false;
+
+      }
+
+
+      if (
+        project.network !==
+          "solana-mainnet" &&
+        project.network !==
+          "solana-devnet"
+      ){
+
+        showToast(
+          "Invalid network",
+          "Select a valid Solana network.",
+          "error"
+        );
+
+        return false;
+
+      }
+
+
       return true;
+
     }
+
+
+    /*
+     * ============================================================
+     * LOCAL FALLBACK
+     * ============================================================
+     */
 
     function saveLocal(project){
 
@@ -1907,133 +2147,234 @@
           ) || "[]"
         );
 
+
       project.id =
-        "local_" + Date.now();
+        "local_" +
+        Date.now();
 
-      project.created_at =
-        new Date().toISOString();
 
-      project.updated_at =
-        project.created_at;
+      project.user_id =
+        null;
+
+
+      project.metadata_uri =
+        null;
+
 
       project.token_status =
         "draft";
 
-      existing.unshift(project);
+
+      project.mint_address =
+        null;
+
+
+      project.created_at =
+        new Date().toISOString();
+
+
+      project.updated_at =
+        new Date().toISOString();
+
+
+      existing.unshift(
+        project
+      );
+
 
       localStorage.setItem(
         "sonativa_projects",
         JSON.stringify(existing)
       );
+
     }
+
+
+    /*
+     * ============================================================
+     * SAVE PROJECT
+     * ============================================================
+     */
 
     async function saveProject(){
 
       const project =
         collectProject();
 
-      if(!validateProject(project)){
+
+      if (
+        !validateProject(
+          project
+        )
+      ){
+
         return;
+
       }
+
 
       const button =
         $("#saveButton");
 
+
       const original =
         button.textContent;
 
+
       button.disabled = true;
+
       button.textContent =
         "Saving...";
 
-      try{
+
+      try {
 
         let savedRemotely =
           false;
 
-        if(supabase){
 
-          try{
+        /*
+         * ========================================================
+         * SUPABASE
+         * ========================================================
+         */
+
+        if (supabase){
+
+          try {
 
             const user =
               await getUser();
 
-            if(user){
+
+            if (user){
+
+              /*
+               * EXACT public.projects COLUMNS
+               *
+               * We intentionally do not insert:
+               *
+               * id
+               * created_at
+               * updated_at
+               *
+               * because Supabase should generate them.
+               *
+               * We also do not insert Tokenomics fields.
+               * Tokenomics is optional and belongs to
+               * Tokenomics Studio.
+               */
+
+              const insertData = {
+
+                user_id:
+                  user.id,
+
+
+                project_name:
+                  project.project_name,
+
+
+                token_name:
+                  project.token_name,
+
+
+                token_symbol:
+                  project.token_symbol,
+
+
+                total_supply:
+                  project.total_supply,
+
+
+                decimals:
+                  project.decimals,
+
+
+                network:
+                  project.network,
+
+
+                description:
+                  project.description || null,
+
+
+                metadata_uri:
+                  project.metadata_uri,
+
+
+                token_status:
+                  project.token_status,
+
+
+                mint_address:
+                  project.mint_address,
+
+
+                freeze_authority:
+                  project.freeze_authority,
+
+
+                mint_authority:
+                  project.mint_authority,
+
+
+                metadata_enable:
+                  project.metadata_enable
+
+              };
+
+
+              console.log(
+                "[Sonativa] Saving project:",
+                insertData
+              );
+
 
               const result =
                 await supabase
                   .from("projects")
-                  .insert({
-
-                    user_id:
-                      user.id,
-
-                    project_name:
-                      project.project_name,
-
-                    token_name:
-                      project.token_name,
-
-                    token_symbol:
-                      project.token_symbol,
-
-                    total_supply:
-                      project.total_supply,
-
-                    decimals:
-                      project.decimals,
-
-                    network:
-                      project.network,
-
-                    description:
-                      project.description,
-
-                    freeze_authority:
-                      project.freeze_authority,
-
-                    mint_authority:
-                      project.mint_authority,
-
-                    metadata_enable:
-                      project.metadata_enable,
-
-                    token_status:
-                      "draft"
-
-                  })
+                  .insert(
+                    insertData
+                  )
                   .select()
                   .single();
 
-              if(!result.error){
 
-                savedRemotely = true;
+              if (
+                !result.error &&
+                result.data
+              ){
 
-              }else{
+                savedRemotely =
+                  true;
+
+
+                console.log(
+                  "[Sonativa] Project saved:",
+                  result.data
+                );
+
+              } else {
 
                 console.error(
                   "[Sonativa] Supabase project insert error:",
                   result.error
                 );
 
-                showToast(
-                  "Supabase error",
-                  result.error.message ||
-                  "The project could not be saved to Supabase.",
-                  "error"
-                );
-
               }
 
-            }else{
+            } else {
 
-              console.error(
+              console.warn(
                 "[Sonativa] No authenticated user."
               );
 
             }
 
-          }catch(remoteError){
+          } catch (
+            remoteError
+          ){
 
             console.error(
               "[Sonativa] Remote project save error:",
@@ -2044,36 +2385,46 @@
 
         }
 
-        if(!savedRemotely){
 
-          saveLocal(project);
+        /*
+         * ========================================================
+         * LOCAL FALLBACK
+         * ========================================================
+         */
 
-          if(!supabase){
+        if (
+          !savedRemotely
+        ){
 
-            showToast(
-              "Project saved locally",
-              "Supabase is not available. The project was saved in this browser.",
-              "error"
-            );
+          saveLocal(
+            project
+          );
 
-          }else{
 
-            showToast(
-              "Project saved locally",
-              "Supabase did not accept the project. Check the browser console for the exact error.",
-              "error"
-            );
+          showToast(
+            "Project saved locally",
+            "Supabase did not accept the project. Check the browser console for the exact error.",
+            "error"
+          );
 
-          }
 
           return;
+
         }
+
+
+        /*
+         * ========================================================
+         * SUCCESS
+         * ========================================================
+         */
 
         showToast(
           "Project saved",
           "Your project draft was saved to your Sonativa workspace.",
           "success"
         );
+
 
         setTimeout(() => {
 
@@ -2082,12 +2433,14 @@
 
         },1000);
 
-      }catch(error){
+
+      } catch(error){
 
         console.error(
           "[Sonativa] Save project error:",
           error
         );
+
 
         showToast(
           "Save failed",
@@ -2096,90 +2449,160 @@
           "error"
         );
 
-      }finally{
 
-        button.disabled = false;
+      } finally {
+
+        button.disabled =
+          false;
+
+
         button.textContent =
           original;
 
       }
+
     }
+
+
+    /*
+     * ============================================================
+     * RESET
+     * ============================================================
+     */
 
     function resetForm(){
 
-      projectName.value = "";
-      tokenName.value = "";
-      tokenSymbol.value = "";
+      projectName.value =
+        "";
 
-      decimals.value = "9";
+
+      tokenName.value =
+        "";
+
+
+      tokenSymbol.value =
+        "";
+
+
+      decimals.value =
+        "9";
+
+
       totalSupply.value =
         "100000000";
 
-      description.value = "";
+
+      description.value =
+        "";
+
 
       freezeAuthority.checked =
         true;
 
+
       mintAuthority.checked =
         true;
 
+
       metadataEnable.checked =
         true;
+
 
       const mainnet =
         document.querySelector(
           'input[name="network"][value="solana-mainnet"]'
         );
 
-      if(mainnet){
-        mainnet.checked = true;
+
+      if (mainnet){
+
+        mainnet.checked =
+          true;
+
       }
 
+
       updatePreview();
+
 
       showToast(
         "Configuration reset",
         "The Token Studio form has been cleared.",
         "success"
       );
+
     }
 
+
+    /*
+     * ============================================================
+     * LIVE EVENTS
+     * ============================================================
+     */
+
     [
+
       projectName,
+
       tokenName,
+
       tokenSymbol,
+
       decimals,
+
       totalSupply,
+
       description,
+
       freezeAuthority,
+
       mintAuthority,
+
       metadataEnable
-    ].forEach(element => {
 
-      element.addEventListener(
-        "input",
-        updatePreview
-      );
+    ].forEach(
+      element => {
 
-      element.addEventListener(
-        "change",
-        updatePreview
-      );
+        element.addEventListener(
+          "input",
+          updatePreview
+        );
 
-    });
-
-    document
-      .querySelectorAll(
-        'input[name="network"]'
-      )
-      .forEach(element => {
 
         element.addEventListener(
           "change",
           updatePreview
         );
 
-      });
+      }
+    );
+
+
+    /*
+     * NETWORK EVENTS
+     */
+
+    document
+      .querySelectorAll(
+        'input[name="network"]'
+      )
+      .forEach(
+        element => {
+
+          element.addEventListener(
+            "change",
+            updatePreview
+          );
+
+        }
+      );
+
+
+    /*
+     * ============================================================
+     * SYMBOL SANITIZATION
+     * ============================================================
+     */
 
     tokenSymbol.addEventListener(
       "input",
@@ -2193,10 +2616,18 @@
             )
             .toUpperCase();
 
+
         updatePreview();
 
       }
     );
+
+
+    /*
+     * ============================================================
+     * BUTTONS
+     * ============================================================
+     */
 
     $("#saveButton")
       .addEventListener(
@@ -2204,11 +2635,13 @@
         saveProject
       );
 
+
     $("#resetButton")
       .addEventListener(
         "click",
         resetForm
       );
+
 
     $("#focusBuilder")
       .addEventListener(
@@ -2221,14 +2654,25 @@
               block:"start"
             });
 
-          setTimeout(() => {
 
-            projectName.focus();
+          setTimeout(
+            () => {
 
-          },450);
+              projectName.focus();
+
+            },
+            450
+          );
 
         }
       );
+
+
+    /*
+     * ============================================================
+     * INITIAL PREVIEW
+     * ============================================================
+     */
 
     updatePreview();
 
