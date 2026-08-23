@@ -1,1409 +1,1213 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<meta name="theme-color" content="#05070b">
-
-<meta name="description"
-content="Sonativa — Web3 command center for building, analyzing and managing Web3 projects.">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05070d">
+<meta name="description" content="Sonativa — Web3 Command Center.">
 <title>Sonativa — Command Center</title>
 
 <link rel="stylesheet" href="assets/css/sonativa.css">
 
 <style>
-
-/* =========================================================
-   SONATIVA COMMAND CENTER
-   ========================================================= */
-
 :root{
-  --sc-bg:#05070b;
-  --sc-panel:rgba(12,16,24,.78);
-  --sc-panel-2:#0a0f17;
-  --sc-line:rgba(255,255,255,.075);
-  --sc-line-hover:rgba(255,255,255,.14);
-  --sc-text:#f2f5f8;
-  --sc-muted:#7d899b;
-  --sc-soft:#aeb8c7;
-  --sc-accent:#ffffff;
-  --sc-green:#65e6a0;
-  --sc-gold:#e8c36c;
-  --sc-blue:#79aefc;
+  --bg:#05070d;
+  --panel:#090d15;
+  --panel2:#0c111b;
+  --line:rgba(255,255,255,.075);
+  --line2:rgba(255,255,255,.12);
+  --text:#f3f6fb;
+  --muted:#778399;
+  --soft:#aeb8c8;
+  --blue:#6ea8ff;
+  --green:#55d99a;
+  --gold:#e5bd67;
 }
 
-
-/* =========================================================
-   BASE
-   ========================================================= */
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  background:var(--sc-bg);
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.background{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
   background:
-    radial-gradient(
-      circle at 70% -10%,
-      rgba(70,100,160,.10),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 10% 40%,
-      rgba(90,70,160,.045),
-      transparent 30%
-    ),
-    var(--sc-bg);
-  color:var(--sc-text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,
-  "Segoe UI",sans-serif;
+    radial-gradient(circle at 72% 8%,rgba(76,122,255,.09),transparent 28%),
+    radial-gradient(circle at 20% 80%,rgba(52,92,180,.055),transparent 30%),
+    #05070d;
 }
 
+.background:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.25;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
 
-/* =========================================================
-   APP
-   ========================================================= */
-
-.sc-app{
+.app{
+  position:relative;
   min-height:100vh;
-  display:flex;
 }
-
 
 /* =========================================================
    SIDEBAR
-   ========================================================= */
+========================================================= */
 
-.sc-sidebar{
-  width:236px;
-  min-width:236px;
-  height:100vh;
-  position:sticky;
+.sidebar{
+  width:238px;
+  position:fixed;
   top:0;
+  bottom:0;
+  left:0;
+  z-index:50;
   display:flex;
   flex-direction:column;
-  padding:18px 12px;
-  border-right:1px solid var(--sc-line);
-  background:rgba(5,8,13,.82);
+  padding:22px 13px 14px;
+  background:rgba(5,8,14,.91);
+  border-right:1px solid var(--line);
   backdrop-filter:blur(24px);
-  z-index:20;
 }
 
-.sc-brand{
-  height:48px;
+.brand{
   display:flex;
   align-items:center;
-  gap:9px;
-  padding:0 10px;
-  margin-bottom:14px;
+  gap:8px;
+  padding:3px 10px 25px;
 }
 
-.sc-brand-mark{
-  width:30px;
-  height:30px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid rgba(255,255,255,.17);
-  border-radius:8px;
-  background:linear-gradient(
-    145deg,
-    #151b25,
-    #080b11
-  );
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:-.5px;
-}
-
-.sc-brand-name{
-  font-size:13px;
+.brand-logo{
+  font-size:15px;
   font-weight:950;
-  letter-spacing:1.4px;
+  letter-spacing:2.4px;
 }
 
-.sc-brand-beta{
-  margin-left:auto;
-  padding:3px 5px;
-  border:1px solid var(--sc-line);
-  border-radius:4px;
-  color:#6f7a8c;
+.brand-version{
+  padding:3px 6px;
+  border:1px solid var(--line2);
+  border-radius:5px;
+  color:#68758a;
   font-size:7px;
   font-weight:900;
   letter-spacing:.7px;
 }
 
-
-/* NAV */
-
-.sc-nav{
+.nav{
   flex:1;
-  overflow:auto;
-  padding-right:2px;
+  overflow-y:auto;
+  scrollbar-width:none;
 }
 
-.sc-nav::-webkit-scrollbar{
-  width:3px;
+.nav::-webkit-scrollbar{
+  display:none;
 }
 
-.sc-nav::-webkit-scrollbar-thumb{
-  background:#202837;
-}
-
-.sc-nav-label{
-  padding:16px 10px 7px;
-  color:#4f5b6d;
+.nav-section{
+  margin:18px 10px 7px;
+  color:#4e5a6e;
   font-size:8px;
   font-weight:900;
-  letter-spacing:1.2px;
+  letter-spacing:1.4px;
   text-transform:uppercase;
 }
 
-.sc-nav-item{
-  min-height:38px;
+.nav-section:first-child{
+  margin-top:0;
+}
+
+.nav-item{
+  min-height:39px;
+  position:relative;
   display:flex;
   align-items:center;
   gap:11px;
-  padding:0 10px;
   margin:2px 0;
+  padding:0 10px;
   border:1px solid transparent;
-  border-radius:8px;
-  color:#8d98a8;
+  border-radius:9px;
+  color:#7f8b9e;
   text-decoration:none;
   font-size:10px;
   font-weight:750;
-  transition:
-    background .18s ease,
-    color .18s ease,
-    border-color .18s ease,
-    transform .18s ease;
+  transition:.18s ease;
 }
 
-.sc-nav-item:hover{
-  color:#e9edf3;
+.nav-item:hover{
+  color:#e6ebf3;
   background:rgba(255,255,255,.035);
-  border-color:var(--sc-line);
+  border-color:var(--line);
 }
 
-.sc-nav-item.active{
+.nav-item.active{
   color:#fff;
-  background:rgba(255,255,255,.065);
-  border-color:rgba(255,255,255,.09);
+  background:linear-gradient(90deg,rgba(104,146,255,.12),rgba(104,146,255,.035));
+  border-color:rgba(104,146,255,.14);
 }
 
-.sc-nav-icon{
-  width:17px;
+.nav-item.active:before{
+  content:"";
+  position:absolute;
+  left:-1px;
+  top:9px;
+  bottom:9px;
+  width:2px;
+  border-radius:2px;
+  background:#77a8ff;
+  box-shadow:0 0 12px rgba(119,168,255,.7);
+}
+
+.nav-icon{
+  width:18px;
   text-align:center;
-  color:#647084;
-  font-size:12px;
+  color:#7d899c;
+  font-size:14px;
 }
 
-.sc-nav-item.active .sc-nav-icon{
-  color:#fff;
+.nav-item.active .nav-icon{
+  color:#a9c6ff;
 }
 
-.sc-nav-badge{
+.nav-badge{
   margin-left:auto;
-  color:var(--sc-gold);
-  font-size:7px;
+  padding:3px 5px;
+  border-radius:4px;
+  border:1px solid rgba(224,185,92,.22);
+  background:rgba(224,185,92,.06);
+  color:var(--gold);
+  font-size:6px;
   font-weight:950;
   letter-spacing:.5px;
 }
 
-
-/* SIDEBAR ACCOUNT */
-
-.sc-account{
-  padding:12px 8px 4px;
-  border-top:1px solid var(--sc-line);
+.nav-badge.free{
+  color:#65748a;
+  border-color:var(--line);
+  background:rgba(255,255,255,.025);
 }
 
-.sc-account-box{
+.sidebar-bottom{
+  padding-top:12px;
+  border-top:1px solid var(--line);
+}
+
+.account{
   display:flex;
   align-items:center;
-  gap:9px;
-  padding:9px;
-  border:1px solid transparent;
-  border-radius:9px;
+  gap:10px;
+  padding:8px 9px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:rgba(255,255,255,.018);
 }
 
-.sc-avatar{
+.avatar{
   width:31px;
   height:31px;
   display:flex;
   align-items:center;
   justify-content:center;
-  flex-shrink:0;
-  border-radius:50%;
-  background:#121923;
-  border:1px solid #263142;
-  color:#dce3ed;
+  border-radius:8px;
+  background:#111827;
+  border:1px solid var(--line2);
+  color:#dce5f3;
   font-size:10px;
   font-weight:900;
 }
 
-.sc-account-main{
+.account-info{
   min-width:0;
-  flex:1;
 }
 
-.sc-account-name{
+.account-name{
   overflow:hidden;
-  white-space:nowrap;
   text-overflow:ellipsis;
-  font-size:9px;
+  white-space:nowrap;
+  color:#dfe6f0;
+  font-size:10px;
   font-weight:850;
 }
 
-.sc-account-status{
+.account-status{
   margin-top:3px;
-  color:#566274;
+  color:#566477;
   font-size:7px;
 }
 
-
 /* =========================================================
    MAIN
-   ========================================================= */
+========================================================= */
 
-.sc-main{
-  min-width:0;
-  flex:1;
+.main{
+  min-height:100vh;
+  margin-left:238px;
 }
 
-
-/* =========================================================
-   TOPBAR
-   ========================================================= */
-
-.sc-topbar{
-  height:64px;
+.topbar{
+  height:68px;
   position:sticky;
   top:0;
-  z-index:15;
+  z-index:30;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:18px;
-  padding:0 28px;
-  border-bottom:1px solid var(--sc-line);
-  background:rgba(5,7,11,.72);
+  padding:0 32px;
+  background:rgba(5,7,13,.76);
+  border-bottom:1px solid var(--line);
   backdrop-filter:blur(22px);
 }
 
-.sc-top-left{
+.top-left{
   display:flex;
   align-items:center;
-  gap:10px;
-  min-width:0;
+  gap:12px;
 }
 
-.sc-menu{
+.menu-button{
   display:none;
 }
 
-.sc-breadcrumb{
-  color:#5e6a7b;
-  font-size:9px;
+.page-title{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.3px;
 }
 
-.sc-breadcrumb strong{
-  color:#b9c2ce;
-  font-weight:750;
-}
-
-
-/* SEARCH */
-
-.sc-search{
-  width:min(330px,35vw);
-  height:34px;
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:0 11px;
-  border:1px solid var(--sc-line);
-  border-radius:8px;
-  background:rgba(10,14,21,.82);
-}
-
-.sc-search-icon{
-  color:#596577;
-  font-size:12px;
-}
-
-.sc-search input{
-  width:100%;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:#dce3ed;
-  font:inherit;
-  font-size:9px;
-}
-
-.sc-search input::placeholder{
-  color:#596577;
-}
-
-
-/* TOP ACTIONS */
-
-.sc-top-actions{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.sc-network{
-  height:32px;
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:0 10px;
-  border:1px solid var(--sc-line);
-  border-radius:8px;
-  background:#0b1018;
-  color:#8995a6;
+.page-subtitle{
+  margin-top:3px;
+  color:#586579;
   font-size:8px;
 }
 
-.sc-network-dot{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--sc-green);
-  box-shadow:0 0 9px rgba(101,230,160,.35);
-}
-
-.sc-icon-btn{
-  width:32px;
-  height:32px;
+.top-actions{
   display:flex;
   align-items:center;
+  gap:8px;
+}
+
+.lang{
+  height:32px;
+  padding:0 8px;
+  outline:none;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:#090d15;
+  color:#8995a8;
+  font-size:8px;
+}
+
+.icon-button{
+  width:32px;
+  height:32px;
+  display:inline-flex;
+  align-items:center;
   justify-content:center;
-  border:1px solid var(--sc-line);
+  border:1px solid var(--line);
   border-radius:8px;
-  background:#0b1018;
-  color:#8793a5;
+  background:#090d15;
+  color:#8793a7;
   text-decoration:none;
   cursor:pointer;
-  font-size:12px;
 }
 
-.sc-icon-btn:hover{
+.icon-button:hover{
   color:#fff;
-  border-color:var(--sc-line-hover);
-  background:#101620;
+  border-color:var(--line2);
+  background:#0d131e;
 }
 
-
 /* =========================================================
-   CONTENT
-   ========================================================= */
+   COMMAND CENTER
+========================================================= */
 
-.sc-content{
-  width:min(1380px,calc(100% - 52px));
-  margin:0 auto;
-  padding:46px 0 80px;
+.command{
+  width:min(1380px,92%);
+  margin:auto;
+  padding:45px 0 65px;
 }
 
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.sc-hero{
-  min-height:230px;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
+.command-header{
+  display:grid;
+  grid-template-columns:1fr auto;
   gap:30px;
-  padding:36px 0 30px;
-  border-bottom:1px solid var(--sc-line);
+  align-items:end;
+  margin-bottom:27px;
 }
 
-.sc-hero-eyebrow{
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:8px;
   margin-bottom:13px;
-  color:#667286;
+  color:#657287;
   font-size:8px;
   font-weight:950;
   letter-spacing:1.8px;
 }
 
-.sc-hero-title{
+.live-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px rgba(85,217,154,.65);
+}
+
+.command-title{
+  max-width:760px;
   margin:0;
-  max-width:720px;
-  font-size:clamp(34px,4vw,58px);
+  font-size:clamp(36px,5vw,65px);
   line-height:.98;
-  letter-spacing:-2.7px;
+  letter-spacing:-3px;
   font-weight:950;
 }
 
-.sc-hero-text{
-  max-width:610px;
-  margin:17px 0 0;
-  color:#778396;
+.command-title span{
+  color:#647086;
+}
+
+.command-description{
+  max-width:600px;
+  margin-top:16px;
+  color:#758196;
   font-size:11px;
-  line-height:1.7;
+  line-height:1.8;
 }
 
-.sc-hero-actions{
+.command-actions{
   display:flex;
+  align-items:center;
   gap:8px;
-  flex-shrink:0;
 }
 
-.sc-btn{
-  height:38px;
+.btn{
+  min-height:39px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:7px;
-  padding:0 14px;
-  border:1px solid var(--sc-line);
+  gap:8px;
+  padding:0 15px;
   border-radius:8px;
-  background:#0c121b;
-  color:#bfc8d5;
+  border:1px solid var(--line2);
+  background:#0b1019;
+  color:#dce4ef;
   text-decoration:none;
   font-size:9px;
-  font-weight:850;
-  cursor:pointer;
+  font-weight:900;
+  transition:.18s;
 }
 
-.sc-btn:hover{
-  color:#fff;
-  border-color:var(--sc-line-hover);
-  background:#111822;
+.btn:hover{
+  background:#111925;
+  border-color:rgba(255,255,255,.18);
 }
 
-.sc-btn.primary{
-  color:#05070b;
+.btn.primary{
+  background:#eef3fa;
+  color:#070a10;
+  border-color:#eef3fa;
+}
+
+.btn.primary:hover{
   background:#fff;
-  border-color:#fff;
 }
-
-.sc-btn.primary:hover{
-  background:#e7ebf0;
-}
-
 
 /* =========================================================
-   COMMAND SEARCH
-   ========================================================= */
+   OVERVIEW STRIP
+========================================================= */
 
-.sc-command{
-  margin:24px 0;
-  padding:18px;
-  display:flex;
-  align-items:center;
-  gap:16px;
-  border:1px solid var(--sc-line);
+.overview{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:22px;
+}
+
+.overview-card{
+  min-height:88px;
+  padding:15px 16px;
+  border:1px solid var(--line);
   border-radius:11px;
-  background:
-    linear-gradient(
-      105deg,
-      rgba(255,255,255,.035),
-      rgba(255,255,255,.012)
-    );
+  background:rgba(9,13,21,.72);
 }
 
-.sc-command-symbol{
-  width:38px;
-  height:38px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-  border:1px solid #273141;
-  border-radius:9px;
-  background:#0d131d;
-  color:#aeb8c7;
-}
-
-.sc-command-main{
-  min-width:0;
-  flex:1;
-}
-
-.sc-command-title{
-  font-size:10px;
+.overview-label{
+  color:#59667a;
+  font-size:7px;
   font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
 }
 
-.sc-command-desc{
+.overview-value{
+  margin-top:10px;
+  color:#edf2f8;
+  font-size:20px;
+  font-weight:950;
+}
+
+.overview-note{
   margin-top:4px;
-  color:#606d80;
-  font-size:8px;
-}
-
-.sc-command-key{
-  padding:5px 7px;
-  border:1px solid var(--sc-line);
-  border-radius:5px;
-  color:#596577;
+  color:#4e5b6f;
   font-size:7px;
 }
 
-
 /* =========================================================
-   SECTION
-   ========================================================= */
+   PRIMARY AREA
+========================================================= */
 
-.sc-section{
-  margin-top:32px;
-}
-
-.sc-section-head{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:13px;
-}
-
-.sc-section-title{
-  font-size:13px;
-  font-weight:950;
-  letter-spacing:-.2px;
-}
-
-.sc-section-sub{
-  margin-top:4px;
-  color:#5d697b;
-  font-size:8px;
-}
-
-.sc-section-link{
-  color:#697588;
-  text-decoration:none;
-  font-size:8px;
-}
-
-.sc-section-link:hover{
-  color:#fff;
-}
-
-
-/* =========================================================
-   BUILD AREA
-   ========================================================= */
-
-.sc-build-grid{
+.workspace{
   display:grid;
-  grid-template-columns:1.7fr 1fr 1fr;
+  grid-template-columns:minmax(0,1.55fr) minmax(290px,.75fr);
   gap:10px;
 }
 
-.sc-build-main{
-  min-height:190px;
-  grid-row:span 2;
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding:22px;
-  overflow:hidden;
-  border:1px solid var(--sc-line);
-  border-radius:12px;
+.panel{
+  min-width:0;
+  padding:20px;
+  border:1px solid var(--line);
+  border-radius:13px;
   background:
-    radial-gradient(
-      circle at 80% 10%,
-      rgba(100,140,210,.12),
-      transparent 45%
-    ),
-    #090e16;
-  text-decoration:none;
-  color:#fff;
-  transition:.2s;
+    linear-gradient(145deg,rgba(14,19,30,.9),rgba(7,10,17,.9));
+  box-shadow:0 18px 60px rgba(0,0,0,.12);
 }
 
-.sc-build-main:hover{
-  border-color:var(--sc-line-hover);
-  transform:translateY(-1px);
-}
-
-.sc-build-main::before{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  right:-60px;
-  top:-70px;
-  border:1px solid rgba(255,255,255,.055);
-  border-radius:50%;
-}
-
-.sc-build-main::after{
-  content:"";
-  position:absolute;
-  width:110px;
-  height:110px;
-  right:-25px;
-  top:-35px;
-  border:1px solid rgba(255,255,255,.04);
-  border-radius:50%;
-}
-
-.sc-build-icon{
-  position:absolute;
-  top:21px;
-  left:21px;
-  width:38px;
-  height:38px;
+.panel-header{
   display:flex;
   align-items:center;
-  justify-content:center;
-  border:1px solid #2a3546;
-  border-radius:9px;
-  background:#111823;
-  font-size:14px;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:18px;
 }
 
-.sc-build-label{
-  margin-bottom:7px;
-  color:#718096;
+.panel-kicker{
+  margin-bottom:5px;
+  color:#4f5c70;
   font-size:7px;
   font-weight:900;
   letter-spacing:1.2px;
   text-transform:uppercase;
 }
 
-.sc-build-title{
-  font-size:20px;
+.panel-title{
+  font-size:13px;
   font-weight:950;
-  letter-spacing:-.7px;
 }
 
-.sc-build-desc{
-  max-width:360px;
-  margin-top:7px;
-  color:#687588;
-  font-size:9px;
-  line-height:1.55;
+.panel-link{
+  color:#6f7d91;
+  font-size:8px;
+  text-decoration:none;
 }
 
-.sc-build-arrow{
+.panel-link:hover{
+  color:#fff;
+}
+
+/* =========================================================
+   BUILD HUB
+========================================================= */
+
+.build-layout{
+  display:grid;
+  grid-template-columns:1.05fr 1fr;
+  gap:9px;
+}
+
+.primary-tool{
+  min-height:228px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:20px;
+  overflow:hidden;
+  border:1px solid rgba(111,159,255,.15);
+  border-radius:11px;
+  background:
+    radial-gradient(circle at 85% 15%,rgba(89,139,255,.13),transparent 35%),
+    linear-gradient(145deg,#0d1523,#080c14);
+  color:#fff;
+  text-decoration:none;
+}
+
+.primary-tool:before{
+  content:"";
   position:absolute;
-  right:19px;
-  bottom:18px;
-  color:#667286;
+  width:180px;
+  height:180px;
+  top:-80px;
+  right:-55px;
+  border:1px solid rgba(126,164,255,.1);
+  border-radius:50%;
+}
+
+.primary-tool-icon{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:auto;
+  border:1px solid rgba(137,173,255,.18);
+  border-radius:10px;
+  background:rgba(103,145,255,.08);
+  color:#9ebdff;
+  font-size:19px;
+}
+
+.primary-tool-title{
+  margin-top:18px;
+  font-size:16px;
+  font-weight:950;
+}
+
+.primary-tool-desc{
+  max-width:320px;
+  margin-top:6px;
+  color:#6f7c90;
+  font-size:8px;
+  line-height:1.6;
+}
+
+.arrow{
+  position:absolute;
+  right:17px;
+  bottom:17px;
+  color:#7898d3;
   font-size:13px;
 }
 
+.tool-stack{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
 
-/* SMALL BUILD CARDS */
-
-.sc-mini-card{
-  min-height:91px;
+.mini-tool{
+  min-height:109px;
   position:relative;
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#080d15;
+  color:#fff;
+  text-decoration:none;
+  transition:.18s;
+}
+
+.mini-tool:hover{
+  transform:translateY(-2px);
+  border-color:var(--line2);
+  background:#0c121c;
+}
+
+.mini-icon{
+  color:#8291a8;
+  font-size:15px;
+}
+
+.mini-title{
+  margin-top:12px;
+  font-size:9px;
+  font-weight:900;
+}
+
+.mini-desc{
+  margin-top:4px;
+  color:#566478;
+  font-size:7px;
+  line-height:1.45;
+}
+
+.mini-badge{
+  position:absolute;
+  top:9px;
+  right:9px;
+  color:#657389;
+  font-size:6px;
+  font-weight:950;
+  letter-spacing:.6px;
+}
+
+.mini-badge.pro{
+  color:var(--gold);
+}
+
+/* =========================================================
+   WALLET
+========================================================= */
+
+.wallet-card{
+  position:relative;
+  min-height:228px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:
+    radial-gradient(circle at 100% 0,rgba(86,122,190,.09),transparent 40%),
+    #080d15;
+}
+
+.wallet-network{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.network-label{
+  color:#68758a;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.network{
+  padding:4px 7px;
+  border:1px solid var(--line);
+  border-radius:5px;
+  color:#77869c;
+  font-size:7px;
+}
+
+.wallet-brand{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:14px;
-  border:1px solid var(--sc-line);
+}
+
+.wallet-logo{
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   border-radius:10px;
-  background:#090e16;
-  color:#fff;
-  text-decoration:none;
-  transition:.2s;
+  border:1px solid var(--line2);
+  background:#101724;
+  font-size:18px;
 }
 
-.sc-mini-card:hover{
-  border-color:var(--sc-line-hover);
-  background:#0d131c;
-  transform:translateY(-1px);
+.wallet-name{
+  font-size:13px;
+  font-weight:950;
 }
 
-.sc-mini-icon{
+.wallet-address{
+  margin-top:4px;
+  color:#566478;
+  font-size:8px;
+}
+
+.wallet-note{
+  color:#5c697d;
+  font-size:7px;
+  line-height:1.6;
+}
+
+/* =========================================================
+   PROJECTS
+========================================================= */
+
+.projects-panel{
+  margin-top:10px;
+}
+
+.project-empty{
+  min-height:145px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  border:1px dashed rgba(255,255,255,.09);
+  border-radius:10px;
+  background:rgba(255,255,255,.012);
+  text-align:center;
+}
+
+.empty-icon{
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:10px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  color:#738096;
+}
+
+.empty-title{
+  font-size:10px;
+  font-weight:900;
+}
+
+.empty-text{
+  margin-top:5px;
+  color:#566376;
+  font-size:7px;
+}
+
+.project-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.project-row{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:10px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.project-row:last-child{
+  border-bottom:0;
+}
+
+.project-avatar{
   width:34px;
   height:34px;
   display:flex;
   align-items:center;
   justify-content:center;
   flex-shrink:0;
-  border:1px solid #263143;
   border-radius:8px;
-  background:#101721;
-  color:#aeb8c7;
-}
-
-.sc-mini-title{
-  font-size:9px;
-  font-weight:900;
-}
-
-.sc-mini-desc{
-  margin-top:4px;
-  color:#5f6c7e;
-  font-size:7px;
-  line-height:1.4;
-}
-
-.sc-pro{
-  position:absolute;
-  right:9px;
-  top:9px;
-  color:var(--sc-gold);
-  font-size:6px;
-  font-weight:950;
-  letter-spacing:.7px;
-}
-
-
-/* =========================================================
-   PROJECTS + WALLET
-   ========================================================= */
-
-.sc-two-col{
-  display:grid;
-  grid-template-columns:1.45fr 1fr;
-  gap:10px;
-}
-
-.sc-panel{
-  min-width:0;
-  padding:18px;
-  border:1px solid var(--sc-line);
-  border-radius:11px;
-  background:var(--sc-panel);
-  backdrop-filter:blur(16px);
-}
-
-.sc-project-empty{
-  min-height:130px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  text-align:center;
-  border:1px dashed rgba(255,255,255,.09);
-  border-radius:9px;
-  background:rgba(255,255,255,.012);
-}
-
-.sc-empty-icon{
-  width:34px;
-  height:34px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:10px;
-  border:1px solid #263142;
-  border-radius:8px;
-  color:#6b778a;
-}
-
-.sc-empty-title{
-  font-size:9px;
-  font-weight:850;
-}
-
-.sc-empty-text{
-  margin-top:4px;
-  color:#596678;
-  font-size:7px;
-}
-
-.sc-empty-btn{
-  margin-top:12px;
-}
-
-
-/* WALLET */
-
-.sc-wallet{
-  min-height:130px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-
-.sc-wallet-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.sc-wallet-label{
-  color:#657185;
-  font-size:7px;
-  font-weight:900;
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-
-.sc-wallet-network{
-  color:#566273;
-  font-size:7px;
-}
-
-.sc-wallet-body{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.sc-wallet-icon{
-  width:38px;
-  height:38px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid #293548;
-  border-radius:10px;
-  background:#111823;
-  font-size:14px;
-}
-
-.sc-wallet-name{
+  border:1px solid var(--line);
+  background:#101723;
+  color:#9eb0c9;
   font-size:10px;
+  font-weight:950;
+}
+
+.project-main{
+  flex:1;
+  min-width:0;
+}
+
+.project-name{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:9px;
   font-weight:900;
 }
 
-.sc-wallet-address{
-  margin-top:4px;
-  color:#5e6b7d;
+.project-meta{
+  margin-top:3px;
+  color:#59667a;
   font-size:7px;
 }
 
-.sc-wallet-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
+.status{
+  padding:4px 6px;
+  border:1px solid var(--line);
+  border-radius:5px;
+  color:#718096;
+  background:#0b1119;
+  font-size:6px;
+  font-weight:900;
 }
 
-.sc-wallet-note{
-  color:#4f5c6e;
-  font-size:7px;
-  line-height:1.4;
+.status.created{
+  color:var(--green);
+  border-color:rgba(85,217,154,.16);
+  background:rgba(85,217,154,.04);
 }
-
 
 /* =========================================================
    INTELLIGENCE
-   ========================================================= */
+========================================================= */
 
-.sc-intel-grid{
+.intelligence{
+  margin-top:10px;
+}
+
+.intel-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:10px;
+  gap:8px;
 }
 
-.sc-intel{
-  min-height:125px;
+.intel-card{
+  min-height:132px;
   position:relative;
-  padding:17px;
-  border:1px solid var(--sc-line);
+  padding:15px;
+  border:1px solid var(--line);
   border-radius:10px;
-  background:#090e16;
-  text-decoration:none;
+  background:#080d15;
   color:#fff;
-  transition:.2s;
+  text-decoration:none;
+  transition:.18s;
 }
 
-.sc-intel:hover{
-  border-color:var(--sc-line-hover);
-  transform:translateY(-1px);
+.intel-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--line2);
+  background:#0b111a;
 }
 
-.sc-intel-icon{
-  width:34px;
-  height:34px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid #263143;
-  border-radius:8px;
-  background:#101721;
+.intel-icon{
+  color:#8797ae;
+  font-size:17px;
 }
 
-.sc-intel-title{
-  margin-top:13px;
-  font-size:10px;
-  font-weight:900;
-}
-
-.sc-intel-desc{
-  max-width:300px;
-  margin-top:5px;
-  color:#5f6c7e;
-  font-size:8px;
-  line-height:1.5;
-}
-
-.sc-intel-tag{
+.intel-badge{
   position:absolute;
   top:12px;
   right:12px;
-  color:var(--sc-gold);
+  color:#647389;
   font-size:6px;
   font-weight:950;
-  letter-spacing:.7px;
 }
 
+.intel-badge.pro{
+  color:var(--gold);
+}
+
+.intel-title{
+  margin-top:20px;
+  font-size:10px;
+  font-weight:950;
+}
+
+.intel-desc{
+  margin-top:5px;
+  color:#59667a;
+  font-size:7px;
+  line-height:1.55;
+}
 
 /* =========================================================
    DISCOVER
-   ========================================================= */
+========================================================= */
 
-.sc-discover-grid{
-  display:grid;
-  grid-template-columns:1.5fr 1fr 1fr;
-  gap:10px;
+.discover{
+  margin-top:10px;
 }
 
-.sc-discover{
-  min-height:145px;
+.discover-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+.discover-card{
+  min-height:128px;
+  position:relative;
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
-  position:relative;
-  padding:18px;
-  border:1px solid var(--sc-line);
-  border-radius:10px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.035),
-      rgba(255,255,255,.008)
-    );
-  text-decoration:none;
-  color:#fff;
+  padding:15px;
   overflow:hidden;
-  transition:.2s;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#080d15;
+  color:#fff;
+  text-decoration:none;
+  transition:.18s;
 }
 
-.sc-discover:hover{
-  border-color:var(--sc-line-hover);
-  transform:translateY(-1px);
+.discover-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--line2);
 }
 
-.sc-discover-type{
-  margin-bottom:auto;
-  color:#566376;
-  font-size:7px;
-  font-weight:900;
-  letter-spacing:1px;
+.discover-symbol{
+  position:absolute;
+  top:15px;
+  left:15px;
+  color:#73849b;
+  font-size:17px;
 }
 
-.sc-discover-title{
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:-.2px;
+.discover-title{
+  font-size:10px;
+  font-weight:950;
 }
 
-.sc-discover-text{
+.discover-desc{
   margin-top:5px;
-  color:#5f6c7d;
-  font-size:8px;
+  color:#59667a;
+  font-size:7px;
   line-height:1.5;
 }
 
-.sc-discover-arrow{
+.discover-arrow{
   position:absolute;
-  top:16px;
-  right:17px;
-  color:#596577;
+  right:14px;
+  top:14px;
+  color:#536177;
+  font-size:11px;
 }
-
 
 /* =========================================================
    FOOTER
-   ========================================================= */
+========================================================= */
 
-.sc-footer{
-  margin-top:55px;
-  padding-top:18px;
-  border-top:1px solid var(--sc-line);
-  color:#414c5c;
+footer{
+  margin-top:35px;
+  padding-top:17px;
+  border-top:1px solid var(--line);
+  color:#3f4b5d;
   font-size:7px;
   text-align:center;
 }
 
-
 /* =========================================================
-   MOBILE
-   ========================================================= */
+   RESPONSIVE
+========================================================= */
 
-@media(max-width:1050px){
-
-  .sc-sidebar{
-    width:210px;
-    min-width:210px;
-  }
-
-  .sc-build-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .sc-build-main{
-    grid-column:1/-1;
-    grid-row:auto;
-    min-height:180px;
-  }
-
-  .sc-discover-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-
-
-@media(max-width:820px){
-
-  .sc-sidebar{
-    position:fixed;
-    left:-250px;
-    top:0;
-    bottom:0;
-    transition:left .22s ease;
-    box-shadow:20px 0 50px rgba(0,0,0,.4);
-  }
-
-  .sc-sidebar.open{
-    left:0;
-  }
-
-  .sc-menu{
-    width:32px;
-    height:32px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border:1px solid var(--sc-line);
-    border-radius:8px;
-    background:#0b1018;
-    color:#8b97a8;
-    cursor:pointer;
-  }
-
-  .sc-topbar{
-    padding:0 16px;
-  }
-
-  .sc-content{
-    width:calc(100% - 32px);
-  }
-
-  .sc-two-col{
+@media(max-width:1100px){
+  .workspace{
     grid-template-columns:1fr;
   }
 
-  .sc-intel-grid{
-    grid-template-columns:1fr;
+  .overview{
+    grid-template-columns:repeat(2,1fr);
   }
 
+  .discover-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 
-
-@media(max-width:620px){
-
-  .sc-topbar{
-    gap:8px;
+@media(max-width:850px){
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.22s ease;
+    box-shadow:20px 0 50px rgba(0,0,0,.35);
   }
 
-  .sc-breadcrumb{
-    display:none;
+  .sidebar.open{
+    transform:translateX(0);
   }
 
-  .sc-search{
-    width:100%;
-    max-width:none;
+  .main{
+    margin-left:0;
   }
 
-  .sc-network{
-    display:none;
+  .menu-button{
+    display:inline-flex;
   }
 
-  .sc-top-actions{
-    flex-shrink:0;
+  .topbar{
+    padding:0 18px;
   }
 
-  .sc-hero{
-    min-height:auto;
-    flex-direction:column;
-    align-items:flex-start;
+  .command{
+    width:92%;
+  }
+}
+
+@media(max-width:680px){
+  .command{
     padding-top:30px;
   }
 
-  .sc-hero-title{
-    font-size:38px;
+  .command-header{
+    grid-template-columns:1fr;
+    align-items:start;
   }
 
-  .sc-hero-actions{
-    width:100%;
+  .command-actions{
+    justify-content:flex-start;
   }
 
-  .sc-hero-actions .sc-btn{
-    flex:1;
+  .command-title{
+    font-size:42px;
+    letter-spacing:-2px;
   }
 
-  .sc-build-grid{
+  .overview{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .build-layout{
     grid-template-columns:1fr;
   }
 
-  .sc-build-main{
-    grid-column:auto;
-  }
-
-  .sc-discover-grid{
+  .intel-grid{
     grid-template-columns:1fr;
   }
 
-  .sc-command{
-    padding:14px;
+  .discover-grid{
+    grid-template-columns:1fr 1fr;
   }
 
-  .sc-command-key{
+  .top-actions .lang{
     display:none;
   }
-
 }
 
-
-@media(max-width:420px){
-
-  .sc-content{
-    width:calc(100% - 22px);
+@media(max-width:440px){
+  .overview{
+    grid-template-columns:1fr;
   }
 
-  .sc-topbar{
-    padding:0 10px;
+  .tool-stack{
+    grid-template-columns:1fr 1fr;
   }
 
-  .sc-search{
-    display:none;
+  .discover-grid{
+    grid-template-columns:1fr;
   }
 
-  .sc-hero-title{
-    font-size:33px;
+  .command-title{
+    font-size:36px;
   }
 
+  .panel{
+    padding:15px;
+  }
 }
-
 </style>
-
 </head>
 
+<body data-auth-required="false">
 
-<body>
+<div class="background"></div>
 
-<div class="sc-app">
+<div class="app">
 
-
-<!-- ======================================================
+<!-- =======================================================
      SIDEBAR
-====================================================== -->
+======================================================= -->
 
-<aside class="sc-sidebar" id="scSidebar">
+<aside class="sidebar" id="sidebar">
 
-  <div class="sc-brand">
-
-    <div class="sc-brand-mark">
-      S
-    </div>
-
-    <div class="sc-brand-name">
-      SONATIVA
-    </div>
-
-    <div class="sc-brand-beta">
-      BETA
-    </div>
-
+  <div class="brand">
+    <div class="brand-logo">SONATIVA</div>
+    <div class="brand-version">BETA</div>
   </div>
 
+  <nav class="nav">
 
-  <nav class="sc-nav">
+    <div class="nav-section">Workspace</div>
 
-
-    <div class="sc-nav-label">
-      Workspace
-    </div>
-
-    <a
-      class="sc-nav-item active"
-      href="index.html">
-
-      <span class="sc-nav-icon">⌂</span>
-      <span>Home</span>
-
+    <a class="nav-item active" href="index.html">
+      <span class="nav-icon">⌂</span>
+      <span>Command Center</span>
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="projects.html">
-
-      <span class="sc-nav-icon">▣</span>
-      <span>Projects</span>
-
+    <a class="nav-item" href="projects.html">
+      <span class="nav-icon">▣</span>
+      <span>My Projects</span>
     </a>
 
 
-    <div class="sc-nav-label">
-      Build
-    </div>
+    <div class="nav-section">Build</div>
 
-    <a
-      class="sc-nav-item"
-      href="project.html">
-
-      <span class="sc-nav-icon">◆</span>
+    <a class="nav-item" href="project.html">
+      <span class="nav-icon">◆</span>
       <span>Project Builder</span>
-
+      <span class="nav-badge free">FREE</span>
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="token-studio.html">
-
-      <span class="sc-nav-icon">◇</span>
+    <a class="nav-item" href="token-studio.html">
+      <span class="nav-icon">◇</span>
       <span>Token Studio</span>
-
+      <span class="nav-badge free">FREE</span>
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="tokenomics.html">
-
-      <span class="sc-nav-icon">◈</span>
+    <a class="nav-item" href="tokenomics.html">
+      <span class="nav-icon">◈</span>
       <span>Tokenomics</span>
-
+      <span class="nav-badge free">FREE</span>
     </a>
 
 
-    <div class="sc-nav-label">
-      Intelligence
-    </div>
+    <div class="nav-section">Intelligence</div>
 
-    <a
-      class="sc-nav-item"
-      href="analysis.html">
-
-      <span class="sc-nav-icon">⌁</span>
+    <a class="nav-item" href="analysis.html">
+      <span class="nav-icon">⌁</span>
       <span>Market Analysis</span>
-      <span class="sc-nav-badge">PRO</span>
-
+      <span class="nav-badge">PRO</span>
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="ai.html">
-
-      <span class="sc-nav-icon">✦</span>
+    <a class="nav-item" href="ai.html">
+      <span class="nav-icon">✦</span>
       <span>Sonativa AI</span>
-      <span class="sc-nav-badge">PRO</span>
-
+      <span class="nav-badge">PRO</span>
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="security.html">
-
-      <span class="sc-nav-icon">◇</span>
-      <span>Security</span>
-
+    <a class="nav-item" href="security.html">
+      <span class="nav-icon">◇</span>
+      <span>Security Scanner</span>
+      <span class="nav-badge free">FREE</span>
     </a>
 
 
-    <div class="sc-nav-label">
-      Discover
-    </div>
+    <div class="nav-section">Discover</div>
 
-    <a
-      class="sc-nav-item"
-      href="news.html">
-
-      <span class="sc-nav-icon">▤</span>
-      <span>News</span>
-
+    <a class="nav-item" href="news.html">
+      <span class="nav-icon">▤</span>
+      <span>World News</span>
+      <span class="nav-badge free">FREE</span>
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="books.html">
-
-      <span class="sc-nav-icon">▥</span>
+    <a class="nav-item" href="books.html">
+      <span class="nav-icon">▥</span>
       <span>Library</span>
-
+      <span class="nav-badge free">FREE</span>
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="live.html">
-
-      <span class="sc-nav-icon">●</span>
+    <a class="nav-item" href="live.html">
+      <span class="nav-icon">●</span>
       <span>Live</span>
-      <span class="sc-nav-badge">PRO</span>
-
+      <span class="nav-badge">PRO</span>
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="reels.html">
-
-      <span class="sc-nav-icon">▶</span>
+    <a class="nav-item" href="reels.html">
+      <span class="nav-icon">▶</span>
       <span>Reels</span>
-
+      <span class="nav-badge free">FREE</span>
     </a>
 
 
-    <div class="sc-nav-label">
-      Account
-    </div>
+    <div class="nav-section">Account</div>
 
-    <a
-      class="sc-nav-item"
-      href="wallet.html">
-
-      <span class="sc-nav-icon">◉</span>
+    <a class="nav-item" href="wallet.html">
+      <span class="nav-icon">◉</span>
       <span>Wallet</span>
-
     </a>
 
-    <a
-      class="sc-nav-item"
-      href="settings.html">
+    <a class="nav-item" href="pricing.html">
+      <span class="nav-icon">◇</span>
+      <span>Premium</span>
+    </a>
 
-      <span class="sc-nav-icon">⚙</span>
+    <a class="nav-item" href="settings.html">
+      <span class="nav-icon">⚙</span>
       <span>Settings</span>
-
     </a>
 
   </nav>
 
+  <div class="sidebar-bottom">
 
-  <div class="sc-account">
+    <div class="account">
 
-    <div class="sc-account-box">
+      <div class="avatar" id="avatar">G</div>
 
-      <div
-        class="sc-avatar"
-        id="avatar">
-        G
-      </div>
+      <div class="account-info">
 
-      <div class="sc-account-main">
-
-        <div
-          class="sc-account-name"
-          id="accountName">
+        <div class="account-name" id="accountName">
           Guest
         </div>
 
-        <div class="sc-account-status">
+        <div class="account-status">
           ● Workspace ready
         </div>
 
@@ -1416,75 +1220,62 @@ body{
 </aside>
 
 
-<!-- ======================================================
+<!-- =======================================================
      MAIN
-====================================================== -->
+======================================================= -->
 
-<main class="sc-main">
+<main class="main">
 
+<header class="topbar">
 
-<!-- TOPBAR -->
-
-<header class="sc-topbar">
-
-  <div class="sc-top-left">
+  <div class="top-left">
 
     <button
-      class="sc-menu"
-      id="scMenu"
+      class="icon-button menu-button"
+      id="menuButton"
       type="button"
       aria-label="Open menu">
       ☰
     </button>
 
-    <div class="sc-breadcrumb">
-      Workspace&nbsp; / &nbsp;<strong>Home</strong>
+    <div>
+
+      <div class="page-title">
+        Command Center
+      </div>
+
+      <div class="page-subtitle">
+        Your Web3 workspace
+      </div>
+
     </div>
 
   </div>
 
 
-  <div class="sc-search">
+  <div class="top-actions">
 
-    <span class="sc-search-icon">
-      ⌕
-    </span>
+    <select
+      class="lang"
+      id="languageSelect"
+      aria-label="Language">
 
-    <input
-      id="globalSearch"
-      type="search"
-      placeholder="Search projects, tools..."
-      autocomplete="off">
+      <option value="en">English</option>
+      <option value="ar">العربية</option>
+      <option value="fr">Français</option>
 
-  </div>
-
-
-  <div class="sc-top-actions">
-
-    <div class="sc-network">
-
-      <span class="sc-network-dot"></span>
-
-      <span>
-        Solana
-      </span>
-
-    </div>
-
+    </select>
 
     <button
-      class="sc-icon-btn"
+      class="icon-button"
       type="button"
-      title="Notifications"
       aria-label="Notifications">
       ♢
     </button>
 
-
     <a
-      class="sc-icon-btn"
+      class="icon-button"
       href="settings.html"
-      title="Settings"
       aria-label="Settings">
       ⚙
     </a>
@@ -1494,365 +1285,421 @@ body{
 </header>
 
 
-<!-- CONTENT -->
+<section class="command">
 
-<div class="sc-content">
-
-
-<!-- ======================================================
+<!-- =======================================================
      HERO
-====================================================== -->
+======================================================= -->
 
-<section class="sc-hero">
+<div class="command-header">
 
   <div>
 
-    <div class="sc-hero-eyebrow">
+    <div class="eyebrow">
+      <span class="live-dot"></span>
       SONATIVA / COMMAND CENTER
     </div>
 
-    <h1 class="sc-hero-title">
-      Your Web3<br>
-      workspace.
+    <h1 class="command-title">
+      Your Web3
+      <span>workspace.</span>
     </h1>
 
-    <p class="sc-hero-text">
-      Build projects, create tokens, analyze markets and
-      manage your Web3 workflow from one intelligent workspace.
+    <p class="command-description">
+      Build projects, create tokens, analyze markets and manage
+      your Web3 workflow from one intelligent workspace.
     </p>
 
   </div>
 
 
-  <div class="sc-hero-actions">
+  <div class="command-actions">
 
     <a
-      class="sc-btn"
+      class="btn"
       href="projects.html">
       Projects
     </a>
 
     <a
-      class="sc-btn primary"
+      class="btn primary"
       href="project.html">
       ＋ New Project
     </a>
 
   </div>
 
-</section>
+</div>
 
 
-<!-- ======================================================
-     COMMAND
-====================================================== -->
+<!-- =======================================================
+     OVERVIEW
+======================================================= -->
 
-<a
-  class="sc-command"
-  href="project.html">
+<div class="overview">
 
-  <div class="sc-command-symbol">
-    ◆
-  </div>
+  <div class="overview-card">
 
-  <div class="sc-command-main">
-
-    <div class="sc-command-title">
-      Start building
+    <div class="overview-label">
+      Projects
     </div>
 
-    <div class="sc-command-desc">
-      Create a new Web3 project and open your workspace.
+    <div
+      class="overview-value"
+      id="projectsCount">
+      0
+    </div>
+
+    <div class="overview-note">
+      Active workspace projects
     </div>
 
   </div>
 
-  <div class="sc-command-key">
-    NEW PROJECT
+
+  <div class="overview-card">
+
+    <div class="overview-label">
+      Tokens
+    </div>
+
+    <div
+      class="overview-value"
+      id="tokensCount">
+      0
+    </div>
+
+    <div class="overview-note">
+      Created with Token Studio
+    </div>
+
   </div>
 
-</a>
+
+  <div class="overview-card">
+
+    <div class="overview-label">
+      Wallet
+    </div>
+
+    <div
+      class="overview-value"
+      id="walletStatus">
+      Guest
+    </div>
+
+    <div class="overview-note">
+      Wallet connection
+    </div>
+
+  </div>
 
 
-<!-- ======================================================
-     BUILD
-====================================================== -->
+  <div class="overview-card">
 
-<section class="sc-section">
+    <div class="overview-label">
+      Workspace
+    </div>
 
-  <div class="sc-section-head">
+    <div class="overview-value">
+      Free
+    </div>
 
-    <div>
+    <div class="overview-note">
+      PRO tools available
+    </div>
 
-      <div class="sc-section-title">
-        Build
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     PRIMARY WORKSPACE
+======================================================= -->
+
+<div class="workspace">
+
+  <section class="panel">
+
+    <div class="panel-header">
+
+      <div>
+        <div class="panel-kicker">
+          Build
+        </div>
+
+        <div class="panel-title">
+          Create and shape your Web3 projects
+        </div>
       </div>
 
-      <div class="sc-section-sub">
-        Create and shape your Web3 projects.
-      </div>
+      <a
+        class="panel-link"
+        href="projects.html">
+        All projects →
+      </a>
 
     </div>
 
-    <a
-      class="sc-section-link"
-      href="projects.html">
-      All projects →
-    </a>
 
-  </div>
+    <div class="build-layout">
 
+      <a
+        class="primary-tool"
+        href="project.html">
 
-  <div class="sc-build-grid">
-
-
-    <a
-      class="sc-build-main"
-      href="project.html">
-
-      <div class="sc-build-icon">
-        ◆
-      </div>
-
-      <div class="sc-build-label">
-        PRIMARY WORKSPACE
-      </div>
-
-      <div class="sc-build-title">
-        Project Builder
-      </div>
-
-      <div class="sc-build-desc">
-        Build, organize and manage the foundation
-        of your Web3 project.
-      </div>
-
-      <div class="sc-build-arrow">
-        →
-      </div>
-
-    </a>
-
-
-    <a
-      class="sc-mini-card"
-      href="token-studio.html">
-
-      <div class="sc-mini-icon">
-        ◇
-      </div>
-
-      <div>
-
-        <div class="sc-mini-title">
-          Token Studio
+        <div class="primary-tool-icon">
+          ◆
         </div>
 
-        <div class="sc-mini-desc">
-          Create and manage tokens.
+        <div class="primary-tool-title">
+          Project Builder
         </div>
 
-      </div>
-
-    </a>
-
-
-    <a
-      class="sc-mini-card"
-      href="tokenomics.html">
-
-      <div class="sc-mini-icon">
-        ◈
-      </div>
-
-      <div>
-
-        <div class="sc-mini-title">
-          Tokenomics
+        <div class="primary-tool-desc">
+          Build, organize and manage the foundation
+          of your Web3 project.
         </div>
 
-        <div class="sc-mini-desc">
-          Design supply and allocation.
-        </div>
+        <span class="arrow">→</span>
 
-      </div>
-
-    </a>
+      </a>
 
 
-    <a
-      class="sc-mini-card"
-      href="projects.html">
-
-      <div class="sc-mini-icon">
-        ▣
-      </div>
-
-      <div>
-
-        <div class="sc-mini-title">
-          My Projects
-        </div>
-
-        <div class="sc-mini-desc">
-          Manage your workspace projects.
-        </div>
-
-      </div>
-
-    </a>
-
-
-    <a
-      class="sc-mini-card"
-      href="wallet.html">
-
-      <div class="sc-mini-icon">
-        ◉
-      </div>
-
-      <div>
-
-        <div class="sc-mini-title">
-          Wallet
-        </div>
-
-        <div class="sc-mini-desc">
-          Connect when a transaction is required.
-        </div>
-
-      </div>
-
-    </a>
-
-  </div>
-
-</section>
-
-
-<!-- ======================================================
-     PROJECTS + WALLET
-====================================================== -->
-
-<section class="sc-section">
-
-  <div class="sc-two-col">
-
-
-    <!-- PROJECTS -->
-
-    <div class="sc-panel">
-
-      <div class="sc-section-head">
-
-        <div>
-
-          <div class="sc-section-title">
-            Recent Projects
-          </div>
-
-          <div class="sc-section-sub">
-            Your latest workspace activity.
-          </div>
-
-        </div>
+      <div class="tool-stack">
 
         <a
-          class="sc-section-link"
+          class="mini-tool"
+          href="token-studio.html">
+
+          <span class="mini-icon">◇</span>
+
+          <div class="mini-title">
+            Token Studio
+          </div>
+
+          <div class="mini-desc">
+            Create and manage tokens.
+          </div>
+
+          <span class="mini-badge">
+            FREE
+          </span>
+
+        </a>
+
+
+        <a
+          class="mini-tool"
+          href="tokenomics.html">
+
+          <span class="mini-icon">◈</span>
+
+          <div class="mini-title">
+            Tokenomics
+          </div>
+
+          <div class="mini-desc">
+            Design supply and allocation.
+          </div>
+
+          <span class="mini-badge">
+            FREE
+          </span>
+
+        </a>
+
+
+        <a
+          class="mini-tool"
           href="projects.html">
-          View all →
+
+          <span class="mini-icon">▣</span>
+
+          <div class="mini-title">
+            My Projects
+          </div>
+
+          <div class="mini-desc">
+            Manage your workspace projects.
+          </div>
+
+          <span class="mini-badge">
+            FREE
+          </span>
+
+        </a>
+
+
+        <a
+          class="mini-tool"
+          href="wallet.html">
+
+          <span class="mini-icon">◉</span>
+
+          <div class="mini-title">
+            Wallet
+          </div>
+
+          <div class="mini-desc">
+            Connect when a transaction is required.
+          </div>
+
+          <span class="mini-badge">
+            WEB3
+          </span>
+
         </a>
 
       </div>
 
+    </div>
 
-      <div id="projectList">
+  </section>
 
-        <div class="sc-project-empty">
 
-          <div class="sc-empty-icon">
-            ＋
+  <!-- WALLET -->
+
+  <section class="panel">
+
+    <div class="panel-header">
+
+      <div>
+        <div class="panel-kicker">
+          Wallet
+        </div>
+
+        <div class="panel-title">
+          Solana
+        </div>
+      </div>
+
+      <a
+        class="panel-link"
+        href="wallet.html">
+        Manage →
+      </a>
+
+    </div>
+
+
+    <div class="wallet-card">
+
+      <div class="wallet-network">
+
+        <div class="network-label">
+          NETWORK
+        </div>
+
+        <div class="network">
+          SOLANA
+        </div>
+
+      </div>
+
+
+      <div class="wallet-brand">
+
+        <div class="wallet-logo">
+          ◉
+        </div>
+
+        <div>
+
+          <div class="wallet-name">
+            Phantom
           </div>
 
-          <div class="sc-empty-title">
-            No projects yet
+          <div
+            class="wallet-address"
+            data-wallet-address>
+            Not connected
           </div>
-
-          <div class="sc-empty-text">
-            Start your first Web3 project.
-          </div>
-
-          <a
-            class="sc-btn primary sc-empty-btn"
-            href="project.html">
-            Create Project
-          </a>
 
         </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="wallet-note">
+          Wallet actions always require your own authorization.
+          Sonativa never requests your seed phrase or private key.
+        </div>
+
+        <br>
+
+        <a
+          class="btn"
+          href="wallet.html">
+          Open Wallet →
+        </a>
 
       </div>
 
     </div>
 
+  </section>
 
-    <!-- WALLET -->
-
-    <div class="sc-panel">
-
-      <div class="sc-wallet">
-
-        <div class="sc-wallet-top">
-
-          <div class="sc-wallet-label">
-            Wallet
-          </div>
-
-          <div class="sc-wallet-network">
-            Solana
-          </div>
-
-        </div>
+</div>
 
 
-        <div class="sc-wallet-body">
+<!-- =======================================================
+     RECENT PROJECTS
+======================================================= -->
 
-          <div class="sc-wallet-icon">
-            ◉
-          </div>
+<section class="panel projects-panel">
 
-          <div>
+  <div class="panel-header">
 
-            <div class="sc-wallet-name">
-              Phantom
-            </div>
+    <div>
 
-            <div
-              class="sc-wallet-address"
-              data-wallet-address>
-              Not connected
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="sc-wallet-bottom">
-
-          <div class="sc-wallet-note">
-            Wallet actions always require
-            your own authorization.
-          </div>
-
-          <a
-            class="sc-btn"
-            href="wallet.html">
-            Open
-          </a>
-
-        </div>
-
+      <div class="panel-kicker">
+        Workspace
       </div>
+
+      <div class="panel-title">
+        Recent Projects
+      </div>
+
+    </div>
+
+    <a
+      class="panel-link"
+      href="projects.html">
+      View all →
+    </a>
+
+  </div>
+
+
+  <div
+    class="project-list"
+    id="projectList">
+
+    <div class="project-empty">
+
+      <div class="empty-icon">
+        ＋
+      </div>
+
+      <div class="empty-title">
+        No projects yet
+      </div>
+
+      <div class="empty-text">
+        Start your first Web3 project.
+      </div>
+
+      <br>
+
+      <a
+        class="btn"
+        href="project.html">
+        Create Project
+      </a>
 
     </div>
 
@@ -1861,21 +1708,21 @@ body{
 </section>
 
 
-<!-- ======================================================
+<!-- =======================================================
      INTELLIGENCE
-====================================================== -->
+======================================================= -->
 
-<section class="sc-section">
+<section class="panel intelligence">
 
-  <div class="sc-section-head">
+  <div class="panel-header">
 
     <div>
 
-      <div class="sc-section-title">
+      <div class="panel-kicker">
         Intelligence
       </div>
 
-      <div class="sc-section-sub">
+      <div class="panel-title">
         Understand markets, projects and Web3 risks.
       </div>
 
@@ -1884,26 +1731,25 @@ body{
   </div>
 
 
-  <div class="sc-intel-grid">
-
+  <div class="intel-grid">
 
     <a
-      class="sc-intel"
+      class="intel-card"
       href="analysis.html">
 
-      <div class="sc-intel-icon">
+      <span class="intel-icon">
         ⌁
-      </div>
+      </span>
 
-      <span class="sc-intel-tag">
+      <span class="intel-badge pro">
         PRO
       </span>
 
-      <div class="sc-intel-title">
+      <div class="intel-title">
         Market Analysis
       </div>
 
-      <div class="sc-intel-desc">
+      <div class="intel-desc">
         Explore market structure, projects,
         on-chain signals and Web3 intelligence.
       </div>
@@ -1912,44 +1758,48 @@ body{
 
 
     <a
-      class="sc-intel"
+      class="intel-card"
       href="ai.html">
 
-      <div class="sc-intel-icon">
+      <span class="intel-icon">
         ✦
-      </div>
+      </span>
 
-      <span class="sc-intel-tag">
+      <span class="intel-badge pro">
         PRO
       </span>
 
-      <div class="sc-intel-title">
+      <div class="intel-title">
         Sonativa AI
       </div>
 
-      <div class="sc-intel-desc">
-        Research projects, understand data
-        and work with an intelligent Web3 assistant.
+      <div class="intel-desc">
+        Research projects, understand data and work
+        with an intelligent Web3 assistant.
       </div>
 
     </a>
 
 
     <a
-      class="sc-intel"
+      class="intel-card"
       href="security.html">
 
-      <div class="sc-intel-icon">
+      <span class="intel-icon">
         ◇
-      </div>
+      </span>
 
-      <div class="sc-intel-title">
+      <span class="intel-badge">
+        FREE
+      </span>
+
+      <div class="intel-title">
         Security Scanner
       </div>
 
-      <div class="sc-intel-desc">
-        Inspect contracts and identify
-        potential Web3 security risks.
+      <div class="intel-desc">
+        Inspect contracts and identify potential
+        Web3 security risks.
       </div>
 
     </a>
@@ -1959,21 +1809,21 @@ body{
 </section>
 
 
-<!-- ======================================================
+<!-- =======================================================
      DISCOVER
-====================================================== -->
+======================================================= -->
 
-<section class="sc-section">
+<section class="panel discover">
 
-  <div class="sc-section-head">
+  <div class="panel-header">
 
     <div>
 
-      <div class="sc-section-title">
+      <div class="panel-kicker">
         Discover
       </div>
 
-      <div class="sc-section-sub">
+      <div class="panel-title">
         Explore the wider Web3 ecosystem.
       </div>
 
@@ -1982,73 +1832,98 @@ body{
   </div>
 
 
-  <div class="sc-discover-grid">
-
+  <div class="discover-grid">
 
     <a
-      class="sc-discover"
+      class="discover-card"
       href="news.html">
 
-      <div class="sc-discover-type">
+      <span class="discover-symbol">
+        ▤
+      </span>
+
+      <span class="discover-arrow">
+        →
+      </span>
+
+      <div class="discover-title">
         SONATIVA NEWS
       </div>
 
-      <div class="sc-discover-title">
+      <div class="discover-desc">
         What's happening in Web3?
-      </div>
-
-      <div class="sc-discover-text">
         Blockchain, markets and technology updates.
       </div>
 
-      <div class="sc-discover-arrow">
-        →
-      </div>
-
     </a>
 
 
     <a
-      class="sc-discover"
+      class="discover-card"
       href="books.html">
 
-      <div class="sc-discover-type">
+      <span class="discover-symbol">
+        ▥
+      </span>
+
+      <span class="discover-arrow">
+        →
+      </span>
+
+      <div class="discover-title">
         LIBRARY
       </div>
 
-      <div class="sc-discover-title">
-        Learn.
-      </div>
-
-      <div class="sc-discover-text">
-        Web3, finance and technology knowledge.
-      </div>
-
-      <div class="sc-discover-arrow">
-        →
+      <div class="discover-desc">
+        Learn Web3, finance and technology knowledge.
       </div>
 
     </a>
 
 
     <a
-      class="sc-discover"
+      class="discover-card"
       href="live.html">
 
-      <div class="sc-discover-type">
+      <span class="discover-symbol">
+        ●
+      </span>
+
+      <span class="discover-arrow">
+        →
+      </span>
+
+      <div class="discover-title">
         LIVE
       </div>
 
-      <div class="sc-discover-title">
-        Join the ecosystem.
+      <div class="discover-desc">
+        Join the ecosystem through live sessions
+        and community broadcasts.
       </div>
 
-      <div class="sc-discover-text">
-        Live sessions and community broadcasts.
-      </div>
+    </a>
 
-      <div class="sc-discover-arrow">
+
+    <a
+      class="discover-card"
+      href="reels.html">
+
+      <span class="discover-symbol">
+        ▶
+      </span>
+
+      <span class="discover-arrow">
         →
+      </span>
+
+      <div class="discover-title">
+        REELS
+      </div>
+
+      <div class="discover-desc">
+        Short-form Web3 education, insights
+        and ecosystem content.
       </div>
 
     </a>
@@ -2058,25 +1933,20 @@ body{
 </section>
 
 
-<!-- FOOTER -->
-
-<footer class="sc-footer">
-
-  © 2026 Sonativa — Web3 command center.
-
+<footer>
+  © 2026 Sonativa — Web3 tools, intelligence and education.
 </footer>
 
-
-</div>
+</section>
 
 </main>
 
 </div>
 
 
-<!-- ======================================================
+<!-- =======================================================
      JAVASCRIPT
-====================================================== -->
+======================================================= -->
 
 <script type="module">
 
@@ -2091,59 +1961,46 @@ import {
 
 
 /* =========================================================
-   ACCOUNT
+   MOBILE MENU
 ========================================================= */
 
-async function loadAccount(){
+const menuButton =
+  document.getElementById("menuButton");
 
-  try{
+const sidebar =
+  document.getElementById("sidebar");
 
-    const user =
-      await getUser();
+if(menuButton && sidebar){
 
-    const name =
-      user?.user_metadata?.full_name ||
-      user?.user_metadata?.name ||
-      user?.email ||
-      "Guest";
-
-    const accountName =
-      document.getElementById(
-        "accountName"
-      );
-
-    const avatar =
-      document.getElementById(
-        "avatar"
-      );
-
-    if(accountName){
-
-      accountName.textContent =
-        name;
-
+  menuButton.addEventListener(
+    "click",
+    () => {
+      sidebar.classList.toggle("open");
     }
-
-    if(avatar){
-
-      avatar.textContent =
-        String(name)
-          .charAt(0)
-          .toUpperCase() ||
-        "G";
-
-    }
-
-  }catch(error){
-
-    console.warn(
-      "[Sonativa] Account:",
-      error
-    );
-
-  }
+  );
 
 }
+
+
+document
+  .querySelectorAll(".nav-item")
+  .forEach(item => {
+
+    item.addEventListener(
+      "click",
+      () => {
+
+        if(
+          window.innerWidth <= 850 &&
+          sidebar
+        ){
+          sidebar.classList.remove("open");
+        }
+
+      }
+    );
+
+  });
 
 
 /* =========================================================
@@ -2157,24 +2014,28 @@ async function loadProjects(){
       "projectList"
     );
 
+  const count =
+    document.getElementById(
+      "projectsCount"
+    );
+
+  const tokens =
+    document.getElementById(
+      "tokensCount"
+    );
+
   if(!list){
-
     return;
-
   }
 
+  const user =
+    await getUser();
+
+  if(!user){
+    return;
+  }
 
   try{
-
-    const user =
-      await getUser();
-
-    if(!user){
-
-      return;
-
-    }
-
 
     const {
       data,
@@ -2201,26 +2062,39 @@ async function loadProjects(){
             ascending:false
           }
         )
-        .limit(4);
-
+        .limit(5);
 
     if(error){
-
       throw error;
-
     }
-
 
     const projects =
       data || [];
 
-
-    if(!projects.length){
-
-      return;
-
+    if(count){
+      count.textContent =
+        projects.length;
     }
 
+    if(tokens){
+
+      const tokenCount =
+        projects.filter(
+          project =>
+            Boolean(
+              project.mint_address
+            ) ||
+            project.token_status === "created" ||
+            project.token_status === "minted"
+        ).length;
+
+      tokens.textContent =
+        tokenCount;
+    }
+
+    if(!projects.length){
+      return;
+    }
 
     list.innerHTML =
       projects
@@ -2236,117 +2110,48 @@ async function loadProjects(){
               : project.token_name ||
                 "Web3 Project";
 
-
-          const status =
-            project.mint_address ||
+          const created =
+            Boolean(
+              project.mint_address
+            ) ||
             project.token_status === "created" ||
-            project.token_status === "minted"
-              ? "Created"
-              : "Draft";
+            project.token_status === "minted";
 
+          const initial =
+            escapeHTML(
+              String(name)
+                .charAt(0)
+                .toUpperCase()
+            );
 
           return `
+            <div class="project-row">
 
-            <a
-              href="projects.html"
-              style="
-                display:flex;
-                align-items:center;
-                gap:11px;
-                padding:11px 0;
-                border-bottom:1px solid var(--sc-line);
-                color:#fff;
-                text-decoration:none;
-              ">
-
-              <div
-                style="
-                  width:35px;
-                  height:35px;
-                  display:flex;
-                  align-items:center;
-                  justify-content:center;
-                  flex-shrink:0;
-                  border:1px solid #273243;
-                  border-radius:9px;
-                  background:#101721;
-                  font-size:10px;
-                  font-weight:900;
-                ">
-
-                ${escapeHTML(
-                  String(name)
-                    .charAt(0)
-                    .toUpperCase()
-                )}
-
+              <div class="project-avatar">
+                ${initial}
               </div>
 
+              <div class="project-main">
 
-              <div
-                style="
-                  min-width:0;
-                  flex:1;
-                ">
-
-                <div
-                  style="
-                    font-size:9px;
-                    font-weight:900;
-                  ">
-
+                <div class="project-name">
                   ${escapeHTML(name)}
-
                 </div>
 
-
-                <div
-                  style="
-                    margin-top:3px;
-                    color:#5e6b7d;
-                    font-size:7px;
-                  ">
-
+                <div class="project-meta">
                   ${escapeHTML(token)}
-
                 </div>
 
               </div>
 
-
-              <span
-                style="
-                  color:${
-                    status === "Created"
-                      ? "var(--sc-green)"
-                      : "#687588"
-                  };
-                  font-size:7px;
-                  font-weight:850;
-                ">
-
-                ${status}
-
+              <span class="status ${created ? "created" : ""}">
+                ${created ? "Created" : "Draft"}
               </span>
 
-
-              <span
-                style="
-                  color:#596577;
-                  font-size:11px;
-                ">
-
-                →
-
-              </span>
-
-            </a>
-
+            </div>
           `;
 
         })
         .join("");
-
 
   }catch(error){
 
@@ -2369,26 +2174,11 @@ function escapeHTML(value){
   return String(
     value ?? ""
   )
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
@@ -2400,30 +2190,38 @@ function escapeHTML(value){
 function updateWallet(){
 
   if(!SonativaWallet){
-
     return;
-
   }
-
 
   const connected =
     SonativaWallet.isConnected();
 
-
   const address =
     SonativaWallet.getAddress();
 
+  const status =
+    document.getElementById(
+      "walletStatus"
+    );
 
   const addressElement =
     document.querySelector(
       "[data-wallet-address]"
     );
 
+  if(status){
+
+    status.textContent =
+      connected
+        ? "Connected"
+        : "Guest";
+
+  }
 
   if(addressElement){
 
     addressElement.textContent =
-      connected
+      connected && address
         ? SonativaWallet.shortenAddress(
             address,
             5,
@@ -2438,17 +2236,13 @@ function updateWallet(){
 
 if(SonativaWallet){
 
-  try{
+  if(
+    typeof SonativaWallet.onChange ===
+    "function"
+  ){
 
     SonativaWallet.onChange(
       updateWallet
-    );
-
-  }catch(error){
-
-    console.warn(
-      "[Sonativa] Wallet listener:",
-      error
     );
 
   }
@@ -2459,177 +2253,36 @@ if(SonativaWallet){
 
 
 /* =========================================================
-   MOBILE SIDEBAR
+   LANGUAGE
 ========================================================= */
 
-const menu =
+const languageSelect =
   document.getElementById(
-    "scMenu"
+    "languageSelect"
   );
 
-const sidebar =
-  document.getElementById(
-    "scSidebar"
-  );
+if(languageSelect){
 
+  const savedLanguage =
+    localStorage.getItem(
+      "sonativa_language"
+    );
 
-if(menu && sidebar){
+  if(savedLanguage){
 
-  menu.addEventListener(
-    "click",
+    languageSelect.value =
+      savedLanguage;
+
+  }
+
+  languageSelect.addEventListener(
+    "change",
     () => {
 
-      sidebar.classList.toggle(
-        "open"
+      localStorage.setItem(
+        "sonativa_language",
+        languageSelect.value
       );
-
-    }
-  );
-
-
-  document
-    .querySelectorAll(
-      ".sc-nav-item"
-    )
-    .forEach(item => {
-
-      item.addEventListener(
-        "click",
-        () => {
-
-          sidebar.classList.remove(
-            "open"
-          );
-
-        }
-      );
-
-    });
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-const search =
-  document.getElementById(
-    "globalSearch"
-  );
-
-
-if(search){
-
-  search.addEventListener(
-    "keydown",
-    event => {
-
-      if(
-        event.key !== "Enter"
-      ){
-
-        return;
-
-      }
-
-
-      const value =
-        search.value
-          .trim()
-          .toLowerCase();
-
-
-      if(!value){
-
-        return;
-
-      }
-
-
-      if(
-        value.includes("project")
-      ){
-
-        window.location.href =
-          "projects.html";
-
-        return;
-
-      }
-
-
-      if(
-        value.includes("token")
-      ){
-
-        window.location.href =
-          "token-studio.html";
-
-        return;
-
-      }
-
-
-      if(
-        value.includes("analysis") ||
-        value.includes("market")
-      ){
-
-        window.location.href =
-          "analysis.html";
-
-        return;
-
-      }
-
-
-      if(
-        value.includes("ai")
-      ){
-
-        window.location.href =
-          "ai.html";
-
-        return;
-
-      }
-
-
-      if(
-        value.includes("security")
-      ){
-
-        window.location.href =
-          "security.html";
-
-        return;
-
-      }
-
-
-      if(
-        value.includes("news")
-      ){
-
-        window.location.href =
-          "news.html";
-
-        return;
-
-      }
-
-
-      if(
-        value.includes("wallet")
-      ){
-
-        window.location.href =
-          "wallet.html";
-
-        return;
-
-      }
 
     }
   );
@@ -2641,12 +2294,9 @@ if(search){
    START
 ========================================================= */
 
-loadAccount();
-
 loadProjects();
 
 </script>
 
 </body>
-
 </html>
