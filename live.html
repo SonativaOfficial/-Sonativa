@@ -1,1 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa Live — real-time Web3, market and technology intelligence.">
+<title>Sonativa — Live</title>
+<link rel="stylesheet" href="assets/css/sonativa.css">
 
+<style>
+.live-page{
+  width:min(1400px,94%);
+  margin:auto;
+  padding:32px 0 70px;
+}
+
+.live-hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:24px;
+  padding:25px;
+  margin-bottom:18px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(120,140,170,.12),transparent 42%),
+    var(--panel);
+}
+
+.eyebrow{
+  color:#78869a;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.6px;
+}
+
+.live-hero h1{
+  margin-top:9px;
+  font-size:30px;
+  letter-spacing:-.8px;
+}
+
+.live-hero p{
+  max-width:720px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+}
+
+.live-state{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border:1px solid #28543d;
+  border-radius:8px;
+  background:#0b1711;
+  color:#8de8b2;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.live-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#8de8b2;
+  box-shadow:0 0 0 4px rgba(141,232,178,.08);
+}
+
+.toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.filters{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.filter{
+  padding:7px 10px;
+  border:1px solid #253143;
+  border-radius:7px;
+  background:#0c121c;
+  color:#7d899b;
+  font-size:8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.filter.active,
+.filter:hover{
+  color:#e3e8ef;
+  border-color:#4b586b;
+  background:#141c28;
+}
+
+.refresh{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:34px;
+  padding:0 11px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#0d131e;
+  color:#dce4ef;
+  font-size:8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.refresh:hover{
+  background:#151d2a;
+}
+
+.refresh.loading{
+  opacity:.65;
+  pointer-events:none;
+}
+
+.live-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 320px;
+  gap:16px;
+}
+
+.stream{
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel);
+}
+
+.stream-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:16px 18px;
+  border-bottom:1px solid #1c2635;
+}
+
+.stream-title{
+  font-size:12px;
+  font-weight:900;
+}
+
+.stream-subtitle{
+  margin-top:4px;
+  color:#657287;
+  font-size:8px;
+}
+
+.connection{
+  color:#8de8b2;
+  font-size:8px;
+  font-weight:900;
+}
+
+.feed{
+  display:flex;
+  flex-direction:column;
+}
+
+.event{
+  display:grid;
+  grid-template-columns:72px 1fr auto;
+  gap:14px;
+  align-items:start;
+  padding:16px 18px;
+  border-bottom:1px solid #182131;
+}
+
+.event:last-child{
+  border-bottom:0;
+}
+
+.event-time{
+  color:#5f6d82;
+  font-size:8px;
+  font-variant-numeric:tabular-nums;
+}
+
+.event-type{
+  width:max-content;
+  padding:4px 6px;
+  margin-bottom:7px;
+  border:1px solid #283447;
+  border-radius:4px;
+  color:#8491a4;
+  background:#0b111a;
+  font-size:7px;
+  font-weight:900;
+}
+
+.event-title{
+  color:#dfe5ed;
+  font-size:10px;
+  font-weight:800;
+  line-height:1.5;
+}
+
+.event-text{
+  margin-top:5px;
+  color:#69768a;
+  font-size:8px;
+  line-height:1.55;
+}
+
+.event-value{
+  color:#a8b4c5;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.event-value.positive{
+  color:#8de8b2;
+}
+
+.event-value.negative{
+  color:#e99090;
+}
+
+.side-card{
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel);
+}
+
+.side-card + .side-card{
+  margin-top:14px;
+}
+
+.side-title{
+  font-size:12px;
+  font-weight:900;
+}
+
+.side-sub{
+  margin-top:4px;
+  color:#667388;
+  font-size:8px;
+  line-height:1.5;
+}
+
+.market-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:14px;
+}
+
+.market-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px;
+  border:1px solid #1d2737;
+  border-radius:8px;
+  background:#090e17;
+}
+
+.market-name{
+  color:#dbe2eb;
+  font-size:9px;
+  font-weight:900;
+}
+
+.market-note{
+  margin-top:3px;
+  color:#5f6d82;
+  font-size:7px;
+}
+
+.market-value{
+  color:#8b98aa;
+  font-size:8px;
+  font-weight:900;
+}
+
+.signal-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:14px;
+}
+
+.signal{
+  padding:10px;
+  border:1px solid #1d2737;
+  border-radius:8px;
+  background:#090e17;
+}
+
+.signal-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.signal-name{
+  color:#dbe2eb;
+  font-size:9px;
+  font-weight:800;
+}
+
+.signal-status{
+  color:#78869a;
+  font-size:7px;
+  font-weight:900;
+}
+
+.signal p{
+  margin-top:5px;
+  color:#657287;
+  font-size:7px;
+  line-height:1.5;
+}
+
+.warning{
+  margin-top:14px;
+  padding:11px;
+  border:1px solid #2b3038;
+  border-radius:8px;
+  background:#0c1017;
+  color:#737f91;
+  font-size:7px;
+  line-height:1.6;
+}
+
+.empty{
+  display:none;
+  padding:35px;
+  text-align:center;
+  color:#657287;
+  font-size:9px;
+}
+
+@media(max-width:1000px){
+  .live-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .live-hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .event{
+    grid-template-columns:55px 1fr;
+  }
+
+  .event-value{
+    grid-column:2;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-logo">SONATIVA</div>
+<div class="brand-version">BETA</div>
+</div>
+
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+<span class="nav-icon">⌂</span>
+<span>Dashboard</span>
+</a>
+
+<a class="nav-item" href="projects.html">
+<span class="nav-icon">▣</span>
+<span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+<span class="nav-icon">◇</span>
+<span>Token Studio</span>
+</a>
+
+<a class="nav-item" href="tokenomics.html">
+<span class="nav-icon">◈</span>
+<span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+<span class="nav-icon">◆</span>
+<span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+<span class="nav-icon">⌁</span>
+<span>Advanced Analysis</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="ai.html">
+<span class="nav-icon">✦</span>
+<span>Sonativa AI</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="security.html">
+<span class="nav-icon">◇</span>
+<span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item" href="news.html">
+<span class="nav-icon">▤</span>
+<span>World News</span>
+</a>
+
+<a class="nav-item" href="books.html">
+<span class="nav-icon">▥</span>
+<span>Books</span>
+</a>
+
+<a class="nav-item active" href="live.html">
+<span class="nav-icon">●</span>
+<span>Live</span>
+</a>
+
+<a class="nav-item" href="reels.html">
+<span class="nav-icon">▶</span>
+<span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+<span class="nav-icon">◉</span>
+<span>Wallet</span>
+</a>
+
+<a class="nav-item" href="pricing.html">
+<span class="nav-icon">◇</span>
+<span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+<span class="nav-icon">⚙</span>
+<span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="account">
+
+<div class="avatar" id="avatar">G</div>
+
+<div class="account-info">
+
+<div class="account-name" id="accountName">Guest</div>
+
+<div class="account-status">● Workspace</div>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Live
+</div>
+
+<div class="page-subtitle">
+Real-time intelligence workspace
+</div>
+
+</div>
+
+</div>
+
+<div class="top-actions">
+
+<select class="lang" id="languageSelect">
+
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+
+</select>
+
+<a class="icon-button" href="settings.html">
+⚙
+</a>
+
+</div>
+
+</header>
+
+
+<section class="live-page">
+
+
+<div class="live-hero">
+
+<div>
+
+<div class="eyebrow">
+SONATIVA LIVE INTELLIGENCE
+</div>
+
+<h1>
+Live Feed
+</h1>
+
+<p>
+A real-time interface for market events, blockchain activity,
+technology signals and Sonativa system updates.
+</p>
+
+</div>
+
+<div class="live-state">
+<div class="live-dot"></div>
+STREAM READY
+</div>
+
+</div>
+
+
+<div class="toolbar">
+
+<div class="filters">
+
+<button class="filter active" data-filter="all">
+All
+</button>
+
+<button class="filter" data-filter="market">
+Markets
+</button>
+
+<button class="filter" data-filter="web3">
+Web3
+</button>
+
+<button class="filter" data-filter="ai">
+AI
+</button>
+
+<button class="filter" data-filter="system">
+System
+</button>
+
+</div>
+
+<button class="refresh" id="refreshButton" type="button">
+↻ Refresh
+</button>
+
+</div>
+
+
+<div class="live-layout">
+
+
+<section class="stream">
+
+<div class="stream-head">
+
+<div>
+
+<div class="stream-title">
+Activity Stream
+</div>
+
+<div class="stream-subtitle" id="lastUpdated">
+Waiting for feed update
+</div>
+
+</div>
+
+<div class="connection" id="connectionState">
+● READY
+</div>
+
+</div>
+
+
+<div class="feed" id="feed">
+
+<article class="event" data-type="market">
+
+<div class="event-time">NOW</div>
+
+<div>
+
+<div class="event-type">
+MARKET
+</div>
+
+<div class="event-title">
+Market monitoring initialized
+</div>
+
+<div class="event-text">
+Connect a production market-data provider to receive verified
+real-time price and volume events.
+</div>
+
+</div>
+
+<div class="event-value">
+—
+</div>
+
+</article>
+
+
+<article class="event" data-type="web3">
+
+<div class="event-time">NOW</div>
+
+<div>
+
+<div class="event-type">
+WEB3
+</div>
+
+<div class="event-title">
+Blockchain monitoring ready
+</div>
+
+<div class="event-text">
+Network and wallet activity can be streamed here after the
+corresponding production data source is connected.
+</div>
+
+</div>
+
+<div class="event-value">
+READY
+</div>
+
+</article>
+
+
+<article class="event" data-type="ai">
+
+<div class="event-time">NOW</div>
+
+<div>
+
+<div class="event-type">
+AI
+</div>
+
+<div class="event-title">
+Sonativa AI pipeline online
+</div>
+
+<div class="event-text">
+The intelligence layer is ready to process supported inputs
+through the configured AI backend.
+</div>
+
+</div>
+
+<div class="event-value positive">
+ONLINE
+</div>
+
+</article>
+
+
+<article class="event" data-type="system">
+
+<div class="event-time">NOW</div>
+
+<div>
+
+<div class="event-type">
+SYSTEM
+</div>
+
+<div class="event-title">
+Workspace services initialized
+</div>
+
+<div class="event-text">
+Authentication, navigation and application services are available
+to the current workspace.
+</div>
+
+</div>
+
+<div class="event-value positive">
+OK
+</div>
+
+</article>
+
+</div>
+
+
+<div class="empty" id="emptyState">
+No live events match this filter.
+</div>
+
+</section>
+
+
+<aside>
+
+
+<section class="side-card">
+
+<div class="side-title">
+Market Monitor
+</div>
+
+<div class="side-sub">
+Production prices require a connected market API.
+</div>
+
+
+<div class="market-list">
+
+<div class="market-row">
+
+<div>
+
+<div class="market-name">
+BTC / USD
+</div>
+
+<div class="market-note">
+Bitcoin
+</div>
+
+</div>
+
+<div class="market-value">
+—
+</div>
+
+</div>
+
+
+<div class="market-row">
+
+<div>
+
+<div class="market-name">
+ETH / USD
+</div>
+
+<div class="market-note">
+Ethereum
+</div>
+
+</div>
+
+<div class="market-value">
+—
+</div>
+
+</div>
+
+
+<div class="market-row">
+
+<div>
+
+<div class="market-name">
+SOL / USD
+</div>
+
+<div class="market-note">
+Solana
+</div>
+
+</div>
+
+<div class="market-value">
+—
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="side-title">
+Intelligence Signals
+</div>
+
+<div class="side-sub">
+Signals shown here should be backed by verified production data.
+</div>
+
+
+<div class="signal-list">
+
+<div class="signal">
+
+<div class="signal-top">
+
+<span class="signal-name">
+Liquidity
+</span>
+
+<span class="signal-status">
+MONITORING
+</span>
+
+</div>
+
+<p>
+Track significant liquidity changes and unusual market activity.
+</p>
+
+</div>
+
+
+<div class="signal">
+
+<div class="signal-top">
+
+<span class="signal-name">
+Whale Activity
+</span>
+
+<span class="signal-status">
+READY
+</span>
+
+</div>
+
+<p>
+Monitor large wallet transfers when an on-chain data source is connected.
+</p>
+
+</div>
+
+
+<div class="signal">
+
+<div class="signal-top">
+
+<span class="signal-name">
+Security
+</span>
+
+<span class="signal-status">
+READY
+</span>
+
+</div>
+
+<p>
+Surface security events and contract-risk indicators from verified sources.
+</p>
+
+</div>
+
+</div>
+
+<div class="warning">
+Live data can change rapidly. Always verify critical information against
+the original source before taking financial or operational action.
+</div>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="side-title">
+Quick Access
+</div>
+
+<div class="side-sub">
+Continue your Sonativa workflow.
+</div>
+
+<div class="actions" style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
+
+<a class="btn" href="analysis.html">
+Advanced Analysis
+</a>
+
+<a class="btn" href="security.html">
+Security Scanner
+</a>
+
+<a class="btn primary" href="ai.html">
+Sonativa AI
+</a>
+
+</div>
+
+</section>
+
+</aside>
+
+
+</div>
+
+
+<footer>
+© 2026 Sonativa — Web3 tools, intelligence and education.
+</footer>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script type="module">
+
+import {
+getUser
+} from "./assets/js/supabase.js";
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const sidebar =
+document.getElementById("sidebar");
+
+const menuButton =
+document.getElementById("menuButton");
+
+menuButton?.addEventListener(
+"click",
+()=>{
+sidebar.classList.toggle("open");
+}
+);
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+const languageSelect =
+document.getElementById("languageSelect");
+
+const savedLanguage =
+localStorage.getItem("sonativa_language");
+
+if(savedLanguage){
+
+languageSelect.value =
+savedLanguage;
+
+document.documentElement.lang =
+savedLanguage;
+
+document.documentElement.dir =
+savedLanguage === "ar"
+? "rtl"
+: "ltr";
+
+}
+
+languageSelect?.addEventListener(
+"change",
+()=>{
+
+const language =
+languageSelect.value;
+
+localStorage.setItem(
+"sonativa_language",
+language
+);
+
+document.documentElement.lang =
+language;
+
+document.documentElement.dir =
+language === "ar"
+? "rtl"
+: "ltr";
+
+}
+);
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+async function loadUser(){
+
+try{
+
+const user =
+await getUser();
+
+if(!user)return;
+
+const name =
+user.user_metadata?.full_name ||
+user.user_metadata?.name ||
+user.email?.split("@")[0] ||
+"Sonativa User";
+
+document.getElementById(
+"accountName"
+).textContent =
+name;
+
+document.getElementById(
+"avatar"
+).textContent =
+name.charAt(0).toUpperCase();
+
+}catch(error){
+
+console.error(
+"[Live User]",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+const filters =
+document.querySelectorAll(".filter");
+
+const events =
+document.querySelectorAll(".event");
+
+const emptyState =
+document.getElementById("emptyState");
+
+let currentFilter =
+"all";
+
+
+function renderEvents(){
+
+let visible = 0;
+
+events.forEach(
+event=>{
+
+const type =
+event.dataset.type;
+
+const show =
+currentFilter === "all" ||
+type === currentFilter;
+
+event.style.display =
+show
+? "grid"
+: "none";
+
+if(show)visible++;
+
+}
+);
+
+emptyState.style.display =
+visible
+? "none"
+: "block";
+
+}
+
+
+filters.forEach(
+filter=>{
+
+filter.addEventListener(
+"click",
+()=>{
+
+filters.forEach(
+item =>
+item.classList.remove("active")
+);
+
+filter.classList.add("active");
+
+currentFilter =
+filter.dataset.filter;
+
+renderEvents();
+
+}
+);
+
+}
+);
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+const refreshButton =
+document.getElementById(
+"refreshButton"
+);
+
+const connectionState =
+document.getElementById(
+"connectionState"
+);
+
+const lastUpdated =
+document.getElementById(
+"lastUpdated"
+);
+
+
+async function refreshFeed(){
+
+refreshButton.classList.add(
+"loading"
+);
+
+connectionState.textContent =
+"● UPDATING";
+
+const originalText =
+refreshButton.textContent;
+
+refreshButton.textContent =
+"↻ Updating...";
+
+await new Promise(
+resolve =>
+setTimeout(resolve,650)
+);
+
+const now =
+new Date();
+
+lastUpdated.textContent =
+"Last checked " +
+now.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit"
+}
+);
+
+connectionState.textContent =
+"● READY";
+
+refreshButton.textContent =
+originalText;
+
+refreshButton.classList.remove(
+"loading"
+);
+
+}
+
+
+refreshButton.addEventListener(
+"click",
+refreshFeed
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadUser();
+
+refreshFeed();
+
+</script>
+
+</body>
+</html>
