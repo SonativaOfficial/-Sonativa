@@ -1,569 +1,323 @@
 /* =========================================================
-   SONATIVA — AUTH.JS
-   Authentication / Session / User UI
+   SONATIVA — AUTHENTICATION SYSTEM
+   File: assets/js/auth.js
    ========================================================= */
-
 import { supabase } from "./supabase.js";
-
-/* =========================================================
-   CONFIG
-========================================================= */
-
-const LOGIN_PAGE = "login.html";
-const HOME_PAGE = "index.html";
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function escapeHTML(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+/* ---------------------------------------------------------
+   Helpers
+--------------------------------------------------------- */
+function getRedirectUrl() {
+  return window.location.origin + window.location.pathname;
 }
-
 function getUserName(user) {
-  if (!user) return "Guest";
-
   return (
-    user.user_metadata?.full_name ||
-    user.user_metadata?.name ||
-    user.user_metadata?.user_name ||
-    user.email?.split("@")[0] ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split("@")[0] ||
     "Sonativa User"
   );
 }
-
-function getInitial(user) {
-  return getUserName(user)
-    .trim()
-    .charAt(0)
-    .toUpperCase() || "S";
-}
-
-/* =========================================================
-   CURRENT USER
-========================================================= */
-
+/* ---------------------------------------------------------
+   Get current user
+--------------------------------------------------------- */
 export async function getCurrentUser() {
   try {
-    const { data, error } = await supabase.auth.getUser();
-
+    const {
+      data: { user },
+      error
+    } = await supabase.auth.getUser();
     if (error) {
       console.warn("Sonativa auth:", error.message);
       return null;
     }
-
-    return data?.user || null;
+    return user || null;
   } catch (error) {
-    console.error("Sonativa getCurrentUser:", error);
+    console.error("Sonativa auth error:", error);
     return null;
   }
 }
-
-/* =========================================================
-   SESSION
-========================================================= */
-
+/* ---------------------------------------------------------
+   Get current session
+--------------------------------------------------------- */
 export async function getSession() {
   try {
-    const { data, error } = await supabase.auth.getSession();
-
+    const {
+      data: { session },
+      error
+    } = await supabase.auth.getSession();
     if (error) {
-      console.warn("Sonativa session:", error.message);
+      console.warn("Session error:", error.message);
       return null;
     }
-
-    return data?.session || null;
+    return session || null;
   } catch (error) {
-    console.error("Sonativa getSession:", error);
+    console.error("Session error:", error);
     return null;
   }
 }
-
-/* =========================================================
-   AUTH STATE LISTENER
-========================================================= */
-
-export function onAuthStateChange(callback) {
-  return supabase.auth.onAuthStateChange(
-    (event, session) => {
-      try {
-        if (typeof callback === "function") {
-          callback(event, session);
-        }
-      } catch (error) {
-        console.error("Sonativa auth callback:", error);
-      }
-    }
-  );
-}
-
-/* =========================================================
-   REQUIRE LOGIN
-========================================================= */
-
-export async function requireAuth(options = {}) {
-  const {
-    redirect = true,
-    returnUrl = window.location.href
-  } = options;
-
-  const session = await getSession();
-
-  if (session?.user) {
-    return session.user;
-  }
-
-  if (redirect) {
-    const encoded = encodeURIComponent(returnUrl);
-
-    window.location.href =
-      `${LOGIN_PAGE}?redirect=${encoded}`;
-  }
-
-  return null;
-}
-
-/* =========================================================
-   REDIRECT IF ALREADY LOGGED IN
-========================================================= */
-
-export async function redirectIfAuthenticated() {
-  const session = await getSession();
-
-  if (!session?.user) {
-    return false;
-  }
-
-  const params = new URLSearchParams(
-    window.location.search
-  );
-
-  const redirect =
-    params.get("redirect") || HOME_PAGE;
-
-  window.location.href = redirect;
-
-  return true;
-}
-
-/* =========================================================
-   SIGN UP
-========================================================= */
-
-export async function signUp({
-  email,
-  password,
-  name = ""
-}) {
+/* ---------------------------------------------------------
+   Email / Password Login
+--------------------------------------------------------- */
+export async function signInWithEmail(email, password) {
   if (!email || !password) {
     throw new Error("Email and password are required.");
   }
-
-  const cleanEmail =
-    String(email).trim().toLowerCase();
-
-  const metadata = {};
-
-  if (name.trim()) {
-    metadata.full_name = name.trim();
-  }
-
-  const { data, error } =
-    await supabase.auth.signUp({
-      email: cleanEmail,
-      password,
-      options: {
-        data: metadata
-      }
-    });
-
-  if (error) {
-    throw error;
-  }
-
-  return data;
-}
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-export async function signIn({
-  email,
-  password
-}) {
-  if (!email || !password) {
-    throw new Error("Email and password are required.");
-  }
-
-  const cleanEmail =
-    String(email).trim().toLowerCase();
-
   const { data, error } =
     await supabase.auth.signInWithPassword({
-      email: cleanEmail,
+      email: email.trim(),
       password
     });
-
   if (error) {
     throw error;
   }
-
   return data;
 }
-
-/* =========================================================
-   MAGIC LINK
-========================================================= */
-
-export async function signInWithMagicLink(email) {
-  if (!email) {
-    throw new Error("Email is required.");
+/* ---------------------------------------------------------
+   Create Account
+--------------------------------------------------------- */
+export async function signUpWithEmail(
+  email,
+  password,
+  fullName = ""
+) {
+  if (!email || !password) {
+    throw new Error("Email and password are required.");
   }
-
-  const cleanEmail =
-    String(email).trim().toLowerCase();
-
+  const redirectTo =
+    window.location.origin + "/login.html";
   const { data, error } =
-    await supabase.auth.signInWithOtp({
-      email: cleanEmail,
+    await supabase.auth.signUp({
+      email: email.trim(),
+      password,
       options: {
-        emailRedirectTo:
-          window.location.origin +
-          window.location.pathname
+        emailRedirectTo: redirectTo,
+        data: {
+          full_name: fullName.trim()
+        }
       }
     });
-
   if (error) {
     throw error;
   }
-
   return data;
 }
-
-/* =========================================================
-   GOOGLE LOGIN
-========================================================= */
-
+/* ---------------------------------------------------------
+   Google Login
+--------------------------------------------------------- */
 export async function signInWithGoogle() {
   const { data, error } =
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo:
-          window.location.origin +
-          HOME_PAGE
+        redirectTo: getRedirectUrl()
       }
     });
-
   if (error) {
     throw error;
   }
-
   return data;
 }
-
-/* =========================================================
-   GITHUB LOGIN
-========================================================= */
-
+/* ---------------------------------------------------------
+   GitHub Login
+--------------------------------------------------------- */
 export async function signInWithGitHub() {
   const { data, error } =
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo:
-          window.location.origin +
-          HOME_PAGE
+        redirectTo: getRedirectUrl()
       }
     });
-
   if (error) {
     throw error;
   }
-
   return data;
 }
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-export async function signOut({
-  redirect = true
-} = {}) {
+/* ---------------------------------------------------------
+   Logout
+--------------------------------------------------------- */
+export async function signOut() {
   const { error } =
     await supabase.auth.signOut();
-
   if (error) {
     throw error;
   }
-
-  if (redirect) {
-    window.location.href = LOGIN_PAGE;
-  }
+  window.location.href = "login.html";
 }
-
-/* =========================================================
-   PASSWORD RESET
-========================================================= */
-
+/* ---------------------------------------------------------
+   Password Reset
+--------------------------------------------------------- */
 export async function resetPassword(email) {
   if (!email) {
     throw new Error("Email is required.");
   }
-
-  const cleanEmail =
-    String(email).trim().toLowerCase();
-
+  const redirectTo =
+    window.location.origin + "/login.html";
   const { data, error } =
     await supabase.auth.resetPasswordForEmail(
-      cleanEmail,
+      email.trim(),
       {
-        redirectTo:
-          window.location.origin +
-          "/login.html?reset=true"
+        redirectTo
       }
     );
-
   if (error) {
     throw error;
   }
-
   return data;
 }
-
-/* =========================================================
-   UPDATE PASSWORD
-========================================================= */
-
+/* ---------------------------------------------------------
+   Update Password
+--------------------------------------------------------- */
 export async function updatePassword(password) {
   if (!password || password.length < 8) {
     throw new Error(
       "Password must contain at least 8 characters."
     );
   }
-
   const { data, error } =
     await supabase.auth.updateUser({
       password
     });
-
   if (error) {
     throw error;
   }
-
   return data;
 }
-
-/* =========================================================
-   UPDATE PROFILE
-========================================================= */
-
-export async function updateProfile({
-  name,
-  avatarUrl
-} = {}) {
-  const metadata = {};
-
-  if (typeof name === "string") {
-    metadata.full_name = name.trim();
+/* ---------------------------------------------------------
+   Update Profile
+--------------------------------------------------------- */
+export async function updateProfile(profile = {}) {
+  const allowed = {};
+  if (typeof profile.full_name === "string") {
+    allowed.full_name =
+      profile.full_name.trim();
   }
-
-  if (typeof avatarUrl === "string") {
-    metadata.avatar_url = avatarUrl.trim();
+  if (typeof profile.name === "string") {
+    allowed.name =
+      profile.name.trim();
   }
-
+  if (typeof profile.avatar_url === "string") {
+    allowed.avatar_url =
+      profile.avatar_url.trim();
+  }
   const { data, error } =
     await supabase.auth.updateUser({
-      data: metadata
+      data: allowed
     });
-
   if (error) {
     throw error;
   }
-
   return data;
 }
-
-/* =========================================================
-   USER UI
-========================================================= */
-
-export async function updateAuthUI() {
-  const user = await getCurrentUser();
-
-  const name =
-    getUserName(user);
-
-  const initial =
-    getInitial(user);
-
-  const elements =
-    document.querySelectorAll(
-      "[data-auth-name]"
-    );
-
-  elements.forEach((element) => {
-    element.textContent = name;
-  });
-
-  const avatars =
-    document.querySelectorAll(
-      "[data-auth-avatar]"
-    );
-
-  avatars.forEach((element) => {
-    element.textContent = initial;
-  });
-
-  const emails =
-    document.querySelectorAll(
-      "[data-auth-email]"
-    );
-
-  emails.forEach((element) => {
-    element.textContent =
-      user?.email || "";
-  });
-
-  const loggedIn =
-    document.querySelectorAll(
-      "[data-auth-logged-in]"
-    );
-
-  loggedIn.forEach((element) => {
-    element.hidden = !user;
-  });
-
-  const loggedOut =
-    document.querySelectorAll(
-      "[data-auth-logged-out]"
-    );
-
-  loggedOut.forEach((element) => {
-    element.hidden = !!user;
-  });
-
+/* ---------------------------------------------------------
+   Require Login
+--------------------------------------------------------- */
+export async function requireAuth() {
+  const user =
+    await getCurrentUser();
+  if (!user) {
+    const current =
+      window.location.pathname +
+      window.location.search;
+    const encoded =
+      encodeURIComponent(current);
+    window.location.href =
+      `login.html?redirect=${encoded}`;
+    return null;
+  }
   return user;
 }
-
-/* =========================================================
-   LOGOUT BUTTONS
-========================================================= */
-
-export function bindLogoutButtons() {
-  document
-    .querySelectorAll(
-      "[data-auth-logout]"
-    )
-    .forEach((button) => {
-      button.addEventListener(
-        "click",
-        async (event) => {
-          event.preventDefault();
-
-          button.disabled = true;
-
-          try {
-            await signOut();
-          } catch (error) {
-            console.error(
-              "Sonativa logout:",
-              error
-            );
-
-            button.disabled = false;
-
-            alert(
-              error?.message ||
-              "Unable to sign out."
-            );
-          }
-        }
-      );
-    });
+/* ---------------------------------------------------------
+   Redirect Logged-In User
+--------------------------------------------------------- */
+export async function redirectIfAuthenticated(
+  destination = "index.html"
+) {
+  const user =
+    await getCurrentUser();
+  if (user) {
+    window.location.href =
+      destination;
+  }
+  return user;
 }
-
-/* =========================================================
-   AUTH STATUS
-========================================================= */
-
-export async function getAuthStatus() {
-  const session =
-    await getSession();
-
-  return {
-    authenticated:
-      !!session?.user,
-
-    user:
-      session?.user || null,
-
-    session:
-      session || null
-  };
-}
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-export async function initAuth() {
-  await updateAuthUI();
-
-  bindLogoutButtons();
-
-  onAuthStateChange(
-    async () => {
-      await updateAuthUI();
+/* ---------------------------------------------------------
+   Auth State Listener
+--------------------------------------------------------- */
+export function onAuthStateChange(callback) {
+  return supabase.auth.onAuthStateChange(
+    (event, session) => {
+      try {
+        callback(event, session);
+      } catch (error) {
+        console.error(
+          "Auth callback error:",
+          error
+        );
+      }
     }
   );
 }
-
-/* =========================================================
-   AUTO INITIALIZE
-========================================================= */
-
-if (
-  document.readyState === "loading"
-) {
-  document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-      initAuth();
-    },
-    { once: true }
-  );
-} else {
-  initAuth();
+/* ---------------------------------------------------------
+   Update UI
+--------------------------------------------------------- */
+export async function updateAuthUI() {
+  const user =
+    await getCurrentUser();
+  const accountName =
+    document.getElementById("accountName");
+  const avatar =
+    document.getElementById("avatar");
+  const walletStatus =
+    document.getElementById("walletStatus");
+  if (!user) {
+    if (accountName) {
+      accountName.textContent = "Guest";
+    }
+    if (avatar) {
+      avatar.textContent = "G";
+    }
+    if (walletStatus) {
+      walletStatus.textContent = "Guest";
+    }
+    return null;
+  }
+  const name =
+    getUserName(user);
+  if (accountName) {
+    accountName.textContent =
+      name;
+  }
+  if (avatar) {
+    avatar.textContent =
+      name.charAt(0).toUpperCase();
+  }
+  if (walletStatus) {
+    walletStatus.textContent =
+      "Ready";
+  }
+  return user;
 }
-
-/* =========================================================
-   GLOBAL COMPATIBILITY
-========================================================= */
-
-window.SonativaAuth = {
-  getCurrentUser,
-  getSession,
-  getAuthStatus,
-  requireAuth,
-  redirectIfAuthenticated,
-  signUp,
-  signIn,
-  signInWithMagicLink,
-  signInWithGoogle,
-  signInWithGitHub,
-  signOut,
-  resetPassword,
-  updatePassword,
-  updateProfile,
-  updateAuthUI,
-  bindLogoutButtons,
-  initAuth
-};
+/* ---------------------------------------------------------
+   Global Auth Boot
+--------------------------------------------------------- */
+export async function initAuth(options = {}) {
+  const {
+    requireLogin = false,
+    redirectIfLoggedIn = false,
+    redirectDestination = "index.html"
+  } = options;
+  if (redirectIfLoggedIn) {
+    return redirectIfAuthenticated(
+      redirectDestination
+    );
+  }
+  if (requireLogin) {
+    return requireAuth();
+  }
+  return updateAuthUI();
+}
+/* ---------------------------------------------------------
+   Export Supabase Client
+--------------------------------------------------------- */
+export { supabase };
