@@ -7,7 +7,7 @@
 
 <meta
   name="viewport"
-  content="width=device-width,initial-scale=1.0"
+  content="width=device-width, initial-scale=1.0"
 >
 
 <meta
@@ -48,7 +48,7 @@
 
 .login-brand-name{
   font-size:29px;
-  font-weight:950;
+  font-weight:900;
   letter-spacing:5px;
 }
 
@@ -83,12 +83,7 @@
 .developer-login{
   margin-top:22px;
   padding:16px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.045),
-      rgba(255,255,255,.015)
-    );
+  background:rgba(255,255,255,.025);
   border:1px solid #303c50;
   border-radius:12px;
 }
@@ -126,19 +121,15 @@
   font-weight:900;
 
   cursor:pointer;
-
-  transition:
-    background .18s ease,
-    transform .18s ease;
 }
 
 .github-button:hover{
   background:#e9edf3;
-  transform:translateY(-1px);
 }
 
-.github-button:active{
-  transform:translateY(0);
+.github-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
 .github-icon{
@@ -147,6 +138,7 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
+  font-size:15px;
 }
 
 .divider{
@@ -166,8 +158,11 @@
   background:#1e2938;
 }
 
-.login-form{
-  margin-top:0;
+.regular-login-title{
+  margin-bottom:13px;
+  color:#c4ccd8;
+  font-size:11px;
+  font-weight:850;
 }
 
 .field{
@@ -187,6 +182,8 @@
   height:44px;
   padding:0 12px;
 
+  box-sizing:border-box;
+
   border:1px solid #1d2736;
   border-radius:9px;
 
@@ -201,8 +198,7 @@
 
 .field input:focus{
   border-color:#52647f;
-  box-shadow:
-    0 0 0 3px rgba(119,169,255,.08);
+  box-shadow:0 0 0 3px rgba(119,169,255,.08);
 }
 
 .password-wrap{
@@ -219,7 +215,6 @@
   top:7px;
 
   height:30px;
-
   padding:0 9px;
 
   border:1px solid #273444;
@@ -233,61 +228,52 @@
   font-size:9px;
 }
 
-.login-button{
+.login-button,
+.secondary-button{
   width:100%;
   height:44px;
+
+  border-radius:9px;
+
+  cursor:pointer;
+
+  font-size:10px;
+  font-weight:900;
+}
+
+.login-button{
   margin-top:4px;
 
   border:1px solid #fff;
-  border-radius:9px;
 
   background:#fff;
   color:#05070c;
 
-  font-weight:900;
   font-size:11px;
-
-  cursor:pointer;
 }
 
 .login-button:hover{
   background:#e9edf3;
 }
 
-.login-button:disabled,
-.github-button:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-.regular-login-title{
-  margin-bottom:13px;
-  color:#c4ccd8;
-  font-size:11px;
-  font-weight:850;
-}
-
 .secondary-button{
-  width:100%;
-  height:42px;
-
   margin-top:10px;
 
   border:1px solid #1d2736;
-  border-radius:9px;
 
   background:#0d131e;
   color:#cbd4df;
-
-  cursor:pointer;
-
-  font-size:10px;
-  font-weight:800;
 }
 
 .secondary-button:hover{
   background:#151d2a;
   border-color:#344258;
+}
+
+.login-button:disabled,
+.secondary-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
 .message{
@@ -300,6 +286,8 @@
 
   font-size:10px;
   line-height:1.5;
+
+  word-break:break-word;
 }
 
 .message.show{
@@ -316,6 +304,12 @@
   color:#7be8a8;
   background:#0b1711;
   border:1px solid #28543d;
+}
+
+.message.info{
+  color:#c7d1df;
+  background:#0d141e;
+  border:1px solid #273444;
 }
 
 .security-note{
@@ -405,7 +399,7 @@
 
 
       <!-- =====================================================
-           DEVELOPER / FOUNDER LOGIN
+           DEVELOPER / FOUNDER
       ====================================================== -->
 
       <div class="developer-login">
@@ -415,13 +409,13 @@
         </div>
 
         <div class="developer-description">
-          Use the official GitHub account connected to Sonativa.
+          Sign in using the official Sonativa GitHub account.
         </div>
 
+
         <button
-          class="github-button"
           id="githubButton"
-          data-auth-provider="github"
+          class="github-button"
           type="button"
         >
 
@@ -429,7 +423,9 @@
             ◆
           </span>
 
-          Continue with GitHub
+          <span id="githubButtonText">
+            Continue with GitHub
+          </span>
 
         </button>
 
@@ -442,7 +438,7 @@
 
 
       <!-- =====================================================
-           REGULAR USER LOGIN
+           REGULAR USER
       ====================================================== -->
 
       <div class="regular-login-title">
@@ -451,7 +447,6 @@
 
 
       <form
-        class="login-form"
         id="loginForm"
         novalidate
       >
@@ -489,13 +484,12 @@
               type="password"
               autocomplete="current-password"
               placeholder="Your password"
-              minlength="8"
               required
             >
 
             <button
-              class="password-toggle"
               id="togglePassword"
+              class="password-toggle"
               type="button"
             >
               Show
@@ -507,8 +501,8 @@
 
 
         <button
-          class="login-button"
           id="loginButton"
+          class="login-button"
           type="submit"
         >
           Sign In with Email
@@ -519,9 +513,8 @@
 
 
       <button
-        class="secondary-button"
         id="googleButton"
-        data-auth-provider="google"
+        class="secondary-button"
         type="button"
       >
         Continue with Google
@@ -529,8 +522,8 @@
 
 
       <button
-        class="secondary-button"
         id="signupButton"
+        class="secondary-button"
         type="button"
       >
         Create a Sonativa account
@@ -538,17 +531,20 @@
 
 
       <div
-        class="message"
         id="authMessage"
+        class="message"
         role="status"
         aria-live="polite"
-        hidden
       ></div>
 
 
       <div class="security-note">
-        🔒 Sonativa will never ask for your wallet seed phrase or private key.
+
+        🔒 Sonativa will never ask for your wallet seed phrase
+        or private key.
+
         Wallet transactions require your own wallet authorization.
+
       </div>
 
 
@@ -579,6 +575,25 @@ import {
   SonativaAuth
 } from "./assets/js/auth.js";
 
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const githubButton =
+  document.getElementById(
+    "githubButton"
+  );
+
+const githubButtonText =
+  document.getElementById(
+    "githubButtonText"
+  );
+
+const googleButton =
+  document.getElementById(
+    "googleButton"
+  );
 
 const form =
   document.getElementById(
@@ -616,33 +631,140 @@ const message =
   );
 
 
+/* =========================================================
+   MESSAGE
+========================================================= */
+
 function showMessage(
   text,
   type = "error"
 ){
 
   message.textContent =
-    text;
+    String(text || "Unknown error.");
 
   message.className =
     `message show ${type}`;
 
-  message.hidden = false;
 }
 
 
-function setLoginLoading(
-  loading
-){
+/* =========================================================
+   GITHUB LOGIN
+========================================================= */
 
-  loginButton.disabled =
-    loading;
+githubButton.addEventListener(
+  "click",
+  async () => {
 
-  loginButton.textContent =
-    loading
-      ? "Signing in..."
-      : "Sign In with Email";
-}
+    console.log(
+      "[Sonativa] GitHub button clicked."
+    );
+
+
+    githubButton.disabled =
+      true;
+
+    githubButtonText.textContent =
+      "Opening GitHub...";
+
+
+    showMessage(
+      "Connecting to GitHub...",
+      "info"
+    );
+
+
+    try {
+
+      if (
+        !SonativaAuth ||
+        typeof SonativaAuth.loginWithGitHub !==
+          "function"
+      ) {
+
+        throw new Error(
+          "GitHub authentication is not available. Check auth.js."
+        );
+
+      }
+
+
+      await SonativaAuth.loginWithGitHub();
+
+
+    } catch (error) {
+
+      console.error(
+        "[Sonativa] GitHub authentication error:",
+        error
+      );
+
+
+      showMessage(
+        error?.message ||
+        "GitHub login failed.",
+        "error"
+      );
+
+
+      githubButton.disabled =
+        false;
+
+      githubButtonText.textContent =
+        "Continue with GitHub";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   GOOGLE LOGIN
+========================================================= */
+
+googleButton.addEventListener(
+  "click",
+  async () => {
+
+    try {
+
+      googleButton.disabled =
+        true;
+
+      googleButton.textContent =
+        "Opening Google...";
+
+
+      await SonativaAuth.loginWithGoogle();
+
+
+    } catch (error) {
+
+      console.error(
+        "[Sonativa] Google authentication error:",
+        error
+      );
+
+
+      showMessage(
+        error?.message ||
+        "Google login failed.",
+        "error"
+      );
+
+
+      googleButton.disabled =
+        false;
+
+      googleButton.textContent =
+        "Continue with Google";
+
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -657,10 +779,12 @@ togglePassword.addEventListener(
       passwordInput.type ===
       "password";
 
+
     passwordInput.type =
       hidden
         ? "text"
         : "password";
+
 
     togglePassword.textContent =
       hidden
@@ -672,16 +796,28 @@ togglePassword.addEventListener(
 
 
 /* =========================================================
-   ALREADY AUTHENTICATED
+   EXISTING SESSION
 ========================================================= */
 
-const existingUser =
-  await SonativaAuth.getUser();
+try {
 
-if(existingUser){
+  const existingUser =
+    await SonativaAuth.getUser();
 
-  window.location.replace(
-    "index.html"
+
+  if(existingUser){
+
+    window.location.replace(
+      "index.html"
+    );
+
+  }
+
+} catch(error){
+
+  console.warn(
+    "[Sonativa] Session check failed:",
+    error
   );
 
 }
@@ -697,13 +833,18 @@ form.addEventListener(
 
     event.preventDefault();
 
-    message.className =
-      "message";
+
+    showMessage(
+      "",
+      "info"
+    );
+
 
     const email =
       emailInput.value
         .trim()
         .toLowerCase();
+
 
     const password =
       passwordInput.value;
@@ -735,10 +876,14 @@ form.addEventListener(
     }
 
 
-    setLoginLoading(true);
+    loginButton.disabled =
+      true;
+
+    loginButton.textContent =
+      "Signing in...";
 
 
-    try{
+    try {
 
       await SonativaAuth.login(
         email,
@@ -752,7 +897,7 @@ form.addEventListener(
       );
 
 
-      window.setTimeout(
+      setTimeout(
         () => {
 
           window.location.replace(
@@ -764,22 +909,26 @@ form.addEventListener(
       );
 
 
-    }catch(error){
+    } catch(error){
 
       console.error(
-        "[Sonativa Login]",
+        "[Sonativa] Email login error:",
         error
       );
 
 
       showMessage(
-        getAuthError(
-          error?.message
-        )
+        error?.message ||
+        "Unable to sign in.",
+        "error"
       );
 
 
-      setLoginLoading(false);
+      loginButton.disabled =
+        false;
+
+      loginButton.textContent =
+        "Sign In with Email";
 
     }
 
@@ -797,90 +946,39 @@ signupButton.addEventListener(
 
     const email =
       encodeURIComponent(
-        emailInput.value
-          .trim()
+        emailInput.value.trim()
       );
 
+
     window.location.href =
-      `register.html${
-        email
-          ? `?email=${email}`
-          : ""
-      }`;
+      email
+        ? `register.html?email=${email}`
+        : "register.html";
 
   }
 );
 
 
 /* =========================================================
-   FRIENDLY ERRORS
+   DEBUG
 ========================================================= */
 
-function getAuthError(
-  error
-){
+console.log(
+  "[Sonativa] Login page initialized."
+);
 
-  const text =
-    String(
-      error || ""
-    ).toLowerCase();
+console.log(
+  "[Sonativa] GitHub button:",
+  githubButton
+);
 
-
-  if(
-    text.includes(
-      "invalid login credentials"
-    )
-  ){
-
-    return "Incorrect email or password.";
-
-  }
-
-
-  if(
-    text.includes(
-      "email not confirmed"
-    )
-  ){
-
-    return "Please confirm your email before signing in.";
-
-  }
-
-
-  if(
-    text.includes(
-      "user already registered"
-    )
-  ){
-
-    return "This email is already registered. Try signing in.";
-
-  }
-
-
-  if(
-    text.includes(
-      "password"
-    ) &&
-    text.includes(
-      "8"
-    )
-  ){
-
-    return "Password must contain at least 8 characters.";
-
-  }
-
-
-  return (
-    error ||
-    "Unable to complete authentication. Please try again."
-  );
-
-}
+console.log(
+  "[Sonativa] GitHub function:",
+  typeof SonativaAuth?.loginWithGitHub
+);
 
 </script>
 
 </body>
+
 </html>
