@@ -1,16 +1,16 @@
 /* =========================================================
    SONATIVA — SUPABASE CORE
-   File: assets/js/supabase.js
+   Version: 2026
+   Authentication + Database + Session Management
    ========================================================= */
 
 import {
   createClient
-} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm";
-
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
 /* =========================================================
-   CONFIG
-========================================================= */
+   CONFIGURATION
+   ========================================================= */
 
 const SUPABASE_URL =
   "https://kallobeodjzzhrsaqszw.supabase.co";
@@ -18,10 +18,9 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
 
-
 /* =========================================================
    CLIENT
-========================================================= */
+   ========================================================= */
 
 export const supabase =
   createClient(
@@ -34,215 +33,276 @@ export const supabase =
         detectSessionInUrl: true,
         flowType: "pkce"
       },
-
       global: {
         headers: {
-          "x-client-info":
-            "sonativa-web"
+          "x-application-name": "Sonativa"
         }
       }
     }
   );
 
-
 /* =========================================================
-   AUTH HELPERS
-========================================================= */
+   SESSION
+   ========================================================= */
 
-export async function getCurrentUser() {
+export async function getSession() {
 
-  const {
-    data,
-    error
-  } =
-    await supabase.auth.getUser();
+  try {
 
-  if (error) {
+    const {
+      data,
+      error
+    } =
+      await supabase.auth.getSession();
 
-    console.warn(
-      "Sonativa user error:",
-      error.message
+    if (error) {
+      console.error(
+        "[Sonativa Auth] Session error:",
+        error.message
+      );
+
+      return null;
+    }
+
+    return data?.session || null;
+
+  } catch (error) {
+
+    console.error(
+      "[Sonativa Auth] Session exception:",
+      error
     );
 
     return null;
   }
-
-  return data?.user || null;
 }
 
+/* =========================================================
+   CURRENT USER
+   ========================================================= */
 
-export async function getCurrentSession() {
+export async function getUser() {
 
-  const {
-    data,
-    error
-  } =
-    await supabase.auth.getSession();
+  try {
 
-  if (error) {
+    const {
+      data,
+      error
+    } =
+      await supabase.auth.getUser();
 
-    console.warn(
-      "Sonativa session error:",
-      error.message
+    if (error) {
+
+      console.warn(
+        "[Sonativa Auth] User error:",
+        error.message
+      );
+
+      return null;
+    }
+
+    return data?.user || null;
+
+  } catch (error) {
+
+    console.error(
+      "[Sonativa Auth] User exception:",
+      error
     );
 
     return null;
   }
-
-  return data?.session || null;
 }
 
-
 /* =========================================================
-   AUTH STATE
-========================================================= */
+   AUTH STATE LISTENER
+   ========================================================= */
 
 export function onAuthStateChange(
   callback
 ) {
 
-  return supabase.auth.onAuthStateChange(
-    callback
-  );
+  if (
+    typeof callback !== "function"
+  ) {
+    return {
+      unsubscribe() {}
+    };
+  }
 
+  const {
+    data
+  } =
+    supabase.auth.onAuthStateChange(
+      (event, session) => {
+
+        try {
+
+          callback(
+            event,
+            session
+          );
+
+        } catch (error) {
+
+          console.error(
+            "[Sonativa Auth] Listener error:",
+            error
+          );
+        }
+
+      }
+    );
+
+  return data.subscription;
 }
-
 
 /* =========================================================
    SIGN OUT
-========================================================= */
+   ========================================================= */
 
 export async function signOut() {
 
-  const {
-    error
-  } =
-    await supabase.auth.signOut();
+  try {
 
-  if (error) {
-    throw error;
+    const {
+      error
+    } =
+      await supabase.auth.signOut();
+
+    if (error) {
+
+      console.error(
+        "[Sonativa Auth] Sign out error:",
+        error.message
+      );
+
+      return {
+        success: false,
+        error
+      };
+    }
+
+    return {
+      success: true,
+      error: null
+    };
+
+  } catch (error) {
+
+    console.error(
+      "[Sonativa Auth] Sign out exception:",
+      error
+    );
+
+    return {
+      success: false,
+      error
+    };
   }
-
 }
-
 
 /* =========================================================
    DATABASE HELPERS
-========================================================= */
+   ========================================================= */
 
-export async function getProjects(
-  userId
+export async function select(
+  table,
+  columns = "*",
+  options = {}
 ) {
 
-  if (!userId) {
-    return [];
+  if (!table) {
+    throw new Error(
+      "Supabase table name is required."
+    );
+  }
+
+  let query =
+    supabase
+      .from(table)
+      .select(columns);
+
+  if (options.eq) {
+
+    for (
+      const [column, value]
+      of Object.entries(options.eq)
+    ) {
+
+      query =
+        query.eq(
+          column,
+          value
+        );
+    }
+  }
+
+  if (options.order) {
+
+    query =
+      query.order(
+        options.order.column,
+        {
+          ascending:
+            options.order.ascending !== false
+        }
+      );
+  }
+
+  if (
+    Number.isInteger(
+      options.limit
+    )
+  ) {
+
+    query =
+      query.limit(
+        options.limit
+      );
+  }
+
+  if (
+    Number.isInteger(
+      options.rangeFrom
+    ) &&
+    Number.isInteger(
+      options.rangeTo
+    )
+  ) {
+
+    query =
+      query.range(
+        options.rangeFrom,
+        options.rangeTo
+      );
   }
 
   const {
     data,
     error
   } =
-    await supabase
-      .from("projects")
-      .select("*")
-      .eq(
-        "user_id",
-        userId
-      )
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
+    await query;
 
   if (error) {
-
-    console.error(
-      "Projects query failed:",
-      error
-    );
-
     throw error;
   }
 
   return data || [];
 }
 
-
 /* =========================================================
-   CREATE PROJECT
-========================================================= */
+   INSERT
+   ========================================================= */
 
-export async function createProject(
-  project
+export async function insert(
+  table,
+  values
 ) {
 
-  if (!project) {
+  if (!table) {
     throw new Error(
-      "Project data is required."
-    );
-  }
-
-  const user =
-    await getCurrentUser();
-
-  if (!user) {
-    throw new Error(
-      "You must be logged in."
-    );
-  }
-
-  const payload = {
-    ...project,
-    user_id: user.id
-  };
-
-  const {
-    data,
-    error
-  } =
-    await supabase
-      .from("projects")
-      .insert(payload)
-      .select()
-      .single();
-
-  if (error) {
-
-    console.error(
-      "Project creation failed:",
-      error
-    );
-
-    throw error;
-  }
-
-  return data;
-}
-
-
-/* =========================================================
-   UPDATE PROJECT
-========================================================= */
-
-export async function updateProject(
-  projectId,
-  updates
-) {
-
-  if (!projectId) {
-    throw new Error(
-      "Project ID is required."
-    );
-  }
-
-  const user =
-    await getCurrentUser();
-
-  if (!user) {
-    throw new Error(
-      "You must be logged in."
+      "Supabase table name is required."
     );
   }
 
@@ -251,97 +311,122 @@ export async function updateProject(
     error
   } =
     await supabase
-      .from("projects")
-      .update(updates)
-      .eq(
-        "id",
-        projectId
-      )
-      .eq(
-        "user_id",
-        user.id
-      )
-      .select()
-      .single();
+      .from(table)
+      .insert(values)
+      .select();
 
   if (error) {
-
-    console.error(
-      "Project update failed:",
-      error
-    );
-
     throw error;
   }
 
-  return data;
+  return data || [];
 }
 
-
 /* =========================================================
-   DELETE PROJECT
-========================================================= */
+   UPDATE
+   ========================================================= */
 
-export async function deleteProject(
-  projectId
+export async function update(
+  table,
+  values,
+  filters = {}
 ) {
 
-  if (!projectId) {
+  if (!table) {
     throw new Error(
-      "Project ID is required."
+      "Supabase table name is required."
     );
   }
 
-  const user =
-    await getCurrentUser();
+  let query =
+    supabase
+      .from(table)
+      .update(values);
 
-  if (!user) {
-    throw new Error(
-      "You must be logged in."
-    );
-  }
+  for (
+    const [column, value]
+    of Object.entries(filters)
+  ) {
 
-  const {
-    error
-  } =
-    await supabase
-      .from("projects")
-      .delete()
-      .eq(
-        "id",
-        projectId
-      )
-      .eq(
-        "user_id",
-        user.id
+    query =
+      query.eq(
+        column,
+        value
       );
+  }
+
+  const {
+    data,
+    error
+  } =
+    await query
+      .select();
 
   if (error) {
-
-    console.error(
-      "Project deletion failed:",
-      error
-    );
-
     throw error;
   }
 
-  return true;
+  return data || [];
 }
 
+/* =========================================================
+   DELETE
+   ========================================================= */
+
+export async function remove(
+  table,
+  filters = {}
+) {
+
+  if (!table) {
+    throw new Error(
+      "Supabase table name is required."
+    );
+  }
+
+  let query =
+    supabase
+      .from(table)
+      .delete();
+
+  for (
+    const [column, value]
+    of Object.entries(filters)
+  ) {
+
+    query =
+      query.eq(
+        column,
+        value
+      );
+  }
+
+  const {
+    data,
+    error
+  } =
+    await query
+      .select();
+
+  if (error) {
+    throw error;
+  }
+
+  return data || [];
+}
 
 /* =========================================================
-   SECURE RPC
-========================================================= */
+   RPC
+   ========================================================= */
 
-export async function callRPC(
+export async function rpc(
   functionName,
-  parameters = {}
+  params = {}
 ) {
 
   if (!functionName) {
     throw new Error(
-      "RPC function name is required."
+      "Supabase RPC function name is required."
     );
   }
 
@@ -351,161 +436,242 @@ export async function callRPC(
   } =
     await supabase.rpc(
       functionName,
-      parameters
+      params
     );
 
   if (error) {
-
-    console.error(
-      `RPC ${functionName} failed:`,
-      error
-    );
-
     throw error;
   }
 
   return data;
 }
 
-
 /* =========================================================
-   STORAGE
-========================================================= */
+   FOUNDER VERIFICATION
+   ========================================================= */
 
-export async function uploadFile(
-  bucket,
-  path,
-  file,
-  options = {}
-) {
-
-  if (!bucket || !path || !file) {
-
-    throw new Error(
-      "Bucket, path and file are required."
-    );
-
-  }
-
-  const {
-    data,
-    error
-  } =
-    await supabase.storage
-      .from(bucket)
-      .upload(
-        path,
-        file,
-        {
-          upsert: false,
-          ...options
-        }
-      );
-
-  if (error) {
-
-    console.error(
-      "Storage upload failed:",
-      error
-    );
-
-    throw error;
-  }
-
-  return data;
-}
-
-
-/* =========================================================
-   STORAGE PUBLIC URL
-========================================================= */
-
-export function getPublicFileUrl(
-  bucket,
-  path
-) {
-
-  const {
-    data
-  } =
-    supabase.storage
-      .from(bucket)
-      .getPublicUrl(path);
-
-  return data?.publicUrl || null;
-}
-
-
-/* =========================================================
-   CONNECTION TEST
-========================================================= */
-
-export async function testSupabase() {
+export async function isFounder() {
 
   try {
 
     const {
+      data,
       error
     } =
-    await supabase
-      .from("projects")
-      .select("id")
-      .limit(1);
+      await supabase.rpc(
+        "is_sonativa_founder"
+      );
 
     if (error) {
 
       console.warn(
-        "Supabase connection test:",
+        "[Sonativa Founder] Verification failed:",
         error.message
       );
 
       return false;
     }
 
-    return true;
+    return data === true;
 
   } catch (error) {
 
     console.error(
-      "Supabase connection test failed:",
+      "[Sonativa Founder] Exception:",
       error
     );
 
     return false;
   }
-
 }
 
+/* =========================================================
+   USER PROJECTS
+   ========================================================= */
+
+export async function getUserProjects() {
+
+  const user =
+    await getUser();
+
+  if (!user) {
+    return [];
+  }
+
+  return select(
+    "projects",
+    `
+      id,
+      user_id,
+      project_name,
+      token_name,
+      token_symbol,
+      total_supply,
+      decimals,
+      network,
+      description,
+      metadata_uri,
+      token_status,
+      mint_address,
+      created_at,
+      updated_at
+    `,
+    {
+      eq: {
+        user_id: user.id
+      },
+      order: {
+        column: "created_at",
+        ascending: false
+      }
+    }
+  );
+}
 
 /* =========================================================
-   GLOBAL SONATIVA API
-========================================================= */
+   CREATE PROJECT
+   ========================================================= */
+
+export async function createProject(
+  project
+) {
+
+  const user =
+    await getUser();
+
+  if (!user) {
+
+    throw new Error(
+      "You must be signed in to create a project."
+    );
+  }
+
+  const payload = {
+    ...project,
+    user_id: user.id
+  };
+
+  return insert(
+    "projects",
+    payload
+  );
+}
+
+/* =========================================================
+   UPDATE PROJECT
+   ========================================================= */
+
+export async function updateProject(
+  projectId,
+  values
+) {
+
+  const user =
+    await getUser();
+
+  if (!user) {
+
+    throw new Error(
+      "You must be signed in."
+    );
+  }
+
+  return update(
+    "projects",
+    values,
+    {
+      id: projectId,
+      user_id: user.id
+    }
+  );
+}
+
+/* =========================================================
+   REALTIME
+   ========================================================= */
+
+export function subscribe(
+  table,
+  callback,
+  options = {}
+) {
+
+  if (!table) {
+    throw new Error(
+      "Realtime table name is required."
+    );
+  }
+
+  const channelName =
+    options.channel ||
+    `sonativa:${table}:${Date.now()}`;
+
+  const channel =
+    supabase
+      .channel(channelName)
+      .on(
+        "postgres_changes",
+        {
+          event:
+            options.event || "*",
+          schema:
+            options.schema || "public",
+          table
+        },
+        (payload) => {
+
+          try {
+
+            callback(
+              payload
+            );
+
+          } catch (error) {
+
+            console.error(
+              "[Sonativa Realtime] Callback error:",
+              error
+            );
+          }
+        }
+      )
+      .subscribe();
+
+  return {
+    channel,
+
+    unsubscribe: async () => {
+
+      await supabase
+        .removeChannel(
+          channel
+        );
+    }
+  };
+}
+
+/* =========================================================
+   GLOBAL EXPORT
+   ========================================================= */
 
 window.SonativaSupabase = {
-
-  client:
-    supabase,
-
-  getCurrentUser,
-
-  getCurrentSession,
-
-  getProjects,
-
+  client: supabase,
+  getSession,
+  getUser,
+  onAuthStateChange,
+  signOut,
+  select,
+  insert,
+  update,
+  remove,
+  rpc,
+  isFounder,
+  getUserProjects,
   createProject,
-
   updateProject,
-
-  deleteProject,
-
-  callRPC,
-
-  uploadFile,
-
-  getPublicFileUrl,
-
-  testSupabase,
-
-  signOut
-
+  subscribe
 };
+
+console.info(
+  "Sonativa Supabase initialized."
+);
