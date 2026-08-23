@@ -1,1 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa AI — intelligent Web3 research and project analysis workspace.">
+<title>Sonativa — AI</title>
 
+<link rel="stylesheet" href="assets/css/sonativa.css">
+
+<style>
+.ai-page{
+  width:min(1450px,94%);
+  margin:auto;
+  padding:30px 0 70px;
+}
+
+.ai-hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:24px;
+  padding:25px;
+  margin-bottom:15px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(150,165,185,.14),transparent 40%),
+    var(--panel);
+}
+
+.eyebrow{
+  color:#7e8ca0;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.7px;
+}
+
+.ai-hero h1{
+  margin-top:8px;
+  font-size:30px;
+  letter-spacing:-.8px;
+}
+
+.ai-hero p{
+  max-width:760px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+}
+
+.ai-status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:9px 11px;
+  border:1px solid #303c4e;
+  border-radius:7px;
+  background:#0b111a;
+  color:#aeb9c8;
+  font-size:8px;
+  font-weight:900;
+}
+
+.ai-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#8de8b2;
+  box-shadow:0 0 0 4px rgba(141,232,178,.08);
+}
+
+.ai-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 310px;
+  gap:14px;
+}
+
+.chat-panel{
+  min-width:0;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel);
+  overflow:hidden;
+}
+
+.chat-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:15px 17px;
+  border-bottom:1px solid #1c2635;
+}
+
+.chat-title{
+  font-size:11px;
+  font-weight:900;
+}
+
+.chat-subtitle{
+  margin-top:4px;
+  color:#657287;
+  font-size:8px;
+}
+
+.model-badge{
+  padding:6px 8px;
+  border:1px solid #303b4c;
+  border-radius:6px;
+  color:#8d9aab;
+  background:#0a1019;
+  font-size:7px;
+  font-weight:900;
+}
+
+.messages{
+  height:570px;
+  overflow-y:auto;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+  scroll-behavior:smooth;
+}
+
+.message{
+  display:flex;
+  gap:9px;
+  max-width:86%;
+}
+
+.message.user{
+  align-self:flex-end;
+  flex-direction:row-reverse;
+}
+
+.message-avatar{
+  flex:0 0 28px;
+  width:28px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #303c4e;
+  border-radius:8px;
+  background:#0b111a;
+  color:#aeb9c8;
+  font-size:8px;
+  font-weight:900;
+}
+
+.message.user .message-avatar{
+  background:#e8edf3;
+  color:#070a0f;
+  border-color:#e8edf3;
+}
+
+.message-body{
+  padding:11px 12px;
+  border:1px solid #1e2939;
+  border-radius:10px;
+  background:#090e17;
+}
+
+.message.user .message-body{
+  background:#111925;
+}
+
+.message-text{
+  color:#b6c0ce;
+  font-size:8px;
+  line-height:1.75;
+  white-space:pre-wrap;
+}
+
+.message.user .message-text{
+  color:#dbe2eb;
+}
+
+.message-time{
+  margin-top:6px;
+  color:#59677a;
+  font-size:6px;
+}
+
+.composer{
+  padding:13px;
+  border-top:1px solid #1c2635;
+  background:#080d15;
+}
+
+.composer-box{
+  display:flex;
+  gap:8px;
+  align-items:flex-end;
+  padding:8px;
+  border:1px solid #283447;
+  border-radius:10px;
+  background:#090e17;
+}
+
+#promptInput{
+  flex:1;
+  min-height:38px;
+  max-height:130px;
+  resize:none;
+  border:0;
+  outline:none;
+  background:transparent;
+  color:#dce4ed;
+  font:inherit;
+  font-size:9px;
+  line-height:1.6;
+}
+
+#promptInput::placeholder{
+  color:#59677a;
+}
+
+.send-button{
+  min-width:70px;
+  height:34px;
+  border:1px solid #e7ecf2;
+  border-radius:7px;
+  background:#e7ecf2;
+  color:#05080d;
+  font-size:8px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.send-button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.composer-footer{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:7px;
+  color:#566377;
+  font-size:6px;
+}
+
+.side-stack{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.side-card{
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel);
+}
+
+.side-title{
+  font-size:11px;
+  font-weight:900;
+}
+
+.side-sub{
+  margin-top:4px;
+  color:#657287;
+  font-size:8px;
+  line-height:1.6;
+}
+
+.prompt-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  margin-top:13px;
+}
+
+.prompt{
+  width:100%;
+  padding:9px 10px;
+  text-align:left;
+  border:1px solid #1d2737;
+  border-radius:7px;
+  background:#090e17;
+  color:#8e9bad;
+  font-size:7px;
+  line-height:1.5;
+  cursor:pointer;
+}
+
+.prompt:hover{
+  border-color:#3b485a;
+  color:#d2d9e2;
+  background:#101721;
+}
+
+.capabilities{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:13px;
+}
+
+.capability{
+  display:flex;
+  gap:8px;
+  padding:9px;
+  border:1px solid #1d2737;
+  border-radius:7px;
+  background:#090e17;
+}
+
+.capability-icon{
+  width:22px;
+  height:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #2c384b;
+  border-radius:5px;
+  color:#aeb9c8;
+  font-size:8px;
+}
+
+.capability strong{
+  display:block;
+  color:#aeb9c8;
+  font-size:7px;
+}
+
+.capability span{
+  display:block;
+  margin-top:3px;
+  color:#5f6d81;
+  font-size:6px;
+  line-height:1.5;
+}
+
+.clear-button{
+  width:100%;
+  min-height:34px;
+  margin-top:13px;
+  border:1px solid #293548;
+  border-radius:7px;
+  background:#0b111a;
+  color:#aeb9c8;
+  font-size:7px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.clear-button:hover{
+  background:#151d29;
+}
+
+.disclaimer{
+  margin-top:13px;
+  padding:11px;
+  border:1px solid #202b3d;
+  border-radius:8px;
+  background:#090e17;
+  color:#647186;
+  font-size:7px;
+  line-height:1.65;
+}
+
+.typing{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.typing span{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#738094;
+  animation:typing 1s infinite ease-in-out;
+}
+
+.typing span:nth-child(2){
+  animation-delay:.15s;
+}
+
+.typing span:nth-child(3){
+  animation-delay:.3s;
+}
+
+@keyframes typing{
+  0%,60%,100%{
+    opacity:.25;
+    transform:translateY(0);
+  }
+  30%{
+    opacity:1;
+    transform:translateY(-2px);
+  }
+}
+
+@media(max-width:1050px){
+  .ai-layout{
+    grid-template-columns:1fr;
+  }
+
+  .side-stack{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:700px){
+  .ai-hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .side-stack{
+    display:flex;
+  }
+
+  .messages{
+    height:500px;
+    padding:13px;
+  }
+
+  .message{
+    max-width:94%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-logo">SONATIVA</div>
+<div class="brand-version">BETA</div>
+</div>
+
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+<span class="nav-icon">⌂</span>
+<span>Dashboard</span>
+</a>
+
+<a class="nav-item" href="projects.html">
+<span class="nav-icon">▣</span>
+<span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+<span class="nav-icon">◇</span>
+<span>Token Studio</span>
+</a>
+
+<a class="nav-item" href="tokenomics.html">
+<span class="nav-icon">◈</span>
+<span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+<span class="nav-icon">◆</span>
+<span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+<span class="nav-icon">⌁</span>
+<span>Advanced Analysis</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item active" href="ai.html">
+<span class="nav-icon">✦</span>
+<span>Sonativa AI</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="security.html">
+<span class="nav-icon">◇</span>
+<span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item" href="news.html">
+<span class="nav-icon">▤</span>
+<span>World News</span>
+</a>
+
+<a class="nav-item" href="books.html">
+<span class="nav-icon">▥</span>
+<span>Books</span>
+</a>
+
+<a class="nav-item" href="live.html">
+<span class="nav-icon">●</span>
+<span>Live</span>
+</a>
+
+<a class="nav-item" href="reels.html">
+<span class="nav-icon">▶</span>
+<span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+<span class="nav-icon">◉</span>
+<span>Wallet</span>
+</a>
+
+<a class="nav-item" href="pricing.html">
+<span class="nav-icon">◇</span>
+<span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+<span class="nav-icon">⚙</span>
+<span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="account">
+
+<div class="avatar" id="avatar">G</div>
+
+<div class="account-info">
+<div class="account-name" id="accountName">Guest</div>
+<div class="account-status">● Workspace</div>
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Sonativa AI
+</div>
+
+<div class="page-subtitle">
+Research assistant for Web3, markets and product intelligence
+</div>
+
+</div>
+
+</div>
+
+<div class="top-actions">
+
+<select class="lang" id="languageSelect">
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+</select>
+
+<a class="icon-button" href="settings.html">
+⚙
+</a>
+
+</div>
+
+</header>
+
+
+<section class="ai-page">
+
+<div class="ai-hero">
+
+<div>
+
+<div class="eyebrow">
+SONATIVA INTELLIGENCE
+</div>
+
+<h1>
+Sonativa AI
+</h1>
+
+<p>
+Ask focused questions about Web3, tokenomics, security, trading,
+product strategy and project research. The interface is ready for
+a production AI provider without fabricating external data.
+</p>
+
+</div>
+
+<div class="ai-status">
+<span class="ai-dot"></span>
+AI WORKSPACE READY
+</div>
+
+</div>
+
+
+<div class="ai-layout">
+
+
+<section class="chat-panel">
+
+<div class="chat-head">
+
+<div>
+
+<div class="chat-title">
+Research Assistant
+</div>
+
+<div class="chat-subtitle">
+Structured answers · transparent limitations · no fake live data
+</div>
+
+</div>
+
+<div class="model-badge">
+SONATIVA AI
+</div>
+
+</div>
+
+
+<div
+class="messages"
+id="messages"
+aria-live="polite">
+
+<div class="message assistant">
+
+<div class="message-avatar">
+S
+</div>
+
+<div class="message-body">
+
+<div class="message-text">Welcome to Sonativa AI.
+
+I can help you structure research, explain Web3 concepts, review tokenomics, build risk frameworks, analyze project ideas and turn complex information into actionable research questions.
+
+Ask me something specific to begin.</div>
+
+<div class="message-time">
+Ready
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="composer">
+
+<div class="composer-box">
+
+<textarea
+id="promptInput"
+rows="1"
+maxlength="4000"
+placeholder="Ask Sonativa AI..."
+aria-label="Ask Sonativa AI"></textarea>
+
+<button
+class="send-button"
+id="sendButton"
+type="button">
+Send
+</button>
+
+</div>
+
+<div class="composer-footer">
+
+<span>
+Enter to send · Shift + Enter for new line
+</span>
+
+<span id="charCount">
+0 / 4000
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+
+<aside class="side-stack">
+
+
+<section class="side-card">
+
+<div class="side-title">
+Quick Prompts
+</div>
+
+<div class="side-sub">
+Start with a focused research question.
+</div>
+
+<div class="prompt-list">
+
+<button
+class="prompt"
+data-prompt="Explain token supply, circulating supply, market cap and FDV with a simple example.">
+Explain market cap vs FDV
+</button>
+
+<button
+class="prompt"
+data-prompt="Give me a rigorous checklist for evaluating a new crypto project before investing.">
+Evaluate a crypto project
+</button>
+
+<button
+class="prompt"
+data-prompt="Explain liquidity, market structure, sweep, BOS and FVG in a clear ICT-style framework.">
+Explain market structure
+</button>
+
+<button
+class="prompt"
+data-prompt="How should I design tokenomics for a utility token with sustainable incentives and controlled unlocks?">
+Design tokenomics
+</button>
+
+<button
+class="prompt"
+data-prompt="Give me a security review framework for a Web3 wallet and token project.">
+Review Web3 security
+</button>
+
+</div>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="side-title">
+Capabilities
+</div>
+
+<div class="side-sub">
+Designed around structured research workflows.
+</div>
+
+<div class="capabilities">
+
+<div class="capability">
+
+<div class="capability-icon">
+⌁
+</div>
+
+<div>
+<strong>Research</strong>
+<span>Break complex topics into verifiable questions.</span>
+</div>
+
+</div>
+
+
+<div class="capability">
+
+<div class="capability-icon">
+◇
+</div>
+
+<div>
+<strong>Tokenomics</strong>
+<span>Review supply, allocation, unlocks and incentives.</span>
+</div>
+
+</div>
+
+
+<div class="capability">
+
+<div class="capability-icon">
+◈
+</div>
+
+<div>
+<strong>Risk</strong>
+<span>Build disciplined risk and decision frameworks.</span>
+</div>
+
+</div>
+
+
+<div class="capability">
+
+<div class="capability-icon">
+✦
+</div>
+
+<div>
+<strong>Product</strong>
+<span>Turn ideas into focused product specifications.</span>
+</div>
+
+</div>
+
+</div>
+
+<button
+class="clear-button"
+id="clearButton"
+type="button">
+Clear Conversation
+</button>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="side-title">
+Important
+</div>
+
+<div class="disclaimer">
+Sonativa AI should not invent prices, holders, transactions,
+funding or other external facts. Production deployments should
+connect verified data sources and an authenticated AI backend.
+AI output is informational and should be independently verified.
+</div>
+
+</section>
+
+</aside>
+
+</div>
+
+
+<footer>
+© 2026 Sonativa — Web3 tools, intelligence and education.
+</footer>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script type="module">
+
+import {
+getUser
+} from "./assets/js/supabase.js";
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const sidebar =
+document.getElementById("sidebar");
+
+document
+.getElementById("menuButton")
+?.addEventListener(
+"click",
+()=>{
+sidebar.classList.toggle("open");
+}
+);
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+const languageSelect =
+document.getElementById("languageSelect");
+
+const savedLanguage =
+localStorage.getItem("sonativa_language");
+
+if(savedLanguage){
+
+languageSelect.value =
+savedLanguage;
+
+document.documentElement.lang =
+savedLanguage;
+
+document.documentElement.dir =
+savedLanguage === "ar"
+? "rtl"
+: "ltr";
+
+}
+
+languageSelect?.addEventListener(
+"change",
+()=>{
+
+const language =
+languageSelect.value;
+
+localStorage.setItem(
+"sonativa_language",
+language
+);
+
+document.documentElement.lang =
+language;
+
+document.documentElement.dir =
+language === "ar"
+? "rtl"
+: "ltr";
+
+}
+);
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+async function loadUser(){
+
+try{
+
+const user =
+await getUser();
+
+if(!user)return;
+
+const name =
+user.user_metadata?.full_name ||
+user.user_metadata?.name ||
+user.email?.split("@")[0] ||
+"Sonativa User";
+
+document.getElementById(
+"accountName"
+).textContent =
+name;
+
+document.getElementById(
+"avatar"
+).textContent =
+name.charAt(0).toUpperCase();
+
+}catch(error){
+
+console.error(
+"[AI User]",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   CHAT ELEMENTS
+========================================================= */
+
+const messages =
+document.getElementById(
+"messages"
+);
+
+const promptInput =
+document.getElementById(
+"promptInput"
+);
+
+const sendButton =
+document.getElementById(
+"sendButton"
+);
+
+const clearButton =
+document.getElementById(
+"clearButton"
+);
+
+const charCount =
+document.getElementById(
+"charCount"
+);
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const STORAGE_KEY =
+"sonativa_ai_messages";
+
+
+function saveMessages(){
+
+const data =
+[...messages.querySelectorAll(".message")]
+.map(message=>({
+
+role:
+message.classList.contains("user")
+? "user"
+: "assistant",
+
+text:
+message.querySelector(
+".message-text"
+)?.textContent || "",
+
+time:
+message.querySelector(
+".message-time"
+)?.textContent || ""
+
+}));
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(data)
+);
+
+}
+
+
+function restoreMessages(){
+
+const saved =
+localStorage.getItem(
+STORAGE_KEY
+);
+
+if(!saved)return;
+
+try{
+
+const data =
+JSON.parse(saved);
+
+if(!Array.isArray(data) ||
+!data.length)return;
+
+messages.innerHTML = "";
+
+data.forEach(item=>{
+
+addMessage(
+item.role,
+item.text,
+item.time,
+false
+);
+
+});
+
+}catch(error){
+
+console.warn(
+"[AI Storage]",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   MESSAGE UI
+========================================================= */
+
+function addMessage(
+role,
+text,
+time = "Now",
+persist = true
+){
+
+const message =
+document.createElement("div");
+
+message.className =
+`message ${role}`;
+
+const avatar =
+document.createElement("div");
+
+avatar.className =
+"message-avatar";
+
+avatar.textContent =
+role === "user"
+? "U"
+: "S";
+
+const body =
+document.createElement("div");
+
+body.className =
+"message-body";
+
+const textElement =
+document.createElement("div");
+
+textElement.className =
+"message-text";
+
+textElement.textContent =
+text;
+
+const timeElement =
+document.createElement("div");
+
+timeElement.className =
+"message-time";
+
+timeElement.textContent =
+time;
+
+body.append(
+textElement,
+timeElement
+);
+
+message.append(
+avatar,
+body
+);
+
+messages.appendChild(
+message
+);
+
+messages.scrollTop =
+messages.scrollHeight;
+
+if(persist){
+
+saveMessages();
+
+}
+
+return message;
+
+}
+
+
+/* =========================================================
+   TYPING
+========================================================= */
+
+function addTyping(){
+
+const message =
+document.createElement("div");
+
+message.className =
+"message assistant";
+
+message.id =
+"typingMessage";
+
+message.innerHTML = `
+<div class="message-avatar">S</div>
+<div class="message-body">
+<div class="typing">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+`;
+
+messages.appendChild(
+message
+);
+
+messages.scrollTop =
+messages.scrollHeight;
+
+return message;
+
+}
+
+
+/* =========================================================
+   LOCAL RESEARCH ENGINE
+========================================================= */
+
+function generateLocalResponse(
+question
+){
+
+const q =
+question.toLowerCase();
+
+if(
+q.includes("market cap") ||
+q.includes("fdv") ||
+q.includes("supply")
+){
+
+return `Market cap is generally calculated as price × circulating supply.
+
+FDV uses the fully diluted token supply instead.
+
+Example:
+If a token trades at $0.01 and has 100M circulating tokens, its market cap is about $1M.
+
+If the maximum or fully diluted supply is 1B tokens, the FDV would be about $10M at the same price.
+
+For an investment decision, also check unlock schedules, holder concentration, liquidity, treasury allocations and actual product usage.`;
+
+}
+
+
+if(
+q.includes("tokenomics") ||
+q.includes("tokenomic")
+){
+
+return `A strong tokenomics review should cover:
+
+1. Total and maximum supply.
+2. Circulating supply today.
+3. Team and investor allocation.
+4. Community and ecosystem allocation.
+5. Vesting and unlock schedule.
+6. Utility that creates genuine demand.
+7. Liquidity and market depth.
+8. Treasury management.
+9. Concentration among large holders.
+10. Emissions and inflation.
+
+The key question is not whether the token is cheap per unit, but whether future supply and demand can support the valuation.`;
+
+}
+
+
+if(
+q.includes("liquidity") ||
+q.includes("bos") ||
+q.includes("fvg") ||
+q.includes("sweep") ||
+q.includes("ict")
+){
+
+return `A structured market-reading framework can be:
+
+Higher timeframe → identify directional context.
+
+Liquidity → mark obvious highs, lows and areas where orders may cluster.
+
+Sweep → wait for evidence that liquidity was actually taken.
+
+Displacement → look for meaningful directional movement.
+
+Structure → confirm whether the move changed the relevant market structure.
+
+FVG / imbalance → identify areas that may become points of interest.
+
+Entry → define invalidation first, then position size from the predefined risk.
+
+These concepts should be validated against actual price data rather than treated as guaranteed signals.`;
+
+}
+
+
+if(
+q.includes("security") ||
+q.includes("wallet") ||
+q.includes("seed") ||
+q.includes("private key")
+){
+
+return `For Web3 security, start with the highest-impact controls:
+
+• Never share a seed phrase or private key.
+• Separate long-term holdings from experimental wallets.
+• Verify domains and contract addresses independently.
+• Review token approvals and revoke unnecessary permissions.
+• Avoid signing transactions you do not understand.
+• Use hardware wallets for significant long-term holdings.
+• Keep recovery information offline and protected.
+
+A legitimate support team should never need your seed phrase.`;
+
+}
+
+
+if(
+q.includes("project") ||
+q.includes("crypto")
+){
+
+return `For a serious crypto-project review, I would score at least six areas:
+
+Product — does a real product exist and do users need it?
+
+Traction — are users, revenue or meaningful on-chain activity visible?
+
+Team — is the team credible and execution history verifiable?
+
+Tokenomics — supply, allocation, unlocks and utility.
+
+Market — liquidity, listings, holders and valuation.
+
+Risk — contracts, admin privileges, concentration, treasury and regulatory exposure.
+
+Do not judge a project from token price alone.`;
+
+}
+
+
+if(
+q.includes("ai") ||
+q.includes("agent")
+){
+
+return `A useful AI agent normally combines:
+
+• A capable model.
+• Clear instructions.
+• Reliable context.
+• Controlled tools.
+• Memory or state where appropriate.
+• Evaluation and error handling.
+
+The important engineering principle is to keep tool permissions narrow and verify important outputs rather than assuming every generated statement is correct.`;
+
+}
+
+
+return `I can help structure this research, but this current Sonativa front-end does not have a live external AI provider connected.
+
+For reliable production answers, connect an authenticated backend that can provide:
+
+• AI model access.
+• Verified market or blockchain data where needed.
+• Rate limiting.
+• User authentication.
+• Server-side secrets.
+• Logging and abuse protection.
+
+Your question was:
+
+"${question}"
+
+A good next step is to narrow it to one specific task, asset, project or technical requirement.`;
+
+}
+
+
+/* =========================================================
+   SEND
+========================================================= */
+
+async function sendMessage(){
+
+const question =
+promptInput.value.trim();
+
+if(!question ||
+sendButton.disabled)return;
+
+addMessage(
+"user",
+question,
+"Now"
+);
+
+promptInput.value = "";
+
+updateCounter();
+
+sendButton.disabled =
+true;
+
+const typing =
+addTyping();
+
+await new Promise(
+resolve =>
+setTimeout(
+resolve,
+550
+)
+);
+
+typing.remove();
+
+const answer =
+generateLocalResponse(
+question
+);
+
+addMessage(
+"assistant",
+answer,
+"Now"
+);
+
+sendButton.disabled =
+false;
+
+promptInput.focus();
+
+}
+
+
+sendButton.addEventListener(
+"click",
+sendMessage
+);
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+function updateCounter(){
+
+charCount.textContent =
+`${promptInput.value.length} / 4000`;
+
+}
+
+promptInput.addEventListener(
+"input",
+()=>{
+
+updateCounter();
+
+promptInput.style.height =
+"auto";
+
+promptInput.style.height =
+Math.min(
+promptInput.scrollHeight,
+130
+) + "px";
+
+}
+);
+
+
+promptInput.addEventListener(
+"keydown",
+event=>{
+
+if(
+event.key === "Enter" &&
+!event.shiftKey
+){
+
+event.preventDefault();
+
+sendMessage();
+
+}
+
+}
+);
+
+
+/* =========================================================
+   QUICK PROMPTS
+========================================================= */
+
+document
+.querySelectorAll(".prompt")
+.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+promptInput.value =
+button.dataset.prompt || "";
+
+updateCounter();
+
+promptInput.focus();
+
+promptInput.style.height =
+"auto";
+
+promptInput.style.height =
+Math.min(
+promptInput.scrollHeight,
+130
+) + "px";
+
+}
+);
+
+}
+);
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+clearButton.addEventListener(
+"click",
+()=>{
+
+localStorage.removeItem(
+STORAGE_KEY
+);
+
+messages.innerHTML = "";
+
+addMessage(
+"assistant",
+`Conversation cleared.
+
+Welcome back to Sonativa AI. Ask a focused question about Web3, markets, security, tokenomics or product strategy.`,
+"Ready"
+);
+
+}
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadUser();
+
+restoreMessages();
+
+updateCounter();
+
+</script>
+
+</body>
+</html>
