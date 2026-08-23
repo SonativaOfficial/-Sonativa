@@ -1,408 +1,667 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Token Studio — Sonativa</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa Tokenomics Studio — design and analyze token economics.">
+<title>Sonativa — Tokenomics</title>
+<link rel="stylesheet" href="assets/css/sonativa.css">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:
-radial-gradient(
-circle at 50% -10%,
-#172033 0%,
-#06080d 45%,
-#040509 100%
-);
-color:white;
-line-height:1.6;
-min-height:100vh;
-}
-
-.container{
-width:92%;
-max-width:950px;
-margin:auto;
-}
-
-header{
-border-bottom:1px solid #202735;
-padding:20px 0;
-background:rgba(5,7,12,.9);
-}
-
-.logo{
-font-size:23px;
-font-weight:800;
-letter-spacing:3px;
-}
-
-.logo a{
-color:white;
-text-decoration:none;
+.tokenomics-page{
+  width:min(1400px,94%);
+  margin:auto;
+  padding:32px 0 70px;
 }
 
 .hero{
-text-align:center;
-padding:55px 0 35px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:25px;
+  margin-bottom:22px;
 }
 
 .hero h1{
-font-size:42px;
-margin-bottom:12px;
+  font-size:30px;
+  letter-spacing:-.8px;
 }
 
 .hero p{
-color:#8d96a7;
+  margin-top:7px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
 }
 
-.steps{
-display:flex;
-gap:8px;
-margin:30px 0;
-overflow:auto;
+.badges{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
 }
 
-.step{
-padding:10px 15px;
-border:1px solid #293142;
-border-radius:8px;
-color:#8992a3;
-white-space:nowrap;
+.badge{
+  padding:6px 9px;
+  border-radius:6px;
+  border:1px solid #273444;
+  background:#101922;
+  color:#9ba8bb;
+  font-size:8px;
+  font-weight:800;
 }
 
-.step.active{
-color:white;
-background:#151a24;
-border-color:#555f72;
-}
-
-.panel{
-background:#0d1119;
-border:1px solid #242c3b;
-border-radius:16px;
-padding:30px;
-margin-bottom:20px;
-}
-
-.panel h2{
-margin-bottom:25px;
-}
-
-label{
-display:block;
-margin:18px 0 7px;
-font-size:14px;
-color:#b5bdca;
-}
-
-input,
-select,
-textarea{
-width:100%;
-padding:13px;
-border-radius:9px;
-border:1px solid #303949;
-background:#080b12;
-color:white;
-font-size:16px;
-outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#697386;
-}
-
-textarea{
-min-height:110px;
-resize:vertical;
+.badge.pro{
+  color:#e8bd68;
+  border-color:#5a4b29;
+  background:#17140c;
 }
 
 .grid{
-display:grid;
-grid-template-columns:1fr;
-gap:15px;
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(320px,.8fr);
+  gap:18px;
 }
 
-.tokenomics-grid{
-display:grid;
-grid-template-columns:1fr;
-gap:15px;
+.card{
+  padding:21px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  backdrop-filter:blur(14px);
 }
 
-.tokenomics-card{
-background:#080b12;
-border:1px solid #252d3b;
-border-radius:12px;
-padding:18px;
+.card + .card{
+  margin-top:18px;
 }
 
-.tokenomics-card h3{
-font-size:15px;
-margin-bottom:5px;
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
 }
 
-.tokenomics-card p{
-font-size:12px;
-color:#697386;
-margin-bottom:10px;
+.card-title{
+  font-size:14px;
+  font-weight:900;
 }
 
-.tokenomics-total{
-margin-top:20px;
-padding:16px;
-border-radius:10px;
-background:#10151e;
-border:1px solid #303949;
-display:flex;
-justify-content:space-between;
-gap:15px;
-align-items:center;
+.card-subtitle{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.5;
 }
 
-.total-label{
-color:#8d96a7;
-font-size:13px;
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  color:#aeb9c8;
+  font-size:9px;
+  font-weight:800;
+}
+
+.field input,
+.field select{
+  width:100%;
+  height:42px;
+  padding:0 11px;
+  border:1px solid #202b3d;
+  border-radius:8px;
+  outline:none;
+  background:#080d15;
+  color:#f5f7fb;
+  font:inherit;
+  font-size:10px;
+}
+
+.field input:focus,
+.field select:focus{
+  border-color:#46536a;
+}
+
+.hint{
+  color:#5f6c80;
+  font-size:8px;
+  line-height:1.5;
+}
+
+.allocations{
+  margin-top:22px;
+}
+
+.allocation{
+  padding:14px 0;
+  border-bottom:1px solid #1b2432;
+}
+
+.allocation:last-child{
+  border-bottom:0;
+}
+
+.allocation-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+}
+
+.allocation-title{
+  font-size:10px;
+  font-weight:800;
+}
+
+.allocation-percent{
+  color:#cbd4e1;
+  font-size:10px;
+  font-weight:900;
+}
+
+.allocation-input{
+  display:grid;
+  grid-template-columns:1fr 90px;
+  gap:10px;
+  margin-top:8px;
+}
+
+.allocation-input input{
+  width:100%;
+  height:36px;
+  padding:0 9px;
+  border:1px solid #202b3d;
+  border-radius:7px;
+  outline:none;
+  background:#080d15;
+  color:#fff;
+  font-size:9px;
+}
+
+.bar{
+  height:5px;
+  margin-top:9px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#151d29;
+}
+
+.bar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:#b8c2d0;
+  transition:.2s;
+}
+
+.total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:17px;
+  padding:13px;
+  border:1px solid #273444;
+  border-radius:9px;
+  background:#0b111a;
+}
+
+.total strong{
+  font-size:10px;
 }
 
 .total-value{
-font-size:20px;
-font-weight:bold;
+  font-size:13px;
+  font-weight:900;
 }
 
-.total-value.valid{
-color:#8ee6b0;
+.total.ok{
+  border-color:#28543d;
 }
 
-.total-value.invalid{
-color:#ff8f8f;
+.total.bad{
+  border-color:#71383f;
 }
 
-button,
-.btn{
-display:inline-block;
-margin-top:25px;
-padding:14px 22px;
-border:0;
-border-radius:9px;
-background:white;
-color:#07090f;
-font-weight:bold;
-font-size:15px;
-cursor:pointer;
-text-decoration:none;
+.chart{
+  min-height:260px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-button:disabled{
-opacity:.5;
-cursor:not-allowed;
+.donut{
+  position:relative;
+  width:205px;
+  height:205px;
+  border-radius:50%;
+  background:conic-gradient(
+    #8b96a8 0deg 208.8deg,
+    #667388 208.8deg 266.4deg,
+    #4d5a6f 266.4deg 302.4deg,
+    #384456 302.4deg 331.2deg,
+    #283345 331.2deg 360deg
+  );
 }
 
-.secondary{
-background:#10151e;
-color:white;
-border:1px solid #303949;
+.donut::after{
+  content:"";
+  position:absolute;
+  inset:45px;
+  border-radius:50%;
+  background:#090e17;
+  border:1px solid #263345;
 }
 
-.message{
-display:none;
-margin-top:20px;
-padding:14px;
-border-radius:10px;
-background:#10151e;
-border:1px solid #303949;
-color:#aeb7c6;
-word-break:break-word;
+.donut-center{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
-.message.success{
-color:#8ee6b0;
-border-color:#315c45;
+.donut-center strong{
+  font-size:20px;
 }
 
-.message.error{
-color:#ff8f8f;
-border-color:#633737;
+.donut-center span{
+  margin-top:4px;
+  color:#68758a;
+  font-size:8px;
 }
 
-.result{
-display:none;
-margin-top:25px;
-padding:20px;
-border:1px solid #303949;
-border-radius:12px;
-background:#080b12;
+.legend{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  margin-top:5px;
 }
 
-.result p{
-margin:9px 0;
-color:#aab3c2;
-word-break:break-word;
+.legend-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 0;
+  border-bottom:1px solid #1b2432;
 }
 
-.wallet-box{
-margin-top:25px;
-padding:18px;
-background:#080b12;
-border:1px solid #303949;
-border-radius:12px;
+.legend-row:last-child{
+  border-bottom:0;
 }
 
-.wallet-address{
-color:#8ee6b0;
-font-size:13px;
-word-break:break-all;
-margin-top:7px;
+.legend-name{
+  color:#9ca8b8;
+  font-size:9px;
+}
+
+.legend-value{
+  color:#e2e8f0;
+  font-size:9px;
+  font-weight:900;
+}
+
+.metric-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.metric{
+  padding:13px;
+  border:1px solid #1d2737;
+  border-radius:9px;
+  background:#090e17;
+}
+
+.metric-label{
+  color:#68758a;
+  font-size:8px;
+}
+
+.metric-value{
+  margin-top:6px;
+  font-size:14px;
+  font-weight:900;
+}
+
+.notice{
+  margin-top:15px;
+  padding:12px;
+  border:1px solid #202b3d;
+  border-radius:9px;
+  background:#080d15;
+  color:#68758a;
+  font-size:8px;
+  line-height:1.6;
+}
+
+.notice strong{
+  color:#dce4ef;
 }
 
 .actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:18px;
 }
 
-.back{
-display:inline-block;
-margin-top:20px;
-color:#8d96a7;
-text-decoration:none;
+.btn{
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 14px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:#0d131e;
+  color:#dce4ef;
+  text-decoration:none;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-footer{
-text-align:center;
-padding:45px 0;
-color:#697386;
+.btn:hover{
+  background:#151d2a;
 }
 
-.help{
-margin-top:7px;
-font-size:12px;
-color:#697386;
+.btn.primary{
+  background:#fff;
+  color:#05070c;
+  border-color:#fff;
 }
 
-.limit{
-margin-top:8px;
-font-size:12px;
-color:#818b9c;
-word-break:break-word;
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
 }
 
-.token-result-box{
-margin-top:20px;
-padding:18px;
-background:#080b12;
-border:1px solid #315c45;
-border-radius:12px;
+.message{
+  display:none;
+  margin-top:12px;
+  padding:11px;
+  border-radius:8px;
+  font-size:9px;
+  line-height:1.5;
 }
 
-.address{
-font-family:monospace;
-font-size:12px;
-word-break:break-all;
-color:#8ee6b0;
-margin-top:7px;
+.message.show{
+  display:block;
 }
 
-@media(min-width:700px){
-
-.grid{
-grid-template-columns:1fr 1fr;
+.message.success{
+  color:#8de8b2;
+  border:1px solid #28543d;
+  background:#0b1711;
 }
 
-.tokenomics-grid{
-grid-template-columns:1fr 1fr;
+.message.error{
+  color:#ffaaaa;
+  border:1px solid #512d33;
+  background:#180c0f;
 }
 
+@media(max-width:950px){
+  .grid{
+    grid-template-columns:1fr;
+  }
 }
 
+@media(max-width:650px){
+  .tokenomics-page{
+    width:92%;
+  }
+
+  .hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .allocation-input{
+    grid-template-columns:1fr 75px;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
+
+  .actions .btn{
+    width:100%;
+  }
+}
 </style>
-
 </head>
-
 
 <body>
 
+<div class="background"></div>
 
-<header>
+<div class="app">
 
-<div class="container">
+<aside class="sidebar" id="sidebar">
 
-<div class="logo">
+<div class="brand">
+  <div class="brand-logo">SONATIVA</div>
+  <div class="brand-version">BETA</div>
+</div>
 
-<a href="index.html">
-SONATIVA
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+  <span class="nav-icon">⌂</span>
+  <span>Dashboard</span>
 </a>
 
+<a class="nav-item" href="projects.html">
+  <span class="nav-icon">▣</span>
+  <span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+  <span class="nav-icon">◇</span>
+  <span>Token Studio</span>
+</a>
+
+<a class="nav-item active" href="tokenomics.html">
+  <span class="nav-icon">◈</span>
+  <span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+  <span class="nav-icon">◆</span>
+  <span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+  <span class="nav-icon">⌁</span>
+  <span>Advanced Analysis</span>
+  <span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="ai.html">
+  <span class="nav-icon">✦</span>
+  <span>Sonativa AI</span>
+  <span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="security.html">
+  <span class="nav-icon">◇</span>
+  <span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item" href="news.html">
+  <span class="nav-icon">▤</span>
+  <span>World News</span>
+</a>
+
+<a class="nav-item" href="books.html">
+  <span class="nav-icon">▥</span>
+  <span>Books</span>
+</a>
+
+<a class="nav-item" href="live.html">
+  <span class="nav-icon">●</span>
+  <span>Live</span>
+</a>
+
+<a class="nav-item" href="reels.html">
+  <span class="nav-icon">▶</span>
+  <span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+  <span class="nav-icon">◉</span>
+  <span>Wallet</span>
+</a>
+
+<a class="nav-item" href="pricing.html">
+  <span class="nav-icon">◇</span>
+  <span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+  <span class="nav-icon">⚙</span>
+  <span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+<div class="account">
+<div class="avatar" id="avatar">G</div>
+<div class="account-info">
+<div class="account-name" id="accountName">Guest</div>
+<div class="account-status">● Workspace</div>
 </div>
+</div>
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Tokenomics
+</div>
+
+<div class="page-subtitle">
+Design, balance and review token economics
+</div>
+
+</div>
+
+</div>
+
+<div class="top-actions">
+
+<select
+class="lang"
+id="languageSelect"
+aria-label="Language">
+
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+
+</select>
+
+<a
+class="icon-button"
+href="settings.html"
+title="Settings">
+⚙
+</a>
 
 </div>
 
 </header>
 
 
-<main class="container">
+<section class="tokenomics-page">
 
 
-<section class="hero">
+<div class="hero">
+
+<div>
 
 <h1>
-Token Studio
+Tokenomics Studio
 </h1>
 
 <p>
-Create and manage your Solana token project.
+Create a transparent allocation model and instantly inspect supply distribution.
+Advanced simulations and AI recommendations can be part of Sonativa Premium.
 </p>
 
-</section>
-
-
-<div class="steps">
-
-<div class="step active">
-1 Project
 </div>
 
-<div class="step active">
-2 Supply
-</div>
+<div class="badges">
 
-<div class="step active">
-3 Tokenomics
-</div>
+<span class="badge">
+FREE
+</span>
 
-<div class="step">
-4 Review
-</div>
+<span class="badge">
+ANALYSIS
+</span>
 
-<div class="step">
-5 Create Token
+<span class="badge pro">
+ADVANCED PRO
+</span>
+
 </div>
 
 </div>
-
-
-<!-- =====================================================
-PROJECT INFORMATION
-===================================================== -->
-
-<section class="panel">
-
-<h2>
-Project Information
-</h2>
 
 
 <div class="grid">
@@ -410,377 +669,266 @@ Project Information
 
 <div>
 
-<label>
-Project Name
-</label>
+<section class="card">
 
-<input
-id="projectName"
-placeholder="Example: Sonativa">
+<div class="card-head">
+
+<div>
+
+<div class="card-title">
+Supply Model
+</div>
+
+<div class="card-subtitle">
+Start with the total supply and allocate it across the project.
+</div>
+
+</div>
 
 </div>
 
 
-<div>
+<div class="form-grid">
 
-<label>
+
+<div class="field">
+
+<label for="tokenName">
 Token Name
 </label>
 
 <input
 id="tokenName"
-placeholder="Example: Sonativa Token">
+type="text"
+maxlength="60"
+placeholder="Sonativa Token">
+
+<div class="hint">
+Optional project label.
+</div>
 
 </div>
 
 
-<div>
+<div class="field">
 
-<label>
-Token Symbol
+<label for="symbol">
+Symbol
 </label>
 
 <input
-id="tokenSymbol"
-placeholder="Example: SONA"
-maxlength="20">
+id="symbol"
+type="text"
+maxlength="10"
+placeholder="SONA">
+
+<div class="hint">
+2–10 characters.
+</div>
 
 </div>
 
 
-<div>
+<div class="field full">
 
-<label>
+<label for="totalSupply">
 Total Supply
 </label>
 
 <input
-id="supply"
-type="text"
-inputmode="numeric"
-autocomplete="off"
-placeholder="1000000000">
+id="totalSupply"
+type="number"
+min="1"
+step="1"
+value="100000000">
 
-<div class="help">
-Enter any whole-number supply.
+<div class="hint">
+Use a whole-number supply.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="allocations">
+
+
+<div class="allocation">
+
+<div class="allocation-head">
+
+<div class="allocation-title">
+Community
 </div>
 
 <div
-id="supplyLimit"
-class="limit">
+class="allocation-percent"
+id="communityPercent">
+58%
 </div>
 
 </div>
 
-
-</div>
-
-
-<label>
-Decimals
-</label>
-
-<select id="decimals">
-
-<option value="0">
-0 — No decimals
-</option>
-
-<option value="1">
-1
-</option>
-
-<option value="2">
-2
-</option>
-
-<option value="3">
-3
-</option>
-
-<option value="4">
-4
-</option>
-
-<option value="5">
-5
-</option>
-
-<option value="6" selected>
-6
-</option>
-
-<option value="7">
-7
-</option>
-
-<option value="8">
-8
-</option>
-
-<option value="9">
-9
-</option>
-
-</select>
-
-
-<div class="help">
-Decimals control how finely the token can be divided. Maximum SPL Token decimals: 9.
-</div>
-
-
-<label>
-Network
-</label>
-
-<select id="network">
-
-<option value="Solana Devnet">
-Solana Devnet — TEST
-</option>
-
-<option value="Solana">
-Solana Mainnet
-</option>
-
-</select>
-
-
-<label>
-Description
-</label>
-
-<textarea
-id="description"
-placeholder="Describe your project..."></textarea>
-
-</section>
-
-
-<!-- =====================================================
-TOKENOMICS
-===================================================== -->
-
-<section class="panel">
-
-<h2>
-Tokenomics
-</h2>
-
-<p class="help">
-Define how the total token supply will be distributed.
-The percentages must add up to exactly 100%.
-</p>
-
-
-<div class="tokenomics-grid">
-
-
-<div class="tokenomics-card">
-
-<h3>
-Team
-</h3>
-
-<p>
-Team allocation
-</p>
-
-<input
-id="team"
-type="number"
-min="0"
-max="100"
-step="0.01"
-value="10"
-placeholder="10">
-
-</div>
-
-
-<div class="tokenomics-card">
-
-<h3>
-Treasury
-</h3>
-
-<p>
-Project treasury
-</p>
-
-<input
-id="treasury"
-type="number"
-min="0"
-max="100"
-step="0.01"
-value="20"
-placeholder="20">
-
-</div>
-
-
-<div class="tokenomics-card">
-
-<h3>
-Community
-</h3>
-
-<p>
-Community rewards and ecosystem
-</p>
+<div class="allocation-input">
 
 <input
 id="community"
 type="number"
 min="0"
 max="100"
-step="0.01"
-value="30"
-placeholder="30">
+step=".1"
+value="58">
+
+<input
+id="communityTokens"
+type="text"
+readonly>
+
+</div>
+
+<div class="bar">
+<span id="communityBar"></span>
+</div>
 
 </div>
 
 
-<div class="tokenomics-card">
+<div class="allocation">
 
-<h3>
-Public Sale
-</h3>
+<div class="allocation-head">
 
-<p>
-Public distribution
-</p>
+<div class="allocation-title">
+Burn / Deflation
+</div>
+
+<div
+class="allocation-percent"
+id="burnPercent">
+40%
+</div>
+
+</div>
+
+<div class="allocation-input">
 
 <input
-id="publicSale"
+id="burn"
 type="number"
 min="0"
 max="100"
-step="0.01"
-value="20"
-placeholder="20">
+step=".1"
+value="40">
+
+<input
+id="burnTokens"
+type="text"
+readonly>
+
+</div>
+
+<div class="bar">
+<span id="burnBar"></span>
+</div>
 
 </div>
 
 
-<div class="tokenomics-card">
+<div class="allocation">
 
-<h3>
-Liquidity
-</h3>
+<div class="allocation-head">
 
-<p>
-DEX and market liquidity
-</p>
+<div class="allocation-title">
+Founder & Development
+</div>
+
+<div
+class="allocation-percent"
+id="founderPercent">
+1%
+</div>
+
+</div>
+
+<div class="allocation-input">
 
 <input
-id="liquidity"
+id="founder"
 type="number"
 min="0"
 max="100"
-step="0.01"
-value="10"
-placeholder="10">
+step=".1"
+value="1">
+
+<input
+id="founderTokens"
+type="text"
+readonly>
+
+</div>
+
+<div class="bar">
+<span id="founderBar"></span>
+</div>
 
 </div>
 
 
-<div class="tokenomics-card">
+<div class="allocation">
 
-<h3>
-Burn Reserve
-</h3>
+<div class="allocation-head">
 
-<p>
-Reserved for future burns
-</p>
+<div class="allocation-title">
+Treasury
+</div>
+
+<div
+class="allocation-percent"
+id="treasuryPercent">
+1%
+</div>
+
+</div>
+
+<div class="allocation-input">
 
 <input
-id="burnReserve"
+id="treasury"
 type="number"
 min="0"
 max="100"
-step="0.01"
-value="10"
-placeholder="10">
+step=".1"
+value="1">
+
+<input
+id="treasuryTokens"
+type="text"
+readonly>
 
 </div>
 
+<div class="bar">
+<span id="treasuryBar"></span>
+</div>
 
 </div>
 
-
-<div class="tokenomics-total">
-
-<span class="total-label">
-Total Allocation
-</span>
-
-<span
-id="tokenomicsTotal"
-class="total-value valid">
-
-100%
-
-</span>
 
 </div>
 
 
 <div
-id="tokenomicsMessage"
-class="message">
-</div>
-
-
-</section>
-
-
-<!-- =====================================================
-ACTIONS
-===================================================== -->
-
-<section class="panel">
-
-<div class="actions">
-
-
-<button
-id="saveButton"
-onclick="saveProject()">
-
-Save Project
-
-</button>
-
-
-<button
-class="secondary"
-id="walletButton"
-onclick="connectWallet()">
-
-Connect Phantom
-
-</button>
-
-
-</div>
-
-
-<div
-class="wallet-box"
-id="walletBox"
-style="display:none;">
+class="total"
+id="totalBox">
 
 <strong>
-Connected Wallet
+Allocation Total
 </strong>
 
 <div
-class="wallet-address"
-id="walletAddress">
+class="total-value"
+id="totalPercent">
+100%
 </div>
 
 </div>
@@ -792,1798 +940,957 @@ id="message">
 </div>
 
 
-<!-- =====================================================
-SAVE RESULT
-===================================================== -->
-
-<div
-class="result"
-id="result">
-
-
-<h3>
-Project Saved Successfully ✅
-</h3>
-
-
-<p id="rProject"></p>
-<p id="rToken"></p>
-<p id="rSymbol"></p>
-<p id="rSupply"></p>
-<p id="rDecimals"></p>
-<p id="rNetwork"></p>
-<p id="rTokenomics"></p>
-
-
-<br>
-
+<div class="actions">
 
 <button
-id="createTokenButton"
-onclick="createToken()">
-
-Create Token on Solana Devnet
-
+class="btn"
+id="resetButton"
+type="button">
+Reset
 </button>
 
-
-<div
-class="message"
-id="tokenMessage">
-</div>
-
-
-<div
-id="tokenResult"
-class="token-result-box"
-style="display:none;">
-
-
-<h3>
-Token Created Successfully 🎉
-</h3>
-
-
-<p>
-<strong>Mint Address:</strong>
-</p>
-
-
-<p
-id="mintAddress"
-class="address">
-</p>
-
-
-<p>
-<strong>Transaction:</strong>
-</p>
-
-
-<p
-id="transactionSignature"
-class="address">
-</p>
-
-
-<a
-id="explorerLink"
-class="btn secondary"
-target="_blank"
-rel="noopener noreferrer">
-
-View on Solana Explorer
-
-</a>
-
+<button
+class="btn primary"
+id="saveButton"
+type="button">
+Save Tokenomics
+</button>
 
 </div>
-
-
-</div>
-
-
-<a
-class="back"
-href="projects.html">
-
-← My Projects
-
-</a>
-
 
 </section>
 
 
-</main>
+<section class="card">
+
+<div class="card-head">
+
+<div>
+
+<div class="card-title">
+Tokenomics Principles
+</div>
+
+<div class="card-subtitle">
+A good model should be understandable, auditable and sustainable.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="metric-grid">
+
+<div class="metric">
+
+<div class="metric-label">
+Supply Concentration
+</div>
+
+<div
+class="metric-value"
+id="concentrationMetric">
+Moderate
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-label">
+Community Share
+</div>
+
+<div
+class="metric-value"
+id="communityMetric">
+58%
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-label">
+Founder Share
+</div>
+
+<div
+class="metric-value"
+id="founderMetric">
+1%
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-label">
+Treasury Share
+</div>
+
+<div
+class="metric-value"
+id="treasuryMetric">
+1%
+</div>
+
+</div>
+
+</div>
+
+
+<div class="notice">
+
+<strong>Note:</strong>
+Burn allocations represent a planned economic mechanism, not an automatic blockchain burn.
+Actual burns should be implemented through audited and explicitly authorized mechanisms.
+
+</div>
+
+</section>
+
+</div>
+
+
+<div>
+
+
+<section class="card">
+
+<div class="card-head">
+
+<div>
+
+<div class="card-title">
+Distribution Preview
+</div>
+
+<div class="card-subtitle">
+Live visual representation of the allocation.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="chart">
+
+<div
+class="donut"
+id="donut">
+
+<div class="donut-center">
+
+<strong id="donutTotal">
+100%
+</strong>
+
+<span>
+Allocated
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="legend">
+
+<div class="legend-row">
+<div class="legend-name">Community</div>
+<div class="legend-value" id="legendCommunity">58%</div>
+</div>
+
+<div class="legend-row">
+<div class="legend-name">Burn / Deflation</div>
+<div class="legend-value" id="legendBurn">40%</div>
+</div>
+
+<div class="legend-row">
+<div class="legend-name">Founder</div>
+<div class="legend-value" id="legendFounder">1%</div>
+</div>
+
+<div class="legend-row">
+<div class="legend-name">Treasury</div>
+<div class="legend-value" id="legendTreasury">1%</div>
+</div>
+
+</div>
+
+
+<div class="notice">
+
+<strong>Premium:</strong>
+Advanced vesting simulations, unlock schedules, scenario comparison and AI tokenomics review can be placed behind Sonativa Premium.
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<div class="card-title">
+Project Integration
+</div>
+
+<div class="card-subtitle">
+Save this model to the currently selected project.
+</div>
+
+<div class="notice">
+
+No project is automatically selected.
+Use the project workspace after saving to attach finalized tokenomics to a project.
+
+</div>
+
+<a
+class="btn"
+href="projects.html"
+style="width:100%;margin-top:13px;">
+Open My Projects
+</a>
+
+</section>
+
+</div>
+
+
+</div>
 
 
 <footer>
-
-© 2026 Sonativa — Token Studio
-
+© 2026 Sonativa — Web3 tools, intelligence and education.
 </footer>
+
+</section>
+
+</main>
+
+</div>
 
 
 <script type="module">
 
-
-/* =====================================================
-SUPABASE
-===================================================== */
-
 import {
-createClient
-}
-from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  supabase,
+  getUser
+} from "./assets/js/supabase.js";
 
 
-const SUPABASE_URL =
-"https://kallobeodjzzhrsaqszw.supabase.co";
+/* =========================================================
+   BASIC UI
+========================================================= */
 
-
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
-
-
-const supabase =
-createClient(
-SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY
-);
-
-
-/* =====================================================
-SOLANA
-===================================================== */
-
-import {
-Connection,
-Keypair,
-SystemProgram,
-Transaction
-}
-from
-"https://esm.sh/@solana/web3.js@1.98.4";
-
-
-import {
-getAssociatedTokenAddress,
-createAssociatedTokenAccountInstruction,
-createInitializeMintInstruction,
-createMintToInstruction,
-TOKEN_PROGRAM_ID,
-ASSOCIATED_TOKEN_PROGRAM_ID
-}
-from
-"https://esm.sh/@solana/spl-token@0.4.14";
-
-
-/* =====================================================
-DEVNET
-===================================================== */
-
-const connection =
-new Connection(
-"https://api.devnet.solana.com",
-"confirmed"
-);
-
-
-/* =====================================================
-CONSTANTS
-===================================================== */
-
-const MAX_U64 =
-(BigInt(2) ** BigInt(64)) - BigInt(1);
-
-
-/* =====================================================
-STATE
-===================================================== */
-
-let currentUser = null;
-
-let savedProject = null;
-
-let walletPublicKey = null;
-
-
-/* =====================================================
-MESSAGES
-===================================================== */
-
-function showMessage(
-text,
-type=""
-){
-
-const message =
+const sidebar =
 document.getElementById(
-"message"
+  "sidebar"
 );
 
-message.textContent =
-text;
-
-message.className =
-"message " + type;
-
-message.style.display =
-"block";
-
-}
-
-
-function showTokenMessage(
-text,
-type=""
-){
-
-const message =
+const menuButton =
 document.getElementById(
-"tokenMessage"
+  "menuButton"
 );
 
-message.textContent =
-text;
-
-message.className =
-"message " + type;
-
-message.style.display =
-"block";
-
-}
-
-
-function showTokenomicsMessage(
-text,
-type=""
-){
-
-const message =
+const languageSelect =
 document.getElementById(
-"tokenomicsMessage"
+  "languageSelect"
 );
 
-message.textContent =
-text;
 
-message.className =
-"message " + type;
+menuButton?.addEventListener(
+  "click",
+  () => {
 
-message.style.display =
-"block";
+    sidebar.classList.toggle(
+      "open"
+    );
+
+  }
+);
+
+
+const savedLanguage =
+localStorage.getItem(
+  "sonativa_language"
+);
+
+
+if(savedLanguage){
+
+  languageSelect.value =
+    savedLanguage;
+
+  document.documentElement.lang =
+    savedLanguage;
+
+  document.documentElement.dir =
+    savedLanguage === "ar"
+      ? "rtl"
+      : "ltr";
 
 }
 
 
-/* =====================================================
-ESCAPE HTML
-===================================================== */
+languageSelect?.addEventListener(
+  "change",
+  () => {
 
-function escapeHTML(
-value
-){
+    const value =
+      languageSelect.value;
 
-return String(
-value ?? ""
-)
+    localStorage.setItem(
+      "sonativa_language",
+      value
+    );
 
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+    document.documentElement.lang =
+      value;
+
+    document.documentElement.dir =
+      value === "ar"
+        ? "rtl"
+        : "ltr";
+
+  }
+);
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+let currentUser =
+null;
+
+
+async function loadUser(){
+
+  try{
+
+    currentUser =
+      await getUser();
+
+
+    if(!currentUser){
+
+      return;
+
+    }
+
+
+    const name =
+      currentUser.user_metadata?.full_name ||
+      currentUser.user_metadata?.name ||
+      currentUser.email?.split("@")[0] ||
+      "Sonativa User";
+
+
+    document.getElementById(
+      "accountName"
+    ).textContent =
+      name;
+
+
+    document.getElementById(
+      "avatar"
+    ).textContent =
+      name
+        .charAt(0)
+        .toUpperCase();
+
+
+  }catch(error){
+
+    console.error(
+      "[Tokenomics User]",
+      error
+    );
+
+  }
 
 }
 
 
-/* =====================================================
-SUPPLY
-===================================================== */
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-function getSupplyBigInt(){
-
-const value =
+const totalSupply =
 document.getElementById(
-"supply"
-).value.trim();
-
-
-if(!/^\d+$/.test(value)){
-
-return null;
-
-}
-
-
-try{
-
-return BigInt(value);
-
-}catch{
-
-return null;
-
-}
-
-}
-
-
-function getMaximumSupply(
-decimals
-){
-
-const divisor =
-BigInt(10) **
-BigInt(decimals);
-
-return MAX_U64 / divisor;
-
-}
-
-
-function updateSupplyLimit(){
-
-const decimals =
-Number(
-document.getElementById(
-"decimals"
-).value
+  "totalSupply"
 );
 
-const maximum =
-getMaximumSupply(
-decimals
-);
-
-document.getElementById(
-"supplyLimit"
-).textContent =
-
-"Maximum supply with " +
-decimals +
-" decimals: " +
-maximum.toLocaleString();
-
-}
-
-
-/* =====================================================
-TOKENOMICS
-===================================================== */
-
-function getNumber(
-id
-){
-
-const value =
-Number(
-document.getElementById(id).value
-);
-
-if(
-!Number.isFinite(value) ||
-value < 0
-){
-
-return 0;
-
-}
-
-return value;
-
-}
-
-
-function getTokenomics(){
-
-return {
-
-team:
-getNumber("team"),
-
-treasury:
-getNumber("treasury"),
-
-community:
-getNumber("community"),
-
-public_sale:
-getNumber("publicSale"),
-
-liquidity:
-getNumber("liquidity"),
-
-burn_reserve:
-getNumber("burnReserve")
-
-};
-
-}
-
-
-function getTokenomicsTotal(){
-
-const t =
-getTokenomics();
-
-return (
-
-t.team +
-t.treasury +
-t.community +
-t.public_sale +
-t.liquidity +
-t.burn_reserve
-
-);
-
-}
-
-
-function updateTokenomicsTotal(){
-
-const total =
-getTokenomicsTotal();
-
-const element =
-document.getElementById(
-"tokenomicsTotal"
-);
-
-
-element.textContent =
-total.toFixed(2) + "%";
-
-
-element.classList.remove(
-"valid",
-"invalid"
-);
-
-
-if(
-Math.abs(total - 100) < 0.001
-){
-
-element.classList.add(
-"valid"
-);
-
-showTokenomicsMessage(
-"Tokenomics allocation is valid.",
-"success"
-);
-
-}else{
-
-element.classList.add(
-"invalid"
-);
-
-showTokenomicsMessage(
-"Tokenomics must equal exactly 100%. Current total: " +
-total.toFixed(2) +
-"%",
-"error"
-);
-
-}
-
-}
-
-
-[
-"team",
-"treasury",
-"community",
-"publicSale",
-"liquidity",
-"burnReserve"
-]
-.forEach(
-function(id){
-
-document.getElementById(id)
-.addEventListener(
-"input",
-updateTokenomicsTotal
-);
-
-}
-);
-
-
-/* =====================================================
-SUPPLY INPUT
-===================================================== */
-
-document.getElementById(
-"supply"
-)
-.addEventListener(
-"input",
-function(){
-
-this.value =
-this.value.replace(
-/[^\d]/g,
-""
-);
-
-}
-);
-
-
-/* =====================================================
-DECIMALS
-===================================================== */
-
-document.getElementById(
-"decimals"
-)
-.addEventListener(
-"change",
-updateSupplyLimit
-);
-
-
-/* =====================================================
-LOGIN
-===================================================== */
-
-async function checkLogin(){
-
-const {
-data:{
-user
-}
-} =
-await supabase.auth.getUser();
-
-
-currentUser =
-user || null;
-
-
-if(!currentUser){
-
-showMessage(
-"You must login to create a Sonativa project.",
-"error"
-);
-
-document.getElementById(
-"saveButton"
-).disabled =
-true;
-
-return false;
-
-}
-
-
-document.getElementById(
-"saveButton"
-).disabled =
-false;
-
-
-return true;
-
-}
-
-
-/* =====================================================
-PHANTOM
-===================================================== */
-
-window.connectWallet =
-async function(){
-
-try{
-
-if(!window.solana){
-
-showMessage(
-"Phantom Wallet is not installed. Open Sonativa in a browser with Phantom installed.",
-"error"
-);
-
-return;
-
-}
-
-
-if(!window.solana.isPhantom){
-
-showMessage(
-"Please use Phantom Wallet.",
-"error"
-);
-
-return;
-
-}
-
-
-const response =
-await window.solana.connect();
-
-
-walletPublicKey =
-response.publicKey;
-
-
-document.getElementById(
-"walletBox"
-).style.display =
-"block";
-
-
-document.getElementById(
-"walletAddress"
-).textContent =
-walletPublicKey.toString();
-
-
-document.getElementById(
-"walletButton"
-).textContent =
-"Wallet Connected ✓";
-
-
-showMessage(
-"Phantom wallet connected successfully.",
-"success"
-);
-
-
-}catch(error){
-
-console.error(error);
-
-
-showMessage(
-"Wallet connection failed: " +
-(error?.message || error),
-"error"
-);
-
-}
+const inputs = {
+
+  community:
+    document.getElementById(
+      "community"
+    ),
+
+  burn:
+    document.getElementById(
+      "burn"
+    ),
+
+  founder:
+    document.getElementById(
+      "founder"
+    ),
+
+  treasury:
+    document.getElementById(
+      "treasury"
+    )
 
 };
 
 
-/* =====================================================
-BUILD DESCRIPTION
-===================================================== */
+/* =========================================================
+   FORMAT
+========================================================= */
 
-function buildDescription(
-description
+function formatNumber(
+  value
 ){
 
-const t =
-getTokenomics();
-
-
-const marker =
-"--- SONATIVA TOKENOMICS ---";
-
-
-const tokenomicsText =
-
-marker +
-"\n" +
-
-"Team: " +
-t.team +
-"%\n" +
-
-"Treasury: " +
-t.treasury +
-"%\n" +
-
-"Community: " +
-t.community +
-"%\n" +
-
-"Public Sale: " +
-t.public_sale +
-"%\n" +
-
-"Liquidity: " +
-t.liquidity +
-"%\n" +
-
-"Burn Reserve: " +
-t.burn_reserve +
-"%";
-
-
-if(description){
-
-return (
-description +
-"\n\n" +
-tokenomicsText
-);
-
-}
-
-return tokenomicsText;
+  return new Intl.NumberFormat(
+    "en-US",
+    {
+      maximumFractionDigits:0
+    }
+  ).format(
+    Math.round(
+      value
+    )
+  );
 
 }
 
 
-/* =====================================================
-SAVE PROJECT
-===================================================== */
+/* =========================================================
+   UPDATE
+========================================================= */
 
-window.saveProject =
-async function(){
+function update(){
 
-const loggedIn =
-await checkLogin();
+  const total =
+    Math.max(
+      0,
+      Number(
+        totalSupply.value
+      ) || 0
+    );
 
 
-if(!loggedIn){
+  const values = {
 
-return;
+    community:
+      Math.max(
+        0,
+        Number(
+          inputs.community.value
+        ) || 0
+      ),
+
+    burn:
+      Math.max(
+        0,
+        Number(
+          inputs.burn.value
+        ) || 0
+      ),
+
+    founder:
+      Math.max(
+        0,
+        Number(
+          inputs.founder.value
+        ) || 0
+      ),
+
+    treasury:
+      Math.max(
+        0,
+        Number(
+          inputs.treasury.value
+        ) || 0
+      )
+
+  };
+
+
+  const totalPercent =
+    values.community +
+    values.burn +
+    values.founder +
+    values.treasury;
+
+
+  const ids = [
+    "community",
+    "burn",
+    "founder",
+    "treasury"
+  ];
+
+
+  ids.forEach(
+    key => {
+
+      const percent =
+        values[key];
+
+      const tokens =
+        total *
+        percent /
+        100;
+
+
+      document.getElementById(
+        key + "Percent"
+      ).textContent =
+        percent.toFixed(1)
+        .replace(".0","")
+        +
+        "%";
+
+
+      document.getElementById(
+        key + "Tokens"
+      ).value =
+        formatNumber(
+          tokens
+        );
+
+
+      document.getElementById(
+        key + "Bar"
+      ).style.width =
+        Math.min(
+          100,
+          percent
+        )
+        +
+        "%";
+
+
+      document.getElementById(
+        "legend" +
+        key.charAt(0).toUpperCase() +
+        key.slice(1)
+      ).textContent =
+        percent.toFixed(1)
+        .replace(".0","")
+        +
+        "%";
+
+    }
+  );
+
+
+  document.getElementById(
+    "totalPercent"
+  ).textContent =
+    totalPercent.toFixed(1)
+    .replace(".0","")
+    +
+    "%";
+
+
+  document.getElementById(
+    "donutTotal"
+  ).textContent =
+    totalPercent.toFixed(1)
+    .replace(".0","")
+    +
+    "%";
+
+
+  const box =
+    document.getElementById(
+      "totalBox"
+    );
+
+
+  box.classList.toggle(
+    "ok",
+    Math.abs(
+      totalPercent - 100
+    ) < .001
+  );
+
+
+  box.classList.toggle(
+    "bad",
+    Math.abs(
+      totalPercent - 100
+    ) >= .001
+  );
+
+
+  const community =
+    values.community;
+
+
+  document.getElementById(
+    "communityMetric"
+  ).textContent =
+    community.toFixed(1)
+      .replace(".0","")
+      +
+      "%";
+
+
+  document.getElementById(
+    "founderMetric"
+  ).textContent =
+    values.founder.toFixed(1)
+      .replace(".0","")
+      +
+      "%";
+
+
+  document.getElementById(
+    "treasuryMetric"
+  ).textContent =
+    values.treasury.toFixed(1)
+      .replace(".0","")
+      +
+      "%";
+
+
+  let concentration =
+    "Moderate";
+
+
+  if(
+    community >= 70
+  ){
+
+    concentration =
+      "High";
+
+  }else if(
+    community <= 50
+  ){
+
+    concentration =
+      "Low";
+
+  }
+
+
+  document.getElementById(
+    "concentrationMetric"
+  ).textContent =
+    concentration;
+
+
+  const c =
+    values.community;
+
+  const b =
+    values.burn;
+
+  const f =
+    values.founder;
+
+  const t =
+    values.treasury;
+
+
+  const d1 =
+    c * 3.6;
+
+  const d2 =
+    d1 + b * 3.6;
+
+  const d3 =
+    d2 + f * 3.6;
+
+
+  document.getElementById(
+    "donut"
+  ).style.background =
+    `
+    conic-gradient(
+      #8b96a8 0deg ${d1}deg,
+      #667388 ${d1}deg ${d2}deg,
+      #4d5a6f ${d2}deg ${d3}deg,
+      #384456 ${d3}deg 360deg
+    )
+    `;
 
 }
 
 
-const button =
-document.getElementById(
-"saveButton"
+Object.values(
+  inputs
+).forEach(
+  input => {
+
+    input.addEventListener(
+      "input",
+      update
+    );
+
+  }
 );
 
 
-const projectName =
-document.getElementById(
-"projectName"
-).value.trim();
-
-
-const tokenName =
-document.getElementById(
-"tokenName"
-).value.trim();
-
-
-const tokenSymbol =
-document.getElementById(
-"tokenSymbol"
-).value.trim().toUpperCase();
-
-
-const supply =
-document.getElementById(
-"supply"
-).value.trim();
-
-
-const decimals =
-Number(
-document.getElementById(
-"decimals"
-).value
+totalSupply.addEventListener(
+  "input",
+  update
 );
 
 
-const network =
-document.getElementById(
-"network"
-).value;
-
-
-const description =
-document.getElementById(
-"description"
-).value.trim();
-
-
-/* =====================================================
-VALIDATION
-===================================================== */
-
-if(
-!projectName ||
-!tokenName ||
-!tokenSymbol ||
-!supply
-){
-
-showMessage(
-"Please complete all required project fields.",
-"error"
-);
-
-return;
-
-}
-
-
-if(
-!/^[A-Z0-9_]+$/i.test(
-tokenSymbol
-)
-){
-
-showMessage(
-"Token Symbol can contain only letters, numbers and underscore.",
-"error"
-);
-
-return;
-
-}
-
-
-if(
-tokenSymbol.length > 20
-){
-
-showMessage(
-"Token Symbol must be 20 characters or less.",
-"error"
-);
-
-return;
-
-}
-
-
-const supplyNumber =
-getSupplyBigInt();
-
-
-if(
-supplyNumber === null
-){
-
-showMessage(
-"Total supply must contain whole numbers only.",
-"error"
-);
-
-return;
-
-}
-
-
-if(
-supplyNumber <= BigInt(0)
-){
-
-showMessage(
-"Total supply must be greater than 0.",
-"error"
-);
-
-return;
-
-}
-
-
-if(
-decimals < 0 ||
-decimals > 9
-){
-
-showMessage(
-"Decimals must be between 0 and 9.",
-"error"
-);
-
-return;
-
-}
-
-
-/* =====================================================
-TOKENOMICS VALIDATION
-===================================================== */
-
-const tokenomicsTotal =
-getTokenomicsTotal();
-
-
-if(
-Math.abs(
-tokenomicsTotal - 100
-) > 0.001
-){
-
-showMessage(
-"Tokenomics must equal exactly 100%. Current total: " +
-tokenomicsTotal.toFixed(2) +
-"%",
-"error"
-);
-
-return;
-
-}
-
-
-/* =====================================================
-NETWORK
-===================================================== */
-
-if(
-network === "Solana"
-){
-
-showMessage(
-"Mainnet creation is disabled for now. Use Solana Devnet for testing.",
-"error"
-);
-
-return;
-
-}
-
-
-/* =====================================================
-RAW SUPPLY
-===================================================== */
-
-const multiplier =
-BigInt(10) **
-BigInt(decimals);
-
-
-const rawAmount =
-supplyNumber *
-multiplier;
-
-
-if(
-rawAmount > MAX_U64
-){
-
-const maximum =
-getMaximumSupply(
-decimals
-);
-
-showMessage(
-"Supply is too large for " +
-decimals +
-" decimals. Maximum supply is " +
-maximum.toLocaleString() +
-".",
-"error"
-);
-
-return;
-
-}
-
-
-/* =====================================================
-SAVE
-===================================================== */
-
-button.disabled =
-true;
-
-button.textContent =
-"Saving Project...";
-
-
-const finalDescription =
-buildDescription(
-description
-);
-
-
-const {
-data,
-error
-} =
-await supabase
-
-.from("projects")
-
-.insert({
-
-user_id:
-currentUser.id,
-
-project_name:
-projectName,
-
-token_name:
-tokenName,
-
-token_symbol:
-tokenSymbol,
-
-total_supply:
-supply,
-
-network:
-network,
-
-description:
-finalDescription,
-
-decimals:
-decimals,
-
-token_status:
-"draft"
-
-})
-
-.select()
-.single();
-
-
-if(error){
-
-console.error(
-"Project save error:",
-error
-);
-
-
-showMessage(
-"Could not save project: " +
-error.message,
-"error"
-);
-
-
-button.disabled =
-false;
-
-button.textContent =
-"Save Project";
-
-return;
-
-}
-
-
-/* =====================================================
-SAVED PROJECT
-===================================================== */
-
-savedProject = {
-
-...data,
-
-total_supply:
-supply,
-
-decimals:
-decimals
-
-};
-
-
-/* =====================================================
-RESULT
-===================================================== */
+/* =========================================================
+   RESET
+========================================================= */
 
 document.getElementById(
-"rProject"
-).innerHTML =
+  "resetButton"
+).addEventListener(
+  "click",
+  () => {
 
-"<strong>Project:</strong> " +
-escapeHTML(projectName);
+    totalSupply.value =
+      100000000;
 
+    inputs.community.value =
+      58;
+
+    inputs.burn.value =
+      40;
+
+    inputs.founder.value =
+      1;
+
+    inputs.treasury.value =
+      1;
+
+    document.getElementById(
+      "tokenName"
+    ).value =
+      "";
+
+    document.getElementById(
+      "symbol"
+    ).value =
+      "";
+
+    update();
+
+  }
+);
+
+
+/* =========================================================
+   SAVE
+========================================================= */
 
 document.getElementById(
-"rToken"
-).innerHTML =
+  "saveButton"
+).addEventListener(
+  "click",
+  async () => {
 
-"<strong>Token:</strong> " +
-escapeHTML(tokenName);
-
-
-document.getElementById(
-"rSymbol"
-).innerHTML =
-
-"<strong>Symbol:</strong> " +
-escapeHTML(tokenSymbol);
+    const message =
+      document.getElementById(
+        "message"
+      );
 
 
-document.getElementById(
-"rSupply"
-).innerHTML =
-
-"<strong>Total Supply:</strong> " +
-supplyNumber.toLocaleString();
-
-
-document.getElementById(
-"rDecimals"
-).innerHTML =
-
-"<strong>Decimals:</strong> " +
-decimals;
-
-
-document.getElementById(
-"rNetwork"
-).innerHTML =
-
-"<strong>Network:</strong> " +
-escapeHTML(network);
+    const totalPercent =
+      Number(
+        inputs.community.value
+      ) +
+      Number(
+        inputs.burn.value
+      ) +
+      Number(
+        inputs.founder.value
+      ) +
+      Number(
+        inputs.treasury.value
+      );
 
 
-document.getElementById(
-"rTokenomics"
-).innerHTML =
+    if(
+      Math.abs(
+        totalPercent - 100
+      ) > .001
+    ){
 
-"<strong>Tokenomics:</strong> 100% allocation saved";
+      message.textContent =
+        "Allocation must equal exactly 100%.";
+
+      message.className =
+        "message show error";
+
+      return;
+
+    }
 
 
-document.getElementById(
-"result"
-).style.display =
-"block";
+    if(
+      !currentUser
+    ){
+
+      message.textContent =
+        "Please sign in before saving tokenomics.";
+
+      message.className =
+        "message show error";
+
+      return;
+
+    }
 
 
-showMessage(
-"Project and Tokenomics saved successfully. Connect Phantom to create your Devnet token.",
-"success"
+    const button =
+      document.getElementById(
+        "saveButton"
+      );
+
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "Saving...";
+
+
+    try{
+
+      /*
+       * This uses a flexible metadata payload.
+       * It first attempts a dedicated tokenomics
+       * table. If that table is not present,
+       * the UI remains safe and reports the exact
+       * database requirement instead of pretending
+       * that the data was saved.
+       */
+
+
+      const payload = {
+
+        user_id:
+          currentUser.id,
+
+        token_name:
+          document.getElementById(
+            "tokenName"
+          ).value.trim(),
+
+        token_symbol:
+          document.getElementById(
+            "symbol"
+          ).value.trim().toUpperCase(),
+
+        total_supply:
+          String(
+            Number(
+              totalSupply.value
+            )
+          ),
+
+        community_percent:
+          Number(
+            inputs.community.value
+          ),
+
+        burn_percent:
+          Number(
+            inputs.burn.value
+          ),
+
+        founder_percent:
+          Number(
+            inputs.founder.value
+          ),
+
+        treasury_percent:
+          Number(
+            inputs.treasury.value
+          )
+
+      };
+
+
+      const {
+        error
+      } =
+      await supabase
+        .from("tokenomics")
+        .insert(
+          payload
+        );
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      message.textContent =
+        "Tokenomics saved successfully.";
+
+      message.className =
+        "message show success";
+
+
+    }catch(error){
+
+      console.error(
+        "[Tokenomics Save]",
+        error
+      );
+
+
+      message.textContent =
+        "Save failed. Create the tokenomics table in Supabase and configure Row Level Security before using this feature.";
+
+      message.className =
+        "message show error";
+
+
+    }finally{
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "Save Tokenomics";
+
+    }
+
+  }
 );
 
 
-button.disabled =
-false;
+/* =========================================================
+   START
+========================================================= */
 
-button.textContent =
-"Project Saved ✓";
+update();
 
-
-};
-
-
-/* =====================================================
-CREATE TOKEN
-===================================================== */
-
-window.createToken =
-async function(){
-
-const button =
-document.getElementById(
-"createTokenButton"
-);
-
-
-if(!savedProject){
-
-showTokenMessage(
-"Save your project first.",
-"error"
-);
-
-return;
-
-}
-
-
-if(
-savedProject.network !==
-"Solana Devnet"
-){
-
-showTokenMessage(
-"Only Solana Devnet is enabled in this version.",
-"error"
-);
-
-return;
-
-}
-
-
-if(!window.solana){
-
-showTokenMessage(
-"Phantom Wallet is not installed.",
-"error"
-);
-
-return;
-
-}
-
-
-try{
-
-button.disabled =
-true;
-
-button.textContent =
-"Connecting Wallet...";
-
-
-/* =====================================================
-CONNECT
-===================================================== */
-
-if(!walletPublicKey){
-
-const response =
-await window.solana.connect();
-
-walletPublicKey =
-response.publicKey;
-
-}
-
-
-/* =====================================================
-BALANCE
-===================================================== */
-
-showTokenMessage(
-"Checking Devnet wallet..."
-);
-
-
-const balance =
-await connection.getBalance(
-walletPublicKey
-);
-
-
-if(balance <= 0){
-
-showTokenMessage(
-"Your Phantom wallet has 0 SOL on Devnet. Get Devnet SOL before creating the token.",
-"error"
-);
-
-button.disabled =
-false;
-
-button.textContent =
-"Create Token on Solana Devnet";
-
-return;
-
-}
-
-
-/* =====================================================
-VALUES
-===================================================== */
-
-const decimals =
-Number(
-savedProject.decimals
-);
-
-
-const supply =
-BigInt(
-savedProject.total_supply
-);
-
-
-const rawAmount =
-supply *
-(
-BigInt(10) **
-BigInt(decimals)
-);
-
-
-if(
-rawAmount > MAX_U64
-){
-
-throw new Error(
-"Supply is too large for the selected decimals."
-);
-
-}
-
-
-/* =====================================================
-CREATE MINT
-===================================================== */
-
-showTokenMessage(
-"Generating token mint..."
-);
-
-
-const mint =
-Keypair.generate();
-
-
-const mintAccountSize =
-82;
-
-
-const lamports =
-await connection.getMinimumBalanceForRentExemption(
-mintAccountSize
-);
-
-
-/* =====================================================
-MINT TRANSACTION
-===================================================== */
-
-const transaction =
-new Transaction();
-
-
-transaction.add(
-
-SystemProgram.createAccount({
-
-fromPubkey:
-walletPublicKey,
-
-newAccountPubkey:
-mint.publicKey,
-
-space:
-mintAccountSize,
-
-lamports:
-lamports,
-
-programId:
-TOKEN_PROGRAM_ID
-
-})
-
-);
-
-
-transaction.add(
-
-createInitializeMintInstruction(
-
-mint.publicKey,
-
-decimals,
-
-walletPublicKey,
-
-walletPublicKey,
-
-TOKEN_PROGRAM_ID
-
-)
-
-);
-
-
-/* =====================================================
-BLOCKHASH
-===================================================== */
-
-const {
-blockhash,
-lastValidBlockHeight
-} =
-await connection.getLatestBlockhash(
-"confirmed"
-);
-
-
-transaction.recentBlockhash =
-blockhash;
-
-
-transaction.feePayer =
-walletPublicKey;
-
-
-transaction.partialSign(
-mint
-);
-
-
-showTokenMessage(
-"Please approve mint creation in Phantom..."
-);
-
-
-/* =====================================================
-SIGN
-===================================================== */
-
-const signedTransaction =
-await window.solana.signTransaction(
-transaction
-);
-
-
-/* =====================================================
-SEND
-===================================================== */
-
-const signature =
-await connection.sendRawTransaction(
-
-signedTransaction.serialize(),
-
-{
-skipPreflight:false
-}
-
-);
-
-
-/* =====================================================
-CONFIRM
-===================================================== */
-
-await connection.confirmTransaction(
-
-{
-signature:
-signature,
-
-blockhash:
-blockhash,
-
-lastValidBlockHeight:
-lastValidBlockHeight
-},
-
-"confirmed"
-
-);
-
-
-/* =====================================================
-TOKEN ACCOUNT
-===================================================== */
-
-showTokenMessage(
-"Mint created. Creating token account..."
-);
-
-
-const tokenAccount =
-await getAssociatedTokenAddress(
-
-mint.publicKey,
-
-walletPublicKey,
-
-false,
-
-TOKEN_PROGRAM_ID,
-
-ASSOCIATED_TOKEN_PROGRAM_ID
-
-);
-
-
-const accountInfo =
-await connection.getAccountInfo(
-tokenAccount
-);
-
-
-if(!accountInfo){
-
-const ataTransaction =
-new Transaction();
-
-
-ataTransaction.add(
-
-createAssociatedTokenAccountInstruction(
-
-walletPublicKey,
-
-tokenAccount,
-
-walletPublicKey,
-
-mint.publicKey,
-
-TOKEN_PROGRAM_ID,
-
-ASSOCIATED_TOKEN_PROGRAM_ID
-
-)
-
-);
-
-
-const ataBlockhash =
-await connection.getLatestBlockhash(
-"confirmed"
-);
-
-
-ataTransaction.recentBlockhash =
-ataBlockhash.blockhash;
-
-
-ataTransaction.feePayer =
-walletPublicKey;
-
-
-showTokenMessage(
-"Please approve token account creation in Phantom..."
-);
-
-
-const signedAta =
-await window.solana.signTransaction(
-ataTransaction
-);
-
-
-const ataSignature =
-await connection.sendRawTransaction(
-
-signedAta.serialize(),
-
-{
-skipPreflight:false
-}
-
-);
-
-
-await connection.confirmTransaction(
-
-{
-signature:
-ataSignature,
-
-blockhash:
-ataBlockhash.blockhash,
-
-lastValidBlockHeight:
-ataBlockhash.lastValidBlockHeight
-},
-
-"confirmed"
-
-);
-
-}
-
-
-/* =====================================================
-MINT SUPPLY
-===================================================== */
-
-showTokenMessage(
-"Minting total supply..."
-);
-
-
-const mintTransaction =
-new Transaction();
-
-
-mintTransaction.add(
-
-createMintToInstruction(
-
-mint.publicKey,
-
-tokenAccount,
-
-walletPublicKey,
-
-rawAmount,
-
-[],
-
-TOKEN_PROGRAM_ID
-
-)
-
-);
-
-
-const mintBlockhash =
-await connection.getLatestBlockhash(
-"confirmed"
-);
-
-
-mintTransaction.recentBlockhash =
-mintBlockhash.blockhash;
-
-
-mintTransaction.feePayer =
-walletPublicKey;
-
-
-showTokenMessage(
-"Please approve the supply transaction in Phantom..."
-);
-
-
-const signedMint =
-await window.solana.signTransaction(
-mintTransaction
-);
-
-
-const mintSignature =
-await connection.sendRawTransaction(
-
-signedMint.serialize(),
-
-{
-skipPreflight:false
-}
-
-);
-
-
-await connection.confirmTransaction(
-
-{
-signature:
-mintSignature,
-
-blockhash:
-mintBlockhash.blockhash,
-
-lastValidBlockHeight:
-mintBlockhash.lastValidBlockHeight
-},
-
-"confirmed"
-
-);
-
-
-/* =====================================================
-UPDATE DATABASE
-===================================================== */
-
-const mintAddress =
-mint.publicKey.toString();
-
-
-const {
-error:updateError
-} =
-await supabase
-
-.from("projects")
-
-.update({
-
-mint_address:
-mintAddress,
-
-creation_signature:
-mintSignature,
-
-token_status:
-"created"
-
-})
-
-.eq(
-"Id",
-savedProject.Id
-)
-
-.eq(
-"user_id",
-currentUser.id
-);
-
-
-if(updateError){
-
-console.error(
-"Project update error:",
-updateError
-);
-
-}
-
-
-/* =====================================================
-RESULT
-===================================================== */
-
-document.getElementById(
-"tokenResult"
-).style.display =
-"block";
-
-
-document.getElementById(
-"mintAddress"
-).textContent =
-mintAddress;
-
-
-document.getElementById(
-"transactionSignature"
-).textContent =
-mintSignature;
-
-
-document.getElementById(
-"explorerLink"
-).href =
-
-"https://explorer.solana.com/address/" +
-mintAddress +
-"?cluster=devnet";
-
-
-showTokenMessage(
-"Your Devnet token was created successfully! 🎉",
-"success"
-);
-
-
-button.textContent =
-"Token Created ✓";
-
-
-}catch(error){
-
-console.error(
-"Token creation error:",
-error
-);
-
-
-showTokenMessage(
-
-"Token creation failed: " +
-(error?.message || error),
-
-"error"
-
-);
-
-
-button.disabled =
-false;
-
-
-button.textContent =
-"Create Token on Solana Devnet";
-
-}
-
-};
-
-
-/* =====================================================
-INITIAL
-===================================================== */
-
-updateSupplyLimit();
-
-updateTokenomicsTotal();
-
-checkLogin();
+loadUser();
 
 </script>
 
 </body>
-
 </html>
