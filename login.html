@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#04060b">
-<meta name="description" content="Sign in to your Sonativa Web3 workspace.">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
+
+<meta
+  name="theme-color"
+  content="#04060b"
+>
+
+<meta
+  name="description"
+  content="Sign in to your Sonativa Web3 workspace."
+>
+
 <title>Sonativa — Sign In</title>
-<link rel="stylesheet" href="assets/css/sonativa.css">
+
+<link
+  rel="stylesheet"
+  href="assets/css/sonativa.css"
+>
 
 <style>
+
 .login-page{
   min-height:100vh;
+  min-height:100svh;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   padding:30px 16px;
 }
 
@@ -23,189 +46,448 @@
 
 .login-brand{
   text-align:center;
-  margin-bottom:25px;
+  margin-bottom:24px;
 }
 
 .login-brand-name{
-  font-size:28px;
-  font-weight:900;
+  color:#fff;
+
+  font-size:29px;
+  font-weight:950;
+
   letter-spacing:5px;
+
+  text-shadow:
+    0 0 30px rgba(255,255,255,.08);
 }
 
 .login-brand-sub{
   margin-top:8px;
-  color:var(--muted);
+
+  color:var(--sn-muted);
+
   font-size:11px;
+}
+
+.login-beta{
+  display:inline-flex;
+  align-items:center;
+
+  margin-top:11px;
+  padding:4px 8px;
+
+  color:#aeb9ca;
+
+  background:#101722;
+
+  border:1px solid #293548;
+  border-radius:6px;
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:1px;
 }
 
 .login-card{
-  padding:27px;
-  background:rgba(10,15,24,.9);
-  border:1px solid var(--border);
-  border-radius:17px;
-  box-shadow:0 25px 80px rgba(0,0,0,.35);
-  backdrop-filter:blur(18px);
+  position:relative;
+  overflow:hidden;
+
+  padding:28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(14,21,33,.94),
+      rgba(7,11,18,.96)
+    );
+
+  border:1px solid var(--sn-border);
+
+  border-radius:18px;
+
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.42),
+    0 0 0 1px rgba(255,255,255,.015);
+
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+}
+
+.login-card::before{
+  content:"";
+
+  position:absolute;
+
+  width:300px;
+  height:300px;
+
+  right:-170px;
+  top:-180px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(118,168,255,.10),
+      transparent 70%
+    );
+
+  pointer-events:none;
 }
 
 .login-title{
-  font-size:21px;
+  position:relative;
+
+  color:#fff;
+
+  font-size:22px;
   font-weight:900;
+
+  letter-spacing:-.4px;
 }
 
 .login-description{
+  position:relative;
+
   margin-top:7px;
-  color:var(--muted);
+
+  color:var(--sn-muted);
+
   font-size:11px;
-  line-height:1.6;
+
+  line-height:1.65;
 }
 
 .login-form{
-  margin-top:22px;
+  position:relative;
+
+  margin-top:23px;
 }
 
-.field{
-  margin-bottom:14px;
+.login-field{
+  margin-bottom:15px;
 }
 
-.field label{
+.login-label{
   display:block;
+
   margin-bottom:7px;
-  color:#aab4c4;
+
+  color:#b9c3d1;
+
   font-size:10px;
-  font-weight:700;
+  font-weight:750;
 }
 
-.field input{
-  width:100%;
-  height:44px;
-  padding:0 12px;
-  border:1px solid var(--border);
-  border-radius:9px;
-  outline:none;
-  background:#080d15;
-  color:#fff;
-  font:inherit;
-  font-size:12px;
-}
-
-.field input:focus{
-  border-color:#46536a;
-  box-shadow:0 0 0 3px rgba(255,255,255,.035);
-}
-
-.password-wrap{
+.login-input-wrap{
   position:relative;
 }
 
-.password-wrap input{
-  padding-right:75px;
+.login-input{
+  width:100%;
+  height:44px;
+
+  padding:0 12px;
+
+  color:#fff;
+
+  background:#080d15;
+
+  border:1px solid var(--sn-border);
+
+  border-radius:9px;
+
+  outline:none;
+
+  font:inherit;
+  font-size:12px;
+
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
+}
+
+.login-input::placeholder{
+  color:#4f5c70;
+}
+
+.login-input:hover{
+  border-color:#2a374b;
+}
+
+.login-input:focus{
+  background:#0b111b;
+
+  border-color:#52647f;
+
+  box-shadow:
+    0 0 0 3px rgba(118,168,255,.07);
+}
+
+.login-password{
+  padding-right:72px;
 }
 
 .password-toggle{
   position:absolute;
-  right:8px;
+
+  right:7px;
   top:7px;
+
   height:30px;
+
   padding:0 9px;
-  border:1px solid #273444;
-  border-radius:6px;
-  background:#111824;
+
   color:#9ca8b9;
-  cursor:pointer;
+
+  background:#111824;
+
+  border:1px solid #273444;
+
+  border-radius:6px;
+
   font-size:9px;
+  font-weight:800;
+}
+
+.password-toggle:hover{
+  color:#fff;
+  background:#172131;
+}
+
+.login-options{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin:2px 0 15px;
+}
+
+.login-link{
+  color:#8f9bad;
+
+  font-size:10px;
+
+  text-decoration:none;
+}
+
+.login-link:hover{
+  color:#fff;
 }
 
 .login-button{
   width:100%;
   height:44px;
-  margin-top:4px;
+
   border:1px solid #fff;
   border-radius:9px;
+
   background:#fff;
   color:#05070c;
-  font-weight:900;
+
   font-size:11px;
+  font-weight:900;
+
   cursor:pointer;
+
+  transition:
+    background .18s ease,
+    transform .18s ease,
+    opacity .18s ease;
 }
 
 .login-button:hover{
   background:#e9edf3;
+  transform:translateY(-1px);
+}
+
+.login-button:active{
+  transform:translateY(0);
 }
 
 .login-button:disabled{
-  opacity:.55;
+  opacity:.5;
   cursor:not-allowed;
+  transform:none;
 }
 
 .divider{
   display:flex;
   align-items:center;
   gap:10px;
+
   margin:20px 0;
+
   color:#596579;
-  font-size:9px;
+
+  font-size:8px;
+  font-weight:800;
+
+  letter-spacing:1px;
 }
 
 .divider::before,
 .divider::after{
   content:"";
+
   height:1px;
+
   flex:1;
+
   background:#1e2938;
 }
 
-.secondary-button{
+.google-button{
   width:100%;
   height:42px;
-  border:1px solid var(--border);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:9px;
+
+  border:1px solid var(--sn-border);
   border-radius:9px;
+
   background:#0d131e;
-  color:#cbd4df;
+  color:#d5dce6;
+
+  font-size:10px;
+  font-weight:850;
+
   cursor:pointer;
-  font-size:10px;
-  font-weight:800;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease;
 }
 
-.secondary-button:hover{
+.google-button:hover{
   background:#151d2a;
-  border-color:var(--border2);
+  border-color:#344258;
 }
 
-.message{
-  display:none;
-  margin-top:13px;
-  padding:10px 11px;
-  border-radius:8px;
+.google-icon{
+  width:17px;
+  height:17px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#fff;
+
+  border-radius:50%;
+
+  color:#4285f4;
+
   font-size:10px;
-  line-height:1.5;
+  font-weight:950;
 }
 
-.message.show{
-  display:block;
+.signup-area{
+  margin-top:18px;
+
+  padding-top:18px;
+
+  border-top:1px solid var(--sn-border);
+
+  text-align:center;
+
+  color:#69768a;
+
+  font-size:10px;
 }
 
-.message.error{
+.signup-area a{
+  color:#d5dce6;
+
+  font-weight:800;
+
+  text-decoration:none;
+}
+
+.signup-area a:hover{
+  color:#fff;
+}
+
+.security-note{
+  margin-top:16px;
+
+  padding:11px 12px;
+
+  color:#69768a;
+
+  background:#080d15;
+
+  border:1px solid #202b3d;
+
+  border-radius:9px;
+
+  font-size:9px;
+
+  line-height:1.65;
+}
+
+.security-note strong{
+  color:#aeb9ca;
+}
+
+#authMessage{
+  margin-top:13px;
+
+  padding:11px 12px;
+
+  border-radius:8px;
+
+  font-size:10px;
+
+  line-height:1.55;
+}
+
+#authMessage[data-type="error"]{
   color:#ff9a9a;
+
   background:#1a0d10;
+
   border:1px solid #4a252c;
 }
 
-.message.success{
+#authMessage[data-type="success"]{
   color:#7be8a8;
+
   background:#0b1711;
+
   border:1px solid #28543d;
+}
+
+#authMessage[data-type="info"]{
+  color:#9fb0c6;
+
+  background:#0d141e;
+
+  border:1px solid #263448;
 }
 
 .login-footer{
   margin-top:18px;
+
   text-align:center;
-  color:#5f6c80;
+
+  color:#515d70;
+
   font-size:9px;
-  line-height:1.6;
+
+  line-height:1.7;
 }
 
 .login-footer a{
-  color:#9da9ba;
+  color:#7f8da2;
+
   text-decoration:none;
 }
 
@@ -213,18 +495,12 @@
   color:#fff;
 }
 
-.security-note{
-  margin-top:16px;
-  padding:11px;
-  border:1px solid #202b3d;
-  border-radius:9px;
-  background:#080d15;
-  color:#69768a;
-  font-size:9px;
-  line-height:1.6;
-}
-
 @media(max-width:480px){
+
+  .login-page{
+    padding:20px 12px;
+  }
+
   .login-card{
     padding:21px;
   }
@@ -232,80 +508,116 @@
   .login-brand-name{
     font-size:24px;
   }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
-<div class="background"></div>
+<div class="sn-background"></div>
+
 
 <main class="login-page">
 
   <div class="login-shell">
 
+
+    <!-- BRAND -->
+
     <div class="login-brand">
-      <div class="login-brand-name">SONATIVA</div>
+
+      <div class="login-brand-name">
+        SONATIVA
+      </div>
+
       <div class="login-brand-sub">
         Secure Web3 workspace
       </div>
+
+      <div class="login-beta">
+        BETA
+      </div>
+
     </div>
 
 
+    <!-- LOGIN CARD -->
+
     <section class="login-card">
+
 
       <div class="login-title">
         Welcome back
       </div>
 
       <div class="login-description">
-        Sign in to access your Sonativa workspace, projects and tools.
+        Sign in to access your projects, Web3 tools,
+        analytics and Sonativa workspace.
       </div>
 
 
+      <!-- LOGIN FORM -->
+
       <form
-        class="login-form"
         id="loginForm"
-        novalidate>
+        class="login-form"
+        novalidate
+      >
 
-        <div class="field">
 
-          <label for="email">
+        <div class="login-field">
+
+          <label
+            class="login-label"
+            for="email"
+          >
             Email
           </label>
 
           <input
+            class="login-input"
             id="email"
             name="email"
             type="email"
             autocomplete="email"
             placeholder="you@example.com"
-            required>
+            required
+          >
 
         </div>
 
 
-        <div class="field">
+        <div class="login-field">
 
-          <label for="password">
+          <label
+            class="login-label"
+            for="password"
+          >
             Password
           </label>
 
-          <div class="password-wrap">
+          <div class="login-input-wrap">
 
             <input
+              class="login-input login-password"
               id="password"
               name="password"
               type="password"
               autocomplete="current-password"
               placeholder="Your password"
-              minlength="6"
-              required>
+              required
+            >
 
             <button
               class="password-toggle"
               id="togglePassword"
-              type="button">
+              type="button"
+              aria-label="Show password"
+            >
               Show
             </button>
 
@@ -314,23 +626,41 @@
         </div>
 
 
+        <div class="login-options">
+
+          <span></span>
+
+          <a
+            class="login-link"
+            href="forgot-password.html"
+          >
+            Forgot password?
+          </a>
+
+        </div>
+
+
         <button
           class="login-button"
-          id="loginButton"
-          type="submit">
+          type="submit"
+        >
           Sign In
         </button>
 
       </form>
 
 
-      <div
-        class="message"
-        id="message"
-        role="status"
-        aria-live="polite">
-      </div>
+      <!-- AUTH MESSAGE -->
 
+      <div
+        id="authMessage"
+        hidden
+        role="alert"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- GOOGLE -->
 
       <div class="divider">
         OR
@@ -338,24 +668,58 @@
 
 
       <button
-        class="secondary-button"
-        id="signupButton"
-        type="button">
-        Create a Sonativa account
+        class="google-button"
+        type="button"
+        data-auth-provider="google"
+      >
+
+        <span class="google-icon">
+          G
+        </span>
+
+        Continue with Google
+
       </button>
 
 
-      <div class="security-note">
-        🔒 Sonativa will never ask for your wallet seed phrase or private key.
-        Wallet transactions require your own wallet authorization.
+      <!-- CREATE ACCOUNT -->
+
+      <div class="signup-area">
+
+        Don't have a Sonativa account?
+
+        <br>
+
+        <a href="signup.html">
+          Create your account
+        </a>
+
       </div>
+
+
+      <!-- SECURITY -->
+
+      <div class="security-note">
+
+        🔒 <strong>Security first.</strong>
+
+        Sonativa will never ask for your wallet
+        seed phrase or private key.
+
+        Blockchain transactions require
+        explicit authorization from your own wallet.
+
+      </div>
+
 
     </section>
 
 
-    <div class="login-footer">
+    <!-- FOOTER -->
 
-      By continuing, you agree to use Sonativa responsibly.
+    <footer class="login-footer">
+
+      Sonativa Web3 Workspace · 2026
 
       <br>
 
@@ -363,7 +727,8 @@
         ← Back to Sonativa
       </a>
 
-    </div>
+    </footer>
+
 
   </div>
 
@@ -373,106 +738,57 @@
 <script type="module">
 
 import {
-  supabase,
-  getUser
-} from "./assets/js/supabase.js";
+  SonativaAuth
+} from "./assets/js/auth.js";
 
 
-const form =
-  document.getElementById(
-    "loginForm"
-  );
+/* =========================================================
+   PASSWORD VISIBILITY
+========================================================= */
 
-const emailInput =
-  document.getElementById(
-    "email"
-  );
+const password =
+  document.getElementById("password");
 
-const passwordInput =
-  document.getElementById(
-    "password"
-  );
-
-const loginButton =
-  document.getElementById(
-    "loginButton"
-  );
-
-const signupButton =
-  document.getElementById(
-    "signupButton"
-  );
-
-const message =
-  document.getElementById(
-    "message"
-  );
-
-const togglePassword =
-  document.getElementById(
-    "togglePassword"
-  );
+const toggle =
+  document.getElementById("togglePassword");
 
 
-function showMessage(
-  text,
-  type="error"
-){
-
-  message.textContent =
-    text;
-
-  message.className =
-    `message show ${type}`;
-
-}
-
-
-function setLoading(
-  loading
-){
-
-  loginButton.disabled =
-    loading;
-
-  loginButton.textContent =
-    loading
-      ? "Signing in..."
-      : "Sign In";
-
-}
-
-
-/* Password visibility */
-
-togglePassword.addEventListener(
+toggle?.addEventListener(
   "click",
   () => {
 
-    const hidden =
-      passwordInput.type ===
-      "password";
+    const visible =
+      password.type === "text";
 
-    passwordInput.type =
-      hidden
-        ? "text"
-        : "password";
+    password.type =
+      visible
+        ? "password"
+        : "text";
 
-    togglePassword.textContent =
-      hidden
-        ? "Hide"
-        : "Show";
+    toggle.textContent =
+      visible
+        ? "Show"
+        : "Hide";
+
+    toggle.setAttribute(
+      "aria-label",
+      visible
+        ? "Show password"
+        : "Hide password"
+    );
 
   }
 );
 
 
-/* Redirect already signed-in users */
+/* =========================================================
+   REDIRECT AUTHENTICATED USERS
+========================================================= */
 
-const existingUser =
-  await getUser();
+const currentUser =
+  await SonativaAuth.getUser();
 
-if(existingUser){
+if (currentUser) {
 
   window.location.replace(
     "index.html"
@@ -480,315 +796,8 @@ if(existingUser){
 
 }
 
-
-/* Sign in */
-
-form.addEventListener(
-  "submit",
-  async event => {
-
-    event.preventDefault();
-
-    message.className =
-      "message";
-
-    const email =
-      emailInput.value
-        .trim()
-        .toLowerCase();
-
-    const password =
-      passwordInput.value;
-
-
-    if(!email){
-
-      showMessage(
-        "Please enter your email."
-      );
-
-      emailInput.focus();
-
-      return;
-
-    }
-
-
-    if(!password){
-
-      showMessage(
-        "Please enter your password."
-      );
-
-      passwordInput.focus();
-
-      return;
-
-    }
-
-
-    setLoading(true);
-
-
-    try{
-
-      const {
-        error
-      } =
-      await supabase.auth.signInWithPassword({
-
-        email,
-
-        password
-
-      });
-
-
-      if(error){
-
-        throw error;
-
-      }
-
-
-      showMessage(
-        "Signed in successfully. Redirecting...",
-        "success"
-      );
-
-
-      window.setTimeout(
-        () => {
-
-          window.location.replace(
-            "index.html"
-          );
-
-        },
-        500
-      );
-
-
-    }catch(error){
-
-      console.error(
-        "[Sonativa Login]",
-        error
-      );
-
-
-      showMessage(
-        getAuthError(
-          error?.message
-        )
-      );
-
-
-      setLoading(false);
-
-    }
-
-  }
-);
-
-
-/* Create account */
-
-signupButton.addEventListener(
-  "click",
-  async () => {
-
-    const email =
-      emailInput.value
-        .trim()
-        .toLowerCase();
-
-    const password =
-      passwordInput.value;
-
-
-    if(!email){
-
-      showMessage(
-        "Enter your email first."
-      );
-
-      emailInput.focus();
-
-      return;
-
-    }
-
-
-    if(
-      !password ||
-      password.length < 6
-    ){
-
-      showMessage(
-        "Create a password with at least 6 characters."
-      );
-
-      passwordInput.focus();
-
-      return;
-
-    }
-
-
-    signupButton.disabled =
-      true;
-
-    signupButton.textContent =
-      "Creating account...";
-
-
-    try{
-
-      const {
-        data,
-        error
-      } =
-      await supabase.auth.signUp({
-
-        email,
-
-        password
-
-      });
-
-
-      if(error){
-
-        throw error;
-
-      }
-
-
-      if(data?.session){
-
-        showMessage(
-          "Account created. Redirecting...",
-          "success"
-        );
-
-        window.setTimeout(
-          () => {
-
-            window.location.replace(
-              "index.html"
-            );
-
-          },
-          500
-        );
-
-        return;
-
-      }
-
-
-      showMessage(
-        "Account created. Check your email to confirm your account.",
-        "success"
-      );
-
-
-    }catch(error){
-
-      console.error(
-        "[Sonativa Signup]",
-        error
-      );
-
-
-      showMessage(
-        getAuthError(
-          error?.message
-        )
-      );
-
-    }finally{
-
-      signupButton.disabled =
-        false;
-
-      signupButton.textContent =
-        "Create a Sonativa account";
-
-    }
-
-  }
-);
-
-
-/* Friendly authentication errors */
-
-function getAuthError(
-  error
-){
-
-  const text =
-    String(
-      error || ""
-    ).toLowerCase();
-
-
-  if(
-    text.includes(
-      "invalid login credentials"
-    )
-  ){
-
-    return "Incorrect email or password.";
-
-  }
-
-
-  if(
-    text.includes(
-      "email not confirmed"
-    )
-  ){
-
-    return "Please confirm your email before signing in.";
-
-  }
-
-
-  if(
-    text.includes(
-      "user already registered"
-    )
-  ){
-
-    return "This email is already registered. Try signing in.";
-
-  }
-
-
-  if(
-    text.includes(
-      "password"
-    ) &&
-    text.includes(
-      "6"
-    )
-  ){
-
-    return "Password must contain at least 6 characters.";
-
-  }
-
-
-  return (
-    error ||
-    "Unable to complete authentication. Please try again."
-  );
-
-}
-
 </script>
 
 </body>
+
 </html>
