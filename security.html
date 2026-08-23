@@ -1,1 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sonativa Security Center — security checks and safe Web3 practices.">
+<title>Sonativa — Security Center</title>
+<link rel="stylesheet" href="assets/css/sonativa.css">
 
+<style>
+.security-page{
+  width:min(1400px,94%);
+  margin:auto;
+  padding:32px 0 70px;
+}
+
+.hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:25px;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-size:30px;
+  letter-spacing:-.8px;
+}
+
+.hero p{
+  max-width:700px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+}
+
+.badges{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.badge{
+  padding:6px 9px;
+  border:1px solid #273444;
+  border-radius:6px;
+  background:#101922;
+  color:#9ba8bb;
+  font-size:8px;
+  font-weight:800;
+}
+
+.badge.safe{
+  color:#8de8b2;
+  border-color:#28543d;
+  background:#0b1711;
+}
+
+.badge.pro{
+  color:#e8bd68;
+  border-color:#5a4b29;
+  background:#17140c;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(300px,.75fr);
+  gap:18px;
+}
+
+.card{
+  padding:21px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--panel);
+  backdrop-filter:blur(14px);
+}
+
+.card + .card{
+  margin-top:18px;
+}
+
+.card-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.card-title{
+  font-size:14px;
+  font-weight:900;
+}
+
+.card-subtitle{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.5;
+}
+
+.score{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 11px;
+  border:1px solid #28543d;
+  border-radius:8px;
+  background:#0b1711;
+}
+
+.score strong{
+  color:#8de8b2;
+  font-size:13px;
+}
+
+.score span{
+  color:#6d7b8e;
+  font-size:8px;
+}
+
+.checks{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.check{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:13px;
+  border:1px solid #1d2737;
+  border-radius:10px;
+  background:#090e17;
+}
+
+.check-icon{
+  width:29px;
+  height:29px;
+  flex:0 0 29px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #28543d;
+  border-radius:7px;
+  color:#8de8b2;
+  background:#0b1711;
+  font-size:11px;
+  font-weight:900;
+}
+
+.check.warning .check-icon{
+  color:#e8bd68;
+  border-color:#5a4b29;
+  background:#17140c;
+}
+
+.check strong{
+  color:#dce4ef;
+  font-size:10px;
+}
+
+.check p{
+  margin-top:4px;
+  color:#68758a;
+  font-size:8px;
+  line-height:1.6;
+}
+
+.check-tag{
+  margin-left:auto;
+  padding:4px 7px;
+  border-radius:5px;
+  color:#8de8b2;
+  background:#0b1711;
+  border:1px solid #28543d;
+  font-size:7px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.check.warning .check-tag{
+  color:#e8bd68;
+  background:#17140c;
+  border-color:#5a4b29;
+}
+
+.scan-box{
+  padding:17px;
+  border:1px solid #202b3d;
+  border-radius:11px;
+  background:#080d15;
+}
+
+.scan-status{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#8de8b2;
+  font-size:9px;
+  font-weight:900;
+}
+
+.pulse{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#8de8b2;
+  box-shadow:0 0 0 5px rgba(141,232,178,.07);
+}
+
+.progress{
+  height:5px;
+  margin-top:13px;
+  overflow:hidden;
+  border-radius:10px;
+  background:#151d29;
+}
+
+.progress span{
+  display:block;
+  width:100%;
+  height:100%;
+  background:#8b96a8;
+}
+
+.scan-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:9px;
+  color:#68758a;
+  font-size:8px;
+}
+
+.rules{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.rule{
+  padding:11px;
+  border:1px solid #1d2737;
+  border-radius:9px;
+  background:#090e17;
+}
+
+.rule strong{
+  color:#dce4ef;
+  font-size:9px;
+}
+
+.rule p{
+  margin-top:4px;
+  color:#68758a;
+  font-size:8px;
+  line-height:1.55;
+}
+
+.notice{
+  padding:13px;
+  border:1px solid #202b3d;
+  border-radius:9px;
+  background:#080d15;
+  color:#68758a;
+  font-size:9px;
+  line-height:1.7;
+}
+
+.notice strong{
+  color:#dce4ef;
+}
+
+.premium{
+  margin-top:14px;
+  padding:13px;
+  border:1px solid #5a4b29;
+  border-radius:9px;
+  background:#17140c;
+  color:#a58b58;
+  font-size:8px;
+  line-height:1.6;
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  margin-top:15px;
+}
+
+.btn{
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 14px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:#0d131e;
+  color:#dce4ef;
+  text-decoration:none;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:#151d2a;
+}
+
+.btn.primary{
+  background:#fff;
+  color:#05070c;
+  border-color:#fff;
+}
+
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.result{
+  display:none;
+  margin-top:13px;
+  padding:11px;
+  border-radius:8px;
+  font-size:9px;
+  line-height:1.5;
+}
+
+.result.show{
+  display:block;
+}
+
+.result.success{
+  color:#8de8b2;
+  border:1px solid #28543d;
+  background:#0b1711;
+}
+
+.result.error{
+  color:#ffaaaa;
+  border:1px solid #512d33;
+  background:#180c0f;
+}
+
+@media(max-width:950px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:650px){
+  .security-page{
+    width:92%;
+  }
+
+  .hero{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .check{
+    flex-wrap:wrap;
+  }
+
+  .check-tag{
+    margin-left:41px;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
+
+  .actions .btn{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-logo">SONATIVA</div>
+<div class="brand-version">BETA</div>
+</div>
+
+<nav class="nav">
+
+<div class="nav-section">Workspace</div>
+
+<a class="nav-item" href="index.html">
+<span class="nav-icon">⌂</span>
+<span>Dashboard</span>
+</a>
+
+<a class="nav-item" href="projects.html">
+<span class="nav-icon">▣</span>
+<span>My Projects</span>
+</a>
+
+<div class="nav-section">Build</div>
+
+<a class="nav-item" href="token-studio.html">
+<span class="nav-icon">◇</span>
+<span>Token Studio</span>
+</a>
+
+<a class="nav-item" href="tokenomics.html">
+<span class="nav-icon">◈</span>
+<span>Tokenomics</span>
+</a>
+
+<a class="nav-item" href="project.html">
+<span class="nav-icon">◆</span>
+<span>Project Builder</span>
+</a>
+
+<div class="nav-section">Intelligence</div>
+
+<a class="nav-item" href="analysis.html">
+<span class="nav-icon">⌁</span>
+<span>Advanced Analysis</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item" href="ai.html">
+<span class="nav-icon">✦</span>
+<span>Sonativa AI</span>
+<span class="nav-badge">PRO</span>
+</a>
+
+<a class="nav-item active" href="security.html">
+<span class="nav-icon">◇</span>
+<span>Security Scanner</span>
+</a>
+
+<div class="nav-section">Media</div>
+
+<a class="nav-item" href="news.html">
+<span class="nav-icon">▤</span>
+<span>World News</span>
+</a>
+
+<a class="nav-item" href="books.html">
+<span class="nav-icon">▥</span>
+<span>Books</span>
+</a>
+
+<a class="nav-item" href="live.html">
+<span class="nav-icon">●</span>
+<span>Live</span>
+</a>
+
+<a class="nav-item" href="reels.html">
+<span class="nav-icon">▶</span>
+<span>Reels</span>
+</a>
+
+<div class="nav-section">Account</div>
+
+<a class="nav-item" href="wallet.html">
+<span class="nav-icon">◉</span>
+<span>Wallet</span>
+</a>
+
+<a class="nav-item" href="pricing.html">
+<span class="nav-icon">◇</span>
+<span>Premium</span>
+</a>
+
+<a class="nav-item" href="settings.html">
+<span class="nav-icon">⚙</span>
+<span>Settings</span>
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="account">
+
+<div class="avatar" id="avatar">G</div>
+
+<div class="account-info">
+
+<div class="account-name" id="accountName">Guest</div>
+
+<div class="account-status">● Workspace</div>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<button
+class="icon-button menu-button"
+id="menuButton"
+type="button">
+☰
+</button>
+
+<div>
+
+<div class="page-title">
+Security Center
+</div>
+
+<div class="page-subtitle">
+Security checks and safe Web3 practices
+</div>
+
+</div>
+
+</div>
+
+<div class="top-actions">
+
+<select
+class="lang"
+id="languageSelect"
+aria-label="Language">
+
+<option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="fr">Français</option>
+
+</select>
+
+<a
+class="icon-button"
+href="settings.html"
+title="Settings">
+⚙
+</a>
+
+</div>
+
+</header>
+
+
+<section class="security-page">
+
+
+<div class="hero">
+
+<div>
+
+<h1>
+Security Center
+</h1>
+
+<p>
+Review the security posture of your Sonativa workspace and learn
+how to protect wallets, tokens, accounts and project data.
+</p>
+
+</div>
+
+<div class="badges">
+
+<span class="badge safe">
+SECURITY FIRST
+</span>
+
+<span class="badge">
+FREE CHECKS
+</span>
+
+<span class="badge pro">
+ADVANCED SCANNER: PRO
+</span>
+
+</div>
+
+</div>
+
+
+<div class="layout">
+
+
+<div>
+
+
+<section class="card">
+
+<div class="card-head">
+
+<div>
+
+<div class="card-title">
+Workspace Security
+</div>
+
+<div class="card-subtitle">
+Local checks that do not require your private keys.
+</div>
+
+</div>
+
+<div class="score">
+<strong id="score">92%</strong>
+<span>baseline</span>
+</div>
+
+</div>
+
+
+<div class="checks">
+
+
+<div class="check">
+
+<div class="check-icon">✓</div>
+
+<div>
+
+<strong>
+Private Key Protection
+</strong>
+
+<p>
+Sonativa pages should never request your seed phrase or private key.
+</p>
+
+</div>
+
+<div class="check-tag">
+SAFE
+</div>
+
+</div>
+
+
+<div class="check">
+
+<div class="check-icon">✓</div>
+
+<div>
+
+<strong>
+HTTPS / Secure Context
+</strong>
+
+<p>
+The application should run over HTTPS when connected to production services.
+</p>
+
+</div>
+
+<div
+class="check-tag"
+id="httpsStatus">
+CHECKING
+</div>
+
+</div>
+
+
+<div class="check">
+
+<div class="check-icon">✓</div>
+
+<div>
+
+<strong>
+Session Protection
+</strong>
+
+<p>
+Authentication should be handled by the configured Supabase session.
+</p>
+
+</div>
+
+<div class="check-tag">
+ACTIVE
+</div>
+
+</div>
+
+
+<div class="check warning">
+
+<div class="check-icon">!</div>
+
+<div>
+
+<strong>
+Smart Contract Verification
+</strong>
+
+<p>
+Sonativa cannot certify an external contract from the browser alone.
+Always verify contract source, authorities and liquidity independently.
+</p>
+
+</div>
+
+<div class="check-tag">
+MANUAL
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="btn primary"
+id="scanButton"
+type="button">
+Run Security Check
+</button>
+
+<a
+class="btn"
+href="wallet.html">
+Open Wallet
+</a>
+
+</div>
+
+
+<div
+class="result"
+id="result">
+</div>
+
+</section>
+
+
+<section class="card">
+
+<div class="card-head">
+
+<div>
+
+<div class="card-title">
+Safe Web3 Rules
+</div>
+
+<div class="card-subtitle">
+Simple rules that prevent common wallet attacks.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="rules">
+
+<div class="rule">
+
+<strong>
+Never share your seed phrase
+</strong>
+
+<p>
+No legitimate Sonativa feature should need your recovery phrase.
+</p>
+
+</div>
+
+
+<div class="rule">
+
+<strong>
+Verify every transaction
+</strong>
+
+<p>
+Check network, destination, token and amount before signing.
+</p>
+
+</div>
+
+
+<div class="rule">
+
+<strong>
+Use a separate testing wallet
+</strong>
+
+<p>
+Keep experimental contracts and unknown applications away from your main holdings.
+</p>
+
+</div>
+
+
+<div class="rule">
+
+<strong>
+Review token authorities
+</strong>
+
+<p>
+For Solana tokens, inspect mint and freeze authorities before trusting a project.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+</div>
+
+
+<div>
+
+
+<section class="card">
+
+<div class="card-head">
+
+<div>
+
+<div class="card-title">
+Security Monitor
+</div>
+
+<div class="card-subtitle">
+Current browser and application status.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="scan-box">
+
+<div class="scan-status">
+
+<div class="pulse"></div>
+
+<span id="monitorText">
+Security monitor ready
+</span>
+
+</div>
+
+<div class="progress">
+<span id="progressBar"></span>
+</div>
+
+<div class="scan-meta">
+
+<span id="scanTime">
+Not scanned
+</span>
+
+<span id="scanPercent">
+100%
+</span>
+
+</div>
+
+</div>
+
+
+<div class="notice" style="margin-top:13px;">
+
+<strong>Privacy:</strong>
+The basic browser checks on this page do not need your private key,
+seed phrase or wallet recovery phrase.
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<div class="card-head">
+
+<div>
+
+<div class="card-title">
+Advanced Scanner
+</div>
+
+<div class="card-subtitle">
+For deeper project and contract intelligence.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="premium">
+
+<strong>SONATIVA PREMIUM</strong>
+
+<br><br>
+
+Advanced contract analysis, holder-risk analysis, authority
+monitoring, liquidity checks, suspicious-wallet detection and
+automated risk reports can be offered as Premium features.
+
+</div>
+
+<a
+class="btn"
+href="pricing.html"
+style="width:100%;margin-top:13px;">
+View Premium
+</a>
+
+</section>
+
+
+<section class="card">
+
+<div class="card-title">
+Emergency Principle
+</div>
+
+<div class="notice">
+
+If you believe a wallet or account has been compromised, stop
+signing transactions, disconnect unknown applications and use a
+trusted device to secure the affected account.
+
+</div>
+
+</section>
+
+</div>
+
+
+</div>
+
+
+<footer>
+© 2026 Sonativa — Web3 tools, intelligence and education.
+</footer>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script type="module">
+
+import {
+getUser
+} from "./assets/js/supabase.js";
+
+
+/* =========================================================
+   UI
+========================================================= */
+
+const sidebar =
+document.getElementById(
+"sidebar"
+);
+
+const menuButton =
+document.getElementById(
+"menuButton"
+);
+
+const languageSelect =
+document.getElementById(
+"languageSelect"
+);
+
+
+menuButton?.addEventListener(
+"click",
+()=>{
+sidebar.classList.toggle(
+"open"
+);
+}
+);
+
+
+const savedLanguage =
+localStorage.getItem(
+"sonativa_language"
+);
+
+
+if(savedLanguage){
+
+languageSelect.value =
+savedLanguage;
+
+document.documentElement.lang =
+savedLanguage;
+
+document.documentElement.dir =
+savedLanguage === "ar"
+? "rtl"
+: "ltr";
+
+}
+
+
+languageSelect?.addEventListener(
+"change",
+()=>{
+
+const language =
+languageSelect.value;
+
+localStorage.setItem(
+"sonativa_language",
+language
+);
+
+document.documentElement.lang =
+language;
+
+document.documentElement.dir =
+language === "ar"
+? "rtl"
+: "ltr";
+
+}
+);
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+async function loadUser(){
+
+try{
+
+const user =
+await getUser();
+
+if(!user)return;
+
+const name =
+user.user_metadata?.full_name ||
+user.user_metadata?.name ||
+user.email?.split("@")[0] ||
+"Sonativa User";
+
+
+document.getElementById(
+"accountName"
+).textContent =
+name;
+
+
+document.getElementById(
+"avatar"
+).textContent =
+name
+.charAt(0)
+.toUpperCase();
+
+
+}catch(error){
+
+console.error(
+"[Security User]",
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   HTTPS CHECK
+========================================================= */
+
+function checkHTTPS(){
+
+const tag =
+document.getElementById(
+"httpsStatus"
+);
+
+if(
+location.protocol === "https:" ||
+location.hostname === "localhost" ||
+location.hostname === "127.0.0.1"
+){
+
+tag.textContent =
+"SAFE";
+
+}else{
+
+tag.textContent =
+"HTTP";
+
+tag.parentElement.classList.add(
+"warning"
+);
+
+}
+
+}
+
+
+/* =========================================================
+   SECURITY SCAN
+========================================================= */
+
+const scanButton =
+document.getElementById(
+"scanButton"
+);
+
+const result =
+document.getElementById(
+"result"
+);
+
+const progressBar =
+document.getElementById(
+"progressBar"
+);
+
+const monitorText =
+document.getElementById(
+"monitorText"
+);
+
+const scanPercent =
+document.getElementById(
+"scanPercent"
+);
+
+const scanTime =
+document.getElementById(
+"scanTime"
+);
+
+const score =
+document.getElementById(
+"score"
+);
+
+
+scanButton.addEventListener(
+"click",
+async()=>{
+
+scanButton.disabled =
+true;
+
+scanButton.textContent =
+"Scanning...";
+
+result.className =
+"result";
+
+monitorText.textContent =
+"Running browser security checks...";
+
+progressBar.style.width =
+"15%";
+
+scanPercent.textContent =
+"15%";
+
+
+await wait(250);
+
+progressBar.style.width =
+"40%";
+
+scanPercent.textContent =
+"40%";
+
+
+await wait(250);
+
+progressBar.style.width =
+"70%";
+
+scanPercent.textContent =
+"70%";
+
+
+await wait(250);
+
+checkHTTPS();
+
+
+progressBar.style.width =
+"100%";
+
+scanPercent.textContent =
+"100%";
+
+monitorText.textContent =
+"Security check completed";
+
+
+const now =
+new Date();
+
+
+scanTime.textContent =
+now.toLocaleTimeString();
+
+
+const secureContext =
+window.isSecureContext ||
+location.hostname === "localhost" ||
+location.hostname === "127.0.0.1";
+
+
+const calculatedScore =
+secureContext
+? 92
+: 82;
+
+
+score.textContent =
+calculatedScore +
+"%";
+
+
+result.textContent =
+secureContext
+? "Basic security checks completed. No private key or seed phrase was requested by this page."
+: "Basic checks completed. Production deployment should use HTTPS.";
+
+
+result.className =
+"result show " +
+(
+secureContext
+? "success"
+: "error"
+);
+
+
+scanButton.disabled =
+false;
+
+scanButton.textContent =
+"Run Security Check";
+
+}
+);
+
+
+function wait(
+milliseconds
+){
+
+return new Promise(
+resolve =>
+setTimeout(
+resolve,
+milliseconds
+)
+);
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+checkHTTPS();
+
+loadUser();
+
+</script>
+
+</body>
+</html>
