@@ -1,660 +1,792 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Sonativa — Founder Access</title>
+<meta name="theme-color" content="#04060b">
+<meta name="description" content="Sign in to your Sonativa Web3 workspace.">
+<title>Sonativa — Sign In</title>
+<link rel="stylesheet" href="assets/css/sonativa.css">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-
-body{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-font-family:Arial,sans-serif;
-background:#04060b;
-color:#fff
+.login-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:30px 16px;
 }
 
-.card{
-width:min(460px,100%);
-padding:32px;
-background:#0b111b;
-border:1px solid #202b3d;
-border-radius:18px;
-box-shadow:0 25px 80px #0008
+.login-shell{
+  width:min(440px,100%);
 }
 
-.logo{
-text-align:center;
-font-size:25px;
-font-weight:900;
-letter-spacing:5px
+.login-brand{
+  text-align:center;
+  margin-bottom:25px;
 }
 
-.sub{
-text-align:center;
-margin-top:9px;
-color:#8793a6;
-font-size:12px
+.login-brand-name{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:5px;
 }
 
-.badge{
-text-align:center;
-margin-top:18px;
-color:#62e39a;
-font-size:11px
+.login-brand-sub{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:11px;
 }
 
-button{
-width:100%;
-height:46px;
-margin-top:28px;
-border-radius:9px;
-font-weight:bold;
-cursor:pointer;
-background:white;
-color:#05070c;
-border:0
+.login-card{
+  padding:27px;
+  background:rgba(10,15,24,.9);
+  border:1px solid var(--border);
+  border-radius:17px;
+  box-shadow:0 25px 80px rgba(0,0,0,.35);
+  backdrop-filter:blur(18px);
 }
 
-button:disabled{
-opacity:.6;
-cursor:not-allowed
+.login-title{
+  font-size:21px;
+  font-weight:900;
 }
 
-#message{
-display:none;
-margin-top:15px;
-padding:13px;
-border-radius:9px;
-font-size:11px;
-line-height:1.7;
-word-break:break-word
+.login-description{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
 }
 
-.error{
-display:block!important;
-color:#ff9b9b;
-background:#190c0c;
-border:1px solid #4b2020
+.login-form{
+  margin-top:22px;
 }
 
-.success{
-display:block!important;
-color:#62e39a;
-background:#091710;
-border:1px solid #214b35
+.field{
+  margin-bottom:14px;
 }
 
-.info{
-display:block!important;
-color:#b8c4d6;
-background:#0d1521;
-border:1px solid #26364c
+.field label{
+  display:block;
+  margin-bottom:7px;
+  color:#aab4c4;
+  font-size:10px;
+  font-weight:700;
 }
 
-.uid{
-margin-top:10px;
-padding:10px;
-background:#060a11;
-border:1px solid #1c293a;
-border-radius:8px;
-font-family:monospace;
-font-size:10px;
-color:#9fb0c8;
-word-break:break-all
+.field input{
+  width:100%;
+  height:44px;
+  padding:0 12px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  outline:none;
+  background:#080d15;
+  color:#fff;
+  font:inherit;
+  font-size:12px;
 }
 
-.back{
-display:block;
-margin-top:18px;
-text-align:center;
-color:#78869b;
-font-size:10px;
-text-decoration:none
+.field input:focus{
+  border-color:#46536a;
+  box-shadow:0 0 0 3px rgba(255,255,255,.035);
 }
 
-.footer{
-margin-top:22px;
-text-align:center;
-color:#566276;
-font-size:9px;
-line-height:1.7
+.password-wrap{
+  position:relative;
+}
+
+.password-wrap input{
+  padding-right:75px;
+}
+
+.password-toggle{
+  position:absolute;
+  right:8px;
+  top:7px;
+  height:30px;
+  padding:0 9px;
+  border:1px solid #273444;
+  border-radius:6px;
+  background:#111824;
+  color:#9ca8b9;
+  cursor:pointer;
+  font-size:9px;
+}
+
+.login-button{
+  width:100%;
+  height:44px;
+  margin-top:4px;
+  border:1px solid #fff;
+  border-radius:9px;
+  background:#fff;
+  color:#05070c;
+  font-weight:900;
+  font-size:11px;
+  cursor:pointer;
+}
+
+.login-button:hover{
+  background:#e9edf3;
+}
+
+.login-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.divider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:20px 0;
+  color:#596579;
+  font-size:9px;
+}
+
+.divider::before,
+.divider::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:#1e2938;
+}
+
+.secondary-button{
+  width:100%;
+  height:42px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:#0d131e;
+  color:#cbd4df;
+  cursor:pointer;
+  font-size:10px;
+  font-weight:800;
+}
+
+.secondary-button:hover{
+  background:#151d2a;
+  border-color:var(--border2);
+}
+
+.message{
+  display:none;
+  margin-top:13px;
+  padding:10px 11px;
+  border-radius:8px;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.message.show{
+  display:block;
+}
+
+.message.error{
+  color:#ff9a9a;
+  background:#1a0d10;
+  border:1px solid #4a252c;
+}
+
+.message.success{
+  color:#7be8a8;
+  background:#0b1711;
+  border:1px solid #28543d;
+}
+
+.login-footer{
+  margin-top:18px;
+  text-align:center;
+  color:#5f6c80;
+  font-size:9px;
+  line-height:1.6;
+}
+
+.login-footer a{
+  color:#9da9ba;
+  text-decoration:none;
+}
+
+.login-footer a:hover{
+  color:#fff;
+}
+
+.security-note{
+  margin-top:16px;
+  padding:11px;
+  border:1px solid #202b3d;
+  border-radius:9px;
+  background:#080d15;
+  color:#69768a;
+  font-size:9px;
+  line-height:1.6;
+}
+
+@media(max-width:480px){
+  .login-card{
+    padding:21px;
+  }
+
+  .login-brand-name{
+    font-size:24px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="background"></div>
 
-<div class="logo">
-SONATIVA
-</div>
+<main class="login-page">
 
-<div class="sub">
-Secure access to your Web3 workspace
-</div>
+  <div class="login-shell">
 
-<div class="badge">
-🔒 Founder Access Verification
-</div>
+    <div class="login-brand">
+      <div class="login-brand-name">SONATIVA</div>
+      <div class="login-brand-sub">
+        Secure Web3 workspace
+      </div>
+    </div>
 
-<button id="githubBtn" type="button">
-Continue with GitHub
-</button>
 
-<div id="message"></div>
+    <section class="login-card">
 
-<a class="back" href="index.html">
-← Back to Sonativa
-</a>
+      <div class="login-title">
+        Welcome back
+      </div>
 
-<div class="footer">
-Your wallet remains under your control.<br>
-Sonativa never asks for private keys or seed phrases.
-</div>
+      <div class="login-description">
+        Sign in to access your Sonativa workspace, projects and tools.
+      </div>
 
-</div>
+
+      <form
+        class="login-form"
+        id="loginForm"
+        novalidate>
+
+        <div class="field">
+
+          <label for="email">
+            Email
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="password-wrap">
+
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Your password"
+              minlength="6"
+              required>
+
+            <button
+              class="password-toggle"
+              id="togglePassword"
+              type="button">
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="login-button"
+          id="loginButton"
+          type="submit">
+          Sign In
+        </button>
+
+      </form>
+
+
+      <div
+        class="message"
+        id="message"
+        role="status"
+        aria-live="polite">
+      </div>
+
+
+      <div class="divider">
+        OR
+      </div>
+
+
+      <button
+        class="secondary-button"
+        id="signupButton"
+        type="button">
+        Create a Sonativa account
+      </button>
+
+
+      <div class="security-note">
+        🔒 Sonativa will never ask for your wallet seed phrase or private key.
+        Wallet transactions require your own wallet authorization.
+      </div>
+
+    </section>
+
+
+    <div class="login-footer">
+
+      By continuing, you agree to use Sonativa responsibly.
+
+      <br>
+
+      <a href="index.html">
+        ← Back to Sonativa
+      </a>
+
+    </div>
+
+  </div>
+
+</main>
+
 
 <script type="module">
 
 import {
-createClient
-}
-from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  supabase,
+  getUser
+} from "./assets/js/supabase.js";
 
 
-/* =========================================
-   SUPABASE
-========================================= */
+const form =
+  document.getElementById(
+    "loginForm"
+  );
 
-const SUPABASE_URL =
-"https://kallobeodjzzhrsaqszw.supabase.co";
+const emailInput =
+  document.getElementById(
+    "email"
+  );
 
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_JH5v7Fix_d6HsHcRX2_vmw_wRVNLOkX";
+const passwordInput =
+  document.getElementById(
+    "password"
+  );
 
+const loginButton =
+  document.getElementById(
+    "loginButton"
+  );
 
-const supabase =
-createClient(
-SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY,
-{
-auth:{
-persistSession:true,
-autoRefreshToken:true,
-detectSessionInUrl:true,
-flowType:"pkce"
-}
-}
-);
-
-
-/* =========================================
-   ELEMENTS
-========================================= */
-
-const button =
-document.getElementById("githubBtn");
+const signupButton =
+  document.getElementById(
+    "signupButton"
+  );
 
 const message =
-document.getElementById("message");
-
-
-/* =========================================
-   UI
-========================================= */
-
-function show(text,type="info"){
-
-message.textContent =
-text;
-
-message.className =
-type;
-
-}
-
-function showUser(user){
-
-message.innerHTML = "";
-
-const title =
-document.createElement("div");
-
-title.textContent =
-"GitHub session detected.";
-
-const box =
-document.createElement("div");
-
-box.className =
-"uid";
-
-box.textContent =
-"UID: " +
-user.id +
-"\nEmail: " +
-(user.email || "not available");
-
-message.appendChild(title);
-
-message.appendChild(box);
-
-message.className =
-"info";
-
-}
-
-
-/* =========================================
-   BUTTON STATE
-========================================= */
-
-function enableButton(){
-
-button.disabled =
-false;
-
-button.textContent =
-"Continue with GitHub";
-
-}
-
-function disableButton(text){
-
-button.disabled =
-true;
-
-button.textContent =
-text;
-
-}
-
-
-/* =========================================
-   SAVE SESSION
-========================================= */
-
-async function ensureSession(){
-
-const {
-data,
-error
-} =
-await supabase.auth.getSession();
-
-if(error){
-
-console.error(
-"Session error:",
-error
-);
-
-throw error;
-
-}
-
-return data?.session || null;
-
-}
-
-
-/* =========================================
-   VERIFY FOUNDER
-========================================= */
-
-async function verifyFounder(user){
-
-if(!user){
-
-show(
-"No active session found. Please sign in with GitHub.",
-"error"
-);
-
-enableButton();
-
-return false;
-
-}
-
-showUser(user);
-
-
-try{
-
-const {
-data,
-error
-} =
-await supabase.rpc(
-"is_sonativa_founder"
-);
-
-
-if(error){
-
-console.error(
-"Founder RPC error:",
-error
-);
-
-show(
-"FOUNDER VERIFICATION ERROR:\n" +
-error.message +
-"\n\nUID: " +
-user.id,
-"error"
-);
-
-enableButton();
-
-return false;
-
-}
-
-
-if(data === true){
-
-show(
-"Founder access verified.\nOpening Token Studio...",
-"success"
-);
-
-disableButton(
-"Founder Verified ✓"
-);
-
-
-/*
-IMPORTANT:
-The user must continue in the same
-browser context where Supabase created
-the session.
-*/
-
-setTimeout(
-function(){
-
-window.location.replace(
-"token-studio.html"
-);
-
-},
-800
-);
-
-return true;
-
-}
-
-
-/*
-Founder verification failed
-*/
-
-show(
-"Access denied. This GitHub account is not registered as the Sonativa Founder.\n\nUID: " +
-user.id,
-"error"
-);
-
-enableButton();
-
-return false;
-
-}
-
-
-/* =========================================
-   CHECK CURRENT SESSION
-========================================= */
-
-async function checkSession(){
-
-disableButton(
-"Checking Session..."
-);
-
-show(
-"Checking Sonativa session...",
-"info"
-);
-
-
-try{
-
-const session =
-await ensureSession();
-
-
-if(!session){
-
-show(
-"No active GitHub session found.\n\nPress Continue with GitHub to sign in.",
-"info"
-);
-
-enableButton();
-
-return;
-
-}
-
-
-await verifyFounder(
-session.user
-);
-
-
-}catch(error){
-
-console.error(
-"Session check failed:",
-error
-);
-
-show(
-"SESSION ERROR:\n" +
-(error?.message || error),
-"error"
-);
-
-enableButton();
-
-}
-
-}
-
-
-/* =========================================
-   GITHUB LOGIN
-========================================= */
-
-async function loginWithGitHub(){
-
-disableButton(
-"Connecting to GitHub..."
-);
-
-show(
-"Connecting to GitHub...",
-"info"
-);
-
-
-try{
-
-const redirectUrl =
-window.location.origin +
-window.location.pathname;
-
-
-const {
-data,
-error
-} =
-await supabase.auth.signInWithOAuth({
-
-provider:
-"github",
-
-options:{
-
-redirectTo:
-redirectUrl,
-
-queryParams:{
-prompt:
-"login"
-}
-
-}
-
-});
-
-
-if(error){
-
-console.error(
-"GitHub login error:",
-error
-);
-
-show(
-"GITHUB ERROR:\n" +
-error.message,
-"error"
-);
-
-enableButton();
-
-return;
-
-}
-
-
-if(
-data &&
-data.url
+  document.getElementById(
+    "message"
+  );
+
+const togglePassword =
+  document.getElementById(
+    "togglePassword"
+  );
+
+
+function showMessage(
+  text,
+  type="error"
 ){
 
-show(
-"Opening GitHub authentication...",
-"info"
-);
+  message.textContent =
+    text;
 
-return;
-
-}
-
-
-show(
-"GitHub authentication did not return a login URL.",
-"error"
-);
-
-enableButton();
-
-
-}catch(error){
-
-console.error(
-"GitHub exception:",
-error
-);
-
-show(
-"GITHUB ERROR:\n" +
-(error?.message ||
-"Authentication failed."),
-"error"
-);
-
-enableButton();
-
-}
+  message.className =
+    `message show ${type}`;
 
 }
 
 
-/* =========================================
-   BUTTON
-========================================= */
-
-button.addEventListener(
-"click",
-loginWithGitHub
-);
-
-
-/* =========================================
-   AUTH STATE
-========================================= */
-
-supabase.auth.onAuthStateChange(
-function(event,session){
-
-console.log(
-"Supabase Auth Event:",
-event
-);
-
-
-if(
-event === "SIGNED_IN" &&
-session
+function setLoading(
+  loading
 ){
 
-setTimeout(
-function(){
+  loginButton.disabled =
+    loading;
 
-verifyFounder(
-session.user
-);
-
-},
-300
-);
+  loginButton.textContent =
+    loading
+      ? "Signing in..."
+      : "Sign In";
 
 }
 
 
-if(
-event === "TOKEN_REFRESHED" &&
-session
+/* Password visibility */
+
+togglePassword.addEventListener(
+  "click",
+  () => {
+
+    const hidden =
+      passwordInput.type ===
+      "password";
+
+    passwordInput.type =
+      hidden
+        ? "text"
+        : "password";
+
+    togglePassword.textContent =
+      hidden
+        ? "Hide"
+        : "Show";
+
+  }
+);
+
+
+/* Redirect already signed-in users */
+
+const existingUser =
+  await getUser();
+
+if(existingUser){
+
+  window.location.replace(
+    "index.html"
+  );
+
+}
+
+
+/* Sign in */
+
+form.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+    message.className =
+      "message";
+
+    const email =
+      emailInput.value
+        .trim()
+        .toLowerCase();
+
+    const password =
+      passwordInput.value;
+
+
+    if(!email){
+
+      showMessage(
+        "Please enter your email."
+      );
+
+      emailInput.focus();
+
+      return;
+
+    }
+
+
+    if(!password){
+
+      showMessage(
+        "Please enter your password."
+      );
+
+      passwordInput.focus();
+
+      return;
+
+    }
+
+
+    setLoading(true);
+
+
+    try{
+
+      const {
+        error
+      } =
+      await supabase.auth.signInWithPassword({
+
+        email,
+
+        password
+
+      });
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      showMessage(
+        "Signed in successfully. Redirecting...",
+        "success"
+      );
+
+
+      window.setTimeout(
+        () => {
+
+          window.location.replace(
+            "index.html"
+          );
+
+        },
+        500
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "[Sonativa Login]",
+        error
+      );
+
+
+      showMessage(
+        getAuthError(
+          error?.message
+        )
+      );
+
+
+      setLoading(false);
+
+    }
+
+  }
+);
+
+
+/* Create account */
+
+signupButton.addEventListener(
+  "click",
+  async () => {
+
+    const email =
+      emailInput.value
+        .trim()
+        .toLowerCase();
+
+    const password =
+      passwordInput.value;
+
+
+    if(!email){
+
+      showMessage(
+        "Enter your email first."
+      );
+
+      emailInput.focus();
+
+      return;
+
+    }
+
+
+    if(
+      !password ||
+      password.length < 6
+    ){
+
+      showMessage(
+        "Create a password with at least 6 characters."
+      );
+
+      passwordInput.focus();
+
+      return;
+
+    }
+
+
+    signupButton.disabled =
+      true;
+
+    signupButton.textContent =
+      "Creating account...";
+
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+      await supabase.auth.signUp({
+
+        email,
+
+        password
+
+      });
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      if(data?.session){
+
+        showMessage(
+          "Account created. Redirecting...",
+          "success"
+        );
+
+        window.setTimeout(
+          () => {
+
+            window.location.replace(
+              "index.html"
+            );
+
+          },
+          500
+        );
+
+        return;
+
+      }
+
+
+      showMessage(
+        "Account created. Check your email to confirm your account.",
+        "success"
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "[Sonativa Signup]",
+        error
+      );
+
+
+      showMessage(
+        getAuthError(
+          error?.message
+        )
+      );
+
+    }finally{
+
+      signupButton.disabled =
+        false;
+
+      signupButton.textContent =
+        "Create a Sonativa account";
+
+    }
+
+  }
+);
+
+
+/* Friendly authentication errors */
+
+function getAuthError(
+  error
 ){
 
-console.log(
-"Session refreshed successfully."
-);
+  const text =
+    String(
+      error || ""
+    ).toLowerCase();
+
+
+  if(
+    text.includes(
+      "invalid login credentials"
+    )
+  ){
+
+    return "Incorrect email or password.";
+
+  }
+
+
+  if(
+    text.includes(
+      "email not confirmed"
+    )
+  ){
+
+    return "Please confirm your email before signing in.";
+
+  }
+
+
+  if(
+    text.includes(
+      "user already registered"
+    )
+  ){
+
+    return "This email is already registered. Try signing in.";
+
+  }
+
+
+  if(
+    text.includes(
+      "password"
+    ) &&
+    text.includes(
+      "6"
+    )
+  ){
+
+    return "Password must contain at least 6 characters.";
+
+  }
+
+
+  return (
+    error ||
+    "Unable to complete authentication. Please try again."
+  );
 
 }
-
-
-if(
-event === "SIGNED_OUT"
-){
-
-enableButton();
-
-}
-
-});
-
-
-/* =========================================
-   START
-========================================= */
-
-checkSession();
 
 </script>
 
